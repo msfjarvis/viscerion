@@ -4,8 +4,14 @@
     <item
         android:id="@+id/menu_settings"
         android:alphabeticShortcut="s"
-        android:icon="@drawable/ic_settings"
         android:title="@string/settings"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:orderInCategory="1000" />
+    <item
+        android:id="@+id/menu_theme_change"
+        android:alphabeticShortcut="d"
+        android:title="@string/dark_theme_title"
+        android:orderInCategory="1000"
+        android:checkable="true"
+        app:showAsAction="never" />
 </menu>

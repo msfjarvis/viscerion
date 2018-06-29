@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.wireguard.android.Application;
 import com.wireguard.android.R;
 import com.wireguard.android.fragment.TunnelDetailFragment;
 import com.wireguard.android.fragment.TunnelEditorFragment;
@@ -86,6 +87,8 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
+        menu.findItem(R.id.menu_theme_change).setChecked(
+                Application.getSharedPreferences().getBoolean("dark_theme", false));
         return true;
     }
 
@@ -108,6 +111,10 @@ public class MainActivity extends BaseActivity
                 return false;
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.menu_theme_change:
+                Application.getSharedPreferences().edit().putBoolean("dark_theme", !item.isChecked()).apply();
+                item.setChecked(!item.isChecked());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -9,10 +9,4 @@
     <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
     <com.wireguard.android.preference.ZipExporterPreference />
     <com.wireguard.android.preference.LogExporterPreference />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="dark_theme"
-        android:summaryOn="@string/dark_theme_summary_on"
-        android:summaryOff="@string/dark_theme_summary_off"
-        android:title="@string/dark_theme_title" />
 </PreferenceScreen>
