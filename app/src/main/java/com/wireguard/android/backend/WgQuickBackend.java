@@ -6,14 +6,22 @@
 
 package com.wireguard.android.backend;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.wireguard.android.Application;
+import com.wireguard.android.R;
+import com.wireguard.android.activity.MainActivity;
 import com.wireguard.android.model.Tunnel;
 import com.wireguard.android.model.Tunnel.State;
 import com.wireguard.android.model.Tunnel.Statistics;
+import com.wireguard.android.model.TunnelManager;
 import com.wireguard.config.Config;
 
 import java.io.File;
@@ -34,11 +42,15 @@ import java9.util.stream.Stream;
 
 public final class WgQuickBackend implements Backend {
     private static final String TAG = "WireGuard/" + WgQuickBackend.class.getSimpleName();
+    @Nullable private final NotificationManager notificationManager;
+    private final Context cachedContext;
 
     private final File localTemporaryDir;
 
     public WgQuickBackend(final Context context) {
         localTemporaryDir = new File(context.getCacheDir(), "tmp");
+        cachedContext = context;
+        notificationManager = (NotificationManager) cachedContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -103,6 +115,7 @@ public final class WgQuickBackend implements Backend {
         if (state == originalState)
             return originalState;
         Log.d(TAG, "Changing tunnel " + tunnel.getName() + " to state " + state);
+        postNotification(state, tunnel);
         Application.getToolsInstaller().ensureToolsAvailable();
         setStateInternal(tunnel, tunnel.getConfig(), state);
         return getState(tunnel);
@@ -124,5 +137,26 @@ public final class WgQuickBackend implements Backend {
         tempFile.delete();
         if (result != 0)
             throw new Exception("Unable to configure tunnel (wg-quick returned " + result + ')');
+    }
+
+    private void postNotification(final State state, final Tunnel tunnel) {
+        if (notificationManager == null)
+            return;
+        if (state == State.UP) {
+            final Intent intent = new Intent(cachedContext, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            final PendingIntent pendingIntent = PendingIntent.getActivity(cachedContext, 0, intent,0);
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(cachedContext,
+                    TunnelManager.NOTIFICATION_CHANNEL_ID);
+            builder.setContentTitle(cachedContext.getString(R.string.notification_channel_wgquick_title))
+                    .setContentText(tunnel.getName())
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .setPriority(Notification.FLAG_ONGOING_EVENT)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+            notificationManager.notify(TunnelManager.NOTIFICATION_ID, builder.build());
+        } else if (state == State.DOWN) {
+            notificationManager.cancel(TunnelManager.NOTIFICATION_ID);
+        }
     }
 }

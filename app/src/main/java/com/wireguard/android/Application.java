@@ -5,6 +5,8 @@
 
 package com.wireguard.android;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.wireguard.android.backend.Backend;
@@ -149,6 +152,19 @@ public class Application extends android.app.Application {
         return get().futureBackend;
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel() {
+        final NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager == null)
+            return;
+        final NotificationChannel notificationChannel = new NotificationChannel(TunnelManager.NOTIFICATION_CHANNEL_ID,
+                getString(R.string.notification_channel_wgquick_title),
+                NotificationManager.IMPORTANCE_DEFAULT);
+        notificationChannel.setDescription(getString(R.string.notification_channel_wgquick_desc));
+        notificationManager.createNotificationChannel(notificationChannel);
+    }
+
     public static RootShell getRootShell() {
         return get().rootShell;
     }
@@ -189,5 +205,9 @@ public class Application extends android.app.Application {
                         ACRA.getErrorReporter().putCustomData("backendVersion", version));
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            createNotificationChannel();
+
     }
 }

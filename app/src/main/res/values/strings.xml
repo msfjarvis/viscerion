@@ -103,4 +103,6 @@
     <string name="zip_export_error">Unable to export tunnels: %s</string>
     <string name="zip_export_success">Saved to %s</string>
     <string name="zip_export_summary">Zip file will be saved to downloads folder</string>
+    <string name="notification_channel_wgquick_title">wg-quick tunnel enabled</string>
+    <string name="notification_channel_wgquick_desc">Persistent, disableable notification to denote when a wg-quick tunnel is up</string>
 </resources>
