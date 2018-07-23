@@ -153,7 +153,7 @@ public final class WgQuickBackend implements Backend {
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
                     .setPriority(Notification.FLAG_ONGOING_EVENT)
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_stat_wgquick);
             notificationManager.notify(TunnelManager.NOTIFICATION_ID, builder.build());
         } else if (state == State.DOWN) {
             notificationManager.cancel(TunnelManager.NOTIFICATION_ID);
