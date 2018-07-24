@@ -115,7 +115,6 @@ public final class WgQuickBackend implements Backend {
         if (state == originalState)
             return originalState;
         Log.d(TAG, "Changing tunnel " + tunnel.getName() + " to state " + state);
-        postNotification(state, tunnel);
         Application.getToolsInstaller().ensureToolsAvailable();
         setStateInternal(tunnel, tunnel.getConfig(), state);
         return getState(tunnel);
@@ -135,8 +134,11 @@ public final class WgQuickBackend implements Backend {
         final int result = Application.getRootShell().run(null, command);
         // noinspection ResultOfMethodCallIgnored
         tempFile.delete();
-        if (result != 0)
+        if (result == 0) {
+            postNotification(state, tunnel);
+        } else {
             throw new Exception("Unable to configure tunnel (wg-quick returned " + result + ')');
+        }
     }
 
     private void postNotification(final State state, final Tunnel tunnel) {
