@@ -7,6 +7,19 @@ apply plugin: 'kotlin-kapt'
 // keystore.properties file, in the rootProject folder.
 final def keystorePropertiesFile = rootProject.file("keystore.properties")
 
+final def gitHash = { ->
+    if (System.getenv("WITH_MAINFRAMER") == "true") {
+        "TEST"
+    } else {
+        final def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags'
+            standardOutput = stdout
+        }
+        stdout.toString().trim()
+    }
+}
+
 android {
     buildToolsVersion '28.0.1'
     compileOptions {
@@ -15,6 +28,11 @@ android {
     }
     compileSdkVersion 28
     dataBinding.enabled true
+    android.applicationVariants.all { final variant ->
+        variant.outputs.all {
+            outputFileName = "wg-android_${gitHash()}.apk"
+        }
+    }
     defaultConfig {
         applicationId 'me.msfjarvis.wgandroid'
         minSdkVersion 21
