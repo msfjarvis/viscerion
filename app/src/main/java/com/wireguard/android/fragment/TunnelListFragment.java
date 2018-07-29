@@ -17,7 +17,7 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.Lunchbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -289,7 +289,7 @@ public class TunnelListFragment extends BaseFragment {
             Log.e(TAG, message, throwable);
         }
         if (binding != null) {
-            Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
+            Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
         }
     }
 
@@ -315,7 +315,7 @@ public class TunnelListFragment extends BaseFragment {
                     tunnels.size(), tunnels.size() + throwables.size());
 
         if (binding != null)
-            Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
+            Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
     }
 
     @Override

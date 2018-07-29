@@ -9,7 +9,7 @@ package com.wireguard.android.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.Lunchbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,6 +33,6 @@ public final class ClipboardUtils {
             return;
         final CharSequence description = view.getContentDescription();
         ((ClipboardManager) service).setPrimaryClip(ClipData.newPlainText(description, text));
-        Snackbar.make(view, description + " copied to clipboard", Snackbar.LENGTH_LONG).show();
+        Lunchbar.make(view, description + " copied to clipboard", Lunchbar.LENGTH_LONG).show();
     }
 }

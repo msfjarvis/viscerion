@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.Lunchbar;
 import android.support.v7.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -79,9 +79,9 @@ public class LogExporterPreference extends Preference {
             final String error = ExceptionLoggers.unwrapMessage(throwable);
             final String message = getContext().getString(R.string.log_export_error, error);
             Log.e(TAG, message, throwable);
-            Snackbar.make(
+            Lunchbar.make(
                     FragmentUtils.getPrefActivity(this).findViewById(android.R.id.content),
-                    message, Snackbar.LENGTH_LONG).show();
+                    message, Lunchbar.LENGTH_LONG).show();
             setEnabled(true);
         } else {
             exportedFilePath = filePath;

@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.Lunchbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -118,7 +118,7 @@ public abstract class BaseFragment extends Fragment implements OnSelectedTunnelC
             final String message = getContext().getString(messageResId, error);
             final View view = getView();
             if (view != null)
-                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                Lunchbar.make(view, message, Lunchbar.LENGTH_LONG).show();
             else
                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
             Log.e(TAG, message, throwable);

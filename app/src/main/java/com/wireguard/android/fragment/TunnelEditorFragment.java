@@ -12,7 +12,7 @@ import android.databinding.Observable;
 import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.Lunchbar;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,7 +72,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
             message = getString(R.string.config_save_error, savedTunnel.getName(), error);
             Log.e(TAG, message, throwable);
             if (binding != null) {
-                Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
+                Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
             }
         }
     }
@@ -195,7 +195,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
                     final String tunnelName = tunnel == null ? binding.getConfig().getName() : tunnel.getName();
                     final String message = getString(R.string.config_save_error, tunnelName, error);
                     Log.e(TAG, message, e);
-                    Snackbar.make(binding.mainContainer, error, Snackbar.LENGTH_LONG).show();
+                    Lunchbar.make(binding.mainContainer, error, Lunchbar.LENGTH_LONG).show();
                     return false;
                 }
                 if (tunnel == null) {
@@ -248,7 +248,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
             message = getString(R.string.tunnel_create_error, error);
             Log.e(TAG, message, throwable);
             if (binding != null) {
-                Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
+                Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
             }
         }
     }
@@ -267,7 +267,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
             message = getString(R.string.tunnel_rename_error, error);
             Log.e(TAG, message, throwable);
             if (binding != null) {
-                Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
+                Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
             }
         }
     }
