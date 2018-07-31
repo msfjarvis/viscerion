@@ -6,6 +6,7 @@
 
 package com.wireguard.config;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
@@ -13,6 +14,8 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.wireguard.android.Application;
+import com.wireguard.android.R;
 import com.wireguard.crypto.KeyEncoding;
 
 import java.net.Inet6Address;
@@ -38,6 +41,7 @@ public class Peer {
     private int persistentKeepalive;
     @Nullable private String preSharedKey;
     @Nullable private String publicKey;
+    private final Context context = Application.get();
 
     public Peer() {
         allowedIPsList = new ArrayList<>();
@@ -114,7 +118,7 @@ public class Peer {
     public void parse(final String line) {
         final Attribute key = Attribute.match(line);
         if (key == null)
-            throw new IllegalArgumentException(String.format("Unable to parse line: \"%s\"", line));
+            throw new IllegalArgumentException(context.getString(R.string.tunnel_error_interface_parse_failed, line));
         switch (key) {
             case ALLOWED_IPS:
                 addAllowedIPs(key.parseList(line));
@@ -149,7 +153,7 @@ public class Peer {
         if (endpoint != null && !endpoint.isEmpty()) {
             final InetSocketAddress constructedEndpoint;
             if (endpoint.indexOf('/') != -1 || endpoint.indexOf('?') != -1 || endpoint.indexOf('#') != -1)
-                throw new IllegalArgumentException("Forbidden characters in endpoint");
+                throw new IllegalArgumentException(context.getString(R.string.tunnel_error_forbidden_endpoint_chars));
             final URI uri;
             try {
                 uri = new URI("wg://" + endpoint);
@@ -250,7 +254,7 @@ public class Peer {
             parent.setPreSharedKey(preSharedKey);
             parent.setPublicKey(publicKey);
             if (parent.getPublicKey() == null)
-                throw new IllegalArgumentException("Peer public key may not be empty");
+                throw new IllegalArgumentException(Application.get().getString(R.string.tunnel_error_empty_peer_public_key));
             loadData(parent);
             notifyChange();
         }
