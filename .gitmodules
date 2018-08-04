@@ -1,9 +1,9 @@
 [submodule "app/tools/libmnl"]
 	path = app/tools/libmnl
-	url = https://git.netfilter.org/libmnl/
+	url = https://github.com/justmirror/libmnl/
 [submodule "app/tools/wireguard"]
 	path = app/tools/wireguard
-	url = https://git.zx2c4.com/WireGuard
+	url = https://github.com/WireGuard/WireGuard
 [submodule "app/tools/wireguard-go"]
 	path = app/tools/wireguard-go
-	url = https://git.zx2c4.com/wireguard-go
+	url = https://github.com/WireGuard/wireguard-go
