@@ -4,7 +4,7 @@
     <item>
         <selector>
             <item app:state_multiselected="true" android:state_activated="true">
-                <color android:color="?attr/colorControlActivated" />
+                <color android:color="@color/list_multiselect_background" />
             </item>
         </selector>
     </item>

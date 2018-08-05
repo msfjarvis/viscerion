@@ -5,4 +5,5 @@
     <color name="fab_label_background_color">#bbbbbb</color>
 
     <color name="accent">#5e97f6</color>
+    <color name="list_multiselect_background">#1AEEEEEE</color>
 </resources>
