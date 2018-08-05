@@ -50,7 +50,7 @@ android {
             }
         }
         debug {
-            applicationIdSuffix ".debug"
+            applicationIdSuffix ".ktdebug"
             versionNameSuffix "-debug"
             externalNativeBuild {
                 cmake {
