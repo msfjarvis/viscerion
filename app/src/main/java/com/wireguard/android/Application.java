@@ -31,8 +31,8 @@ import com.wireguard.android.util.RootShell;
 import com.wireguard.android.util.ToolsInstaller;
 
 import org.acra.ACRA;
-import org.acra.annotation.AcraCore;
-import org.acra.annotation.AcraHttpSender;
+import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.HttpSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 import org.acra.sender.HttpSender;
 
@@ -44,16 +44,6 @@ import java.security.cert.X509Certificate;
 
 import java9.util.concurrent.CompletableFuture;
 
-
-@AcraCore(reportFormat = StringFormat.JSON,
-        buildConfigClass = BuildConfig.class,
-        logcatArguments = {"-b", "all", "-d", "-v", "threadtime", "*:V"},
-        excludeMatchingSharedPreferencesKeys = {"last_used_tunnel", "enabled_configs"})
-@AcraHttpSender(uri = "https://crashreport.zx2c4.com/android/report",
-        basicAuthLogin = "6RCovLxEVCTXGiW5",
-        basicAuthPassword = "O7I3sVa5ULVdiC51",
-        httpMethod = HttpSender.Method.POST,
-        compress = true)
 public class Application extends android.app.Application {
     @SuppressWarnings("NullableProblems") private static WeakReference<Application> weakSelf;
     @SuppressWarnings("NullableProblems") private AsyncWorker asyncWorker;
@@ -81,9 +71,12 @@ public class Application extends android.app.Application {
             return null;
         try {
             final CertificateFactory cf = CertificateFactory.getInstance("X509");
-            for (final Signature sig : context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures) {
+            for (final Signature sig : context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures) {
                 try {
-                    for (final String category : ((X509Certificate) cf.generateCertificate(new ByteArrayInputStream(sig.toByteArray()))).getSubjectDN().getName().split(", *")) {
+                    for (final String category :
+                            ((X509Certificate) cf.generateCertificate(new ByteArrayInputStream(sig.toByteArray())))
+                                    .getSubjectDN().getName().split(", *")) {
                         final String[] parts = category.split("=", 2);
                         if (!"O".equals(parts[0]))
                             continue;
@@ -197,14 +190,33 @@ public class Application extends android.app.Application {
         tunnelManager = new TunnelManager(new FileConfigStore(getApplicationContext()));
         tunnelManager.onCreate();
 
-        asyncWorker.supplyAsync(Application::getBackend).thenAccept(backend -> {
-            futureBackend.complete(backend);
-            if (ACRA.isInitialised()) {
-                ACRA.getErrorReporter().putCustomData("backend", backend.getClass().getSimpleName());
-                asyncWorker.supplyAsync(backend::getVersion).thenAccept(version ->
-                        ACRA.getErrorReporter().putCustomData("backendVersion", version));
-            }
-        });
+        if (sharedPreferences.getBoolean("enable_logging", true)) {
+            final CoreConfigurationBuilder configurationBuilder = new CoreConfigurationBuilder(this);
+
+            // Core configuration
+            configurationBuilder.setReportFormat(StringFormat.JSON)
+                    .setBuildConfigClass(BuildConfig.class)
+                    .setLogcatArguments("-b", "all", "-d", "-v", "threadtime", "*:V")
+                    .setExcludeMatchingSettingsKeys("last_used_tunnel", "enabled_configs");
+
+            // HTTP Sender configuration
+            configurationBuilder.getPluginConfigurationBuilder(HttpSenderConfigurationBuilder.class)
+                    .setUri("https://crashreport.zx2c4.com/android/report")
+                    .setBasicAuthLogin("6RCovLxEVCTXGiW5")
+                    .setBasicAuthPassword("O7I3sVa5ULVdiC51")
+                    .setHttpMethod(HttpSender.Method.POST)
+                    .setCompress(true);
+            ACRA.init(this, configurationBuilder);
+
+            asyncWorker.supplyAsync(Application::getBackend).thenAccept(backend -> {
+                futureBackend.complete(backend);
+                if (ACRA.isInitialised()) {
+                    ACRA.getErrorReporter().putCustomData("backend", backend.getClass().getSimpleName());
+                    asyncWorker.supplyAsync(backend::getVersion).thenAccept(version ->
+                            ACRA.getErrorReporter().putCustomData("backendVersion", version));
+                }
+            });
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel();

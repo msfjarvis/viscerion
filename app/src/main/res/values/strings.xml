@@ -117,4 +117,7 @@
     <string name="zip_export_summary">Zip file will be saved to downloads folder</string>
     <string name="notification_channel_wgquick_title">wg-quick tunnel enabled</string>
     <string name="notification_channel_wgquick_desc">Persistent, disableable notification to denote when a wg-quick tunnel is up</string>
+    <string name="logging_pref_summary_on">Non-identifiable information about your device will be sent to our servers when a crash occurs to allow for debugging and resolution of the issue.</string>
+    <string name="logging_pref_summary_off">No crash reports are being sent to the WireGuard bugtracker (Restart the app for this to take effect).</string>
+    <string name="logging_pref_title">Log crash reports to ACRA</string>
 </resources>

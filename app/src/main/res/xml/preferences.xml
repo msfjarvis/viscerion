@@ -9,4 +9,10 @@
     <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
     <com.wireguard.android.preference.ZipExporterPreference />
     <com.wireguard.android.preference.LogExporterPreference />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="enable_logging"
+        android:summaryOn="@string/logging_pref_summary_on"
+        android:summaryOff="@string/logging_pref_summary_off"
+        android:title="@string/logging_pref_title" />
 </PreferenceScreen>
