@@ -78,7 +78,7 @@ public final class ToolsInstaller {
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';');
         try {
-            final int ret = Application.getRootShell().run(null, script.toString());
+            final int ret = Application.Companion.getRootShell().run(null, script.toString());
             if (ret == OsConstants.EALREADY)
                 return willInstallAsMagiskModule() ? YES | MAGISK : YES | SYSTEM;
             else
@@ -112,7 +112,7 @@ public final class ToolsInstaller {
         synchronized (lock) {
             if (installAsMagiskModule == null) {
                 try {
-                    installAsMagiskModule = Application.getRootShell().run(null, "[ -d /sbin/.core/mirror -a -d /sbin/.core/img -a ! -f /cache/.disable_magisk ]") == OsConstants.EXIT_SUCCESS;
+                    installAsMagiskModule = Application.Companion.getRootShell().run(null, "[ -d /sbin/.core/mirror -a -d /sbin/.core/img -a ! -f /cache/.disable_magisk ]") == OsConstants.EXIT_SUCCESS;
                 } catch (final Exception ignored) {
                     installAsMagiskModule = false;
                 }
@@ -132,7 +132,7 @@ public final class ToolsInstaller {
                     new File(nativeLibraryDir, names[0]), destination, destination, destination));
         }
         try {
-            return Application.getRootShell().run(null, script.toString()) == 0 ? YES | SYSTEM : ERROR;
+            return Application.Companion.getRootShell().run(null, script.toString()) == 0 ? YES | SYSTEM : ERROR;
         } catch (final IOException ignored) {
             return ERROR;
         }
@@ -153,7 +153,7 @@ public final class ToolsInstaller {
         script.append("trap - INT TERM EXIT;");
 
         try {
-            return Application.getRootShell().run(null, script.toString()) == 0 ? YES | MAGISK : ERROR;
+            return Application.Companion.getRootShell().run(null, script.toString()) == 0 ? YES | MAGISK : ERROR;
         } catch (final IOException ignored) {
             return ERROR;
         }
@@ -180,7 +180,7 @@ public final class ToolsInstaller {
         script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';');
 
         try {
-            return Application.getRootShell().run(null, script.toString());
+            return Application.Companion.getRootShell().run(null, script.toString());
         } catch (final IOException ignored) {
             return OsConstants.EXIT_FAILURE;
         }

@@ -34,7 +34,7 @@ public class Interface {
     @Nullable private Keypair keypair;
     private int listenPort;
     private int mtu;
-    private final Context context = Application.get();
+    private final Context context = Application.Companion.get();
 
     public Interface() {
         addressList = new ArrayList<>();

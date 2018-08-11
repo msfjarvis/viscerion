@@ -40,7 +40,7 @@ public class ToolsInstallerPreference extends Preference {
     @Override
     public void onAttached() {
         super.onAttached();
-        Application.getAsyncWorker().supplyAsync(Application.getToolsInstaller()::areInstalled).whenComplete(this::onCheckResult);
+        Application.Companion.getAsyncWorker().supplyAsync(Application.Companion.getToolsInstaller()::areInstalled).whenComplete(this::onCheckResult);
     }
 
     private void onCheckResult(final int state, @Nullable final Throwable throwable) {
@@ -59,7 +59,7 @@ public class ToolsInstallerPreference extends Preference {
     @Override
     protected void onClick() {
         setState(State.WORKING);
-        Application.getAsyncWorker().supplyAsync(Application.getToolsInstaller()::install).whenComplete(this::onInstallResult);
+        Application.Companion.getAsyncWorker().supplyAsync(Application.Companion.getToolsInstaller()::install).whenComplete(this::onInstallResult);
     }
 
     private void onInstallResult(final Integer result, @Nullable final Throwable throwable) {

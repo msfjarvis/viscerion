@@ -99,7 +99,7 @@ public class SettingsActivity extends ThemeChangeAwareActivity {
             for (final Preference pref : wgQuickOnlyPrefs)
                 pref.setVisible(false);
             final PreferenceScreen screen = getPreferenceScreen();
-            Application.getBackendAsync().thenAccept(backend -> {
+            Application.Companion.getBackendAsync().thenAccept(backend -> {
                 for (final Preference pref : wgQuickOnlyPrefs) {
                     if (backend instanceof WgQuickBackend)
                         pref.setVisible(true);

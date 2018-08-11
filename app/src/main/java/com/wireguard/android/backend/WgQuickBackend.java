@@ -56,7 +56,7 @@ public final class WgQuickBackend implements Backend {
     @Override
     public String getVersion() throws Exception {
         final List<String> output = new ArrayList<>();
-        if (Application.getRootShell()
+        if (Application.Companion.getRootShell()
                 .run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty())
             throw new Exception("Unable to determine kernel module version");
         return output.get(0);
@@ -86,8 +86,8 @@ public final class WgQuickBackend implements Backend {
         final List<String> output = new ArrayList<>();
         // Don't throw an exception here or nothing will show up in the UI.
         try {
-            Application.getToolsInstaller().ensureToolsAvailable();
-            if (Application.getRootShell().run(output, "wg show interfaces") != 0 || output.isEmpty())
+            Application.Companion.getToolsInstaller().ensureToolsAvailable();
+            if (Application.Companion.getRootShell().run(output, "wg show interfaces") != 0 || output.isEmpty())
                 return Collections.emptySet();
         } catch (final Exception e) {
             Log.w(TAG, "Unable to enumerate running tunnels", e);
@@ -115,7 +115,7 @@ public final class WgQuickBackend implements Backend {
         if (state == originalState)
             return originalState;
         Log.d(TAG, "Changing tunnel " + tunnel.getName() + " to state " + state);
-        Application.getToolsInstaller().ensureToolsAvailable();
+        Application.Companion.getToolsInstaller().ensureToolsAvailable();
         setStateInternal(tunnel, tunnel.getConfig(), state);
         return getState(tunnel);
     }
@@ -131,7 +131,7 @@ public final class WgQuickBackend implements Backend {
                 state.toString().toLowerCase(), tempFile.getAbsolutePath());
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && " + command;
-        final int result = Application.getRootShell().run(null, command);
+        final int result = Application.Companion.getRootShell().run(null, command);
         // noinspection ResultOfMethodCallIgnored
         tempFile.delete();
         if (result == 0) {

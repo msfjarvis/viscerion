@@ -48,7 +48,7 @@ public class ZipExporterPreference extends Preference {
     }
 
     private void exportZip() {
-        Application.getTunnelManager().getTunnels().thenAccept(this::exportZip);
+        Application.Companion.getTunnelManager().getTunnels().thenAccept(this::exportZip);
     }
 
     private void exportZip(final List<Tunnel> tunnels) {
@@ -60,7 +60,7 @@ public class ZipExporterPreference extends Preference {
             return;
         }
         CompletableFuture.allOf(futureConfigs.toArray(new CompletableFuture[futureConfigs.size()]))
-                .whenComplete((ignored1, exception) -> Application.getAsyncWorker().supplyAsync(() -> {
+                .whenComplete((ignored1, exception) -> Application.Companion.getAsyncWorker().supplyAsync(() -> {
                     if (exception != null)
                         throw exception;
                     final File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);

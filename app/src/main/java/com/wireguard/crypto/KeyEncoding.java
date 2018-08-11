@@ -18,11 +18,11 @@ public final class KeyEncoding {
     public static final int KEY_LENGTH_BASE64 = 44;
     public static final int KEY_LENGTH_HEX = 64;
     private static final String KEY_LENGTH_BASE64_EXCEPTION_MESSAGE =
-            Application.get().getString(R.string.key_length_base64_exception_message);
+            Application.Companion.get().getString(R.string.key_length_base64_exception_message);
     private static final String KEY_LENGTH_EXCEPTION_MESSAGE =
-            Application.get().getString(R.string.key_length_exception_message);
+            Application.Companion.get().getString(R.string.key_length_exception_message);
     private static final String KEY_LENGTH_HEX_EXCEPTION_MESSAGE =
-            Application.get().getString(R.string.key_length_hex_exception_message);
+            Application.Companion.get().getString(R.string.key_length_hex_exception_message);
 
     private KeyEncoding() {
         // Prevent instantiation.

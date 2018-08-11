@@ -101,7 +101,7 @@ public class TunnelListFragment extends BaseFragment {
 
         final Collection<CompletableFuture<Tunnel>> futureTunnels = new ArrayList<>();
         final List<Throwable> throwables = new ArrayList<>();
-        Application.getAsyncWorker().supplyAsync(() -> {
+        Application.Companion.getAsyncWorker().supplyAsync(() -> {
             final String[] columns = {OpenableColumns.DISPLAY_NAME};
             String name = null;
             try (Cursor cursor = contentResolver.query(uri, columns,
@@ -148,11 +148,11 @@ public class TunnelListFragment extends BaseFragment {
                             throwables.add(e);
                         }
                         if (config != null)
-                            futureTunnels.add(Application.getTunnelManager().create(name, config).toCompletableFuture());
+                            futureTunnels.add(Application.Companion.getTunnelManager().create(name, config).toCompletableFuture());
                     }
                 }
             } else {
-                futureTunnels.add(Application.getTunnelManager().create(name,
+                futureTunnels.add(Application.Companion.getTunnelManager().create(name,
                         Config.from(contentResolver.openInputStream(uri))).toCompletableFuture());
             }
 
@@ -271,7 +271,7 @@ public class TunnelListFragment extends BaseFragment {
     public void onSelectedTunnelChanged(@Nullable final Tunnel oldTunnel, @Nullable final Tunnel newTunnel) {
         if (binding == null)
             return;
-        Application.getTunnelManager().getTunnels().thenAccept(tunnels -> {
+        Application.Companion.getTunnelManager().getTunnels().thenAccept(tunnels -> {
             if (newTunnel != null)
                 viewForTunnel(newTunnel, tunnels).setSingleSelected(true);
             if (oldTunnel != null)
@@ -347,7 +347,7 @@ public class TunnelListFragment extends BaseFragment {
         }
 
         binding.setFragment(this);
-        Application.getTunnelManager().getTunnels().thenAccept(binding::setTunnels);
+        Application.Companion.getTunnelManager().getTunnels().thenAccept(binding::setTunnels);
         binding.setRowConfigurationHandler((ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel>) (binding, tunnel, position) -> {
             binding.setFragment(this);
             binding.getRoot().setOnClickListener(clicked -> {
@@ -379,7 +379,7 @@ public class TunnelListFragment extends BaseFragment {
             switch (item.getItemId()) {
                 case R.id.menu_action_delete:
                     final Iterable<Integer> copyCheckedItems = new HashSet<>(checkedItems);
-                    Application.getTunnelManager().getTunnels().thenAccept(tunnels -> {
+                    Application.Companion.getTunnelManager().getTunnels().thenAccept(tunnels -> {
                         final Collection<Tunnel> tunnelsToDelete = new ArrayList<>();
                         for (final Integer position : copyCheckedItems)
                             tunnelsToDelete.add(tunnels.get(position));
@@ -396,7 +396,7 @@ public class TunnelListFragment extends BaseFragment {
                     mode.finish();
                     return true;
                 case R.id.menu_action_select_all:
-                    Application.getTunnelManager().getTunnels().thenAccept(tunnels -> {
+                    Application.Companion.getTunnelManager().getTunnels().thenAccept(tunnels -> {
                         for (int i = 0; i < tunnels.size(); ++i) {
                             setItemChecked(i, true);
                         }

@@ -20,13 +20,13 @@ public class BootShutdownReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        Application.getBackendAsync().thenAccept(backend -> {
+        Application.Companion.getBackendAsync().thenAccept(backend -> {
             if (!(backend instanceof WgQuickBackend))
                 return;
             final String action = intent.getAction();
             if (action == null)
                 return;
-            final TunnelManager tunnelManager = Application.getTunnelManager();
+            final TunnelManager tunnelManager = Application.Companion.getTunnelManager();
             if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
                 Log.i(TAG, "Broadcast receiver restoring state (boot)");
                 tunnelManager.restoreState(false).whenComplete(ExceptionLoggers.D);

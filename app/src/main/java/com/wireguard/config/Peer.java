@@ -42,7 +42,7 @@ public class Peer {
     private int persistentKeepalive;
     @Nullable private String preSharedKey;
     @Nullable private String publicKey;
-    private final Context context = Application.get();
+    private final Context context = Application.Companion.get();
 
     public Peer() {
         allowedIPsList = new ArrayList<>();
@@ -257,7 +257,7 @@ public class Peer {
             parent.setPreSharedKey(preSharedKey);
             parent.setPublicKey(publicKey);
             if (parent.getPublicKey() == null)
-                throw new IllegalArgumentException(Application.get().getString(R.string.tunnel_error_empty_peer_public_key));
+                throw new IllegalArgumentException(Application.Companion.get().getString(R.string.tunnel_error_empty_peer_public_key));
             loadData(parent);
             notifyChange();
         }

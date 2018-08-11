@@ -33,7 +33,7 @@ public final class InetAddresses {
 
     public static InetAddress parse(@Nullable final String address) {
         if (address == null || address.isEmpty())
-            throw new IllegalArgumentException(Application.get().getString(R.string.tunnel_error_empty_inetaddress));
+            throw new IllegalArgumentException(Application.Companion.get().getString(R.string.tunnel_error_empty_inetaddress));
         try {
             return (InetAddress) PARSER_METHOD.invoke(null, address);
         } catch (final IllegalAccessException | InvocationTargetException e) {

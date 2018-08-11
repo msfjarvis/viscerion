@@ -54,12 +54,12 @@ public abstract class ThemeChangeAwareActivity extends AppCompatActivity impleme
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Application.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        Application.Companion.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onDestroy() {
-        Application.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        Application.Companion.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 

@@ -46,7 +46,7 @@ public class Config {
 
     public static Config from(final BufferedReader reader) throws IOException {
         final Config config = new Config();
-        final Context context = Application.get();
+        final Context context = Application.Companion.get();
         Peer currentPeer = null;
         String line;
         boolean inInterfaceSection = false;

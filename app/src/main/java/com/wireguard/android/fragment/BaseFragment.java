@@ -94,7 +94,7 @@ public abstract class BaseFragment extends Fragment implements OnSelectedTunnelC
         if (tunnel == null)
             return;
 
-        Application.getBackendAsync().thenAccept(backend -> {
+        Application.Companion.getBackendAsync().thenAccept(backend -> {
             if (backend instanceof GoBackend) {
                 final Intent intent = GoBackend.VpnService.prepare(view.getContext());
                 if (intent != null) {

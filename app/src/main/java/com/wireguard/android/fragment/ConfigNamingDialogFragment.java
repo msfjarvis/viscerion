@@ -92,7 +92,7 @@ public class ConfigNamingDialogFragment extends DialogFragment {
         if (binding != null) {
             final String name = binding.tunnelNameText.getText().toString();
 
-            Application.getTunnelManager().create(name, config).whenComplete((tunnel, throwable) -> {
+            Application.Companion.getTunnelManager().create(name, config).whenComplete((tunnel, throwable) -> {
                 if (tunnel != null) {
                     dismiss();
                 } else {

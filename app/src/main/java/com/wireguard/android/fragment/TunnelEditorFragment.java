@@ -200,7 +200,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
                 }
                 if (tunnel == null) {
                     Log.d(TAG, "Attempting to create new tunnel " + binding.getConfig().getName());
-                    final TunnelManager manager = Application.getTunnelManager();
+                    final TunnelManager manager = Application.Companion.getTunnelManager();
                     manager.create(binding.getConfig().getName(), newConfig)
                             .whenComplete(this::onTunnelCreated);
                 } else if (!tunnel.getName().equals(binding.getConfig().getName())) {

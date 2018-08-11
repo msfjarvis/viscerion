@@ -88,7 +88,7 @@ public class AppListDialogFragment extends DialogFragment {
         }
 
         final PackageManager pm = activity.getPackageManager();
-        Application.getAsyncWorker().supplyAsync(() -> {
+        Application.Companion.getAsyncWorker().supplyAsync(() -> {
             final Intent launcherIntent = new Intent(Intent.ACTION_MAIN, null);
             launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             final List<ResolveInfo> resolveInfos = pm.queryIntentActivities(launcherIntent, 0);
