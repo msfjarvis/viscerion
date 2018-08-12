@@ -34,6 +34,7 @@ import org.acra.data.StringFormat
 import org.acra.sender.HttpSender
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.lang.ref.WeakReference
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
@@ -45,6 +46,10 @@ class Application : android.app.Application() {
     private var tunnelManager: TunnelManager? = null
     private var backend: Backend? = null
     private val futureBackend = CompletableFuture<Backend>()
+
+    init {
+        Application.weakSelf = WeakReference(this)
+    }
 
     override fun attachBaseContext(context: Context) {
         super.attachBaseContext(context)
@@ -126,6 +131,8 @@ class Application : android.app.Application() {
 
     companion object {
 
+        private lateinit var weakSelf: WeakReference<Application>
+
         /* The ACRA password can be trivially reverse engineered and is open source anyway,
          * so there's no point in trying to protect it. However, we do want to at least
          * prevent innocent self-builders from uploading stuff to our crash reporter. So, we
@@ -160,7 +167,7 @@ class Application : android.app.Application() {
         }
 
         fun get(): Application {
-            return this.get()
+            return weakSelf.get() as Application
         }
 
         fun getAsyncWorker(): AsyncWorker? {
