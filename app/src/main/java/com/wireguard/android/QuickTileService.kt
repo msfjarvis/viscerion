@@ -8,8 +8,8 @@ package com.wireguard.android
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.databinding.Observable
-import android.databinding.Observable.OnPropertyChangedCallback
+import androidx.databinding.Observable
+import androidx.databinding.Observable.OnPropertyChangedCallback
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Icon

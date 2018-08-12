@@ -6,8 +6,8 @@
 
 package com.wireguard.android.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.wireguard.util.Keyed;
 import com.wireguard.util.SortedKeyedList;

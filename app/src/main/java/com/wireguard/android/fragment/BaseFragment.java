@@ -8,11 +8,11 @@ package com.wireguard.android.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Lunchbar;
-import android.support.v4.app.Fragment;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Lunchbar;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;

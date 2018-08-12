@@ -7,7 +7,7 @@
 package com.wireguard.android.preference
 
 import android.content.Context
-import android.support.v7.preference.Preference
+import androidx.preference.Preference
 import android.util.AttributeSet
 import com.wireguard.android.Application
 import com.wireguard.android.R

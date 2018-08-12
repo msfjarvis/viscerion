@@ -16,8 +16,8 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v7.app.AppCompatDelegate
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import com.wireguard.android.backend.Backend
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
