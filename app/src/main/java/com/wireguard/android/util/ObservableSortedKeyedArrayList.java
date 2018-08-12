@@ -6,6 +6,7 @@
 
 package com.wireguard.android.util;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.wireguard.util.Keyed;
@@ -38,13 +39,13 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         comparator = null;
     }
 
-    public ObservableSortedKeyedArrayList(final Comparator<? super K> comparator) {
+    public ObservableSortedKeyedArrayList(@Nullable final Comparator<? super K> comparator) {
         this.comparator = comparator;
     }
 
-    public ObservableSortedKeyedArrayList(final Collection<? extends E> c) {
+    public ObservableSortedKeyedArrayList(final Collection<? extends E> elements) {
         this();
-        addAll(c);
+        addAll(elements);
     }
 
     public ObservableSortedKeyedArrayList(final SortedKeyedList<K, E> other) {
@@ -53,40 +54,40 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
     }
 
     @Override
-    public boolean add(final E e) {
-        final int insertionPoint = getInsertionPoint(e);
+    public boolean add(final E element) {
+        final int insertionPoint = getInsertionPoint(element);
         if (insertionPoint < 0) {
             // Skipping insertion is non-destructive if the new and existing objects are the same.
-            if (e == get(-insertionPoint - 1))
+            if (element == get(-insertionPoint - 1))
                 return false;
             throw new IllegalArgumentException("Element with same key already exists in list");
         }
-        super.add(insertionPoint, e);
+        super.add(insertionPoint, element);
         return true;
     }
 
     @Override
-    public void add(final int index, final E e) {
-        final int insertionPoint = getInsertionPoint(e);
+    public void add(final int index, final E element) {
+        final int insertionPoint = getInsertionPoint(element);
         if (insertionPoint < 0)
             throw new IllegalArgumentException("Element with same key already exists in list");
         if (insertionPoint != index)
             throw new IndexOutOfBoundsException("Wrong index given for element");
-        super.add(index, e);
+        super.add(index, element);
     }
 
     @Override
-    public boolean addAll(final Collection<? extends E> c) {
+    public boolean addAll(@NonNull final Collection<? extends E> elements) {
         boolean didChange = false;
-        for (final E e : c)
+        for (final E e : elements)
             if (add(e))
                 didChange = true;
         return didChange;
     }
 
     @Override
-    public boolean addAll(int index, final Collection<? extends E> c) {
-        for (final E e : c)
+    public boolean addAll(int index, @NonNull final Collection<? extends E> elements) {
+        for (final E e : elements)
             add(index++, e);
         return true;
     }

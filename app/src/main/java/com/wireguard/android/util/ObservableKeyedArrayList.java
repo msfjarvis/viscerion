@@ -7,6 +7,7 @@
 package com.wireguard.android.util;
 
 import android.databinding.ObservableArrayList;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.wireguard.util.Keyed;
@@ -39,17 +40,17 @@ public class ObservableKeyedArrayList<K, E extends Keyed<? extends K>>
     }
 
     @Override
-    public boolean addAll(final Collection<? extends E> c) {
-        if (c.contains(null))
+    public boolean addAll(@NonNull final Collection<? extends E> elements) {
+        if (elements.contains(null))
             throw new NullPointerException("Trying to add a collection with null element(s)");
-        return super.addAll(c);
+        return super.addAll(elements);
     }
 
     @Override
-    public boolean addAll(final int index, final Collection<? extends E> c) {
-        if (c.contains(null))
+    public boolean addAll(final int index, @NonNull final Collection<? extends E> elements) {
+        if (elements.contains(null))
             throw new NullPointerException("Trying to add a collection with null element(s)");
-        return super.addAll(index, c);
+        return super.addAll(index, elements);
     }
 
     @Override
