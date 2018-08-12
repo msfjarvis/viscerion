@@ -91,7 +91,7 @@
     <string name="tools_installer_title">Install command line tools</string>
     <string name="tunnel_create_error">Unable to create tunnel: %s</string>
     <string name="tunnel_create_success">Successfully created tunnel “%s”</string>
-    <string name="tunnel_list_placeholder">Add a tunnel using the blue button</string>
+    <string name="tunnel_list_placeholder">To begin, add a tunnel using the button below</string>
     <string name="tunnel_name">Tunnel Name</string>
     <string name="tunnel_rename_error">Unable to rename tunnel: %s</string>
     <string name="tunnel_rename_success">Successfully renamed tunnel to “%s”</string>
