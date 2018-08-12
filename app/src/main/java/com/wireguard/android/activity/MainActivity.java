@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
         menu.findItem(R.id.menu_theme_change).setChecked(
-                Application.Companion.getSharedPreferences().getBoolean("dark_theme", false));
+                Application.Companion.getSharedPreferences().getBoolean("dark_theme", true));
         return true;
     }
 

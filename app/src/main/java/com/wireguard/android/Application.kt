@@ -88,7 +88,7 @@ class Application : android.app.Application() {
         toolsInstaller = ToolsInstaller(applicationContext)
 
         AppCompatDelegate.setDefaultNightMode(
-                if (sharedPreferences.getBoolean("dark_theme", false))
+                if (sharedPreferences.getBoolean("dark_theme", true))
                     AppCompatDelegate.MODE_NIGHT_YES
                 else
                     AppCompatDelegate.MODE_NIGHT_NO)
