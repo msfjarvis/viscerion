@@ -43,7 +43,7 @@ class Application : android.app.Application() {
     private var rootShell: RootShell? = null
     private val sharedPreferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
     private var toolsInstaller: ToolsInstaller? = null
-    private var tunnelManager: TunnelManager? = null
+    private lateinit var tunnelManager: TunnelManager
     private var backend: Backend? = null
     private val futureBackend = CompletableFuture<Backend>()
 
@@ -94,7 +94,7 @@ class Application : android.app.Application() {
                     AppCompatDelegate.MODE_NIGHT_NO)
 
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
-        tunnelManager!!.onCreate()
+        tunnelManager.onCreate()
 
         if (sharedPreferences.getBoolean("enable_logging", true)) {
             val configurationBuilder = CoreConfigurationBuilder(this)
@@ -202,7 +202,7 @@ class Application : android.app.Application() {
             return get().rootShell
         }
 
-        fun getSharedPreferences(): SharedPreferences? {
+        fun getSharedPreferences(): SharedPreferences {
             return get().sharedPreferences
         }
 
@@ -210,7 +210,7 @@ class Application : android.app.Application() {
             return get().toolsInstaller
         }
 
-        fun getTunnelManager(): TunnelManager? {
+        fun getTunnelManager(): TunnelManager {
             return get().tunnelManager
         }
     }
