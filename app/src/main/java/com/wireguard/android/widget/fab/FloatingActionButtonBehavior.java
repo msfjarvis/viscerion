@@ -9,6 +9,8 @@ package com.wireguard.android.widget.fab;
 import android.content.Context;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,21 +20,21 @@ public class FloatingActionButtonBehavior extends CoordinatorLayout.Behavior<Flo
     }
 
     @Override
-    public boolean layoutDependsOn(final CoordinatorLayout parent, final FloatingActionsMenu child,
-                                   final View dependency) {
+    public boolean layoutDependsOn(@NonNull final CoordinatorLayout parent, @NonNull final FloatingActionsMenu child,
+                                   @NonNull final View dependency) {
         return dependency instanceof Snackbar.SnackbarLayout;
     }
 
     @Override
-    public boolean onDependentViewChanged(final CoordinatorLayout parent, final FloatingActionsMenu child,
-                                          final View dependency) {
+    public boolean onDependentViewChanged(@NonNull final CoordinatorLayout parent, @NonNull final FloatingActionsMenu child,
+                                          @NonNull final View dependency) {
         child.setBehaviorYTranslation(Math.min(0, dependency.getTranslationY() - dependency.getMeasuredHeight()));
         return true;
     }
 
     @Override
-    public void onDependentViewRemoved(final CoordinatorLayout parent, FloatingActionsMenu child,
-                                       final View dependency) {
+    public void onDependentViewRemoved(@NonNull final CoordinatorLayout parent, @NonNull final FloatingActionsMenu child,
+                                       @NonNull final View dependency) {
         // TODO(msf): animate this so it isn't so dramatic when the snackbar is swiped away
         child.setBehaviorYTranslation(0);
     }
