@@ -8,8 +8,6 @@ package com.wireguard.android
 
 import android.annotation.TargetApi
 import android.content.Intent
-import androidx.databinding.Observable
-import androidx.databinding.Observable.OnPropertyChangedCallback
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Icon
@@ -19,7 +17,8 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import android.widget.Toast
-
+import androidx.databinding.Observable
+import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State

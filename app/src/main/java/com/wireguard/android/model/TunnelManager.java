@@ -9,9 +9,6 @@ package com.wireguard.android.model;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.annotation.Nullable;
 
 import com.wireguard.android.Application;
 import com.wireguard.android.BR;
@@ -29,6 +26,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import java9.util.Comparators;
 import java9.util.concurrent.CompletableFuture;
 import java9.util.concurrent.CompletionStage;

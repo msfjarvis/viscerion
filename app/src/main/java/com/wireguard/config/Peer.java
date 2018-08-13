@@ -8,13 +8,9 @@ package com.wireguard.config;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
-import androidx.databinding.library.baseAdapters.BR;
 import com.wireguard.android.Application;
 import com.wireguard.android.R;
 import com.wireguard.crypto.KeyEncoding;
@@ -30,6 +26,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 import java9.lang.Iterables;
 
 /**

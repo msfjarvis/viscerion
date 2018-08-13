@@ -6,10 +6,11 @@
 package com.wireguard.android.util;
 
 import android.content.Context;
-import androidx.preference.Preference;
 import android.view.ContextThemeWrapper;
 
 import com.wireguard.android.activity.SettingsActivity;
+
+import androidx.preference.Preference;
 
 public class FragmentUtils {
 

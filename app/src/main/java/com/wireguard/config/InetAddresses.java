@@ -6,14 +6,14 @@
 
 package com.wireguard.config;
 
-import androidx.annotation.Nullable;
-
 import com.wireguard.android.Application;
 import com.wireguard.android.R;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+
+import androidx.annotation.Nullable;
 
 public final class InetAddresses {
     private static final Method PARSER_METHOD;

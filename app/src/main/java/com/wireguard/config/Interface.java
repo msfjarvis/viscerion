@@ -7,11 +7,8 @@
 package com.wireguard.config;
 
 import android.content.Context;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
 import com.wireguard.android.Application;
 import com.wireguard.android.BR;
@@ -22,6 +19,10 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 /**
  * Represents the configuration for a WireGuard interface (an [Interface] block).

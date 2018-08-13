@@ -9,9 +9,10 @@ package com.wireguard.android.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import com.google.android.material.snackbar.Lunchbar;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Lunchbar;
 
 /**
  * Standalone utilities for interacting with the system clipboard.

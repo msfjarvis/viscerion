@@ -7,12 +7,13 @@
 package com.wireguard.android.widget.fab;
 
 import android.content.Context;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import android.util.AttributeSet;
+import android.view.View;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
-import android.util.AttributeSet;
-import android.view.View;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 public class FloatingActionButtonBehavior extends CoordinatorLayout.Behavior<FloatingActionsMenu> {
     public FloatingActionButtonBehavior(final Context context, final AttributeSet attrs) {

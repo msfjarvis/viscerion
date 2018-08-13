@@ -7,13 +7,14 @@
 package com.wireguard.android.widget.fab;
 
 import android.graphics.Rect;
-import androidx.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import androidx.annotation.Nullable;
 
 public class TouchDelegateGroup extends TouchDelegate {
     private static final Rect USELESS_HACKY_RECT = new Rect();

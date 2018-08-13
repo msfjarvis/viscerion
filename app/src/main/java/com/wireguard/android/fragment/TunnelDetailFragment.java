@@ -7,7 +7,6 @@
 package com.wireguard.android.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +17,8 @@ import com.wireguard.android.R;
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding;
 import com.wireguard.android.model.Tunnel;
 import com.wireguard.config.Config;
+
+import androidx.annotation.Nullable;
 
 /**
  * Fragment that shows details about a specific tunnel.

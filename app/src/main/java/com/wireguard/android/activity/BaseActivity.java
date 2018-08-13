@@ -6,15 +6,16 @@
 
 package com.wireguard.android.activity;
 
-import androidx.databinding.CallbackRegistry;
-import androidx.databinding.CallbackRegistry.NotifierCallback;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 
 import com.wireguard.android.Application;
 import com.wireguard.android.model.Tunnel;
 
 import java.util.Objects;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.CallbackRegistry;
+import androidx.databinding.CallbackRegistry.NotifierCallback;
 
 /**
  * Base class for activities that need to remember the currently-selected tunnel.

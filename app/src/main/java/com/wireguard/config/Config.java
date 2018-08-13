@@ -7,15 +7,9 @@
 package com.wireguard.config;
 
 import android.content.Context;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.ObservableArrayList;
-import androidx.databinding.ObservableList;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
-import androidx.databinding.library.baseAdapters.BR;
 import com.wireguard.android.Application;
 import com.wireguard.android.R;
 
@@ -27,6 +21,13 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
+import androidx.databinding.library.baseAdapters.BR;
 
 /**
  * Represents a wg-quick configuration file, its name, and its connection state.

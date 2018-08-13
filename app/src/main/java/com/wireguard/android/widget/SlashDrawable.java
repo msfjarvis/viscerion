@@ -23,10 +23,11 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.FloatProperty;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
-import android.util.FloatProperty;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class SlashDrawable extends Drawable {

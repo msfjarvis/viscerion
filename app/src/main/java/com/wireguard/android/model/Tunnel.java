@@ -6,10 +6,6 @@
 
 package com.wireguard.android.model;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.annotation.Nullable;
-
 import com.wireguard.android.BR;
 import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.config.Config;
@@ -17,6 +13,9 @@ import com.wireguard.util.Keyed;
 
 import java.util.regex.Pattern;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import java9.util.concurrent.CompletableFuture;
 import java9.util.concurrent.CompletionStage;
 

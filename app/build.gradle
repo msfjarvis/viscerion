@@ -76,6 +76,7 @@ ext {
 }
 
 dependencies {
+    implementation "androidx.databinding:databinding-adapters:$databindingVersion"
     implementation "androidx.databinding:databinding-runtime:$databindingVersion"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.cardview:cardview:$androidXVersion"

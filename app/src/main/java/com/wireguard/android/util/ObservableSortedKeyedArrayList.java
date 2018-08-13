@@ -6,9 +6,6 @@
 
 package com.wireguard.android.util;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.wireguard.util.Keyed;
 import com.wireguard.util.SortedKeyedList;
 
@@ -20,6 +17,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * KeyedArrayList that enforces uniqueness and sorted order across the set of keys. This class uses

@@ -6,12 +6,13 @@
 
 package com.wireguard.android.widget;
 
-import androidx.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.wireguard.android.model.Tunnel;
+
+import androidx.annotation.Nullable;
 
 /**
  * InputFilter for entering WireGuard configuration names (Linux interface names).

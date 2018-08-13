@@ -7,8 +7,8 @@
 package com.wireguard.android.preference
 
 import android.content.Context
-import androidx.preference.Preference
 import android.util.AttributeSet
+import androidx.preference.Preference
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.util.ToolsInstaller

@@ -6,12 +6,13 @@
 
 package com.wireguard.android.model;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import android.graphics.drawable.Drawable;
 
 import com.wireguard.android.BR;
 import com.wireguard.util.Keyed;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 public class ApplicationData extends BaseObservable implements Keyed<String> {
 

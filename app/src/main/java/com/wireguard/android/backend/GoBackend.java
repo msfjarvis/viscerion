@@ -10,8 +10,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.ParcelFileDescriptor;
-import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
 import android.util.Log;
 
 import com.wireguard.android.Application;
@@ -35,6 +33,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import java9.util.concurrent.CompletableFuture;
 
 public final class GoBackend implements Backend {

@@ -7,7 +7,6 @@
 package com.wireguard.android.util;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.system.OsConstants;
 import android.util.Log;
 
@@ -20,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Helper to install WireGuard tools to the system partition.

@@ -8,12 +8,13 @@ package com.wireguard.android.widget.fab;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wireguard.android.R;
+
+import androidx.annotation.Nullable;
 
 public class LabeledFloatingActionButton extends FloatingActionButton {
 
