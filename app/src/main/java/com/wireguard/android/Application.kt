@@ -63,11 +63,13 @@ class Application : android.app.Application() {
             System.exit(0)
         }
 
+        /*
         val installSource = getInstallSource(context)
         if (installSource != null) {
             ACRA.init(this)
             ACRA.getErrorReporter().putCustomData("installSource", installSource)
         }
+        */
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -96,6 +98,7 @@ class Application : android.app.Application() {
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
 
+        /*
         if (sharedPreferences.getBoolean("enable_logging", true)) {
             val configurationBuilder = CoreConfigurationBuilder(this)
 
@@ -123,6 +126,7 @@ class Application : android.app.Application() {
                 }
             }
         }
+        */
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
