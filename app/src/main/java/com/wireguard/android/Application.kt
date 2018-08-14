@@ -37,7 +37,7 @@ import java.lang.ref.WeakReference
 
 class Application : android.app.Application() {
     private lateinit var asyncWorker: AsyncWorker
-    private var rootShell: RootShell? = null
+    private lateinit var rootShell: RootShell
     private val sharedPreferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
     private var toolsInstaller: ToolsInstaller? = null
     private lateinit var tunnelManager: TunnelManager
@@ -184,7 +184,7 @@ class Application : android.app.Application() {
                     var backend: Backend? = null
                     if (File("/sys/module/wireguard").exists()) {
                         try {
-                            app.rootShell!!.start()
+                            app.rootShell.start()
                             backend = WgQuickBackend(app.applicationContext)
                         } catch (ignored: Exception) {
                         }
@@ -201,7 +201,7 @@ class Application : android.app.Application() {
         val backendAsync: CompletableFuture<Backend>
             get() = get().futureBackend
 
-        fun getRootShell(): RootShell? {
+        fun getRootShell(): RootShell {
             return get().rootShell
         }
 
