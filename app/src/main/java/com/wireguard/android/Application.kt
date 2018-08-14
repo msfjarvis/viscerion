@@ -98,8 +98,8 @@ class Application : android.app.Application() {
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
 
+        if (sharedPreferences.getBoolean("enable_logging", false)) {
         /*
-        if (sharedPreferences.getBoolean("enable_logging", true)) {
             val configurationBuilder = CoreConfigurationBuilder(this)
 
             // Core configuration
@@ -116,17 +116,18 @@ class Application : android.app.Application() {
                     .setHttpMethod(HttpSender.Method.POST)
                     .setCompress(true)
             ACRA.init(this, configurationBuilder)
-
+        */
             asyncWorker!!.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
                 futureBackend.complete(backend)
+                /*
                 if (ACRA.isInitialised()) {
                     ACRA.getErrorReporter().putCustomData("backend", backend.javaClass.simpleName)
                     asyncWorker!!.supplyAsync<String> { backend.version }
                             .thenAccept { version -> ACRA.getErrorReporter().putCustomData("backendVersion", version) }
                 }
+                */
             }
         }
-        */
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
