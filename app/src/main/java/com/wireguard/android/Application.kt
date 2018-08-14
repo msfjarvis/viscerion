@@ -39,7 +39,7 @@ class Application : android.app.Application() {
     private lateinit var asyncWorker: AsyncWorker
     private lateinit var rootShell: RootShell
     private val sharedPreferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
-    private var toolsInstaller: ToolsInstaller? = null
+    private lateinit var toolsInstaller: ToolsInstaller
     private lateinit var tunnelManager: TunnelManager
     private var backend: Backend? = null
     private val futureBackend = CompletableFuture<Backend>()
@@ -209,7 +209,7 @@ class Application : android.app.Application() {
             return get().sharedPreferences
         }
 
-        fun getToolsInstaller(): ToolsInstaller? {
+        fun getToolsInstaller(): ToolsInstaller {
             return get().toolsInstaller
         }
 
