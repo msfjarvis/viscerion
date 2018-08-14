@@ -1,15 +1,15 @@
-# Android GUI for [WireGuard](https://www.wireguard.com/)
+# \[ 🚧 Work in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 \] Android GUI for [WireGuard](https://www.wireguard.com/)
 
-**[Download from the Play Store](https://play.google.com/store/apps/details?id=com.wireguard.android)**
+This is an under construction rewrite of the WireGuard Android GUI. This fork was initiated for me
+to have someplace for me to work on the app where _I_ decide what goes in, not somebody else
+with zero app development experience or sense of UX.
 
-This is an Android GUI for [WireGuard](https://www.wireguard.com/). It [opportunistically uses the kernel implementation](https://git.zx2c4.com/android_kernel_wireguard/about/), and falls back to using the non-root [userspace implementation](https://git.zx2c4.com/wireguard-go/about/).
+**I HAVE NO INTENTION TO SUBMIT THIS UPSTREAM**
 
 ## Building
 
 ```
-$ git clone https://git.zx2c4.com/wireguard-android
-$ cd wireguard-android
-$ git submodule init
-$ git submodule update
-$ ./gradlew assembleRelease
+$ git clone https://github.com/MSF-Jarvis/wireguard-kt --recursive
+$ cd wireguard-kt
+$ ./gradlew assembleDebug
 ```
