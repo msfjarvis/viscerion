@@ -5,12 +5,18 @@
 
 package com.wireguard.android
 
+/*
+import org.acra.ACRA
+import org.acra.config.CoreConfigurationBuilder
+import org.acra.config.HttpSenderConfigurationBuilder
+import org.acra.data.StringFormat
+import org.acra.sender.HttpSender
+*/
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Handler
@@ -27,16 +33,8 @@ import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.RootShell
 import com.wireguard.android.util.ToolsInstaller
 import java9.util.concurrent.CompletableFuture
-import org.acra.ACRA
-import org.acra.config.CoreConfigurationBuilder
-import org.acra.config.HttpSenderConfigurationBuilder
-import org.acra.data.StringFormat
-import org.acra.sender.HttpSender
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.lang.ref.WeakReference
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
 
 class Application : android.app.Application() {
     private var asyncWorker: AsyncWorker? = null
@@ -143,7 +141,6 @@ class Application : android.app.Application() {
          * prevent innocent self-builders from uploading stuff to our crash reporter. So, we
          * check the DN of the certs that signed the apk, without even bothering to try
          * validating that they're authentic. It's a good enough heuristic.
-         */
         private fun getInstallSource(context: Context): String? {
             if (BuildConfig.DEBUG)
                 return null
@@ -170,6 +167,7 @@ class Application : android.app.Application() {
             }
             return null
         }
+        */
 
         fun get(): Application {
             return weakSelf.get() as Application

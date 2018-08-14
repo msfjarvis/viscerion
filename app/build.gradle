@@ -72,7 +72,7 @@ ext {
     streamsupportVersion = '1.6.0'
     jsr305Version = '3.0.2'
     zxingEmbeddedVersion = '3.6.0'
-    acraVersion = '5.2.0-rc2'
+    //acraVersion = '5.2.0-rc2'
 }
 
 dependencies {
@@ -88,7 +88,7 @@ dependencies {
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "ch.acra:acra-http:$acraVersion"
+    //implementation "ch.acra:acra-http:$acraVersion"
 }
 
 tasks.withType(JavaCompile) {
