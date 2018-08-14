@@ -36,7 +36,7 @@ import java.io.File
 import java.lang.ref.WeakReference
 
 class Application : android.app.Application() {
-    private var asyncWorker: AsyncWorker? = null
+    private lateinit var asyncWorker: AsyncWorker
     private var rootShell: RootShell? = null
     private val sharedPreferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
     private var toolsInstaller: ToolsInstaller? = null
@@ -115,7 +115,7 @@ class Application : android.app.Application() {
                     .setCompress(true)
             ACRA.init(this, configurationBuilder)
         */
-            asyncWorker!!.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
+            asyncWorker.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
                 futureBackend.complete(backend)
                 /*
                 if (ACRA.isInitialised()) {
@@ -173,7 +173,7 @@ class Application : android.app.Application() {
             return weakSelf.get() as Application
         }
 
-        fun getAsyncWorker(): AsyncWorker? {
+        fun getAsyncWorker(): AsyncWorker {
             return get().asyncWorker
         }
 
