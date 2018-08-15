@@ -69,12 +69,12 @@ import java.util.List;
  *
  * @param <B> The transient bottom bar subclass.
  */
-public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>> {
+public abstract class CustomBaseTransientBottomBar<B extends CustomBaseTransientBottomBar<B>> {
   /**
-   * Base class for {@link BaseTransientBottomBar} callbacks.
+   * Base class for {@link CustomBaseTransientBottomBar} callbacks.
    *
    * @param <B> The transient bottom bar subclass.
-   * @see BaseTransientBottomBar#addCallback(BaseCallback)
+   * @see CustomBaseTransientBottomBar#addCallback(BaseCallback)
    */
   public abstract static class BaseCallback<B> {
     /** Indicates that the Snackbar was dismissed via a swipe. */
@@ -101,24 +101,24 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     public @interface DismissEvent {}
 
     /**
-     * Called when the given {@link BaseTransientBottomBar} has been dismissed, either through a
+     * Called when the given {@link CustomBaseTransientBottomBar} has been dismissed, either through a
      * time-out, having been manually dismissed, or an action being clicked.
      *
      * @param transientBottomBar The transient bottom bar which has been dismissed.
      * @param event The event which caused the dismissal. One of either: {@link
      *     #DISMISS_EVENT_SWIPE}, {@link #DISMISS_EVENT_ACTION}, {@link #DISMISS_EVENT_TIMEOUT},
      *     {@link #DISMISS_EVENT_MANUAL} or {@link #DISMISS_EVENT_CONSECUTIVE}.
-     * @see BaseTransientBottomBar#dismiss()
+     * @see CustomBaseTransientBottomBar#dismiss()
      */
     public void onDismissed(B transientBottomBar, @DismissEvent int event) {
       // empty
     }
 
     /**
-     * Called when the given {@link BaseTransientBottomBar} is visible.
+     * Called when the given {@link CustomBaseTransientBottomBar} is visible.
      *
      * @param transientBottomBar The transient bottom bar which is now visible.
-     * @see BaseTransientBottomBar#show()
+     * @see CustomBaseTransientBottomBar#show()
      */
     public void onShown(B transientBottomBar) {
       // empty
@@ -188,10 +188,10 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
               public boolean handleMessage(Message message) {
                 switch (message.what) {
                   case MSG_SHOW:
-                    ((BaseTransientBottomBar) message.obj).showView();
+                    ((CustomBaseTransientBottomBar) message.obj).showView();
                     return true;
                   case MSG_DISMISS:
-                    ((BaseTransientBottomBar) message.obj).hideView(message.arg1);
+                    ((CustomBaseTransientBottomBar) message.obj).hideView(message.arg1);
                     return true;
                   default:
                     return false;
@@ -208,7 +208,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
 
   private List<BaseCallback<B>> callbacks;
 
-  private BaseTransientBottomBar.Behavior behavior;
+  private CustomBaseTransientBottomBar.Behavior behavior;
 
   private final AccessibilityManager accessibilityManager;
 
@@ -235,7 +235,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
    * @param content The content view for this transient bottom bar.
    * @param contentViewCallback The content view callback for this transient bottom bar.
    */
-  protected BaseTransientBottomBar(
+  protected CustomBaseTransientBottomBar(
       @NonNull ViewGroup parent,
       @NonNull View content,
       @NonNull com.google.android.material.snackbar.ContentViewCallback contentViewCallback) {
@@ -349,12 +349,12 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
   }
 
   /**
-   * Sets the {@link BaseTransientBottomBar.Behavior} to be used in this {@link
-   * BaseTransientBottomBar}.
+   * Sets the {@link CustomBaseTransientBottomBar.Behavior} to be used in this {@link
+   * CustomBaseTransientBottomBar}.
    *
-   * @param behavior {@link BaseTransientBottomBar.Behavior} to be applied.
+   * @param behavior {@link CustomBaseTransientBottomBar.Behavior} to be applied.
    */
-  public B setBehavior(BaseTransientBottomBar.Behavior behavior) {
+  public B setBehavior(CustomBaseTransientBottomBar.Behavior behavior) {
     this.behavior = behavior;
     return (B) this;
   }
@@ -362,30 +362,30 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
   /**
    * Return the behavior.
    *
-   * @see #setBehavior(BaseTransientBottomBar.Behavior)
+   * @see #setBehavior(CustomBaseTransientBottomBar.Behavior)
    */
-  public BaseTransientBottomBar.Behavior getBehavior() {
+  public CustomBaseTransientBottomBar.Behavior getBehavior() {
     return behavior;
   }
 
-  /** Returns the {@link BaseTransientBottomBar}'s context. */
+  /** Returns the {@link CustomBaseTransientBottomBar}'s context. */
   @NonNull
   public Context getContext() {
     return context;
   }
 
-  /** Returns the {@link BaseTransientBottomBar}'s view. */
+  /** Returns the {@link CustomBaseTransientBottomBar}'s view. */
   @NonNull
   public View getView() {
     return view;
   }
 
-  /** Show the {@link BaseTransientBottomBar}. */
+  /** Show the {@link CustomBaseTransientBottomBar}. */
   public void show() {
     SnackbarManager.getInstance().show(getDuration(), managerCallback);
   }
 
-  /** Dismiss the {@link BaseTransientBottomBar}. */
+  /** Dismiss the {@link CustomBaseTransientBottomBar}. */
   public void dismiss() {
     dispatchDismiss(BaseCallback.DISMISS_EVENT_MANUAL);
   }
@@ -433,13 +433,13 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     return (B) this;
   }
 
-  /** Return whether this {@link BaseTransientBottomBar} is currently being shown. */
+  /** Return whether this {@link CustomBaseTransientBottomBar} is currently being shown. */
   public boolean isShown() {
     return SnackbarManager.getInstance().isCurrent(managerCallback);
   }
 
   /**
-   * Returns whether this {@link BaseTransientBottomBar} is currently being shown, or is queued to
+   * Returns whether this {@link CustomBaseTransientBottomBar} is currently being shown, or is queued to
    * be shown next.
    */
   public boolean isShownOrQueued() {
@@ -450,13 +450,13 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
       new SnackbarManager.Callback() {
         @Override
         public void show() {
-          handler.sendMessage(handler.obtainMessage(MSG_SHOW, BaseTransientBottomBar.this));
+          handler.sendMessage(handler.obtainMessage(MSG_SHOW, CustomBaseTransientBottomBar.this));
         }
 
         @Override
         public void dismiss(int event) {
           handler.sendMessage(
-              handler.obtainMessage(MSG_DISMISS, event, 0, BaseTransientBottomBar.this));
+              handler.obtainMessage(MSG_DISMISS, event, 0, CustomBaseTransientBottomBar.this));
         }
       };
 
@@ -475,8 +475,8 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
         final SwipeDismissBehavior<? extends View> behavior =
             this.behavior == null ? getNewBehavior() : this.behavior;
 
-        if (behavior instanceof BaseTransientBottomBar.Behavior) {
-          ((BaseTransientBottomBar.Behavior) behavior).setBaseTransientBottomBar(this);
+        if (behavior instanceof CustomBaseTransientBottomBar.Behavior) {
+          ((CustomBaseTransientBottomBar.Behavior) behavior).setCustomBaseTransientBottomBar(this);
         }
         behavior.setListener(
             new SwipeDismissBehavior.OnDismissListener() {
@@ -512,7 +512,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     }
 
     this.view.setOnAttachStateChangeListener(
-        new BaseTransientBottomBar.OnAttachStateChangeListener() {
+        new CustomBaseTransientBottomBar.OnAttachStateChangeListener() {
           @Override
           public void onViewAttachedToWindow(View v) {}
 
@@ -545,10 +545,10 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     } else {
       // Otherwise, add one of our layout change listeners and show it in when laid out
       this.view.setOnLayoutChangeListener(
-          new BaseTransientBottomBar.OnLayoutChangeListener() {
+          new CustomBaseTransientBottomBar.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int left, int top, int right, int bottom) {
-              BaseTransientBottomBar.this.view.setOnLayoutChangeListener(null);
+              CustomBaseTransientBottomBar.this.view.setOnLayoutChangeListener(null);
 
               if (shouldAnimate()) {
                 // If animations are enabled, animate it in
@@ -719,8 +719,8 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
           }
         };
 
-    private BaseTransientBottomBar.OnLayoutChangeListener onLayoutChangeListener;
-    private BaseTransientBottomBar.OnAttachStateChangeListener onAttachStateChangeListener;
+    private CustomBaseTransientBottomBar.OnLayoutChangeListener onLayoutChangeListener;
+    private CustomBaseTransientBottomBar.OnAttachStateChangeListener onAttachStateChangeListener;
 
     protected SnackbarBaseLayout(Context context) {
       this(context, null);
@@ -773,17 +773,17 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     }
 
     void setOnLayoutChangeListener(
-        BaseTransientBottomBar.OnLayoutChangeListener onLayoutChangeListener) {
+        CustomBaseTransientBottomBar.OnLayoutChangeListener onLayoutChangeListener) {
       this.onLayoutChangeListener = onLayoutChangeListener;
     }
 
     void setOnAttachStateChangeListener(
-        BaseTransientBottomBar.OnAttachStateChangeListener listener) {
+        CustomBaseTransientBottomBar.OnAttachStateChangeListener listener) {
       onAttachStateChangeListener = listener;
     }
   }
 
-  /** Behavior for {@link BaseTransientBottomBar}. */
+  /** Behavior for {@link CustomBaseTransientBottomBar}. */
   public static class Behavior extends SwipeDismissBehavior<View> {
     private final BehaviorDelegate delegate;
 
@@ -791,8 +791,8 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
       delegate = new BehaviorDelegate(this);
     }
 
-    private void setBaseTransientBottomBar(BaseTransientBottomBar<?> baseTransientBottomBar) {
-      delegate.setBaseTransientBottomBar(baseTransientBottomBar);
+    private void setCustomBaseTransientBottomBar(CustomBaseTransientBottomBar<?> baseTransientBottomBar) {
+      delegate.setCustomBaseTransientBottomBar(baseTransientBottomBar);
     }
 
     @Override
@@ -819,7 +819,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
       behavior.setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_START_TO_END);
     }
 
-    public void setBaseTransientBottomBar(BaseTransientBottomBar<?> baseTransientBottomBar) {
+    public void setCustomBaseTransientBottomBar(CustomBaseTransientBottomBar<?> baseTransientBottomBar) {
       this.managerCallback = baseTransientBottomBar.managerCallback;
     }
 
