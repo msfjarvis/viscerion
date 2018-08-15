@@ -16,7 +16,7 @@ android {
     compileSdkVersion 28
     dataBinding.enabled true
     defaultConfig {
-        applicationId 'com.wireguard.android'
+        applicationId 'me.msfjarvis.wgandroid'
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 438
