@@ -13,3 +13,5 @@ $ git clone https://github.com/MSF-Jarvis/wireguard-kt --recursive
 $ cd wireguard-kt
 $ ./gradlew assembleDebug
 ```
+
+Note: on macOS you also need to install the GNU `coreutils` package through homebrew.
