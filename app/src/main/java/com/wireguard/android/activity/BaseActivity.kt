@@ -40,7 +40,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
         // Restore the saved tunnel if there is one; otherwise grab it from the arguments.
         val savedTunnelName: String?
         if (savedInstanceState != null)
-            savedTunnelName = savedInstanceState!!.getString(KEY_SELECTED_TUNNEL)
+            savedTunnelName = savedInstanceState.getString(KEY_SELECTED_TUNNEL)
         else if (intent != null)
             savedTunnelName = intent.getStringExtra(KEY_SELECTED_TUNNEL)
         else

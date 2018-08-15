@@ -30,7 +30,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     private var exportedFilePath: String? = null
 
     private fun exportLog() {
-        Application.getAsyncWorker()!!.supplyAsync {
+        Application.getAsyncWorker().supplyAsync {
             val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val file = File(path, "wireguard-log.txt")
             if (!path.isDirectory && !path.mkdirs())
