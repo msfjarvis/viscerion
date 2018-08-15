@@ -85,7 +85,7 @@ public class TunnelListFragment extends BaseFragment {
             // Config text is valid, now create the tunnel…
             final FragmentManager fragmentManager = getFragmentManager();
             if (fragmentManager != null)
-                ConfigNamingDialogFragment.newInstance(configText).show(fragmentManager, null);
+                ConfigNamingDialogFragment.Companion.newInstance(configText).show(fragmentManager, null);
         } catch (final Exception exception) {
             onTunnelImportFinished(Collections.emptyList(), Collections.singletonList(exception));
         }
