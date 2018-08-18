@@ -300,7 +300,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
         final FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager != null && binding != null) {
             final String[] excludedApps = Attribute.stringToList(binding.getConfig().getInterfaceSection().getExcludedApplications());
-            final AppListDialogFragment fragment = AppListDialogFragment.newInstance(excludedApps, this);
+            final AppListDialogFragment fragment = AppListDialogFragment.Companion.newInstance(excludedApps, this);
             fragment.show(fragmentManager, null);
         }
     }
