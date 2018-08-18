@@ -5,13 +5,6 @@
 
 package com.wireguard.android
 
-/*
-import org.acra.ACRA
-import org.acra.config.CoreConfigurationBuilder
-import org.acra.config.HttpSenderConfigurationBuilder
-import org.acra.data.StringFormat
-import org.acra.sender.HttpSender
-*/
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -60,13 +53,6 @@ class Application : android.app.Application() {
             System.exit(0)
         }
 
-        /*
-        val installSource = getInstallSource(context)
-        if (installSource != null) {
-            ACRA.init(this)
-            ACRA.getErrorReporter().putCustomData("installSource", installSource)
-        }
-        */
     }
 
     //TODO: Move back to androidx when possible
@@ -96,35 +82,8 @@ class Application : android.app.Application() {
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
 
-        if (sharedPreferences.getBoolean("enable_logging", false)) {
-        /*
-            val configurationBuilder = CoreConfigurationBuilder(this)
-
-            // Core configuration
-            configurationBuilder.setReportFormat(StringFormat.JSON)
-                    .setBuildConfigClass(BuildConfig::class.java)
-                    .setLogcatArguments("-b", "all", "-d", "-v", "threadtime", "*:V")
-                    .setExcludeMatchingSettingsKeys("last_used_tunnel", "enabled_configs")
-
-            // HTTP Sender configuration
-            configurationBuilder.getPluginConfigurationBuilder(HttpSenderConfigurationBuilder::class.java)
-                    .setUri("https://crashreport.zx2c4.com/android/report")
-                    .setBasicAuthLogin("6RCovLxEVCTXGiW5")
-                    .setBasicAuthPassword("O7I3sVa5ULVdiC51")
-                    .setHttpMethod(HttpSender.Method.POST)
-                    .setCompress(true)
-            ACRA.init(this, configurationBuilder)
-        */
-            asyncWorker.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
-                futureBackend.complete(backend)
-                /*
-                if (ACRA.isInitialised()) {
-                    ACRA.getErrorReporter().putCustomData("backend", backend.javaClass.simpleName)
-                    asyncWorker!!.supplyAsync<String> { backend.version }
-                            .thenAccept { version -> ACRA.getErrorReporter().putCustomData("backendVersion", version) }
-                }
-                */
-            }
+        asyncWorker.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
+            futureBackend.complete(backend)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -135,39 +94,6 @@ class Application : android.app.Application() {
     companion object {
 
         private lateinit var weakSelf: WeakReference<Application>
-
-        /* The ACRA password can be trivially reverse engineered and is open source anyway,
-         * so there's no point in trying to protect it. However, we do want to at least
-         * prevent innocent self-builders from uploading stuff to our crash reporter. So, we
-         * check the DN of the certs that signed the apk, without even bothering to try
-         * validating that they're authentic. It's a good enough heuristic.
-        private fun getInstallSource(context: Context): String? {
-            if (BuildConfig.DEBUG)
-                return null
-            try {
-                val cf = CertificateFactory.getInstance("X509")
-                for (sig in context.packageManager
-                        .getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES).signatures) {
-                    try {
-                        for (category in (cf.generateCertificate(ByteArrayInputStream(sig.toByteArray())) as X509Certificate)
-                                .subjectDN.name.split(", *".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-                            val parts = category.split("=".toRegex(), 2).toTypedArray()
-                            if ("O" != parts[0])
-                                continue
-                            when (parts[1]) {
-                                "Google Inc." -> return "Play Store"
-                                "fdroid.org" -> return "F-Droid"
-                            }
-                        }
-                    } catch (ignored: Exception) {
-                    }
-
-                }
-            } catch (ignored: Exception) {
-            }
-            return null
-        }
-        */
 
         fun get(): Application {
             return weakSelf.get() as Application
