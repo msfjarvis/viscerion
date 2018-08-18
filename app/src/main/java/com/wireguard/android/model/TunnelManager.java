@@ -12,6 +12,7 @@ import android.content.Intent;
 
 import com.wireguard.android.Application;
 import com.wireguard.android.BR;
+import com.wireguard.android.BuildConfig;
 import com.wireguard.android.R;
 import com.wireguard.android.configStore.ConfigStore;
 import com.wireguard.android.model.Tunnel.State;
@@ -160,15 +161,6 @@ public final class TunnelManager extends BaseObservable {
         completableTunnels.complete(tunnels);
     }
 
-    public void refreshTunnelStates() {
-        Application.Companion.getAsyncWorker().supplyAsync(() -> Application.Companion.getBackend().enumerate())
-                .thenAccept(running -> {
-                    for (final Tunnel tunnel : tunnels)
-                        tunnel.onStateChanged(running.contains(tunnel.getName()) ? State.UP : State.DOWN);
-                })
-                .whenComplete(ExceptionLoggers.E);
-    }
-
     public CompletionStage<Void> restoreState(final boolean force) {
         if (!force && !Application.Companion.getSharedPreferences().getBoolean(KEY_RESTORE_ON_BOOT, false))
             return CompletableFuture.completedFuture(null);
@@ -257,46 +249,5 @@ public final class TunnelManager extends BaseObservable {
                 setLastUsedTunnel(tunnel);
             saveState();
         });
-    }
-
-    public static final class IntentReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(final Context context, @Nullable final Intent intent) {
-            final TunnelManager manager = Application.Companion.getTunnelManager();
-            if (intent == null)
-                return;
-            final String action = intent.getAction();
-            if (action == null)
-                return;
-
-            if ("com.wireguard.android.action.REFRESH_TUNNEL_STATES".equals(action)) {
-                manager.refreshTunnelStates();
-                return;
-            }
-
-            /* We disable the below, for now, as the security model of allowing this
-             * might take a bit more consideration.
-             */
-            if (true)
-                return;
-
-            final State state;
-            if ("com.wireguard.android.action.SET_TUNNEL_UP".equals(action))
-                state = State.UP;
-            else if ("com.wireguard.android.action.SET_TUNNEL_DOWN".equals(action))
-                state = State.DOWN;
-            else
-                return;
-
-            final String tunnelName = intent.getStringExtra("tunnel");
-            if (tunnelName == null)
-                return;
-            manager.getTunnels().thenAccept(tunnels -> {
-                final Tunnel tunnel = tunnels.get(tunnelName);
-                if (tunnel == null)
-                    return;
-                manager.setTunnelState(tunnel, state);
-            });
-        }
     }
 }
