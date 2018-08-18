@@ -56,9 +56,9 @@ import java.lang.annotation.RetentionPolicy;
  * android.view.View.OnClickListener)}.
  *
  * <p>To be notified when a snackbar has been shown or dismissed, you can provide a {@link Callback}
- * via {@link CustomBaseTransientBottomBar#addCallback(BaseCallback)}.
+ * via {@link BaseTransientBottomBar#addCallback(BaseCallback)}.
  */
-public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
+public final class Lunchbar extends TransientBottom<Lunchbar> {
 
   private final AccessibilityManager accessibilityManager;
   private boolean hasAction;
@@ -76,21 +76,21 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
    *
    * @see #setDuration
    */
-  public static final int LENGTH_INDEFINITE = CustomBaseTransientBottomBar.LENGTH_INDEFINITE;
+  public static final int LENGTH_INDEFINITE = BaseTransientBottomBar.LENGTH_INDEFINITE;
 
   /**
    * Show the Snackbar for a short period of time.
    *
    * @see #setDuration
    */
-  public static final int LENGTH_SHORT = CustomBaseTransientBottomBar.LENGTH_SHORT;
+  public static final int LENGTH_SHORT = BaseTransientBottomBar.LENGTH_SHORT;
 
   /**
    * Show the Snackbar for a long period of time.
    *
    * @see #setDuration
    */
-  public static final int LENGTH_LONG = CustomBaseTransientBottomBar.LENGTH_LONG;
+  public static final int LENGTH_LONG = BaseTransientBottomBar.LENGTH_LONG;
 
   private static final int[] SNACKBAR_BUTTON_STYLE_ATTR = new int[] {R.attr.snackbarButtonStyle};
 
@@ -98,9 +98,9 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
    * Callback class for {@link Snackbar} instances.
    *
    * <p>Note: this class is here to provide backwards-compatible way for apps written before the
-   * existence of the base {@link CustomBaseTransientBottomBar} class.
+   * existence of the base {@link BaseTransientBottomBar} class.
    *
-   * @see CustomBaseTransientBottomBar#addCallback(BaseCallback)
+   * @see BaseTransientBottomBar#addCallback(BaseCallback)
    */
   public static class Callback extends BaseCallback<Lunchbar> {
     /** Indicates that the Snackbar was dismissed via a swipe. */
@@ -137,21 +137,21 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   }
 
   // TODO: Delete this once custom Robolectric shadows no longer depend on this method being present
-  // (and instead properly utilize CustomBaseTransientBottomBar hierarchy).
+  // (and instead properly utilize BaseTransientBottomBar hierarchy).
   @Override
   public void show() {
     super.show();
   }
 
   // TODO: Delete this once custom Robolectric shadows no longer depend on this method being present
-  // (and instead properly utilize CustomBaseTransientBottomBar hierarchy).
+  // (and instead properly utilize BaseTransientBottomBar hierarchy).
   @Override
   public void dismiss() {
     super.dismiss();
   }
 
   // TODO: Delete this once custom Robolectric shadows no longer depend on this method being present
-  // (and instead properly utilize CustomBaseTransientBottomBar hierarchy).
+  // (and instead properly utilize BaseTransientBottomBar hierarchy).
   @Override
   public boolean isShown() {
     return super.isShown();
@@ -261,7 +261,7 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   /**
    * Update the text in this {@link Snackbar}.
    *
-   * @param message The new text for this {@link CustomBaseTransientBottomBar}.
+   * @param message The new text for this {@link BaseTransientBottomBar}.
    */
   @NonNull
   public Lunchbar setText(@NonNull CharSequence message) {
@@ -274,7 +274,7 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   /**
    * Update the text in this {@link Snackbar}.
    *
-   * @param resId The new text for this {@link CustomBaseTransientBottomBar}.
+   * @param resId The new text for this {@link BaseTransientBottomBar}.
    */
   @NonNull
   public Lunchbar setText(@StringRes int resId) {
@@ -282,7 +282,7 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   }
 
   /**
-   * Set the action to be displayed in this {@link CustomBaseTransientBottomBar}.
+   * Set the action to be displayed in this {@link BaseTransientBottomBar}.
    *
    * @param resId String resource to display for the action
    * @param listener callback to be invoked when the action is clicked
@@ -293,7 +293,7 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   }
 
   /**
-   * Set the action to be displayed in this {@link CustomBaseTransientBottomBar}.
+   * Set the action to be displayed in this {@link BaseTransientBottomBar}.
    *
    * @param text Text to display for the action
    * @param listener callback to be invoked when the action is clicked
@@ -327,7 +327,7 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
   public int getDuration() {
     // If touch exploration is enabled override duration to give people chance to interact.
     return hasAction && accessibilityManager.isTouchExplorationEnabled()
-        ? CustomBaseTransientBottomBar.LENGTH_INDEFINITE
+        ? BaseTransientBottomBar.LENGTH_INDEFINITE
         : super.getDuration();
   }
 
@@ -385,10 +385,10 @@ public final class Lunchbar extends CustomBaseTransientBottomBar<Lunchbar> {
 
   /**
    * @hide Note: this class is here to provide backwards-compatible way for apps written before the
-   *     existence of the base {@link CustomBaseTransientBottomBar} class.
+   *     existence of the base {@link BaseTransientBottomBar} class.
    */
   @RestrictTo(LIBRARY_GROUP)
-  public static final class SnackbarLayout extends CustomBaseTransientBottomBar.SnackbarBaseLayout {
+  public static final class SnackbarLayout extends BaseTransientBottomBar.SnackbarBaseLayout {
     public SnackbarLayout(Context context) {
       super(context);
     }
