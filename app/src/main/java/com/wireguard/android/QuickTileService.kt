@@ -126,8 +126,8 @@ class QuickTileService : TileService() {
         val state: Int
         val tile = qsTile
         if (tunnel != null) {
-            label = tunnel!!.name
-            state = if (tunnel!!.state == Tunnel.State.UP) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+            label = tunnel!!.getName()
+            state = if (tunnel!!.getState() == Tunnel.State.UP) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
             state = Tile.STATE_INACTIVE

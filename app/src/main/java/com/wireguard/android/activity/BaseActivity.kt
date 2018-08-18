@@ -56,7 +56,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         if (this.selectedTunnel != null)
-            outState!!.putString(KEY_SELECTED_TUNNEL, this.selectedTunnel!!.name)
+            outState!!.putString(KEY_SELECTED_TUNNEL, this.selectedTunnel!!.getName())
         super.onSaveInstanceState(outState)
     }
 

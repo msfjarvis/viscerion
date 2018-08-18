@@ -67,7 +67,7 @@ public final class TunnelManager extends BaseObservable {
     }
 
     public CompletionStage<Tunnel> create(final String name, @Nullable final Config config) {
-        if (Tunnel.isNameInvalid(name))
+        if (Tunnel.Companion.isNameInvalid(name))
             return CompletableFuture.failedFuture(new IllegalArgumentException(context.getString(R.string.tunnel_error_invalid_name)));
         if (tunnels.containsKey(name)) {
             final String message = context.getString(R.string.tunnel_error_already_exists, name);
@@ -215,7 +215,7 @@ public final class TunnelManager extends BaseObservable {
     }
 
     CompletionStage<String> setTunnelName(final Tunnel tunnel, final String name) {
-        if (Tunnel.isNameInvalid(name))
+        if (Tunnel.Companion.isNameInvalid(name))
             return CompletableFuture.failedFuture(new IllegalArgumentException(context.getString(R.string.tunnel_error_invalid_name)));
         if (tunnels.containsKey(name)) {
             final String message = context.getString(R.string.tunnel_error_already_exists, name);

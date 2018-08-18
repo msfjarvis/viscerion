@@ -52,14 +52,14 @@ class WgQuickBackend(context: Context) : Backend {
 
     @Throws(Exception::class)
     override fun applyConfig(tunnel: Tunnel?, config: Config?): Config? {
-        if (tunnel?.state == State.UP) {
+        if (tunnel?.getState() == State.UP) {
             // Restart the tunnel to apply the new config.
-            setStateInternal(tunnel, tunnel.config, State.DOWN)
+            setStateInternal(tunnel, tunnel.getConfig(), State.DOWN)
             try {
                 setStateInternal(tunnel, config, State.UP)
             } catch (e: Exception) {
                 // The new configuration didn't work, so try to go back to the old one.
-                setStateInternal(tunnel, tunnel.config, State.UP)
+                setStateInternal(tunnel, tunnel.getConfig(), State.UP)
                 throw e
             }
 
@@ -84,7 +84,7 @@ class WgQuickBackend(context: Context) : Backend {
     }
 
     override fun getState(tunnel: Tunnel?): State? {
-        return if (enumerate().contains(tunnel?.name)) State.UP else State.DOWN
+        return if (enumerate().contains(tunnel?.getName())) State.UP else State.DOWN
     }
 
     override fun getStatistics(tunnel: Tunnel?): Statistics? {
@@ -99,9 +99,9 @@ class WgQuickBackend(context: Context) : Backend {
             stateToSet = if (originalState == State.UP) State.DOWN else State.UP
         if (stateToSet == originalState)
             return originalState
-        Log.d(TAG, "Changing tunnel " + tunnel?.name + " to state " + stateToSet)
+        Log.d(TAG, "Changing tunnel " + tunnel?.getName() + " to state " + stateToSet)
         Application.getToolsInstaller().ensureToolsAvailable()
-        setStateInternal(tunnel, tunnel?.config, stateToSet)
+        setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
         return getState(tunnel)
     }
 
@@ -109,7 +109,7 @@ class WgQuickBackend(context: Context) : Backend {
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: State?) {
         Objects.requireNonNull<Config>(config, "Trying to set state with a null config")
 
-        val tempFile = File(localTemporaryDir, tunnel?.name + ".conf")
+        val tempFile = File(localTemporaryDir, tunnel?.getName() + ".conf")
         FileOutputStream(tempFile, false).use { stream -> stream.write(config!!.toString().toByteArray(StandardCharsets.UTF_8)) }
         var command = String.format("wg-quick %s '%s'",
                 state.toString().toLowerCase(), tempFile.absolutePath)
@@ -132,7 +132,7 @@ class WgQuickBackend(context: Context) : Backend {
             val builder = NotificationCompat.Builder(cachedContext,
                     TunnelManager.NOTIFICATION_CHANNEL_ID)
             builder.setContentTitle(cachedContext.getString(R.string.notification_channel_wgquick_title))
-                    .setContentText(tunnel?.name)
+                    .setContentText(tunnel?.getName())
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
                     .setPriority(Notification.FLAG_ONGOING_EVENT)
