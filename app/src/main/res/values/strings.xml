@@ -23,7 +23,7 @@
     <string name="add_peer">Add peer</string>
     <string name="addresses">Addresses</string>
     <string name="allowed_ips">Allowed IPs</string>
-    <string name="app_name">WireGuard</string>
+    <string name="app_name" translatable="false">WireGuard-KT</string>
     <string name="cancel">Cancel</string>
     <string name="config_save_error">Unable to save configuration for “%s”: %s</string>
     <string name="config_save_success">Successfully saved configuration for “%s”</string>
