@@ -15,6 +15,7 @@ import androidx.databinding.Bindable;
 import com.wireguard.android.Application;
 import com.wireguard.android.BR;
 import com.wireguard.android.R;
+import com.wireguard.android.model.GlobalExclusions;
 import com.wireguard.crypto.Keypair;
 
 import java.net.InetAddress;
@@ -39,7 +40,7 @@ public class Interface {
     public Interface() {
         addressList = new ArrayList<>();
         dnsList = new ArrayList<>();
-        excludedApplications = new ArrayList<>();
+        excludedApplications = new ArrayList<>(Arrays.asList(Attribute.stringToList(GlobalExclusions.Companion.getExclusions())));
     }
 
     private void addAddresses(@Nullable final String[] addresses) {

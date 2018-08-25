@@ -108,6 +108,7 @@ class AppListDialogFragment : DialogFragment() {
         }
 
         (targetFragment as AppExclusionListener).onExcludedAppsSelected(excludedApps)
+        Toast.makeText(context, getString(R.string.applist_dialog_success), Toast.LENGTH_SHORT).show()
         dismiss()
     }
 

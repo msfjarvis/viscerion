@@ -17,6 +17,9 @@ import androidx.preference.PreferenceFragmentCompat
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
+import com.wireguard.android.fragment.AppListDialogFragment
+import com.wireguard.android.model.GlobalExclusions
+import com.wireguard.config.Attribute
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -79,7 +82,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
     }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
+    class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
             val wgQuickOnlyPrefs = arrayOf(
@@ -97,6 +100,16 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                         screen.removePreference(pref)
                 }
             }
+            preferenceManager.findPreference("global_exclusions").setOnPreferenceClickListener {
+                val excludedApps = Attribute.stringToList(GlobalExclusions.exclusions)
+                val fragment = AppListDialogFragment.newInstance(excludedApps, this)
+                fragment.show(fragmentManager, null)
+                true
+            }
+        }
+
+        override fun onExcludedAppsSelected(excludedApps: List<String>) {
+            GlobalExclusions.exclusions = Attribute.iterableToString(excludedApps)
         }
     }
 }

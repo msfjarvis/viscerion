@@ -9,6 +9,7 @@ package com.wireguard.android.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -136,7 +137,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = TunnelEditorFragmentBinding.inflate(inflater, container, false);
@@ -218,7 +219,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         outState.putParcelable(KEY_LOCAL_CONFIG, binding.getConfig());
         outState.putString(KEY_ORIGINAL_NAME, tunnel == null ? null : tunnel.getName());
         super.onSaveInstanceState(outState);
@@ -304,7 +305,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
     }
 
     @Override
-    public void onExcludedAppsSelected(final List<String> excludedApps) {
+    public void onExcludedAppsSelected(@NonNull final List<String> excludedApps) {
         Objects.requireNonNull(binding, "Tried to set excluded apps while no view was loaded");
         binding.getConfig().getInterfaceSection().setExcludedApplications(Attribute.iterableToString(excludedApps));
     }
