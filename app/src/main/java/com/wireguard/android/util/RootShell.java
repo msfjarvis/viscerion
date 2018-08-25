@@ -8,21 +8,14 @@ package com.wireguard.android.util;
 
 import android.content.Context;
 import android.util.Log;
-
+import androidx.annotation.Nullable;
 import com.wireguard.android.BuildConfig;
 import com.wireguard.android.R;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.UUID;
-
-import androidx.annotation.Nullable;
 
 /**
  * Helper class for running commands as root.
@@ -37,10 +30,14 @@ public class RootShell {
     private final File localTemporaryDir;
     private final Object lock = new Object();
     private final String preamble;
-    @Nullable private Process process;
-    @Nullable private BufferedReader stderr;
-    @Nullable private OutputStreamWriter stdin;
-    @Nullable private BufferedReader stdout;
+    @Nullable
+    private Process process;
+    @Nullable
+    private BufferedReader stderr;
+    @Nullable
+    private OutputStreamWriter stdin;
+    @Nullable
+    private BufferedReader stdout;
 
     public RootShell(final Context context) {
         deviceNotRootedMessage = context.getString(R.string.error_root);

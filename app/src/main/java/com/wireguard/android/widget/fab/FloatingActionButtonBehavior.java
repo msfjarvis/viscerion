@@ -9,11 +9,9 @@ package com.wireguard.android.widget.fab;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.snackbar.Snackbar;
 
 public class FloatingActionButtonBehavior extends CoordinatorLayout.Behavior<FloatingActionsMenu> {
     public FloatingActionButtonBehavior(final Context context, final AttributeSet attrs) {

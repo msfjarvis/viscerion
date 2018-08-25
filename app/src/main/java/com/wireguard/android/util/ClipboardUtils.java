@@ -11,7 +11,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.android.material.snackbar.Lunchbar;
 
 /**

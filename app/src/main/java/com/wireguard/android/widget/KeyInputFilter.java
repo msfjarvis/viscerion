@@ -9,10 +9,8 @@ package com.wireguard.android.widget;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-
-import com.wireguard.crypto.KeyEncoding;
-
 import androidx.annotation.Nullable;
+import com.wireguard.crypto.KeyEncoding;
 
 /**
  * InputFilter for entering WireGuard private/public keys encoded with base64.
@@ -27,7 +25,8 @@ public class KeyInputFilter implements InputFilter {
         return new KeyInputFilter();
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public CharSequence filter(final CharSequence source,
                                final int sStart, final int sEnd,
                                final Spanned dest,

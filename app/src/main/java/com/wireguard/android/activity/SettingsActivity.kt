@@ -17,7 +17,8 @@ import androidx.preference.PreferenceFragmentCompat
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
 
 /**
  * Interface for changing application-global persistent settings.
@@ -41,16 +42,18 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
         val idx = permissionRequestCounter++
         permissionRequestCallbacks.put(idx, cb)
-        ActivityCompat.requestPermissions(this,
-                needPermissions.toTypedArray(), idx)
+        ActivityCompat.requestPermissions(
+            this,
+            needPermissions.toTypedArray(), idx
+        )
     }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
             supportFragmentManager.beginTransaction()
-                    .add(android.R.id.content, SettingsFragment())
-                    .commit()
+                .add(android.R.id.content, SettingsFragment())
+                .commit()
         }
     }
 
@@ -64,9 +67,11 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         val f = permissionRequestCallbacks.get(requestCode)
         if (f != null) {
             permissionRequestCallbacks.remove(requestCode)
@@ -77,8 +82,10 @@ class SettingsActivity : ThemeChangeAwareActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
-            val wgQuickOnlyPrefs = arrayOf(preferenceManager.findPreference("tools_installer"),
-                    preferenceManager.findPreference("restore_on_boot"))
+            val wgQuickOnlyPrefs = arrayOf(
+                preferenceManager.findPreference("tools_installer"),
+                preferenceManager.findPreference("restore_on_boot")
+            )
             for (pref in wgQuickOnlyPrefs)
                 pref.isVisible = false
             val screen = preferenceScreen

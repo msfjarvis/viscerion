@@ -9,17 +9,13 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
-
-import com.wireguard.android.Application
-
-import java.lang.reflect.Field
-
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.wireguard.android.Application
+import java.lang.reflect.Field
 
 abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
-
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +31,11 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
         if ("dark_theme" == key) {
             val darkMode = sharedPreferences.getBoolean(key, false)
             AppCompatDelegate.setDefaultNightMode(
-                    if (sharedPreferences.getBoolean(key, false))
-                        AppCompatDelegate.MODE_NIGHT_YES
-                    else
-                        AppCompatDelegate.MODE_NIGHT_NO)
+                if (sharedPreferences.getBoolean(key, false))
+                    AppCompatDelegate.MODE_NIGHT_YES
+                else
+                    AppCompatDelegate.MODE_NIGHT_NO
+            )
             invalidateDrawableCache(resources, darkMode)
             recreate()
         }
@@ -73,7 +70,6 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
                 } catch (ignored: Exception) {
                     o.javaClass.getMethod("clear").invoke(o)
                 }
-
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to flush drawable cache", e)
             }

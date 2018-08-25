@@ -11,19 +11,17 @@ package com.wireguard.android.databinding
 import android.text.InputFilter
 import android.widget.LinearLayout
 import android.widget.TextView
-
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableList
+import androidx.databinding.adapters.ListenerUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler
 import com.wireguard.android.util.ObservableKeyedList
 import com.wireguard.android.widget.ToggleSwitch
 import com.wireguard.android.widget.ToggleSwitch.OnBeforeCheckedChangeListener
 import com.wireguard.util.Keyed
-
-import androidx.databinding.BindingAdapter
-import androidx.databinding.ObservableList
-import androidx.databinding.adapters.ListenerUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Static methods for use by generated code in the Android data binding library.
@@ -49,7 +47,8 @@ fun <E> setItems(
 ) {
     if (oldList === newList && oldLayoutId == newLayoutId)
         return
-    var listener: ItemChangeListener<E>? = ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
+    var listener: ItemChangeListener<E>? =
+        ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
     // If the layout changes, any existing listener must be replaced.
     if (listener != null && oldList != null && oldLayoutId != newLayoutId) {
         listener.setList(null)

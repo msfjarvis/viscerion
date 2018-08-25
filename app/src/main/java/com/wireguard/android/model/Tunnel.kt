@@ -6,27 +6,26 @@
 
 package com.wireguard.android.model
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.config.Config
 import com.wireguard.util.Keyed
-
-import java.util.regex.Pattern
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import java.util.regex.Pattern
 
 /**
  * Encapsulates the volatile and nonvolatile state of a WireGuard tunnel.
  */
 
 class Tunnel internal constructor(
-        private val manager: TunnelManager,
-        private var name: String,
-        private var config: Config?,
-        private var state: State)
-    : BaseObservable(), Keyed<String> {
+    private val manager: TunnelManager,
+    private var name: String,
+    private var config: Config?,
+    private var state: State
+) : BaseObservable(), Keyed<String> {
 
     private var statistics: Statistics? = null
 
@@ -38,7 +37,9 @@ class Tunnel internal constructor(
 
     // FIXME: Check age of statistics.
     val statisticsAsync: CompletionStage<Statistics>
-        get() = if (statistics == null) TunnelManager.getTunnelStatistics(this) else CompletableFuture.completedFuture(statistics)
+        get() = if (statistics == null) TunnelManager.getTunnelStatistics(this) else CompletableFuture.completedFuture(
+            statistics
+        )
 
     fun delete(): CompletionStage<Void> {
         return manager.delete(this)
@@ -100,15 +101,23 @@ class Tunnel internal constructor(
     }
 
     fun setConfig(config: Config): CompletionStage<Config> {
-        return if (config != this.config) manager.setTunnelConfig(this, config) else CompletableFuture.completedFuture(this.config)
+        return if (config != this.config) manager.setTunnelConfig(this, config) else CompletableFuture.completedFuture(
+            this.config
+        )
     }
 
     fun setName(name: String): CompletionStage<String> {
-        return if (name != this.name) manager.setTunnelName(this, name) else CompletableFuture.completedFuture(this.name)
+        return if (name != this.name) manager.setTunnelName(
+            this,
+            name
+        ) else CompletableFuture.completedFuture(this.name)
     }
 
     fun setState(state: State): CompletionStage<State> {
-        return if (state != this.state) manager.setTunnelState(this, state) else CompletableFuture.completedFuture(this.state)
+        return if (state != this.state) manager.setTunnelState(
+            this,
+            state
+        ) else CompletableFuture.completedFuture(this.state)
     }
 
     enum class State {

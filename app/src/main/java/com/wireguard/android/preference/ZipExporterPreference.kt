@@ -26,7 +26,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.ArrayList
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -51,31 +51,31 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             return
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
-                .whenComplete { _, exception ->
-                    Application.getAsyncWorker().supplyAsync {
-                        if (exception != null)
-                            throw exception
-                        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        val file = File(path, "wireguard-export.zip")
-                        if (!path.isDirectory && !path.mkdirs())
-                            throw IOException("Cannot create output directory")
-                        try {
-                            ZipOutputStream(FileOutputStream(file)).use { zip ->
-                                for (i in futureConfigs.indices) {
-                                    zip.putNextEntry(ZipEntry(tunnels[i].getName() + ".conf"))
-                                    zip.write(futureConfigs[i].getNow(null).toString().toByteArray(StandardCharsets.UTF_8))
-                                }
-                                zip.closeEntry()
+            .whenComplete { _, exception ->
+                Application.getAsyncWorker().supplyAsync {
+                    if (exception != null)
+                        throw exception
+                    val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    val file = File(path, "wireguard-export.zip")
+                    if (!path.isDirectory && !path.mkdirs())
+                        throw IOException("Cannot create output directory")
+                    try {
+                        ZipOutputStream(FileOutputStream(file)).use { zip ->
+                            for (i in futureConfigs.indices) {
+                                zip.putNextEntry(ZipEntry(tunnels[i].getName() + ".conf"))
+                                zip.write(futureConfigs[i].getNow(null).toString().toByteArray(StandardCharsets.UTF_8))
                             }
-                        } catch (e: Exception) {
-
-                            file.delete()
-                            throw e
+                            zip.closeEntry()
                         }
+                    } catch (e: Exception) {
 
-                        file.absolutePath
-                    }.whenComplete { filePath, throwable -> this.exportZipComplete(filePath, throwable) }
-                }
+                        file.delete()
+                        throw e
+                    }
+
+                    file.absolutePath
+                }.whenComplete { filePath, throwable -> this.exportZipComplete(filePath, throwable) }
+            }
     }
 
     private fun exportZipComplete(filePath: String?, throwable: Throwable?) {
@@ -84,8 +84,9 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val message = context.getString(R.string.zip_export_error, error)
             Log.e(TAG, message, throwable)
             Lunchbar.make(
-                    FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
-                    message, Lunchbar.LENGTH_LONG).show()
+                FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
+                message, Lunchbar.LENGTH_LONG
+            ).show()
             isEnabled = true
         } else {
             exportedFilePath = filePath
@@ -106,7 +107,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
 
     override fun onClick() {
         FragmentUtils.getPrefActivity(this)!!.ensurePermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {
                 isEnabled = false
@@ -118,5 +119,4 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     companion object {
         private val TAG = "WireGuard/" + ZipExporterPreference::class.java.simpleName
     }
-
 }

@@ -6,11 +6,7 @@
 
 package com.wireguard.android.widget.fab;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
+import android.animation.*;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -28,14 +24,12 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.wireguard.android.R;
-
 import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.res.ResourcesCompat;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wireguard.android.R;
 
 public class FloatingActionsMenu extends ViewGroup {
     public static final int EXPAND_UP = 0;
@@ -52,23 +46,28 @@ public class FloatingActionsMenu extends ViewGroup {
     private static final TimeInterpolator EXPAND_INTERPOLATOR = new OvershootInterpolator();
     private static final TimeInterpolator COLLAPSE_INTERPOLATOR = new DecelerateInterpolator(3f);
     private static final TimeInterpolator ALPHA_EXPAND_INTERPOLATOR = new DecelerateInterpolator();
+    private static final boolean BROKEN_LABEL_STYLE = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.BRAND.equals("ASUS");
+    private final AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
+    private final AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
+    private final Rect touchArea = new Rect(0, 0, 0, 0);
     private int mExpandDirection;
     private int mButtonSpacing;
     private int mLabelsMargin;
     private int mLabelsVerticalOffset;
     private boolean mExpanded;
-    private final AnimatorSet mExpandAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
-    private final AnimatorSet mCollapseAnimation = new AnimatorSet().setDuration(ANIMATION_DURATION);
-    @Nullable private FloatingActionButton mAddButton;
-    @Nullable private RotatingDrawable mRotatingDrawable;
+    @Nullable
+    private FloatingActionButton mAddButton;
+    @Nullable
+    private RotatingDrawable mRotatingDrawable;
     private int mMaxButtonWidth;
     private int mMaxButtonHeight;
     private int mLabelsStyle;
     private int mLabelsPosition;
     private int mButtonsCount;
-    @Nullable private TouchDelegateGroup mTouchDelegateGroup;
-    @Nullable private OnFloatingActionsMenuUpdateListener mListener;
-    private final Rect touchArea = new Rect(0, 0, 0, 0);
+    @Nullable
+    private TouchDelegateGroup mTouchDelegateGroup;
+    @Nullable
+    private OnFloatingActionsMenuUpdateListener mListener;
     private float scrollYTranslation;
     private float behaviorYTranslation;
 
@@ -84,6 +83,10 @@ public class FloatingActionsMenu extends ViewGroup {
     public FloatingActionsMenu(final Context context, @Nullable final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
+    }
+
+    private static int adjustForOvershoot(final int dimension) {
+        return dimension * 12 / 10;
     }
 
     private void init(final Context context, @Nullable final AttributeSet attributeSet) {
@@ -232,10 +235,6 @@ public class FloatingActionsMenu extends ViewGroup {
         }
 
         setMeasuredDimension(width, height);
-    }
-
-    private static int adjustForOvershoot(final int dimension) {
-        return dimension * 12 / 10;
     }
 
     @Override
@@ -393,8 +392,6 @@ public class FloatingActionsMenu extends ViewGroup {
             createLabels();
         }
     }
-
-    private static final boolean BROKEN_LABEL_STYLE = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.BRAND.equals("ASUS");
 
     private void createLabels() {
         final Context context = BROKEN_LABEL_STYLE ? getContext() : new ContextThemeWrapper(getContext(), mLabelsStyle);

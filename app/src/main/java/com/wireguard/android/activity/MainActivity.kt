@@ -13,18 +13,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-
+import androidx.annotation.Nullable
+import androidx.appcompat.app.ActionBar
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
-
-import androidx.annotation.Nullable
-import androidx.appcompat.app.ActionBar
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -85,7 +83,8 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity, menu)
-        menu.findItem(R.id.menu_theme_change).isChecked = Application.getSharedPreferences().getBoolean("dark_theme", true)
+        menu.findItem(R.id.menu_theme_change).isChecked =
+            Application.getSharedPreferences().getBoolean("dark_theme", true)
         return true
     }
 
@@ -98,10 +97,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             }
             R.id.menu_action_edit -> {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.detail_container, TunnelEditorFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .addToBackStack(null)
-                        .commit()
+                    .replace(R.id.detail_container, TunnelEditorFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit()
                 return true
             }
             R.id.menu_action_save ->
@@ -120,8 +119,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         }
     }
 
-    override fun onSelectedTunnelChanged(@Nullable oldTunnel: Tunnel?,
-                                         @Nullable newTunnel: Tunnel?) {
+    override fun onSelectedTunnelChanged(
+        @Nullable oldTunnel: Tunnel?,
+        @Nullable newTunnel: Tunnel?
+    ) {
         val fragmentManager = supportFragmentManager
         val backStackEntries = fragmentManager.backStackEntryCount
         if (newTunnel == null) {
@@ -136,10 +137,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         } else if (backStackEntries == 0) {
             // Create and show a new detail fragment.
             fragmentManager.beginTransaction()
-                    .add(R.id.detail_container, TunnelDetailFragment())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null)
-                    .commit()
+                .add(R.id.detail_container, TunnelDetailFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

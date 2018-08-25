@@ -9,14 +9,12 @@ package com.wireguard.android.databinding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.wireguard.android.BR
-
-import java.lang.ref.WeakReference
-import java.util.Objects
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
+import com.wireguard.android.BR
+import java.lang.ref.WeakReference
+import java.util.Objects
 
 /**
  * Helper class for binding an ObservableList to the children of a ViewGroup.
@@ -71,7 +69,8 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
         }
 
         override fun onItemRangeChanged(
-            sender: ObservableList<T>, positionStart: Int,
+            sender: ObservableList<T>,
+            positionStart: Int,
             itemCount: Int
         ) {
             val listener = weakListener.get()
@@ -87,7 +86,8 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
         }
 
         override fun onItemRangeInserted(
-            sender: ObservableList<T>, positionStart: Int,
+            sender: ObservableList<T>,
+            positionStart: Int,
             itemCount: Int
         ) {
             val listener = weakListener.get()
@@ -100,8 +100,10 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
         }
 
         override fun onItemRangeMoved(
-            sender: ObservableList<T>, fromPosition: Int,
-            toPosition: Int, itemCount: Int
+            sender: ObservableList<T>,
+            fromPosition: Int,
+            toPosition: Int,
+            itemCount: Int
         ) {
             val listener = weakListener.get()
             if (listener != null) {
@@ -117,7 +119,8 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
         }
 
         override fun onItemRangeRemoved(
-            sender: ObservableList<T>, positionStart: Int,
+            sender: ObservableList<T>,
+            positionStart: Int,
             itemCount: Int
         ) {
             val listener = weakListener.get()

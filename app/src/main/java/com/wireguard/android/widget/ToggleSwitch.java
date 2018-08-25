@@ -9,12 +9,12 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.Switch;
-
 import androidx.annotation.Nullable;
 
 public class ToggleSwitch extends Switch {
     private boolean isRestoringState;
-    @Nullable private OnBeforeCheckedChangeListener listener;
+    @Nullable
+    private OnBeforeCheckedChangeListener listener;
 
     public ToggleSwitch(final Context context) {
         this(context, null);

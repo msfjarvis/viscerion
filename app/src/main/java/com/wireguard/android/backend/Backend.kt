@@ -59,7 +59,7 @@ interface Backend {
      * Set the state of a tunnel.
      *
      * @param tunnel The tunnel to control the state of.
-     * @param state  The new state for this tunnel. Must be `UP`, `DOWN`, or
+     * @param state The new state for this tunnel. Must be `UP`, `DOWN`, or
      * `TOGGLE`.
      * @return The updated state of the tunnel.
      */
@@ -81,5 +81,4 @@ interface Backend {
      * @return Type name
      */
     fun getTypeName(): String
-
 }

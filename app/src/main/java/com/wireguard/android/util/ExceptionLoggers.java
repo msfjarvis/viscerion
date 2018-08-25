@@ -7,7 +7,6 @@
 package com.wireguard.android.util;
 
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import java9.util.concurrent.CompletionException;
 import java9.util.function.BiConsumer;

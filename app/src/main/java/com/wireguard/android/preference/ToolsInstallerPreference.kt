@@ -33,7 +33,7 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
         super.onAttached()
         Application.getAsyncWorker().supplyAsync<Int>
         { Application.getToolsInstaller().areInstalled() }
-                .whenComplete { state, throwable -> this.onCheckResult(state, throwable) }
+            .whenComplete { state, throwable -> this.onCheckResult(state, throwable) }
     }
 
     private fun onCheckResult(state: Int, throwable: Throwable?) {
@@ -53,14 +53,18 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
         setState(State.WORKING)
         Application.getAsyncWorker().supplyAsync<Int>
         { Application.getToolsInstaller().install() }
-                .whenComplete { result, throwable -> this.onInstallResult(result, throwable) }
+            .whenComplete { result, throwable -> this.onInstallResult(result, throwable) }
     }
 
     private fun onInstallResult(result: Int?, throwable: Throwable?) {
         when {
             throwable != null -> setState(State.FAILURE)
-            result!! and((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(State.SUCCESS_MAGISK)
-            result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == ToolsInstaller.YES or ToolsInstaller.SYSTEM -> setState(State.SUCCESS_SYSTEM)
+            result!! and ((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
+                State.SUCCESS_MAGISK
+            )
+            result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == ToolsInstaller.YES or ToolsInstaller.SYSTEM -> setState(
+                State.SUCCESS_SYSTEM
+            )
             else -> setState(State.FAILURE)
         }
     }

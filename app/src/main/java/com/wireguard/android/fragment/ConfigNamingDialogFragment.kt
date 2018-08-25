@@ -11,16 +11,14 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
 import com.wireguard.config.Config
-
 import java.io.IOException
 import java.util.Objects
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 
 class ConfigNamingDialogFragment : DialogFragment() {
 
@@ -36,7 +34,6 @@ class ConfigNamingDialogFragment : DialogFragment() {
         } catch (exception: IOException) {
             throw RuntimeException("Invalid config passed to " + javaClass.simpleName, exception)
         }
-
     }
 
     override fun onResume() {
@@ -107,5 +104,4 @@ class ConfigNamingDialogFragment : DialogFragment() {
             return fragment
         }
     }
-
 }

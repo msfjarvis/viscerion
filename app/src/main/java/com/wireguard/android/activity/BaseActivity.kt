@@ -48,7 +48,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
 
         if (savedTunnelName != null)
             Application.getTunnelManager().tunnels
-                    .thenAccept { tunnels -> selectedTunnel = tunnels.get(savedTunnelName) }
+                .thenAccept { tunnels -> selectedTunnel = tunnels.get(savedTunnelName) }
 
         // The selected tunnel must be set before the superclass method recreates fragments.
         super.onCreate(savedInstanceState)
@@ -63,7 +63,8 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
     protected abstract fun onSelectedTunnelChanged(@Nullable oldTunnel: Tunnel?, @Nullable newTunnel: Tunnel?)
 
     fun removeOnSelectedTunnelChangedListener(
-            listener: OnSelectedTunnelChangedListener) {
+        listener: OnSelectedTunnelChangedListener
+    ) {
         selectionChangeRegistry.remove(listener)
     }
 
@@ -72,14 +73,18 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
     }
 
     private class SelectionChangeNotifier : NotifierCallback<OnSelectedTunnelChangedListener, Tunnel, Tunnel>() {
-        override fun onNotifyCallback(listener: OnSelectedTunnelChangedListener,
-                                      oldTunnel: Tunnel?, ignored: Int,
-                                      newTunnel: Tunnel?) {
+        override fun onNotifyCallback(
+            listener: OnSelectedTunnelChangedListener,
+            oldTunnel: Tunnel?,
+            ignored: Int,
+            newTunnel: Tunnel?
+        ) {
             listener.onSelectedTunnelChanged(oldTunnel, newTunnel)
         }
     }
 
-    private class SelectionChangeRegistry : CallbackRegistry<OnSelectedTunnelChangedListener, Tunnel, Tunnel>(SelectionChangeNotifier())
+    private class SelectionChangeRegistry :
+        CallbackRegistry<OnSelectedTunnelChangedListener, Tunnel, Tunnel>(SelectionChangeNotifier())
 
     companion object {
         private const val KEY_SELECTED_TUNNEL = "selected_tunnel"

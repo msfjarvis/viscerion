@@ -9,19 +9,17 @@ package com.wireguard.android.databinding;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.wireguard.android.BR;
-import com.wireguard.android.util.ObservableKeyedList;
-import com.wireguard.util.Keyed;
-
-import java.lang.ref.WeakReference;
-
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableList;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
+import com.wireguard.android.BR;
+import com.wireguard.android.util.ObservableKeyedList;
+import com.wireguard.util.Keyed;
+
+import java.lang.ref.WeakReference;
 
 /**
  * A generic {@code RecyclerView.Adapter} backed by a {@code ObservableKeyedList}.
@@ -32,8 +30,10 @@ public class ObservableKeyedRecyclerViewAdapter<K, E extends Keyed<? extends K>>
     private final OnListChangedCallback<E> callback = new OnListChangedCallback<>(this);
     private final int layoutId;
     private final LayoutInflater layoutInflater;
-    @Nullable private ObservableKeyedList<K, E> list;
-    @Nullable private RowConfigurationHandler rowConfigurationHandler;
+    @Nullable
+    private ObservableKeyedList<K, E> list;
+    @Nullable
+    private RowConfigurationHandler rowConfigurationHandler;
 
     ObservableKeyedRecyclerViewAdapter(final Context context, final int layoutId,
                                        final ObservableKeyedList<K, E> list) {
@@ -101,6 +101,10 @@ public class ObservableKeyedRecyclerViewAdapter<K, E extends Keyed<? extends K>>
         this.rowConfigurationHandler = rowConfigurationHandler;
     }
 
+    public interface RowConfigurationHandler<B extends ViewDataBinding, T> {
+        void onConfigureRow(B binding, T item, int position);
+    }
+
     private static final class OnListChangedCallback<E extends Keyed<?>>
             extends ObservableList.OnListChangedCallback<ObservableList<E>> {
 
@@ -152,10 +156,6 @@ public class ObservableKeyedRecyclerViewAdapter<K, E extends Keyed<? extends K>>
 
             this.binding = binding;
         }
-    }
-
-    public interface RowConfigurationHandler<B extends ViewDataBinding, T> {
-        void onConfigureRow(B binding, T item, int position);
     }
 
 }

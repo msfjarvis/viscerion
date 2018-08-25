@@ -7,11 +7,9 @@
 package com.wireguard.android.activity
 
 import android.os.Bundle
-
+import androidx.annotation.Nullable
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.model.Tunnel
-
-import androidx.annotation.Nullable
 
 /**
  * Standalone activity for creating tunnels.
@@ -22,8 +20,8 @@ class TunnelCreatorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
             supportFragmentManager.beginTransaction()
-                    .add(android.R.id.content, TunnelEditorFragment())
-                    .commit()
+                .add(android.R.id.content, TunnelEditorFragment())
+                .commit()
         }
     }
 

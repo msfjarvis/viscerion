@@ -10,21 +10,12 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.*;
 import android.graphics.Path.Direction;
-import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.FloatProperty;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
@@ -34,29 +25,38 @@ public class SlashDrawable extends Drawable {
 
     private static final float CORNER_RADIUS = Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? 0f : 1f;
     private static final long QS_ANIM_LENGTH = 350;
-
-    private final Path mPath = new Path();
-    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
     // These values are derived in un-rotated (vertical) orientation
     private static final float SLASH_WIDTH = 1.8384776f;
     private static final float SLASH_HEIGHT = 28f;
     private static final float CENTER_X = 10.65f;
     private static final float CENTER_Y = 11.869239f;
     private static final float SCALE = 24f;
-
     // Bottom is derived during animation
     private static final float LEFT = (CENTER_X - (SLASH_WIDTH / 2)) / SCALE;
     private static final float TOP = (CENTER_Y - (SLASH_HEIGHT / 2)) / SCALE;
     private static final float RIGHT = (CENTER_X + (SLASH_WIDTH / 2)) / SCALE;
     // Draw the slash washington-monument style; rotate to no-u-turn style
     private static final float DEFAULT_ROTATION = -45f;
+    private static final FloatProperty mSlashLengthProp = new FloatProperty<SlashDrawable>("slashLength") {
+        @Override
+        public void setValue(final SlashDrawable object, final float value) {
+            object.mCurrentSlashLength = value;
+        }
 
+        @Override
+        public Float get(final SlashDrawable object) {
+            return object.mCurrentSlashLength;
+        }
+    };
+    private final Path mPath = new Path();
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Drawable mDrawable;
     private final RectF mSlashRect = new RectF(0, 0, 0, 0);
     private float mRotation;
     private boolean mSlashed;
     private boolean mAnimationEnabled = true;
+    // Animate this value on change
+    private float mCurrentSlashLength;
 
     public SlashDrawable(final Drawable d) {
         mDrawable = d;
@@ -88,20 +88,6 @@ public class SlashDrawable extends Drawable {
     public void setAnimationEnabled(final boolean enabled) {
         mAnimationEnabled = enabled;
     }
-
-    // Animate this value on change
-    private float mCurrentSlashLength;
-    private static final FloatProperty mSlashLengthProp = new FloatProperty<SlashDrawable>("slashLength") {
-        @Override
-        public void setValue(final SlashDrawable object, final float value) {
-            object.mCurrentSlashLength = value;
-        }
-
-        @Override
-        public Float get(final SlashDrawable object) {
-            return object.mCurrentSlashLength;
-        }
-    };
 
     @SuppressWarnings("unchecked")
     public void setSlashed(final boolean slashed) {

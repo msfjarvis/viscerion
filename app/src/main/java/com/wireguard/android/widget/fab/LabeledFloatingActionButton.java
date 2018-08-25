@@ -10,15 +10,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wireguard.android.R;
 
-import androidx.annotation.Nullable;
-
 public class LabeledFloatingActionButton extends FloatingActionButton {
 
-    @Nullable private final String title;
+    @Nullable
+    private final String title;
 
     public LabeledFloatingActionButton(final Context context) {
         this(context, null);

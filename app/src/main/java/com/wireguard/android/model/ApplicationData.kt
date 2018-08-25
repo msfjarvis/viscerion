@@ -7,19 +7,17 @@
 package com.wireguard.android.model
 
 import android.graphics.drawable.Drawable
-
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.util.Keyed
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-
 class ApplicationData(
-        val icon: Drawable,
-        val name: String,
-        val packageName: String,
-        private var excludedFromTunnel: Boolean)
-    : BaseObservable(), Keyed<String> {
+    val icon: Drawable,
+    val name: String,
+    val packageName: String,
+    private var excludedFromTunnel: Boolean
+) : BaseObservable(), Keyed<String> {
 
     var isExcludedFromTunnel: Boolean
         @Bindable

@@ -11,7 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
-
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import com.wireguard.android.Application;
 import com.wireguard.android.activity.MainActivity;
 import com.wireguard.android.model.Tunnel;
@@ -24,6 +25,7 @@ import com.wireguard.config.InetNetwork;
 import com.wireguard.config.Interface;
 import com.wireguard.config.Peer;
 import com.wireguard.crypto.KeyEncoding;
+import java9.util.concurrent.CompletableFuture;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -33,16 +35,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
-import java9.util.concurrent.CompletableFuture;
-
 public final class GoBackend implements Backend {
     private static final String TAG = "WireGuard/" + GoBackend.class.getSimpleName();
     private static CompletableFuture<VpnService> vpnService = new CompletableFuture<>();
 
     private final Context context;
-    @Nullable private Tunnel currentTunnel;
+    @Nullable
+    private Tunnel currentTunnel;
     private int currentTunnelHandle = -1;
 
     public GoBackend(final Context context) {
@@ -61,10 +60,14 @@ public final class GoBackend implements Backend {
     private static native String wgVersion();
 
     @Override
-    public String getVersion() { return wgVersion(); }
+    public String getVersion() {
+        return wgVersion();
+    }
 
     @Override
-    public String getTypeName() { return "Go userspace"; }
+    public String getTypeName() {
+        return "Go userspace";
+    }
 
     @Override
     public Config applyConfig(final Tunnel tunnel, final Config config) throws Exception {

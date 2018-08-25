@@ -52,16 +52,17 @@ class Application : android.app.Application() {
             startActivity(intent)
             System.exit(0)
         }
-
     }
 
-    //TODO: Move back to androidx when possible
+    // TODO: Move back to androidx when possible
     @android.annotation.TargetApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notificationChannel = NotificationChannel(TunnelManager.NOTIFICATION_CHANNEL_ID,
-                getString(R.string.notification_channel_wgquick_title),
-                NotificationManager.IMPORTANCE_DEFAULT)
+        val notificationChannel = NotificationChannel(
+            TunnelManager.NOTIFICATION_CHANNEL_ID,
+            getString(R.string.notification_channel_wgquick_title),
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
         notificationChannel.description = getString(R.string.notification_channel_wgquick_desc)
         notificationManager.createNotificationChannel(notificationChannel)
     }
@@ -74,10 +75,11 @@ class Application : android.app.Application() {
         toolsInstaller = ToolsInstaller(applicationContext)
 
         AppCompatDelegate.setDefaultNightMode(
-                if (sharedPreferences.getBoolean("dark_theme", true))
-                    AppCompatDelegate.MODE_NIGHT_YES
-                else
-                    AppCompatDelegate.MODE_NIGHT_NO)
+            if (sharedPreferences.getBoolean("dark_theme", true))
+                AppCompatDelegate.MODE_NIGHT_YES
+            else
+                AppCompatDelegate.MODE_NIGHT_NO
+        )
 
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
@@ -88,7 +90,6 @@ class Application : android.app.Application() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
-
     }
 
     companion object {
@@ -114,7 +115,6 @@ class Application : android.app.Application() {
                             backend = WgQuickBackend(app.applicationContext)
                         } catch (ignored: Exception) {
                         }
-
                     }
                     if (backend == null)
                         backend = GoBackend(app.applicationContext)

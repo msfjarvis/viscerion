@@ -5,9 +5,9 @@
 
 package com.wireguard.crypto;
 
-import java.util.Arrays;
-
 import androidx.annotation.Nullable;
+
+import java.util.Arrays;
 
 /**
  * Implementation of the Curve25519 elliptic curve algorithm.

@@ -16,12 +16,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.view.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Lunchbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -36,26 +37,15 @@ import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.android.widget.MultiselectableRelativeLayout;
 import com.wireguard.android.widget.fab.FloatingActionsMenuRecyclerViewScrollListener;
 import com.wireguard.config.Config;
+import java9.util.concurrent.CompletableFuture;
+import java9.util.stream.StreamSupport;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java9.util.concurrent.CompletableFuture;
-import java9.util.stream.StreamSupport;
 
 /**
  * Fragment containing a list of known WireGuard tunnels. It allows creating and deleting tunnels.
@@ -66,8 +56,10 @@ public class TunnelListFragment extends BaseFragment {
     private static final String TAG = "WireGuard/" + TunnelListFragment.class.getSimpleName();
 
     private final ActionModeListener actionModeListener = new ActionModeListener();
-    @Nullable private ActionMode actionMode;
-    @Nullable private TunnelListFragmentBinding binding;
+    @Nullable
+    private ActionMode actionMode;
+    @Nullable
+    private TunnelListFragmentBinding binding;
 
     public boolean collapseActionMenu() {
         if (binding != null && binding.createMenu.isExpanded()) {
@@ -262,7 +254,7 @@ public class TunnelListFragment extends BaseFragment {
     }
 
     private MultiselectableRelativeLayout viewForTunnel(final Tunnel tunnel, final List tunnels) {
-        return (MultiselectableRelativeLayout)binding.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)).itemView;
+        return (MultiselectableRelativeLayout) binding.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)).itemView;
     }
 
     @Override
@@ -361,16 +353,17 @@ public class TunnelListFragment extends BaseFragment {
             });
 
             if (actionMode != null)
-                ((MultiselectableRelativeLayout)binding.getRoot()).setMultiSelected(actionModeListener.checkedItems.contains(position));
+                ((MultiselectableRelativeLayout) binding.getRoot()).setMultiSelected(actionModeListener.checkedItems.contains(position));
             else
-                ((MultiselectableRelativeLayout)binding.getRoot()).setSingleSelected(getSelectedTunnel() == tunnel);
+                ((MultiselectableRelativeLayout) binding.getRoot()).setSingleSelected(getSelectedTunnel() == tunnel);
         });
     }
 
     private final class ActionModeListener implements ActionMode.Callback {
         private final Collection<Integer> checkedItems = new HashSet<>();
 
-        @Nullable private Resources resources;
+        @Nullable
+        private Resources resources;
 
         @Override
         public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {

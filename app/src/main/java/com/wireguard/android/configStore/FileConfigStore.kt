@@ -9,7 +9,11 @@ package com.wireguard.android.configStore
 import android.content.Context
 import android.util.Log
 import com.wireguard.config.Config
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 /**
@@ -24,7 +28,10 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         val file = fileFor(name)
         if (!file.createNewFile())
             throw IOException("Configuration file " + file.name + " already exists")
-        FileOutputStream(file, false).use { stream -> stream.write(config.toString().toByteArray(StandardCharsets.UTF_8)) }
+        FileOutputStream(
+            file,
+            false
+        ).use { stream -> stream.write(config.toString().toByteArray(StandardCharsets.UTF_8)) }
         return config
     }
 
@@ -38,9 +45,9 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     override fun enumerate(): Set<String> {
         return context.fileList()
-                .filter { it -> it.endsWith(".conf") }
-                .map { it -> it.substring(0, it.length - ".conf".length) }
-                .toSet()
+            .filter { it -> it.endsWith(".conf") }
+            .map { it -> it.substring(0, it.length - ".conf".length) }
+            .toSet()
     }
 
     private fun fileFor(name: String): File {
@@ -72,7 +79,10 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         val file = fileFor(name)
         if (!file.isFile)
             throw FileNotFoundException("Configuration file " + file.name + " not found")
-        FileOutputStream(file, false).use { stream -> stream.write(config.toString().toByteArray(StandardCharsets.UTF_8)) }
+        FileOutputStream(
+            file,
+            false
+        ).use { stream -> stream.write(config.toString().toByteArray(StandardCharsets.UTF_8)) }
         return config
     }
 

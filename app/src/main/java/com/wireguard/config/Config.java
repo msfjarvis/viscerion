@@ -9,25 +9,19 @@ package com.wireguard.config;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.wireguard.android.Application;
-import com.wireguard.android.R;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
 import androidx.databinding.library.baseAdapters.BR;
+import com.wireguard.android.Application;
+import com.wireguard.android.R;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a wg-quick configuration file, its name, and its connection state.
@@ -107,9 +101,10 @@ public class Config {
                 return new Observable[size];
             }
         };
-        @Nullable private String name;
         private final Interface.Observable observableInterface;
         private final ObservableList<Peer.Observable> observablePeers;
+        @Nullable
+        private String name;
 
         public Observable(@Nullable final Config parent, @Nullable final String name) {
             this.name = name;
@@ -156,14 +151,14 @@ public class Config {
             return name == null ? "" : name;
         }
 
-        @Bindable
-        public ObservableList<Peer.Observable> getPeers() {
-            return observablePeers;
-        }
-
         public void setName(final String name) {
             this.name = name;
             notifyPropertyChanged(BR.name);
+        }
+
+        @Bindable
+        public ObservableList<Peer.Observable> getPeers() {
+            return observablePeers;
         }
 
         @Override

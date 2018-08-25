@@ -10,16 +10,16 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import androidx.annotation.Nullable;
-
 public class TouchDelegateGroup extends TouchDelegate {
     private static final Rect USELESS_HACKY_RECT = new Rect();
     private final Collection<TouchDelegate> mTouchDelegates = new ArrayList<>();
-    @Nullable private TouchDelegate mCurrentTouchDelegate;
+    @Nullable
+    private TouchDelegate mCurrentTouchDelegate;
     private boolean mEnabled;
 
     public TouchDelegateGroup(final View uselessHackyView) {

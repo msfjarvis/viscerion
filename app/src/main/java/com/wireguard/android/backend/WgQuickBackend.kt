@@ -14,18 +14,18 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.Application
+import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.config.Config
-import com.wireguard.android.R
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
-import java.util.*
-
+import java.util.ArrayList
+import java.util.Objects
 
 /**
  * WireGuard backend that uses `wg-quick` to implement tunnel configuration.
@@ -41,7 +41,8 @@ class WgQuickBackend(context: Context) : Backend {
     override fun getVersion(): String {
         val output = ArrayList<String>()
         if (Application.getRootShell()
-                        .run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty())
+                .run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty()
+        )
             throw Exception("Unable to determine kernel module version")
         return output[0]
     }
@@ -62,7 +63,6 @@ class WgQuickBackend(context: Context) : Backend {
                 setStateInternal(tunnel, tunnel.getConfig(), State.UP)
                 throw e
             }
-
         }
         return config
     }
@@ -110,9 +110,14 @@ class WgQuickBackend(context: Context) : Backend {
         Objects.requireNonNull<Config>(config, "Trying to set state with a null config")
 
         val tempFile = File(localTemporaryDir, tunnel?.getName() + ".conf")
-        FileOutputStream(tempFile, false).use { stream -> stream.write(config!!.toString().toByteArray(StandardCharsets.UTF_8)) }
-        var command = String.format("wg-quick %s '%s'",
-                state.toString().toLowerCase(), tempFile.absolutePath)
+        FileOutputStream(
+            tempFile,
+            false
+        ).use { stream -> stream.write(config!!.toString().toByteArray(StandardCharsets.UTF_8)) }
+        var command = String.format(
+            "wg-quick %s '%s'",
+            state.toString().toLowerCase(), tempFile.absolutePath
+        )
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"
         val result = Application.getRootShell().run(null, command)
@@ -129,14 +134,16 @@ class WgQuickBackend(context: Context) : Backend {
             val intent = Intent(cachedContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             val pendingIntent = PendingIntent.getActivity(cachedContext, 0, intent, 0)
-            val builder = NotificationCompat.Builder(cachedContext,
-                    TunnelManager.NOTIFICATION_CHANNEL_ID)
+            val builder = NotificationCompat.Builder(
+                cachedContext,
+                TunnelManager.NOTIFICATION_CHANNEL_ID
+            )
             builder.setContentTitle(cachedContext.getString(R.string.notification_channel_wgquick_title))
-                    .setContentText(tunnel?.getName())
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .setPriority(Notification.FLAG_ONGOING_EVENT)
-                    .setSmallIcon(R.drawable.ic_stat_wgquick)
+                .setContentText(tunnel?.getName())
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setPriority(Notification.FLAG_ONGOING_EVENT)
+                .setSmallIcon(R.drawable.ic_stat_wgquick)
             notificationManager.notify(TunnelManager.NOTIFICATION_ID, builder.build())
         } else if (state == State.DOWN) {
             notificationManager.cancel(TunnelManager.NOTIFICATION_ID)

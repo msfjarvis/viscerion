@@ -10,27 +10,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.wireguard.android.Application;
-import com.wireguard.android.R;
-import com.wireguard.crypto.KeyEncoding;
-
-import java.net.Inet6Address;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
+import com.wireguard.android.Application;
+import com.wireguard.android.R;
+import com.wireguard.crypto.KeyEncoding;
 import java9.lang.Iterables;
+
+import java.net.*;
+import java.util.*;
 
 /**
  * Represents the configuration for a WireGuard peer (a [Peer] block).
@@ -38,11 +28,14 @@ import java9.lang.Iterables;
 
 public class Peer {
     private final List<InetNetwork> allowedIPsList;
-    @Nullable private InetSocketAddress endpoint;
-    private int persistentKeepalive;
-    @Nullable private String preSharedKey;
-    @Nullable private String publicKey;
     private final Context context = Application.Companion.get();
+    @Nullable
+    private InetSocketAddress endpoint;
+    private int persistentKeepalive;
+    @Nullable
+    private String preSharedKey;
+    @Nullable
+    private String publicKey;
 
     public Peer() {
         allowedIPsList = new ArrayList<>();
@@ -67,9 +60,18 @@ public class Peer {
         return Attribute.iterableToString(allowedIPsList);
     }
 
+    private void setAllowedIPsString(@Nullable final String allowedIPsString) {
+        allowedIPsList.clear();
+        addAllowedIPs(Attribute.stringToList(allowedIPsString));
+    }
+
     @Nullable
     public InetSocketAddress getEndpoint() {
         return endpoint;
+    }
+
+    private void setEndpoint(@Nullable final InetSocketAddress endpoint) {
+        this.endpoint = endpoint;
     }
 
     @SuppressLint("DefaultLocale")
@@ -83,8 +85,29 @@ public class Peer {
             return String.format("%s:%d", endpoint.getHostString(), endpoint.getPort());
     }
 
+    private void setEndpointString(@Nullable final String endpoint) {
+        if (endpoint != null && !endpoint.isEmpty()) {
+            final InetSocketAddress constructedEndpoint;
+            if (endpoint.indexOf('/') != -1 || endpoint.indexOf('?') != -1 || endpoint.indexOf('#') != -1)
+                throw new IllegalArgumentException(context.getString(R.string.tunnel_error_forbidden_endpoint_chars));
+            final URI uri;
+            try {
+                uri = new URI("wg://" + endpoint);
+            } catch (final URISyntaxException e) {
+                throw new IllegalArgumentException(e);
+            }
+            constructedEndpoint = InetSocketAddress.createUnresolved(uri.getHost(), uri.getPort());
+            setEndpoint(constructedEndpoint);
+        } else
+            setEndpoint(null);
+    }
+
     public int getPersistentKeepalive() {
         return persistentKeepalive;
+    }
+
+    private void setPersistentKeepalive(final int persistentKeepalive) {
+        this.persistentKeepalive = persistentKeepalive;
     }
 
     @Nullable
@@ -94,14 +117,37 @@ public class Peer {
         return Integer.valueOf(persistentKeepalive).toString();
     }
 
+    private void setPersistentKeepaliveString(@Nullable final String persistentKeepalive) {
+        if (persistentKeepalive != null && !persistentKeepalive.isEmpty())
+            setPersistentKeepalive(Integer.parseInt(persistentKeepalive, 10));
+        else
+            setPersistentKeepalive(0);
+    }
+
     @Nullable
     public String getPreSharedKey() {
         return preSharedKey;
     }
 
+    private void setPreSharedKey(@Nullable String preSharedKey) {
+        if (preSharedKey != null && preSharedKey.isEmpty())
+            preSharedKey = null;
+        if (preSharedKey != null)
+            KeyEncoding.keyFromBase64(preSharedKey);
+        this.preSharedKey = preSharedKey;
+    }
+
     @Nullable
     public String getPublicKey() {
         return publicKey;
+    }
+
+    private void setPublicKey(@Nullable String publicKey) {
+        if (publicKey != null && publicKey.isEmpty())
+            publicKey = null;
+        if (publicKey != null)
+            KeyEncoding.keyFromBase64(publicKey);
+        this.publicKey = publicKey;
     }
 
     @SuppressLint("DefaultLocale")
@@ -146,59 +192,6 @@ public class Peer {
         }
     }
 
-    private void setAllowedIPsString(@Nullable final String allowedIPsString) {
-        allowedIPsList.clear();
-        addAllowedIPs(Attribute.stringToList(allowedIPsString));
-    }
-
-    private void setEndpoint(@Nullable final InetSocketAddress endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    private void setEndpointString(@Nullable final String endpoint) {
-        if (endpoint != null && !endpoint.isEmpty()) {
-            final InetSocketAddress constructedEndpoint;
-            if (endpoint.indexOf('/') != -1 || endpoint.indexOf('?') != -1 || endpoint.indexOf('#') != -1)
-                throw new IllegalArgumentException(context.getString(R.string.tunnel_error_forbidden_endpoint_chars));
-            final URI uri;
-            try {
-                uri = new URI("wg://" + endpoint);
-            } catch (final URISyntaxException e) {
-                throw new IllegalArgumentException(e);
-            }
-            constructedEndpoint = InetSocketAddress.createUnresolved(uri.getHost(), uri.getPort());
-            setEndpoint(constructedEndpoint);
-        } else
-            setEndpoint(null);
-    }
-
-    private void setPersistentKeepalive(final int persistentKeepalive) {
-        this.persistentKeepalive = persistentKeepalive;
-    }
-
-    private void setPersistentKeepaliveString(@Nullable final String persistentKeepalive) {
-        if (persistentKeepalive != null && !persistentKeepalive.isEmpty())
-            setPersistentKeepalive(Integer.parseInt(persistentKeepalive, 10));
-        else
-            setPersistentKeepalive(0);
-    }
-
-    private void setPreSharedKey(@Nullable String preSharedKey) {
-        if (preSharedKey != null && preSharedKey.isEmpty())
-            preSharedKey = null;
-        if (preSharedKey != null)
-            KeyEncoding.keyFromBase64(preSharedKey);
-        this.preSharedKey = preSharedKey;
-    }
-
-    private void setPublicKey(@Nullable String publicKey) {
-        if (publicKey != null && publicKey.isEmpty())
-            publicKey = null;
-        if (publicKey != null)
-            KeyEncoding.keyFromBase64(publicKey);
-        this.publicKey = publicKey;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder().append("[Peer]\n");
@@ -227,12 +220,19 @@ public class Peer {
                 return new Observable[size];
             }
         };
-        @Nullable private String allowedIPs;
-        @Nullable private String endpoint;
-        @Nullable private String persistentKeepalive;
-        @Nullable private String preSharedKey;
-        @Nullable private String publicKey;
+        private static final String DEFAULT_ROUTE_V4 = "0.0.0.0/0";
+        private static final List<String> DEFAULT_ROUTE_MOD_RFC1918_V4 = Arrays.asList("0.0.0.0/5", "8.0.0.0/7", "11.0.0.0/8", "12.0.0.0/6", "16.0.0.0/4", "32.0.0.0/3", "64.0.0.0/2", "128.0.0.0/3", "160.0.0.0/5", "168.0.0.0/6", "172.0.0.0/12", "172.32.0.0/11", "172.64.0.0/10", "172.128.0.0/9", "173.0.0.0/8", "174.0.0.0/7", "176.0.0.0/4", "192.0.0.0/9", "192.128.0.0/11", "192.160.0.0/13", "192.169.0.0/16", "192.170.0.0/15", "192.172.0.0/14", "192.176.0.0/12", "192.192.0.0/10", "193.0.0.0/8", "194.0.0.0/7", "196.0.0.0/6", "200.0.0.0/5", "208.0.0.0/4");
         private final List<String> interfaceDNSRoutes = new ArrayList<>();
+        @Nullable
+        private String allowedIPs;
+        @Nullable
+        private String endpoint;
+        @Nullable
+        private String persistentKeepalive;
+        @Nullable
+        private String preSharedKey;
+        @Nullable
+        private String publicKey;
         private int numSiblings;
 
         public Observable(final Peer parent) {
@@ -270,9 +270,6 @@ public class Peer {
             return 0;
         }
 
-        private static final String DEFAULT_ROUTE_V4 = "0.0.0.0/0";
-        private static final List<String> DEFAULT_ROUTE_MOD_RFC1918_V4 = Arrays.asList("0.0.0.0/5", "8.0.0.0/7", "11.0.0.0/8", "12.0.0.0/6", "16.0.0.0/4", "32.0.0.0/3", "64.0.0.0/2", "128.0.0.0/3", "160.0.0.0/5", "168.0.0.0/6", "172.0.0.0/12", "172.32.0.0/11", "172.64.0.0/10", "172.128.0.0/9", "173.0.0.0/8", "174.0.0.0/7", "176.0.0.0/4", "192.0.0.0/9", "192.128.0.0/11", "192.160.0.0/13", "192.169.0.0/16", "192.170.0.0/15", "192.172.0.0/14", "192.176.0.0/12", "192.192.0.0/10", "193.0.0.0/8", "194.0.0.0/7", "196.0.0.0/6", "200.0.0.0/5", "208.0.0.0/4");
-
         public void toggleExcludePrivateIPs() {
             final Collection<String> ips = new HashSet<>(Arrays.asList(Attribute.stringToList(allowedIPs)));
             final boolean hasDefaultRoute = ips.contains(DEFAULT_ROUTE_V4);
@@ -299,37 +296,10 @@ public class Peer {
             return numSiblings == 0 && Arrays.asList(Attribute.stringToList(allowedIPs)).containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4);
         }
 
-        @Bindable @Nullable
+        @Bindable
+        @Nullable
         public String getAllowedIPs() {
             return allowedIPs;
-        }
-
-        @Bindable @Nullable
-        public String getEndpoint() {
-            return endpoint;
-        }
-
-        @Bindable @Nullable
-        public String getPersistentKeepalive() {
-            return persistentKeepalive;
-        }
-
-        @Bindable @Nullable
-        public String getPreSharedKey() {
-            return preSharedKey;
-        }
-
-        @Bindable @Nullable
-        public String getPublicKey() {
-            return publicKey;
-        }
-
-        private void loadData(final Peer parent) {
-            allowedIPs = parent.getAllowedIPsString();
-            endpoint = parent.getEndpointString();
-            persistentKeepalive = parent.getPersistentKeepaliveString();
-            preSharedKey = parent.getPreSharedKey();
-            publicKey = parent.getPublicKey();
         }
 
         public void setAllowedIPs(final String allowedIPs) {
@@ -339,9 +309,21 @@ public class Peer {
             notifyPropertyChanged(BR.isExcludePrivateIPsOn);
         }
 
+        @Bindable
+        @Nullable
+        public String getEndpoint() {
+            return endpoint;
+        }
+
         public void setEndpoint(final String endpoint) {
             this.endpoint = endpoint;
             notifyPropertyChanged(BR.endpoint);
+        }
+
+        @Bindable
+        @Nullable
+        public String getPersistentKeepalive() {
+            return persistentKeepalive;
         }
 
         public void setPersistentKeepalive(final String persistentKeepalive) {
@@ -349,14 +331,34 @@ public class Peer {
             notifyPropertyChanged(BR.persistentKeepalive);
         }
 
+        @Bindable
+        @Nullable
+        public String getPreSharedKey() {
+            return preSharedKey;
+        }
+
         public void setPreSharedKey(final String preSharedKey) {
             this.preSharedKey = preSharedKey;
             notifyPropertyChanged(BR.preSharedKey);
         }
 
+        @Bindable
+        @Nullable
+        public String getPublicKey() {
+            return publicKey;
+        }
+
         public void setPublicKey(final String publicKey) {
             this.publicKey = publicKey;
             notifyPropertyChanged(BR.publicKey);
+        }
+
+        private void loadData(final Peer parent) {
+            allowedIPs = parent.getAllowedIPsString();
+            endpoint = parent.getEndpointString();
+            persistentKeepalive = parent.getPersistentKeepaliveString();
+            preSharedKey = parent.getPreSharedKey();
+            publicKey = parent.getPublicKey();
         }
 
         public void setInterfaceDNSRoutes(@Nullable final String dnsServers) {

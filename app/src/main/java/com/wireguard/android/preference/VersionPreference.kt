@@ -21,14 +21,16 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
     init {
 
         Application.backendAsync.thenAccept { backend ->
-            versionSummary = getContext().getString(R.string.version_summary_checking, backend.getTypeName().toLowerCase())
-            Application.getAsyncWorker().supplyAsync<String> { backend.getVersion() }.whenComplete { version, exception ->
-                versionSummary = if (exception == null)
-                    getContext().getString(R.string.version_summary, backend.getTypeName(), version)
-                else
-                    getContext().getString(R.string.version_summary_unknown, backend.getTypeName().toLowerCase())
-                notifyChanged()
-            }
+            versionSummary =
+                getContext().getString(R.string.version_summary_checking, backend.getTypeName().toLowerCase())
+            Application.getAsyncWorker().supplyAsync<String> { backend.getVersion() }
+                .whenComplete { version, exception ->
+                    versionSummary = if (exception == null)
+                        getContext().getString(R.string.version_summary, backend.getTypeName(), version)
+                    else
+                        getContext().getString(R.string.version_summary_unknown, backend.getTypeName().toLowerCase())
+                    notifyChanged()
+                }
         }
     }
 
@@ -47,7 +49,5 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
             context.startActivity(intent)
         } catch (ignored: ActivityNotFoundException) {
         }
-
     }
-
 }

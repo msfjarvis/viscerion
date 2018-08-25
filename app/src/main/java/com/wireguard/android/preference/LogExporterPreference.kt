@@ -19,7 +19,11 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.FragmentUtils
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
 
 /**
  * Preference implementing a button that asynchronously exports logs.
@@ -42,7 +46,8 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             FileOutputStream(file).close()
 
             try {
-                val process = Runtime.getRuntime().exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
+                val process = Runtime.getRuntime()
+                    .exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
                 if (process.waitFor() != 0) {
                     BufferedReader(InputStreamReader(process.errorStream)).use { reader ->
                         val errors = StringBuilder()
@@ -67,8 +72,9 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val message = context.getString(R.string.log_export_error, error)
             Log.e(TAG, message, throwable)
             Lunchbar.make(
-                    FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
-                    message, Lunchbar.LENGTH_LONG).show()
+                FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
+                message, Lunchbar.LENGTH_LONG
+            ).show()
             isEnabled = true
         } else {
             exportedFilePath = filePath
@@ -89,7 +95,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
 
     override fun onClick() {
         FragmentUtils.getPrefActivity(this)!!.ensurePermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {
                 isEnabled = false
@@ -101,5 +107,4 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     companion object {
         private val TAG = "WireGuard/" + LogExporterPreference::class.java.simpleName
     }
-
 }

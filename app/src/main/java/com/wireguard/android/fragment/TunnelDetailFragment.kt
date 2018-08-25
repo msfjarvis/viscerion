@@ -38,8 +38,11 @@ class TunnelDetailFragment : BaseFragment() {
         inflater!!.inflate(R.menu.tunnel_detail, menu)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = TunnelDetailFragmentBinding.inflate(inflater, container, false)
         binding?.executePendingBindings()
@@ -70,5 +73,4 @@ class TunnelDetailFragment : BaseFragment() {
         onSelectedTunnelChanged(null, selectedTunnel)
         super.onViewStateRestored(savedInstanceState)
     }
-
 }

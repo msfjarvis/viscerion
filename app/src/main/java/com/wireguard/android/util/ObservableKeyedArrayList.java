@@ -6,15 +6,14 @@
 
 package com.wireguard.android.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.ObservableArrayList;
 import com.wireguard.util.Keyed;
 
 import java.util.Collection;
 import java.util.ListIterator;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.ObservableArrayList;
 
 /**
  * ArrayList that allows looking up elements by some key property. As the key property must always
@@ -66,13 +65,15 @@ public class ObservableKeyedArrayList<K, E extends Keyed<? extends K>>
         return indexOfKey(key) >= 0;
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public E get(final K key) {
         final int index = indexOfKey(key);
         return index >= 0 ? get(index) : null;
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public E getLast(final K key) {
         final int index = lastIndexOfKey(key);
         return index >= 0 ? get(index) : null;

@@ -9,7 +9,7 @@ package com.wireguard.android.util;
 import android.content.Context;
 import android.system.OsConstants;
 import android.util.Log;
-
+import androidx.annotation.Nullable;
 import com.wireguard.android.Application;
 import com.wireguard.android.BuildConfig;
 import com.wireguard.android.util.RootShell.NoRootException;
@@ -19,8 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 /**
  * Helper to install WireGuard tools to the system partition.
@@ -41,14 +39,17 @@ public final class ToolsInstaller {
             new File("/system/xbin"),
             new File("/system/bin"),
     };
-    @Nullable private static final File INSTALL_DIR = getInstallDir();
+    @Nullable
+    private static final File INSTALL_DIR = getInstallDir();
     private static final String TAG = "WireGuard/" + ToolsInstaller.class.getSimpleName();
 
     private final File localBinaryDir;
     private final Object lock = new Object();
     private final File nativeLibraryDir;
-    @Nullable private Boolean areToolsAvailable;
-    @Nullable private Boolean installAsMagiskModule;
+    @Nullable
+    private Boolean areToolsAvailable;
+    @Nullable
+    private Boolean installAsMagiskModule;
 
     public ToolsInstaller(final Context context) {
         localBinaryDir = new File(context.getCacheDir(), "bin");

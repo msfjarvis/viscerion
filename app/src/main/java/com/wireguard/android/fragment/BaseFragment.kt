@@ -11,7 +11,9 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Lunchbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
@@ -23,9 +25,6 @@ import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ExceptionLoggers
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 
 /**
  * Base class for fragments that need to know the currently-selected tunnel. Only does anything when
@@ -116,5 +115,4 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         private val TAG = "WireGuard/" + BaseFragment::class.java.simpleName
         private const val REQUEST_CODE_VPN_PERMISSION = 23491
     }
-
 }

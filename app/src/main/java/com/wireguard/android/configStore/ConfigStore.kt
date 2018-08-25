@@ -17,7 +17,7 @@ interface ConfigStore {
      * Create a persistent tunnel, which must have a unique name within the persistent storage
      * medium.
      *
-     * @param name   The name of the tunnel to create.
+     * @param name The name of the tunnel to create.
      * @param config Configuration for the new tunnel.
      * @return The configuration that was actually saved to persistent storage.
      */
@@ -52,7 +52,7 @@ interface ConfigStore {
     /**
      * Rename the configuration for the tunnel given by `name`.
      *
-     * @param name        The identifier for the existing configuration in persistent storage.
+     * @param name The identifier for the existing configuration in persistent storage.
      * @param replacement The new identifier for the configuration in persistent storage.
      */
     @Throws(Exception::class)
@@ -61,7 +61,7 @@ interface ConfigStore {
     /**
      * Save the configuration for an existing tunnel given by `name`.
      *
-     * @param name   The identifier for the configuration in persistent storage (i.e. the name of
+     * @param name The identifier for the configuration in persistent storage (i.e. the name of
      * the tunnel).
      * @param config An updated configuration object for the tunnel.
      * @return The configuration that was actually saved to persistent storage.

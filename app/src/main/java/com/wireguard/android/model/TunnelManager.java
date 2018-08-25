@@ -6,13 +6,12 @@
 
 package com.wireguard.android.model;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import com.wireguard.android.Application;
 import com.wireguard.android.BR;
-import com.wireguard.android.BuildConfig;
 import com.wireguard.android.R;
 import com.wireguard.android.configStore.ConfigStore;
 import com.wireguard.android.model.Tunnel.State;
@@ -21,44 +20,50 @@ import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.android.util.ObservableSortedKeyedArrayList;
 import com.wireguard.android.util.ObservableSortedKeyedList;
 import com.wireguard.config.Config;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Set;
-
-import androidx.annotation.Nullable;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import java9.util.Comparators;
 import java9.util.concurrent.CompletableFuture;
 import java9.util.concurrent.CompletionStage;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Set;
+
 /**
  * Maintains and mediates changes to the set of available WireGuard tunnels,
  */
 
 public final class TunnelManager extends BaseObservable {
+    public static final String NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels";
+    public static final int NOTIFICATION_ID = 2018;
     private static final Comparator<String> COMPARATOR = Comparators.<String>thenComparing(
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder());
     private static final String KEY_LAST_USED_TUNNEL = "last_used_tunnel";
     private static final String KEY_RESTORE_ON_BOOT = "restore_on_boot";
     private static final String KEY_RUNNING_TUNNELS = "enabled_configs";
-    public static final String NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels";
-    public static final int NOTIFICATION_ID = 2018;
-
     private final ConfigStore configStore;
     private final Context context = Application.Companion.get();
     private final CompletableFuture<ObservableSortedKeyedList<String, Tunnel>> completableTunnels = new CompletableFuture<>();
     private final ObservableSortedKeyedList<String, Tunnel> tunnels = new ObservableSortedKeyedArrayList<>(COMPARATOR);
-    @Nullable private Tunnel lastUsedTunnel;
-    private boolean haveLoaded;
     private final ArrayList<CompletableFuture<Void>> delayedLoadRestoreTunnels = new ArrayList<>();
+    @Nullable
+    private Tunnel lastUsedTunnel;
+    private boolean haveLoaded;
 
     public TunnelManager(final ConfigStore configStore) {
         this.configStore = configStore;
+    }
+
+    static CompletionStage<State> getTunnelState(final Tunnel tunnel) {
+        return Application.Companion.getAsyncWorker().supplyAsync(() -> Application.Companion.getBackend().getState(tunnel))
+                .thenApply(tunnel::onStateChanged);
+    }
+
+    static CompletionStage<Statistics> getTunnelStatistics(final Tunnel tunnel) {
+        return Application.Companion.getAsyncWorker().supplyAsync(() -> Application.Companion.getBackend().getStatistics(tunnel))
+                .thenApply(tunnel::onStatisticsChanged);
     }
 
     private Tunnel addToList(final String name, @Nullable final Config config, final State state) {
@@ -106,24 +111,26 @@ public final class TunnelManager extends BaseObservable {
         });
     }
 
-    @Bindable @Nullable
+    @Bindable
+    @Nullable
     public Tunnel getLastUsedTunnel() {
         return lastUsedTunnel;
+    }
+
+    private void setLastUsedTunnel(@Nullable final Tunnel tunnel) {
+        if (tunnel == lastUsedTunnel)
+            return;
+        lastUsedTunnel = tunnel;
+        notifyPropertyChanged(BR.lastUsedTunnel);
+        if (tunnel != null)
+            Application.Companion.getSharedPreferences().edit().putString(KEY_LAST_USED_TUNNEL, tunnel.getName()).apply();
+        else
+            Application.Companion.getSharedPreferences().edit().remove(KEY_LAST_USED_TUNNEL).apply();
     }
 
     CompletionStage<Config> getTunnelConfig(final Tunnel tunnel) {
         return Application.Companion.getAsyncWorker().supplyAsync(() -> configStore.load(tunnel.getName()))
                 .thenApply(tunnel::onConfigChanged);
-    }
-
-    static CompletionStage<State> getTunnelState(final Tunnel tunnel) {
-        return Application.Companion.getAsyncWorker().supplyAsync(() -> Application.Companion.getBackend().getState(tunnel))
-                .thenApply(tunnel::onStateChanged);
-    }
-
-    static CompletionStage<Statistics> getTunnelStatistics(final Tunnel tunnel) {
-        return Application.Companion.getAsyncWorker().supplyAsync(() -> Application.Companion.getBackend().getStatistics(tunnel))
-                .thenApply(tunnel::onStatisticsChanged);
     }
 
     public CompletableFuture<ObservableSortedKeyedList<String, Tunnel>> getTunnels() {
@@ -186,17 +193,6 @@ public final class TunnelManager extends BaseObservable {
                 .map(Tunnel::getName)
                 .collect(Collectors.toUnmodifiableSet());
         Application.Companion.getSharedPreferences().edit().putStringSet(KEY_RUNNING_TUNNELS, runningTunnels).apply();
-    }
-
-    private void setLastUsedTunnel(@Nullable final Tunnel tunnel) {
-        if (tunnel == lastUsedTunnel)
-            return;
-        lastUsedTunnel = tunnel;
-        notifyPropertyChanged(BR.lastUsedTunnel);
-        if (tunnel != null)
-            Application.Companion.getSharedPreferences().edit().putString(KEY_LAST_USED_TUNNEL, tunnel.getName()).apply();
-        else
-            Application.Companion.getSharedPreferences().edit().remove(KEY_LAST_USED_TUNNEL).apply();
     }
 
     CompletionStage<Config> setTunnelConfig(final Tunnel tunnel, final Config config) {

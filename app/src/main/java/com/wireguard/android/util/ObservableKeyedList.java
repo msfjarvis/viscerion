@@ -6,10 +6,9 @@
 
 package com.wireguard.android.util;
 
+import androidx.databinding.ObservableList;
 import com.wireguard.util.Keyed;
 import com.wireguard.util.KeyedList;
-
-import androidx.databinding.ObservableList;
 
 /**
  * A list that is both keyed and observable.

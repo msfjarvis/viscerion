@@ -8,13 +8,12 @@ package com.wireguard.config;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import androidx.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.Nullable;
 
 /**
  * The set of valid attributes for an interface or peer in a WireGuard configuration file.

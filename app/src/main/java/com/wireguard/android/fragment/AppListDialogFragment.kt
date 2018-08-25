@@ -14,13 +14,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.wireguard.android.R
 import com.wireguard.android.Application
+import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
 import com.wireguard.android.model.ApplicationData
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ObservableKeyedArrayList
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
+import java.util.Comparator
 
 class AppListDialogFragment : DialogFragment() {
 
@@ -72,7 +74,14 @@ class AppListDialogFragment : DialogFragment() {
             val appData = ArrayList<ApplicationData>()
             for (resolveInfo in resolveInfos) {
                 val packageName = resolveInfo.activityInfo.packageName
-                appData.add(ApplicationData(resolveInfo.loadIcon(pm), resolveInfo.loadLabel(pm).toString(), packageName, currentlyExcludedApps!!.contains(packageName)))
+                appData.add(
+                    ApplicationData(
+                        resolveInfo.loadIcon(pm),
+                        resolveInfo.loadLabel(pm).toString(),
+                        packageName,
+                        currentlyExcludedApps!!.contains(packageName)
+                    )
+                )
             }
 
             appData.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
@@ -110,7 +119,10 @@ class AppListDialogFragment : DialogFragment() {
 
         private const val KEY_EXCLUDED_APPS = "excludedApps"
 
-        fun <T> newInstance(excludedApps: Array<String>, target: T): AppListDialogFragment where T : Fragment, T : AppListDialogFragment.AppExclusionListener {
+        fun <T> newInstance(
+            excludedApps: Array<String>,
+            target: T
+        ): AppListDialogFragment where T : Fragment, T : AppListDialogFragment.AppExclusionListener {
             val extras = Bundle()
             extras.putStringArray(KEY_EXCLUDED_APPS, excludedApps)
             val fragment = AppListDialogFragment()
@@ -119,5 +131,4 @@ class AppListDialogFragment : DialogFragment() {
             return fragment
         }
     }
-
 }

@@ -9,10 +9,8 @@ package com.wireguard.android.widget;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-
-import com.wireguard.android.model.Tunnel;
-
 import androidx.annotation.Nullable;
+import com.wireguard.android.model.Tunnel;
 
 /**
  * InputFilter for entering WireGuard configuration names (Linux interface names).
@@ -27,7 +25,8 @@ public class NameInputFilter implements InputFilter {
         return new NameInputFilter();
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public CharSequence filter(final CharSequence source,
                                final int sStart, final int sEnd,
                                final Spanned dest,
