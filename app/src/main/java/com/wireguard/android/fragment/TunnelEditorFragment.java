@@ -298,7 +298,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
     public void onRequestSetExcludedApplications(@SuppressWarnings("unused") final View view) {
         final FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager != null && binding != null) {
-            final String[] excludedApps = Attribute.stringToList(binding.getConfig().getInterfaceSection().getExcludedApplications());
+            final String[] excludedApps = Attribute.Companion.stringToList(binding.getConfig().getInterfaceSection().getExcludedApplications());
             final AppListDialogFragment fragment = AppListDialogFragment.Companion.newInstance(excludedApps, this);
             fragment.show(fragmentManager, null);
         }
@@ -307,7 +307,7 @@ public class TunnelEditorFragment extends BaseFragment implements AppExclusionLi
     @Override
     public void onExcludedAppsSelected(@NonNull final List<String> excludedApps) {
         Objects.requireNonNull(binding, "Tried to set excluded apps while no view was loaded");
-        binding.getConfig().getInterfaceSection().setExcludedApplications(Attribute.iterableToString(excludedApps));
+        binding.getConfig().getInterfaceSection().setExcludedApplications(Attribute.Companion.iterableToString(excludedApps));
     }
 
 }

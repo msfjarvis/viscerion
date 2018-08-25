@@ -57,12 +57,12 @@ public class Peer {
     private String getAllowedIPsString() {
         if (allowedIPsList.isEmpty())
             return null;
-        return Attribute.iterableToString(allowedIPsList);
+        return Attribute.Companion.iterableToString(allowedIPsList);
     }
 
     private void setAllowedIPsString(@Nullable final String allowedIPsString) {
         allowedIPsList.clear();
-        addAllowedIPs(Attribute.stringToList(allowedIPsString));
+        addAllowedIPs(Attribute.Companion.stringToList(allowedIPsString));
     }
 
     @Nullable
@@ -168,7 +168,7 @@ public class Peer {
     }
 
     public void parse(final String line) {
-        final Attribute key = Attribute.match(line);
+        final Attribute key = Attribute.Companion.match(line);
         if (key == null)
             throw new IllegalArgumentException(context.getString(R.string.tunnel_error_interface_parse_failed, line));
         switch (key) {
@@ -271,7 +271,7 @@ public class Peer {
         }
 
         public void toggleExcludePrivateIPs() {
-            final Collection<String> ips = new HashSet<>(Arrays.asList(Attribute.stringToList(allowedIPs)));
+            final Collection<String> ips = new HashSet<>(Arrays.asList(Attribute.Companion.stringToList(allowedIPs)));
             final boolean hasDefaultRoute = ips.contains(DEFAULT_ROUTE_V4);
             final boolean hasDefaultRouteModRFC1918 = ips.containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4);
             if ((!hasDefaultRoute && !hasDefaultRouteModRFC1918) || numSiblings > 0)
@@ -282,18 +282,18 @@ public class Peer {
                 ips.addAll(interfaceDNSRoutes);
             } else if (hasDefaultRouteModRFC1918)
                 ips.add(DEFAULT_ROUTE_V4);
-            setAllowedIPs(Attribute.iterableToString(ips));
+            setAllowedIPs(Attribute.Companion.iterableToString(ips));
         }
 
         @Bindable
         public boolean getCanToggleExcludePrivateIPs() {
-            final Collection<String> ips = Arrays.asList(Attribute.stringToList(allowedIPs));
+            final Collection<String> ips = Arrays.asList(Attribute.Companion.stringToList(allowedIPs));
             return numSiblings == 0 && (ips.contains(DEFAULT_ROUTE_V4) || ips.containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4));
         }
 
         @Bindable
         public boolean getIsExcludePrivateIPsOn() {
-            return numSiblings == 0 && Arrays.asList(Attribute.stringToList(allowedIPs)).containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4);
+            return numSiblings == 0 && Arrays.asList(Attribute.Companion.stringToList(allowedIPs)).containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4);
         }
 
         @Bindable
@@ -362,18 +362,18 @@ public class Peer {
         }
 
         public void setInterfaceDNSRoutes(@Nullable final String dnsServers) {
-            final Collection<String> ips = new HashSet<>(Arrays.asList(Attribute.stringToList(allowedIPs)));
+            final Collection<String> ips = new HashSet<>(Arrays.asList(Attribute.Companion.stringToList(allowedIPs)));
             final boolean modifyAllowedIPs = ips.containsAll(DEFAULT_ROUTE_MOD_RFC1918_V4);
 
             ips.removeAll(interfaceDNSRoutes);
             interfaceDNSRoutes.clear();
-            for (final String dnsServer : Attribute.stringToList(dnsServers)) {
+            for (final String dnsServer : Attribute.Companion.stringToList(dnsServers)) {
                 if (!dnsServer.contains(":"))
                     interfaceDNSRoutes.add(dnsServer + "/32");
             }
             ips.addAll(interfaceDNSRoutes);
             if (modifyAllowedIPs)
-                setAllowedIPs(Attribute.iterableToString(ips));
+                setAllowedIPs(Attribute.Companion.iterableToString(ips));
         }
 
         public void setNumSiblings(final int num) {
