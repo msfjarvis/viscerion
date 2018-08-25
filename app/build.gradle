@@ -8,7 +8,8 @@ apply plugin: 'kotlin-kapt'
 final def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 final def gitHash = { ->
-    if (System.getenv("WITH_MAINFRAMER") == "true") {
+    if (System.getenv("WITH_MAINFRAMER") == "true" ||
+            System.getenv("TRAVIS") == "true") {
         "TEST"
     } else {
         final def stdout = new ByteArrayOutputStream()
