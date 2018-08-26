@@ -15,7 +15,9 @@ android:
     - ".+"
 
 script:
-  - "./gradlew clean assembleDebug"
+  - "./gradlew :app:assembleDebug"
+  - "./gradlew :app:assembleRelease"
+  - "./gradlew :app:lint"
 
 notifications:
   email: false
@@ -27,6 +29,7 @@ cache:
   - "$HOME/.m2"
   - "$HOME/.gradle"
   - "$ANDROID_HOME"
+  - "/usr/local/android-sdk/"
 
 before_install:
   - yes | sdkmanager "platforms;android-28"
