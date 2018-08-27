@@ -127,6 +127,7 @@ class Interface {
 
     private fun setExcludedApplicationsString(applicationsString: String?) {
         excludedApplications.clear()
+        addExcludedApplications(Attribute.stringToList(GlobalExclusions.exclusions))
         addExcludedApplications(Attribute.stringToList(applicationsString))
     }
 
