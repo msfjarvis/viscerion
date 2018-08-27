@@ -254,7 +254,10 @@ public class TunnelListFragment extends BaseFragment {
     }
 
     private MultiselectableRelativeLayout viewForTunnel(final Tunnel tunnel, final List tunnels) {
-        return (MultiselectableRelativeLayout) binding.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)).itemView;
+        if (binding != null && binding.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)) != null)
+            return (MultiselectableRelativeLayout) binding.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)).itemView;
+        else
+            return null;
     }
 
     @Override
@@ -309,7 +312,7 @@ public class TunnelListFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putIntegerArrayList("CHECKED_ITEMS", actionModeListener.getCheckedItems());
@@ -405,7 +408,8 @@ public class TunnelListFragment extends BaseFragment {
                 resources = getActivity().getResources();
             }
             mode.getMenuInflater().inflate(R.menu.tunnel_list_action_mode, menu);
-            binding.tunnelList.getAdapter().notifyDataSetChanged();
+            if (binding != null)
+                binding.tunnelList.getAdapter().notifyDataSetChanged();
             return true;
         }
 
@@ -414,14 +418,15 @@ public class TunnelListFragment extends BaseFragment {
             actionMode = null;
             resources = null;
             checkedItems.clear();
-            binding.tunnelList.getAdapter().notifyDataSetChanged();
+            if (binding != null)
+                binding.tunnelList.getAdapter().notifyDataSetChanged();
         }
 
         void toggleItemChecked(final int position) {
             setItemChecked(position, !checkedItems.contains(position));
         }
 
-        public ArrayList<Integer> getCheckedItems() {
+        ArrayList<Integer> getCheckedItems() {
             return new ArrayList<>(checkedItems);
         }
 

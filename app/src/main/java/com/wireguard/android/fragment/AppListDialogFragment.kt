@@ -32,7 +32,7 @@ class AppListDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentlyExcludedApps = Arrays.asList(*arguments!!.getStringArray(KEY_EXCLUDED_APPS)!!)
+        currentlyExcludedApps = Arrays.asList(*savedInstanceState?.getStringArray(KEY_EXCLUDED_APPS)!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

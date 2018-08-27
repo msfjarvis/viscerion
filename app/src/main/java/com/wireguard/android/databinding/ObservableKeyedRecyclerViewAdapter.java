@@ -9,6 +9,7 @@ package com.wireguard.android.databinding;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableList;
@@ -66,14 +67,15 @@ public class ObservableKeyedRecyclerViewAdapter<K, E extends Keyed<? extends K>>
         return item != null ? item.getKey() : null;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return new ViewHolder(DataBindingUtil.inflate(layoutInflater, layoutId, parent, false));
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.binding.setVariable(BR.collection, list);
         holder.binding.setVariable(BR.key, getKey(position));
         holder.binding.setVariable(BR.item, getItem(position));
@@ -97,7 +99,7 @@ public class ObservableKeyedRecyclerViewAdapter<K, E extends Keyed<? extends K>>
         notifyDataSetChanged();
     }
 
-    void setRowConfigurationHandler(final RowConfigurationHandler rowConfigurationHandler) {
+    void setRowConfigurationHandler(@Nullable final RowConfigurationHandler rowConfigurationHandler) {
         this.rowConfigurationHandler = rowConfigurationHandler;
     }
 
