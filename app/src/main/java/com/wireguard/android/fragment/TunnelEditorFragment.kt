@@ -172,7 +172,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             )
         }
         // Tell the activity to finish itself or go back to the detail view.
-        getActivity()!!.runOnUiThread {
+        activity.runOnUiThread {
             // TODO(smaeul): Remove this hack when fixing the Config ViewModel
             // The selected tunnel has to actually change, but we have to remember this one.
             val savedTunnel = tunnel
@@ -307,7 +307,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         val fragmentManager = fragmentManager
         if (fragmentManager != null && binding != null) {
             val excludedApps = Attribute.stringToList(binding!!.config?.interfaceSection?.getExcludedApplications())
-            val fragment = AppListDialogFragment.newInstance(excludedApps, this)
+            val fragment = AppListDialogFragment.newInstance(excludedApps, target = this)
             fragment.show(fragmentManager, null)
         }
     }

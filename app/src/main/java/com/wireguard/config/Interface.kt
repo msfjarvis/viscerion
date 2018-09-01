@@ -9,13 +9,14 @@ import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.model.GlobalExclusions
+import com.wireguard.android.util.addExclusive
 import com.wireguard.crypto.Keypair
 import java.net.InetAddress
 
 class Interface {
     private val addressList: ArrayList<InetNetwork> = ArrayList()
     private val dnsList: ArrayList<InetAddress> = ArrayList()
-    private val excludedApplications: ArrayList<String> = Attribute.stringToList(GlobalExclusions.exclusions).toCollection(ArrayList())
+    private val excludedApplications: ArrayList<String> = ArrayList()
     private var keypair: Keypair? = null
     private var listenPort: Int = 0
     private var mtu: Int = 0
@@ -41,9 +42,9 @@ class Interface {
         }
     }
 
-    private fun addExcludedApplications(applications: Array<String>?) {
+    fun addExcludedApplications(applications: Array<String>?) {
         if (applications != null && applications.isNotEmpty()) {
-            excludedApplications.addAll(applications)
+            excludedApplications.addExclusive(applications)
         }
     }
 
@@ -70,7 +71,7 @@ class Interface {
     }
 
     private fun getExcludedApplicationsString(): String? {
-        return if (excludedApplications.isEmpty()) null else Attribute.iterableToString(excludedApplications)
+        return if (excludedApplications.isEmpty()) null else Attribute.iterableToString(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray))
     }
 
     fun getExcludedApplications(): Array<String> {
@@ -167,7 +168,7 @@ class Interface {
         if (!dnsList.isEmpty())
             sb.append(Attribute.DNS.composeWith(getDnsStrings()))
         if (!excludedApplications.isEmpty())
-            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(excludedApplications))
+            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray)))
         if (listenPort != 0)
             sb.append(Attribute.LISTEN_PORT.composeWith(listenPort))
         if (mtu != 0)
@@ -190,7 +191,7 @@ class Interface {
 
         val excludedApplicationsCount: Int
             @Bindable
-            get() = Attribute.stringToList(excludedApplications).size
+            get() = Attribute.stringToList(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray)).size
 
         constructor(parent: Interface?) {
             if (parent != null)
@@ -320,6 +321,7 @@ class Interface {
         }
 
         companion object {
+            @JvmField
             val CREATOR: Parcelable.Creator<Observable> = object : Parcelable.Creator<Observable> {
                 override fun createFromParcel(`in`: Parcel): Observable {
                     return Observable(`in`)

@@ -16,16 +16,24 @@ class ApplicationData(
     val icon: Drawable,
     val name: String,
     val packageName: String,
-    private var excludedFromTunnel: Boolean
+    private var excludedFromTunnel: Boolean,
+    private var globallyExcluded: Boolean = false
 ) : BaseObservable(), Keyed<String> {
 
     var isExcludedFromTunnel: Boolean
         @Bindable
-        get() = excludedFromTunnel
+        get() = if (globallyExcluded) true else excludedFromTunnel
         set(excludedFromTunnel) {
-            this.excludedFromTunnel = excludedFromTunnel
-            notifyPropertyChanged(BR.excludedFromTunnel)
+            if (!isGloballyExcluded) {
+                this.excludedFromTunnel = excludedFromTunnel
+                notifyPropertyChanged(BR.excludedFromTunnel)
+            }
         }
+
+
+    var isGloballyExcluded: Boolean = false
+        @Bindable
+        get() = globallyExcluded
 
     override fun getKey(): String {
         return name
