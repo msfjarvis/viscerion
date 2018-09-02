@@ -95,11 +95,11 @@ class Application : android.app.Application() {
     companion object {
 
         private lateinit var weakSelf: WeakReference<Application>
-        val asyncWorker = get().asyncWorker
-        val backendAsync = get().futureBackend
-        val rootShell = get().rootShell
-        val sharedPreferences = get().sharedPreferences
-        val toolsInstaller = get().toolsInstaller
+        val asyncWorker by lazy { get().asyncWorker }
+        val backendAsync by lazy { get().futureBackend }
+        val rootShell by lazy { get().rootShell }
+        val sharedPreferences by lazy { get().sharedPreferences }
+        val toolsInstaller by lazy { get().toolsInstaller }
 
         fun get(): Application {
             return weakSelf.get() as Application
