@@ -84,7 +84,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity, menu)
         menu.findItem(R.id.menu_theme_change).isChecked =
-            Application.getSharedPreferences().getBoolean("dark_theme", true)
+            Application.sharedPreferences.getBoolean("dark_theme", true)
         return true
     }
 
@@ -111,7 +111,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 return true
             }
             R.id.menu_theme_change -> {
-                Application.getSharedPreferences().edit().putBoolean("dark_theme", !item.isChecked).apply()
+                Application.sharedPreferences.edit().putBoolean("dark_theme", !item.isChecked).apply()
                 item.isChecked = !item.isChecked
                 return true
             }

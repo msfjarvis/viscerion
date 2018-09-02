@@ -40,7 +40,7 @@ class WgQuickBackend(context: Context) : Backend {
     @Throws(Exception::class)
     override fun getVersion(): String {
         val output = ArrayList<String>()
-        if (Application.getRootShell()
+        if (Application.rootShell
                 .run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty()
         )
             throw Exception("Unable to determine kernel module version")
@@ -71,8 +71,8 @@ class WgQuickBackend(context: Context) : Backend {
         val output = ArrayList<String>()
         // Don't throw an exception here or nothing will show up in the UI.
         try {
-            Application.getToolsInstaller().ensureToolsAvailable()
-            if (Application.getRootShell().run(output, "wg show interfaces") != 0 || output.isEmpty())
+            Application.toolsInstaller.ensureToolsAvailable()
+            if (Application.rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
                 return emptySet()
         } catch (e: Exception) {
             Log.w(TAG, "Unable to enumerate running tunnels", e)
@@ -100,7 +100,7 @@ class WgQuickBackend(context: Context) : Backend {
         if (stateToSet == originalState)
             return originalState
         Log.d(TAG, "Changing tunnel " + tunnel?.getName() + " to state " + stateToSet)
-        Application.getToolsInstaller().ensureToolsAvailable()
+        Application.toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
         return getState(tunnel)
     }
@@ -120,7 +120,7 @@ class WgQuickBackend(context: Context) : Backend {
         )
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"
-        val result = Application.getRootShell().run(null, command)
+        val result = Application.rootShell.run(null, command)
 
         tempFile.delete()
         when (result) {

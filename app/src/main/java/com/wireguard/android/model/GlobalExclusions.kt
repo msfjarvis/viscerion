@@ -5,9 +5,9 @@ import com.wireguard.config.Attribute
 
 class GlobalExclusions {
     companion object {
-        var exclusions: String = Application.getSharedPreferences().getString("global_exclusions", "") as String
+        var exclusions: String = Application.sharedPreferences.getString("global_exclusions", "") as String
         set(value) {
-            Application.getSharedPreferences().edit().putString("global_exclusions", value).apply()
+            Application.sharedPreferences.edit().putString("global_exclusions", value).apply()
             exclusionsArray = Attribute.stringToList(value).toCollection(ArrayList())
             field = value
         }

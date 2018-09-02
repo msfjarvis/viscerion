@@ -69,7 +69,7 @@ class AppListDialogFragment : DialogFragment() {
         val activity = activity ?: return
 
         val pm = activity.packageManager
-        Application.getAsyncWorker().supplyAsync<List<ApplicationData>> {
+        Application.asyncWorker.supplyAsync<List<ApplicationData>> {
             val launcherIntent = Intent(Intent.ACTION_MAIN, null)
             launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER)
             val resolveInfos = pm.queryIntentActivities(launcherIntent, 0)

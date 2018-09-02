@@ -84,7 +84,7 @@ class Application : android.app.Application() {
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
 
-        asyncWorker.supplyAsync<Backend> { getBackend() }.thenAccept { backend ->
+        asyncWorker.supplyAsync<Backend> { backend }.thenAccept { backend ->
             futureBackend.complete(backend)
         }
 
@@ -95,16 +95,18 @@ class Application : android.app.Application() {
     companion object {
 
         private lateinit var weakSelf: WeakReference<Application>
+        val asyncWorker = get().asyncWorker
+        val backendAsync = get().futureBackend
+        val rootShell = get().rootShell
+        val sharedPreferences = get().sharedPreferences
+        val toolsInstaller = get().toolsInstaller
 
         fun get(): Application {
             return weakSelf.get() as Application
         }
 
-        fun getAsyncWorker(): AsyncWorker {
-            return get().asyncWorker
-        }
-
-        fun getBackend(): Backend {
+        val backend: Backend
+        get() {
             val app = get()
             synchronized(app.futureBackend) {
                 if (app.backend == null) {
@@ -120,23 +122,8 @@ class Application : android.app.Application() {
                         backend = GoBackend(app.applicationContext)
                     app.backend = backend
                 }
-                return app.backend as Backend
             }
-        }
-
-        val backendAsync: CompletableFuture<Backend>
-            get() = get().futureBackend
-
-        fun getRootShell(): RootShell {
-            return get().rootShell
-        }
-
-        fun getSharedPreferences(): SharedPreferences {
-            return get().sharedPreferences
-        }
-
-        fun getToolsInstaller(): ToolsInstaller {
-            return get().toolsInstaller
+            return app.backend as Backend
         }
 
         fun getTunnelManager(): TunnelManager {

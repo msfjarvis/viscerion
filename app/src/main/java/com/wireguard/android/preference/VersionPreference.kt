@@ -23,7 +23,7 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
         Application.backendAsync.thenAccept { backend ->
             versionSummary =
                 getContext().getString(R.string.version_summary_checking, backend.getTypeName().toLowerCase())
-            Application.getAsyncWorker().supplyAsync<String> { backend.getVersion() }
+            Application.asyncWorker.supplyAsync<String> { backend.getVersion() }
                 .whenComplete { version, exception ->
                     versionSummary = if (exception == null)
                         getContext().getString(R.string.version_summary, backend.getTypeName(), version)

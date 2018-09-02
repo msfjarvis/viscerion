@@ -31,8 +31,8 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     override fun onAttached() {
         super.onAttached()
-        Application.getAsyncWorker().supplyAsync<Int>
-        { Application.getToolsInstaller().areInstalled() }
+        Application.asyncWorker.supplyAsync<Int>
+        { Application.toolsInstaller.areInstalled() }
             .whenComplete { state, throwable -> this.onCheckResult(state, throwable) }
     }
 
@@ -51,8 +51,8 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     override fun onClick() {
         setState(State.WORKING)
-        Application.getAsyncWorker().supplyAsync<Int>
-        { Application.getToolsInstaller().install() }
+        Application.asyncWorker.supplyAsync<Int>
+        { Application.toolsInstaller.install() }
             .whenComplete { result, throwable -> this.onInstallResult(result, throwable) }
     }
 

@@ -52,7 +52,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
             .whenComplete { _, exception ->
-                Application.getAsyncWorker().supplyAsync {
+                Application.asyncWorker.supplyAsync {
                     if (exception != null)
                         throw exception
                     val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)

@@ -19,11 +19,11 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Application.getSharedPreferences().registerOnSharedPreferenceChangeListener(this)
+        Application.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onDestroy() {
-        Application.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this)
+        Application.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         super.onDestroy()
     }
 
