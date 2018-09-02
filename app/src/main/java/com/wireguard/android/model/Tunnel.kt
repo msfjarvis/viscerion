@@ -24,7 +24,7 @@ class Tunnel internal constructor(
     private val manager: TunnelManager,
     private var name: String,
     private var config: Config?,
-    private var state: State
+    private var state: State?
 ) : BaseObservable(), Keyed<String> {
 
     private var statistics: Statistics? = null
@@ -86,7 +86,7 @@ class Tunnel internal constructor(
         return name
     }
 
-    fun onStateChanged(state: State): State {
+    fun onStateChanged(state: State?): State? {
         if (state != State.UP)
             onStatisticsChanged(null)
         this.state = state

@@ -201,7 +201,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     tunnel == null -> {
                         Log.d(TAG, "Attempting to create new tunnel " + binding!!.config?.name)
                         val manager = Application.getTunnelManager()
-                        manager.create(binding!!.config?.name, newConfig)
+                        manager.create(binding!!.config?.name!!, newConfig)
                             .whenComplete { newTunnel, throwable ->
                                 this.onTunnelCreated(
                                     newTunnel,

@@ -113,7 +113,7 @@ class QuickTileService : TileService() {
 
     private fun updateTile() {
         // Update the tunnel.
-        val newTunnel = Application.getTunnelManager().lastUsedTunnel
+        val newTunnel = Application.getTunnelManager().getLastUsedTunnel()
         if (newTunnel !== tunnel) {
             if (tunnel != null)
                 tunnel!!.removeOnPropertyChangedCallback(onStateChangedCallback)
