@@ -8,7 +8,6 @@ package com.wireguard.android.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -25,6 +24,7 @@ import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ExceptionLoggers
+import timber.log.Timber
 
 /**
  * Base class for fragments that need to know the currently-selected tunnel. Only does anything when
@@ -51,6 +51,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         } else {
             activity = null
         }
+        Timber.tag(TAG)
     }
 
     override fun onDetach() {
@@ -107,7 +108,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
                 Lunchbar.make(view, message, Lunchbar.LENGTH_LONG).show()
             else
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            Log.e(TAG, message, throwable)
+            Timber.e(throwable, message)
         }
     }
 

@@ -25,6 +25,7 @@ import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.RootShell
 import com.wireguard.android.util.ToolsInstaller
 import java9.util.concurrent.CompletableFuture
+import timber.log.Timber
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -69,6 +70,9 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG)
+            Timber.plant(Timber.DebugTree())
 
         asyncWorker = AsyncWorker(AsyncTask.SERIAL_EXECUTOR, Handler(Looper.getMainLooper()))
         rootShell = RootShell(applicationContext)

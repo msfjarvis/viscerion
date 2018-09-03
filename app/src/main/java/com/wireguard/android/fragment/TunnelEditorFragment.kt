@@ -8,7 +8,6 @@ package com.wireguard.android.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -30,6 +29,7 @@ import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import com.wireguard.config.Peer
+import timber.log.Timber
 import java.util.ArrayList
 import java.util.Objects
 
@@ -115,13 +115,13 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         val message: String
         if (throwable == null) {
             message = getString(R.string.config_save_success, savedTunnel.getName())
-            Log.d(TAG, message)
+            Timber.d(message)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             onFinished()
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.config_save_error, savedTunnel.getName(), error)
-            Log.e(TAG, message, throwable)
+            Timber.e(throwable)
             if (binding != null) {
                 Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
             }
@@ -131,6 +131,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        Timber.tag(TAG)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -195,14 +196,14 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     val error = ExceptionLoggers.unwrapMessage(e)
                     val tunnelName = if (tunnel == null) binding!!.config?.name else tunnel!!.getName()
                     val message = getString(R.string.config_save_error, tunnelName, error)
-                    Log.e(TAG, message, e)
+                    Timber.e(e)
                     Lunchbar.make(binding!!.mainContainer, error, Lunchbar.LENGTH_LONG).show()
                     return false
                 }
 
                 when {
                     tunnel == null -> {
-                        Log.d(TAG, "Attempting to create new tunnel " + binding!!.config?.name)
+                        Timber.d("Attempting to create new tunnel %s", binding!!.config?.name)
                         val manager = Application.getTunnelManager()
                         manager.create(binding!!.config?.name!!, newConfig)
                             .whenComplete { newTunnel, throwable ->
@@ -213,12 +214,12 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                             }
                     }
                     tunnel!!.getName() != binding!!.config?.name -> {
-                        Log.d(TAG, "Attempting to rename tunnel to " + binding!!.config?.name)
+                        Timber.d("Attempting to rename tunnel to %s", binding!!.config?.name)
                         tunnel!!.setName(binding!!.config!!.name)
                             .whenComplete { _, b -> onTunnelRenamed(tunnel, newConfig, b) }
                     }
                     else -> {
-                        Log.d(TAG, "Attempting to save config of " + tunnel!!.getName())
+                        Timber.d("Attempting to save config of %s", tunnel!!.getName())
                         tunnel!!.setConfig(newConfig)
                             .whenComplete { _, b -> onConfigSaved(tunnel!!, b) }
                     }
@@ -249,13 +250,13 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         if (throwable == null) {
             tunnel = newTunnel
             message = getString(R.string.tunnel_create_success, tunnel!!.getName())
-            Log.d(TAG, message)
+            Timber.d(message)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             onFinished()
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_create_error, error)
-            Log.e(TAG, message, throwable)
+            Timber.e(throwable)
             if (binding != null) {
                 Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
             }
@@ -270,14 +271,14 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         val message: String
         if (throwable == null) {
             message = getString(R.string.tunnel_rename_success, renamedTunnel?.getName())
-            Log.d(TAG, message)
+            Timber.d(message)
             // Now save the rest of configuration changes.
-            Log.d(TAG, "Attempting to save config of renamed tunnel " + tunnel!!.getName())
+            Timber.d("Attempting to save config of renamed tunnel %s", tunnel!!.getName())
             renamedTunnel?.setConfig(newConfig)?.whenComplete { _, b -> onConfigSaved(renamedTunnel!!, b) }
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_rename_error, error)
-            Log.e(TAG, message, throwable)
+            Timber.e(throwable)
             if (binding != null) {
                 Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
             }

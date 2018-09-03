@@ -7,10 +7,10 @@
 package com.wireguard.android.util;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import com.wireguard.android.BuildConfig;
 import com.wireguard.android.R;
+import timber.log.Timber;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -88,7 +88,7 @@ public class RootShell {
             final String marker = UUID.randomUUID().toString();
             final String script = "echo " + marker + "; echo " + marker + " >&2; (" + command +
                     "); ret=$?; echo " + marker + " $ret; echo " + marker + " $ret >&2\n";
-            Log.v(TAG, "executing: " + command);
+            Timber.tag(TAG).v("executing: %s", command);
             stdin.write(script);
             stdin.flush();
             String line;
@@ -105,7 +105,7 @@ public class RootShell {
                 } else if (markersSeen > 0) {
                     if (output != null)
                         output.add(line);
-                    Log.v(TAG, "stdout: " + line);
+                    Timber.tag(TAG).v("stdout: %s", line);
                 }
             }
             while ((line = stderr.readLine()) != null) {
@@ -116,14 +116,14 @@ public class RootShell {
                         break;
                     }
                 } else if (markersSeen > 2) {
-                    Log.v(TAG, "stderr: " + line);
+                    Timber.tag(TAG).v("stderr: %s", line);
                 }
             }
             if (markersSeen != 4)
                 throw new IOException("Expected 4 markers, received " + markersSeen);
             if (errnoStdout != errnoStderr)
                 throw new IOException("Unable to read exit status");
-            Log.v(TAG, "exit: " + errnoStdout);
+            Timber.tag(TAG).v("exit: %s", errnoStdout);
             return errnoStdout;
         }
     }
@@ -157,13 +157,13 @@ public class RootShell {
                 // Check that the shell started successfully.
                 final String uid = stdout.readLine();
                 if (!"0".equals(uid)) {
-                    Log.w(TAG, "Root check did not return correct UID: " + uid);
+                    Timber.tag(TAG).w("Root check did not return correct UID: %s", uid);
                     throw new NoRootException(deviceNotRootedMessage);
                 }
                 if (!isRunning()) {
                     String line;
                     while ((line = stderr.readLine()) != null) {
-                        Log.w(TAG, "Root check returned an error: " + line);
+                        Timber.tag(TAG).w("Root check returned an error: %s", line);
                         if (line.contains("Permission denied"))
                             throw new NoRootException(deviceNotRootedMessage);
                     }
@@ -186,11 +186,11 @@ public class RootShell {
     }
 
     public static class NoRootException extends Exception {
-        public NoRootException(final String message, final Throwable cause) {
+        NoRootException(final String message, final Throwable cause) {
             super(message, cause);
         }
 
-        public NoRootException(final String message) {
+        NoRootException(final String message) {
             super(message);
         }
     }

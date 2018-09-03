@@ -8,7 +8,7 @@ package com.wireguard.android.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -24,7 +24,7 @@ object SharedLibraryLoader {
             System.loadLibrary(libName)
             return
         } catch (e: UnsatisfiedLinkError) {
-            Log.d(TAG, "Failed to load library normally, so attempting to extract from apk", e)
+            Timber.tag(TAG).d(e, "Failed to load library normally, so attempting to extract from apk")
             noAbiException = e
         }
 
@@ -42,7 +42,7 @@ object SharedLibraryLoader {
             var f: File? = null
             try {
                 f = File.createTempFile("lib", ".so", context.cacheDir)
-                Log.d(TAG, "Extracting apk:/$libZipPath to ${f!!.absolutePath} and loading")
+                Timber.tag(TAG).d("Extracting apk:/$libZipPath to ${f!!.absolutePath} and loading")
                 FileOutputStream(f).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)
@@ -51,7 +51,7 @@ object SharedLibraryLoader {
                 System.load(f.absolutePath)
                 return
             } catch (e: Exception) {
-                Log.d(TAG, "Failed to load library apk:/$libZipPath", e)
+                Timber.tag(TAG).d(e, "Failed to load library apk:/$libZipPath")
                 noAbiException = e
             } finally {
                 f?.delete()

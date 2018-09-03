@@ -10,7 +10,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 import com.wireguard.android.Application;
@@ -26,6 +25,7 @@ import com.wireguard.config.Interface;
 import com.wireguard.config.Peer;
 import com.wireguard.crypto.KeyEncoding;
 import java9.util.concurrent.CompletableFuture;
+import timber.log.Timber;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -114,7 +114,7 @@ public final class GoBackend implements Backend {
             return originalState;
         if (state == State.UP && currentTunnel != null)
             throw new IllegalStateException("Only one userspace tunnel can run at a time");
-        Log.d(TAG, "Changing tunnel " + tunnel.getName() + " to state " + state);
+        Timber.tag(TAG).d("Changing tunnel %s to state %s ", tunnel.getName(), state);
         setStateInternal(tunnel, tunnel.getConfig(), state);
         return getState(tunnel);
     }
@@ -123,7 +123,7 @@ public final class GoBackend implements Backend {
             throws Exception {
 
         if (state == State.UP) {
-            Log.i(TAG, "Bringing tunnel up");
+            Timber.tag(TAG).i("Bringing tunnel up");
 
             Objects.requireNonNull(config, "Trying to bring up a tunnel with no config");
 
@@ -141,7 +141,7 @@ public final class GoBackend implements Backend {
             }
 
             if (currentTunnelHandle != -1) {
-                Log.w(TAG, "Tunnel already up");
+                Timber.tag(TAG).w("Tunnel already up");
                 return;
             }
 
@@ -201,7 +201,7 @@ public final class GoBackend implements Backend {
             try (final ParcelFileDescriptor tun = builder.establish()) {
                 if (tun == null)
                     throw new Exception("Unable to create tun device");
-                Log.d(TAG, "Go backend v" + wgVersion());
+                Timber.tag(TAG).d("Go backend v" + wgVersion());
                 currentTunnelHandle = wgTurnOn(tunnel.getName(), tun.detachFd(), goConfig);
             }
             if (currentTunnelHandle < 0)
@@ -212,10 +212,10 @@ public final class GoBackend implements Backend {
             service.protect(wgGetSocketV4(currentTunnelHandle));
             service.protect(wgGetSocketV6(currentTunnelHandle));
         } else {
-            Log.i(TAG, "Bringing tunnel down");
+            Timber.tag(TAG).i("Bringing tunnel down");
 
             if (currentTunnelHandle == -1) {
-                Log.w(TAG, "Tunnel already down");
+                Timber.tag(TAG).w("Tunnel already down");
                 return;
             }
 
@@ -226,7 +226,7 @@ public final class GoBackend implements Backend {
     }
 
     private void startVpnService() {
-        Log.d(TAG, "Requesting to start VpnService");
+        Timber.tag(TAG).d("Requesting to start VpnService");
         context.startService(new Intent(context, VpnService.class));
     }
 
@@ -258,7 +258,7 @@ public final class GoBackend implements Backend {
         public int onStartCommand(@Nullable final Intent intent, final int flags, final int startId) {
             vpnService.complete(this);
             if (intent == null || intent.getComponent() == null || !intent.getComponent().getPackageName().equals(getPackageName())) {
-                Log.d(TAG, "Service started by Always-on VPN feature");
+                Timber.tag(TAG).d("Service started by Always-on VPN feature");
                 Application.Companion.getTunnelManager().restoreState(true).whenComplete(ExceptionLoggers.D);
             }
             return super.onStartCommand(intent, flags, startId);

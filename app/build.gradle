@@ -88,13 +88,13 @@ android {
 }
 
 ext {
-    databindingVersion = '3.3.0-alpha05'
     androidXVersion = '1.0.0-rc02'
+    coroutimesVersion = '0.25.0'
+    databindingVersion = '3.3.0-alpha05'
     materialComponentsVersion = '1.0.0-rc01'
     streamsupportVersion = '1.6.0'
-    jsr305Version = '3.0.2'
+    timberVersion = '4.7.1'
     zxingEmbeddedVersion = '3.6.0'
-    coroutimesVersion = '0.25.0'
 }
 
 dependencies {
@@ -102,10 +102,10 @@ dependencies {
     implementation "androidx.databinding:databinding-runtime:$databindingVersion"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.cardview:cardview:$androidXVersion"
-    implementation "com.google.android.material:material:$materialComponentsVersion"
     implementation "androidx.legacy:legacy-preference-v14:$androidXVersion"
     implementation "androidx.annotation:annotation:$androidXVersion"
-    implementation "com.google.code.findbugs:jsr305:$jsr305Version"
+    implementation "com.google.android.material:material:$materialComponentsVersion"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.journeyapps:zxing-android-embedded:$zxingEmbeddedVersion"
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"

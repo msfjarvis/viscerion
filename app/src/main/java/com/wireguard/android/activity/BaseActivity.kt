@@ -38,13 +38,11 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         // Restore the saved tunnel if there is one; otherwise grab it from the arguments.
-        val savedTunnelName: String?
-        if (savedInstanceState != null)
-            savedTunnelName = savedInstanceState.getString(KEY_SELECTED_TUNNEL)
-        else if (intent != null)
-            savedTunnelName = intent.getStringExtra(KEY_SELECTED_TUNNEL)
-        else
-            savedTunnelName = null
+        val savedTunnelName: String? = when {
+            savedInstanceState != null -> savedInstanceState.getString(KEY_SELECTED_TUNNEL)
+            intent != null -> intent.getStringExtra(KEY_SELECTED_TUNNEL)
+            else -> null
+        }
 
         if (savedTunnelName != null)
             Application.getTunnelManager().completableTunnels.thenAccept { tunnels ->

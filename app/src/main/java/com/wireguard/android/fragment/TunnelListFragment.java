@@ -15,7 +15,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +38,7 @@ import com.wireguard.android.widget.fab.FloatingActionsMenuRecyclerViewScrollLis
 import com.wireguard.config.Config;
 import java9.util.concurrent.CompletableFuture;
 import java9.util.stream.StreamSupport;
+import timber.log.Timber;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -200,6 +200,7 @@ public class TunnelListFragment extends BaseFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        Timber.tag(TAG);
         binding = TunnelListFragmentBinding.inflate(inflater, container, false);
 
         binding.tunnelList.setOnTouchListener((view, motionEvent) -> {
@@ -279,7 +280,7 @@ public class TunnelListFragment extends BaseFragment {
         } else {
             final String error = ExceptionLoggers.Companion.unwrapMessage(throwable);
             message = getResources().getQuantityString(R.plurals.delete_error, count, count, error);
-            Log.e(TAG, message, throwable);
+            Timber.e(throwable);
         }
         if (binding != null) {
             Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
@@ -292,7 +293,7 @@ public class TunnelListFragment extends BaseFragment {
         for (final Throwable throwable : throwables) {
             final String error = ExceptionLoggers.Companion.unwrapMessage(throwable);
             message = getString(R.string.import_error, error);
-            Log.e(TAG, message, throwable);
+            Timber.e(throwable);
         }
 
         if (tunnels.size() == 1 && throwables.isEmpty())

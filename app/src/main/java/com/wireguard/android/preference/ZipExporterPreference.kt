@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Lunchbar
@@ -22,6 +21,7 @@ import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.FragmentUtils
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -82,7 +82,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
         if (throwable != null) {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.zip_export_error, error)
-            Log.e(TAG, message, throwable)
+            Timber.tag(TAG).e(throwable, message)
             Lunchbar.make(
                 FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
                 message, Lunchbar.LENGTH_LONG

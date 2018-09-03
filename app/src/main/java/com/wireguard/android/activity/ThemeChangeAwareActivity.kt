@@ -8,11 +8,11 @@ package com.wireguard.android.activity
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.wireguard.android.Application
+import timber.log.Timber
 import java.lang.reflect.Field
 
 abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -20,6 +20,7 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Application.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        Timber.tag(TAG)
     }
 
     override fun onDestroy() {
@@ -71,7 +72,7 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
                     o.javaClass.getMethod("clear").invoke(o)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to flush drawable cache", e)
+                Timber.e(e, "Failed to flush drawable cache")
             }
 
             lastResources = resources

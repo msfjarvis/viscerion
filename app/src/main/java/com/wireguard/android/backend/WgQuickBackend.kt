@@ -10,7 +10,6 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.Application
@@ -21,6 +20,7 @@ import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.config.Config
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
@@ -75,7 +75,7 @@ class WgQuickBackend(context: Context) : Backend {
             if (Application.rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
                 return emptySet()
         } catch (e: Exception) {
-            Log.w(TAG, "Unable to enumerate running tunnels", e)
+            Timber.tag(TAG).w(e, "Unable to enumerate running tunnels")
             return emptySet()
         }
 
@@ -99,7 +99,7 @@ class WgQuickBackend(context: Context) : Backend {
             stateToSet = if (originalState == State.UP) State.DOWN else State.UP
         if (stateToSet == originalState)
             return originalState
-        Log.d(TAG, "Changing tunnel " + tunnel?.getName() + " to state " + stateToSet)
+        Timber.tag(TAG).d("Changing tunnel %s to state %s", tunnel?.getName(), stateToSet)
         Application.toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
         return getState(tunnel)

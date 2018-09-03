@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Lunchbar
@@ -19,6 +18,7 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.FragmentUtils
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -70,7 +70,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
         if (throwable != null) {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.log_export_error, error)
-            Log.e(TAG, message, throwable)
+            Timber.tag(TAG).e(throwable)
             Lunchbar.make(
                 FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
                 message, Lunchbar.LENGTH_LONG

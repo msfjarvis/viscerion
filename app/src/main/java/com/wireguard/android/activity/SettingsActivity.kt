@@ -32,7 +32,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
     private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
     private var permissionRequestCounter: Int = 0
 
-    fun ensurePermissions(permissions: Array<String>, cb: (permissions: Array<String>, granted: IntArray) -> Unit) {
+    fun ensurePermissions(permissions: Array<String>, function: (permissions: Array<String>, granted: IntArray) -> Unit) {
         val needPermissions = ArrayList<String>(permissions.size)
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
@@ -41,11 +41,11 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         if (needPermissions.isEmpty()) {
             val granted = IntArray(permissions.size)
             Arrays.fill(granted, PackageManager.PERMISSION_GRANTED)
-            cb(permissions, granted)
+            function(permissions, granted)
             return
         }
         val idx = permissionRequestCounter++
-        permissionRequestCallbacks.put(idx, cb)
+        permissionRequestCallbacks.put(idx, function)
         ActivityCompat.requestPermissions(
             this,
             needPermissions.toTypedArray(), idx

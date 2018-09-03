@@ -7,8 +7,8 @@
 package com.wireguard.android.configStore
 
 import android.content.Context
-import android.util.Log
 import com.wireguard.config.Config
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -24,7 +24,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun create(name: String, config: Config): Config {
-        Log.d(TAG, "Creating configuration for tunnel $name")
+        Timber.tag(TAG).d("Creating configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.createNewFile())
             throw IOException("Configuration file " + file.name + " already exists")
@@ -37,7 +37,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun delete(name: String) {
-        Log.d(TAG, "Deleting configuration for tunnel $name")
+        Timber.tag(TAG).d("Deleting configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.delete())
             throw IOException("Cannot delete configuration file " + file.name)
@@ -61,21 +61,21 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun rename(name: String, replacement: String) {
-        Log.d(TAG, "Renaming configuration for tunnel $name to $replacement")
+        Timber.tag(TAG).d("Renaming configuration for tunnel $name to $replacement")
         val file = fileFor(name)
         val replacementFile = fileFor(replacement)
         if (!replacementFile.createNewFile())
             throw IOException("Configuration for $replacement already exists")
         if (!file.renameTo(replacementFile)) {
             if (!replacementFile.delete())
-                Log.w(TAG, "Couldn't delete marker file for new name $replacement")
+                Timber.tag(TAG).w("Couldn't delete marker file for new name $replacement")
             throw IOException("Cannot rename configuration file " + file.name)
         }
     }
 
     @Throws(IOException::class)
     override fun save(name: String, config: Config): Config {
-        Log.d(TAG, "Saving configuration for tunnel $name")
+        Timber.tag(TAG).d("Saving configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.isFile)
             throw FileNotFoundException("Configuration file " + file.name + " not found")

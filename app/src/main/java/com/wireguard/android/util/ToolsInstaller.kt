@@ -8,11 +8,10 @@ package com.wireguard.android.util
 
 import android.content.Context
 import android.system.OsConstants
-import android.util.Log
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.RootShell.NoRootException
-
+import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -64,15 +63,15 @@ class ToolsInstaller(context: Context) {
                 val ret = symlink()
                 areToolsAvailable = when (ret) {
                     OsConstants.EALREADY -> {
-                        Log.d(TAG, "Tools were already symlinked into our private binary dir")
+                        Timber.tag(TAG).d("Tools were already symlinked into our private binary dir")
                         true
                     }
                     OsConstants.EXIT_SUCCESS -> {
-                        Log.d(TAG, "Tools are now symlinked into our private binary dir")
+                        Timber.tag(TAG).d("Tools are now symlinked into our private binary dir")
                         true
                     }
                     else -> {
-                        Log.e(TAG, "For some reason, wg and wg-quick are not available at all")
+                        Timber.tag(TAG).e("For some reason, wg and wg-quick are not available at all")
                         false
                     }
                 }
