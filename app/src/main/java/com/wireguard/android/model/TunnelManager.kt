@@ -17,7 +17,6 @@ import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
 import java.util.ArrayList
 
-
 class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     private val context = Application.get()
     val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
@@ -67,7 +66,6 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             tunnels.add(tunnel)
             if (wasLastUsed)
                 setLastUsedTunnel(tunnel)
-
         }
     }
 
@@ -215,7 +213,8 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         private const val KEY_RESTORE_ON_BOOT = "restore_on_boot"
         private const val KEY_RUNNING_TUNNELS = "enabled_configs"
         internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
-            return Application.asyncWorker.supplyAsync<Tunnel.State> { Application.backend.getState(tunnel) }.thenApply(tunnel::onStateChanged)
+            return Application.asyncWorker.supplyAsync<Tunnel.State> { Application.backend.getState(tunnel) }
+                .thenApply(tunnel::onStateChanged)
         }
 
         fun getTunnelStatistics(tunnel: Tunnel): CompletionStage<Statistics> {

@@ -106,25 +106,25 @@ class Application : android.app.Application() {
         }
 
         val backend: Backend
-        get() {
-            val app = get()
-            synchronized(app.futureBackend) {
-                if (app.backend == null) {
-                    var backend: Backend? = null
-                    if (File("/sys/module/wireguard").exists()) {
-                        try {
-                            app.rootShell.start()
-                            backend = WgQuickBackend(app.applicationContext)
-                        } catch (ignored: Exception) {
+            get() {
+                val app = get()
+                synchronized(app.futureBackend) {
+                    if (app.backend == null) {
+                        var backend: Backend? = null
+                        if (File("/sys/module/wireguard").exists()) {
+                            try {
+                                app.rootShell.start()
+                                backend = WgQuickBackend(app.applicationContext)
+                            } catch (ignored: Exception) {
+                            }
                         }
+                        if (backend == null)
+                            backend = GoBackend(app.applicationContext)
+                        app.backend = backend
                     }
-                    if (backend == null)
-                        backend = GoBackend(app.applicationContext)
-                    app.backend = backend
                 }
+                return app.backend as Backend
             }
-            return app.backend as Backend
-        }
 
         fun getTunnelManager(): TunnelManager {
             return get().tunnelManager

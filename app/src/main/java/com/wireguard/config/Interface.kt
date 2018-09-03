@@ -27,7 +27,7 @@ class Interface {
             addresses.iterator().forEach {
                 if (it.isEmpty())
                     throw IllegalArgumentException(
-                            context.getString(R.string.tunnel_error_empty_interface_address)
+                        context.getString(R.string.tunnel_error_empty_interface_address)
                     )
                 addressList.add(InetNetwork(it))
             }
@@ -71,7 +71,11 @@ class Interface {
     }
 
     private fun getExcludedApplicationsString(): String? {
-        return if (excludedApplications.isEmpty()) null else Attribute.iterableToString(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray))
+        return if (excludedApplications.isEmpty()) null else Attribute.iterableToString(
+            excludedApplications.addExclusive(
+                GlobalExclusions.exclusionsArray
+            )
+        )
     }
 
     fun getExcludedApplications(): Array<String> {
@@ -104,7 +108,12 @@ class Interface {
 
     fun parse(line: String) {
         val key = Attribute.match(line)
-                ?: throw IllegalArgumentException(String.format(context.getString(R.string.tunnel_error_interface_parse_failed), line))
+            ?: throw IllegalArgumentException(
+                String.format(
+                    context.getString(R.string.tunnel_error_interface_parse_failed),
+                    line
+                )
+            )
         when (key) {
             Attribute.ADDRESS -> addAddresses(key.parseList(line))
             Attribute.DNS -> addDnses(key.parseList(line))

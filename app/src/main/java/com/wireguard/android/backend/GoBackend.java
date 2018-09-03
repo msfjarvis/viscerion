@@ -45,7 +45,7 @@ public final class GoBackend implements Backend {
     private int currentTunnelHandle = -1;
 
     public GoBackend(final Context context) {
-        SharedLibraryLoader.loadSharedLibrary(context, "wg-go");
+        SharedLibraryLoader.INSTANCE.loadSharedLibrary(context, "wg-go");
         this.context = context;
     }
 

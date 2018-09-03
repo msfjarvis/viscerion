@@ -40,28 +40,29 @@ import java.util.Objects
 class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     private val breakObjectOrientedLayeringHandlerReceivers = ArrayList<Any>()
     private var binding: TunnelEditorFragmentBinding? = null
-    private val breakObjectOrientedLayeringHandler: Observable.OnPropertyChangedCallback = object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-            if (binding == null)
-                return
-            val config = binding!!.config ?: return
-            if (propertyId == BR.config) {
-                config.addOnPropertyChangedCallback(this)
-                breakObjectOrientedLayeringHandlerReceivers.add(config)
-                config.interfaceSection.addOnPropertyChangedCallback(this)
-                breakObjectOrientedLayeringHandlerReceivers.add(config.interfaceSection)
-                config.peers.addOnListChangedCallback(breakObjectListOrientedLayeringHandler)
-                breakObjectOrientedLayeringHandlerReceivers.add(config.peers)
-            } else if (propertyId == BR.dnses || propertyId == BR.peers)
-            else
-                return
-            val numSiblings = config.peers.size - 1
-            for (peer in config.peers) {
-                peer.setInterfaceDNSRoutes(config.interfaceSection.getDnses())
-                peer.setNumSiblings(numSiblings)
+    private val breakObjectOrientedLayeringHandler: Observable.OnPropertyChangedCallback =
+        object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable, propertyId: Int) {
+                if (binding == null)
+                    return
+                val config = binding!!.config ?: return
+                if (propertyId == BR.config) {
+                    config.addOnPropertyChangedCallback(this)
+                    breakObjectOrientedLayeringHandlerReceivers.add(config)
+                    config.interfaceSection.addOnPropertyChangedCallback(this)
+                    breakObjectOrientedLayeringHandlerReceivers.add(config.interfaceSection)
+                    config.peers.addOnListChangedCallback(breakObjectListOrientedLayeringHandler)
+                    breakObjectOrientedLayeringHandlerReceivers.add(config.peers)
+                } else if (propertyId == BR.dnses || propertyId == BR.peers)
+                else
+                    return
+                val numSiblings = config.peers.size - 1
+                for (peer in config.peers) {
+                    peer.setInterfaceDNSRoutes(config.interfaceSection.getDnses())
+                    peer.setNumSiblings(numSiblings)
+                }
             }
         }
-    }
     private val breakObjectListOrientedLayeringHandler: ObservableList.OnListChangedCallback<ObservableList<Peer.Observable>> =
         object : ObservableList.OnListChangedCallback<ObservableList<Peer.Observable>>() {
             override fun onChanged(sender: ObservableList<Peer.Observable>) {}
@@ -154,7 +155,9 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         for (o in breakObjectOrientedLayeringHandlerReceivers) {
             if (o is Observable)
                 o.removeOnPropertyChangedCallback(breakObjectOrientedLayeringHandler)
-            else (o as? ObservableList<Peer.Observable>)?.removeOnListChangedCallback(breakObjectListOrientedLayeringHandler)
+            else (o as? ObservableList<Peer.Observable>)?.removeOnListChangedCallback(
+                breakObjectListOrientedLayeringHandler
+            )
         }
         super.onDestroyView()
     }

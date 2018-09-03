@@ -30,7 +30,6 @@ class ApplicationData(
             }
         }
 
-
     var isGloballyExcluded: Boolean = false
         @Bindable
         get() = globallyExcluded

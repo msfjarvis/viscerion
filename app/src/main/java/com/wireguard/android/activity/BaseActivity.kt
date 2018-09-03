@@ -47,7 +47,9 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
             savedTunnelName = null
 
         if (savedTunnelName != null)
-            Application.getTunnelManager().completableTunnels.thenAccept { tunnels -> selectedTunnel = tunnels.get(savedTunnelName) }
+            Application.getTunnelManager().completableTunnels.thenAccept { tunnels ->
+                selectedTunnel = tunnels.get(savedTunnelName)
+            }
 
         // The selected tunnel must be set before the superclass method recreates fragments.
         super.onCreate(savedInstanceState)
