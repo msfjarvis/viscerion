@@ -14,10 +14,13 @@ android:
   licenses:
     - ".+"
 
+branches:
+  only:
+    - master
+
 script:
-  - "./gradlew :app:assembleDebug"
-  - "./gradlew :app:assembleRelease"
-  - "./gradlew :app:lint"
+  - "./gradlew :app:assembleDebug :app:lint"
+  - bash ci/notify-test.sh
 
 notifications:
   email: false
