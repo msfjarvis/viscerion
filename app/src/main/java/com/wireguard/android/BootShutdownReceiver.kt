@@ -23,7 +23,7 @@ class BootShutdownReceiver : BroadcastReceiver() {
             if (backend !is WgQuickBackend)
                 return@thenAccept
             val action = intent.action
-            val tunnelManager = Application.getTunnelManager()
+            val tunnelManager = Application.tunnelManager
             if (Intent.ACTION_BOOT_COMPLETED == action) {
                 Timber.i("Broadcast receiver restoring state (boot)")
                 tunnelManager.restoreState(false).whenComplete(ExceptionLoggers.D)

@@ -72,7 +72,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         if (binding != null) {
             val name = binding!!.tunnelNameText.text.toString()
 
-            Application.getTunnelManager().create(name, config).whenComplete { tunnel, throwable ->
+            Application.tunnelManager.create(name, config).whenComplete { tunnel, throwable ->
                 if (tunnel != null) {
                     dismiss()
                 } else {

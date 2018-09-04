@@ -45,7 +45,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
         }
 
         if (savedTunnelName != null)
-            Application.getTunnelManager().completableTunnels.thenAccept { tunnels ->
+            Application.tunnelManager.completableTunnels.thenAccept { tunnels ->
                 selectedTunnel = tunnels.get(savedTunnelName)
             }
 

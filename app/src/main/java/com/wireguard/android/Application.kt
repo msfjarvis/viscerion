@@ -104,6 +104,7 @@ class Application : android.app.Application() {
         val rootShell by lazy { get().rootShell }
         val sharedPreferences by lazy { get().sharedPreferences }
         val toolsInstaller by lazy { get().toolsInstaller }
+        val tunnelManager by lazy { get().tunnelManager }
 
         fun get(): Application {
             return weakSelf.get() as Application
@@ -129,9 +130,5 @@ class Application : android.app.Application() {
                 }
                 return app.backend as Backend
             }
-
-        fun getTunnelManager(): TunnelManager {
-            return get().tunnelManager
-        }
     }
 }
