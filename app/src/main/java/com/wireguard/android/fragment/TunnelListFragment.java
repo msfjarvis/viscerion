@@ -31,10 +31,12 @@ import com.wireguard.android.activity.TunnelCreatorActivity;
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter;
 import com.wireguard.android.databinding.TunnelListFragmentBinding;
 import com.wireguard.android.databinding.TunnelListItemBinding;
+import com.wireguard.android.model.GlobalExclusions;
 import com.wireguard.android.model.Tunnel;
 import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.android.widget.MultiselectableRelativeLayout;
 import com.wireguard.android.widget.fab.FloatingActionsMenuRecyclerViewScrollListener;
+import com.wireguard.config.Attribute;
 import com.wireguard.config.Config;
 import java9.util.concurrent.CompletableFuture;
 import java9.util.stream.StreamSupport;
@@ -307,6 +309,18 @@ public class TunnelListFragment extends BaseFragment {
             message = getResources().getQuantityString(R.plurals.import_partial_success,
                     tunnels.size() + throwables.size(),
                     tunnels.size(), tunnels.size() + throwables.size());
+
+        Application.Companion.getTunnelManager().getCompletableTunnels().thenAccept(allTunnels -> {
+            for (Tunnel tunnel : allTunnels) {
+                Config oldConfig = tunnel.getConfig();
+                if (oldConfig != null) {
+                    oldConfig.getInterface().addExcludedApplications(Attribute.Companion.stringToList(GlobalExclusions.Companion.getExclusions()));
+                    tunnel.setConfig(oldConfig);
+                    if (tunnel.getState() == Tunnel.State.UP)
+                        tunnel.setState(Tunnel.State.DOWN).whenComplete((t, throwable) -> tunnel.setState(Tunnel.State.UP));
+                }
+            }
+        });
 
         if (binding != null)
             Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
