@@ -6,9 +6,12 @@
 
 package com.wireguard.android.fragment
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -65,18 +68,27 @@ class AppListDialogFragment : DialogFragment() {
         return dialog
     }
 
+    @SuppressLint("InlinedApi") // Handled in the code
     private fun loadData() {
         val activity = activity ?: return
+        val seenPackages: ArrayList<String> = ArrayList()
 
         val pm = activity.packageManager
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
             val launcherIntent = Intent(Intent.ACTION_MAIN, null)
             launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val resolveInfos = pm.queryIntentActivities(launcherIntent, 0)
-
+            val resolveInfos = pm.queryIntentActivities(launcherIntent, when {
+                Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP -> PackageManager.MATCH_DISABLED_COMPONENTS
+                else -> 0
+            })
             val appData = ArrayList<ApplicationData>()
             for (resolveInfo in resolveInfos) {
                 val packageName = resolveInfo.activityInfo.packageName
+                if (packageName in seenPackages) {
+                    continue
+                } else {
+                    seenPackages.add(packageName)
+                }
                 appData.add(
                     ApplicationData(
                         resolveInfo.loadIcon(pm),
