@@ -274,7 +274,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             Timber.d(message)
             // Now save the rest of configuration changes.
             Timber.d("Attempting to save config of renamed tunnel %s", tunnel!!.getName())
-            renamedTunnel?.setConfig(newConfig)?.whenComplete { _, b -> onConfigSaved(renamedTunnel!!, b) }
+            renamedTunnel?.setConfig(newConfig)?.whenComplete { _, b -> onConfigSaved(renamedTunnel, b) }
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_rename_error, error)

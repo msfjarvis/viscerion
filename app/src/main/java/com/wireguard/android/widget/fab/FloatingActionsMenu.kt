@@ -245,7 +245,7 @@ class FloatingActionsMenu : ViewGroup {
                     params.mExpandDir.setFloatValues(collapsedTranslation, expandedTranslation)
                     params.setAnimationsTarget(child)
 
-                    val label = child.getTag(R.id.fab_label) as View
+                    val label = child.getTag(R.id.fab_label) as View?
                     if (label != null) {
                         val labelXAwayFromButton = if (mLabelsPosition == LABELS_ON_LEFT_SIDE)
                             labelsXNearButton - label.measuredWidth
@@ -456,7 +456,7 @@ class FloatingActionsMenu : ViewGroup {
     class SavedState : View.BaseSavedState {
         internal var mExpanded: Boolean = false
 
-        internal constructor(parcel: Parcelable) : super(parcel)
+        internal constructor(parcel: Parcelable?) : super(parcel)
 
         private constructor(`in`: Parcel) : super(`in`) {
             mExpanded = `in`.readInt() == 1
