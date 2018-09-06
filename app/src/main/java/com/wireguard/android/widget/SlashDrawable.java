@@ -18,6 +18,7 @@ import android.os.Build;
 import android.util.FloatProperty;
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @TargetApi(Build.VERSION_CODES.N)
@@ -111,7 +112,7 @@ public class SlashDrawable extends Drawable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void draw(final Canvas canvas) {
+    public void draw(@NonNull final Canvas canvas) {
         canvas.save();
         final Matrix m = new Matrix();
         final int width = getBounds().width();
@@ -184,7 +185,7 @@ public class SlashDrawable extends Drawable {
     }
 
     @Override
-    public void setTintMode(final Mode tintMode) {
+    public void setTintMode(@NonNull final Mode tintMode) {
         super.setTintMode(tintMode);
         mDrawable.setTintMode(tintMode);
     }

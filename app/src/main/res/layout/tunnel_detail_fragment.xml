@@ -7,7 +7,7 @@
 
         <import type="com.wireguard.android.model.Tunnel.State" />
 
-        <import type="com.wireguard.android.util.ClipboardUtils" />
+        <import type="com.wireguard.android.util.ExtensionsKt" />
 
         <variable
             name="fragment"
@@ -101,7 +101,7 @@
                         android:contentDescription="@string/public_key_description"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:onClick="@{ClipboardUtils::copyTextView}"
+                        android:onClick="@{ExtensionsKt::copyTextView}"
                         android:text="@{config.interfaceSection.publicKey}" />
 
                     <TextView
