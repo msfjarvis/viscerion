@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2018 Harsh Shandilya. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.wireguard.android.util;
 
 import com.wireguard.android.Application;

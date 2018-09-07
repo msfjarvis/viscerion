@@ -1,8 +1,9 @@
 /*
- * Copyright © 2018 Harsh Shandilya <msfjarvis@gmail.com>
- * Copyright © 2018 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+ * Copyright © 2017-2018 WireGuard LLC. All Rights Reserved.
+ * Copyright © 2018 Harsh Shandilya. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.wireguard.android.util
 
 import android.view.ContextThemeWrapper
