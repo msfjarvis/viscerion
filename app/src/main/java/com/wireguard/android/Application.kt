@@ -118,7 +118,7 @@ class Application : android.app.Application() {
                         var backend: Backend? = null
                         if (File("/sys/module/wireguard").exists()) {
                             try {
-                                app.rootShell
+                                app.rootShell.start()
                                 backend = WgQuickBackend(app.applicationContext)
                             } catch (ignored: Exception) {
                             }
