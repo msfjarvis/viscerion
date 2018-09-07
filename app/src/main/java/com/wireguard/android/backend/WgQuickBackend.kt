@@ -130,6 +130,8 @@ class WgQuickBackend(context: Context) : Backend {
     }
 
     private fun postNotification(state: State?, tunnel: Tunnel?) {
+        if (tunnel == null || state == null)
+            return
         if (state == State.UP) {
             val intent = Intent(cachedContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -139,14 +141,14 @@ class WgQuickBackend(context: Context) : Backend {
                 TunnelManager.NOTIFICATION_CHANNEL_ID
             )
             builder.setContentTitle(cachedContext.getString(R.string.notification_channel_wgquick_title))
-                .setContentText(tunnel?.getName())
+                .setContentText(tunnel.getName())
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .setPriority(Notification.FLAG_ONGOING_EVENT)
                 .setSmallIcon(R.drawable.ic_stat_wgquick)
-            notificationManager.notify(TunnelManager.NOTIFICATION_ID, builder.build())
+            notificationManager.notify(tunnel.getName().hashCode(), builder.build())
         } else if (state == State.DOWN) {
-            notificationManager.cancel(TunnelManager.NOTIFICATION_ID)
+            notificationManager.cancel(tunnel.getName().hashCode())
         }
     }
 

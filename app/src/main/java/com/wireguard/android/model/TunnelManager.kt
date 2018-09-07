@@ -205,7 +205,6 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
 
     companion object {
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
-        const val NOTIFICATION_ID = 2018
         private val COMPARATOR = Comparators.thenComparing(
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
         )
