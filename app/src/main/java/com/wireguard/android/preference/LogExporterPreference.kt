@@ -13,7 +13,7 @@ import android.os.Environment
 import android.util.AttributeSet
 import android.view.View
 import androidx.preference.Preference
-import com.google.android.material.snackbar.Lunchbar
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.util.ExceptionLoggers
@@ -71,9 +71,9 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.log_export_error, error)
             Timber.tag(TAG).e(throwable)
-            Lunchbar.make(
+            Snackbar.make(
                 FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
-                message, Lunchbar.LENGTH_LONG
+                message, Snackbar.LENGTH_LONG
             ).show()
             isEnabled = true
         } else {

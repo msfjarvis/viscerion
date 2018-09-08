@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.snackbar.Lunchbar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.wireguard.android.Application;
@@ -285,7 +285,7 @@ public class TunnelListFragment extends BaseFragment {
             Timber.e(throwable);
         }
         if (binding != null) {
-            Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
+            Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -323,7 +323,7 @@ public class TunnelListFragment extends BaseFragment {
         });
 
         if (binding != null)
-            Lunchbar.make(binding.mainContainer, message, Lunchbar.LENGTH_LONG).show();
+            Snackbar.make(binding.mainContainer, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

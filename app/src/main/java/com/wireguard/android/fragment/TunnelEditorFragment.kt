@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.databinding.ObservableList
-import com.google.android.material.snackbar.Lunchbar
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
@@ -123,7 +123,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             message = getString(R.string.config_save_error, savedTunnel.getName(), error)
             Timber.e(throwable)
             if (binding != null) {
-                Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
+                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -197,7 +197,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     val tunnelName = if (tunnel == null) binding!!.config?.name else tunnel!!.getName()
                     val message = getString(R.string.config_save_error, tunnelName, error)
                     Timber.e(e)
-                    Lunchbar.make(binding!!.mainContainer, error, Lunchbar.LENGTH_LONG).show()
+                    Snackbar.make(binding!!.mainContainer, error, Snackbar.LENGTH_LONG).show()
                     return false
                 }
 
@@ -258,7 +258,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             message = getString(R.string.tunnel_create_error, error)
             Timber.e(throwable)
             if (binding != null) {
-                Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
+                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -280,7 +280,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             message = getString(R.string.tunnel_rename_error, error)
             Timber.e(throwable)
             if (binding != null) {
-                Lunchbar.make(binding!!.mainContainer, message, Lunchbar.LENGTH_LONG).show()
+                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }

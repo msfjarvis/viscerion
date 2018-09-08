@@ -5,7 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.view.View
 import android.widget.TextView
-import com.google.android.material.snackbar.Lunchbar
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.config.Attribute
 
 fun <T> ArrayList<T>.addExclusive(otherArray: ArrayList<T>): ArrayList<T> {
@@ -39,5 +39,5 @@ fun copyTextView(view: View) {
     val service = view.getContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
     val description = view.getContentDescription()
     service.primaryClip = ClipData.newPlainText(description, text)
-    Lunchbar.make(view, description.toString() + " copied to clipboard", Lunchbar.LENGTH_LONG).show()
+    Snackbar.make(view, description.toString() + " copied to clipboard", Snackbar.LENGTH_LONG).show()
 }

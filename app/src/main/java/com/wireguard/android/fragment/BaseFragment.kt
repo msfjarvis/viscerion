@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Lunchbar
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.BaseActivity
@@ -105,7 +105,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             val message = context!!.getString(messageResId, error)
             val view = view
             if (view != null)
-                Lunchbar.make(view, message, Lunchbar.LENGTH_LONG).show()
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
             else
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             Timber.e(throwable, message)
