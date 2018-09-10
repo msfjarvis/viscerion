@@ -18,7 +18,7 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
-import com.wireguard.android.model.GlobalExclusions
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.model.Tunnel
 import com.wireguard.config.Attribute
 import java.util.ArrayList
@@ -102,7 +102,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 }
             }
             preferenceManager.findPreference("global_exclusions").setOnPreferenceClickListener {
-                val excludedApps = Attribute.stringToList(GlobalExclusions.exclusions)
+                val excludedApps = Attribute.stringToList(ApplicationPreferences.exclusions)
                 val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
                 fragment.show(fragmentManager, null)
                 true
@@ -110,13 +110,13 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            GlobalExclusions.exclusions = Attribute.iterableToString(excludedApps)
+            ApplicationPreferences.exclusions = Attribute.iterableToString(excludedApps)
             Application.tunnelManager.completableTunnels
                 .thenAccept {
                     for (tunnel: Tunnel in it) {
                         val oldConfig = tunnel.getConfig()
                         if (oldConfig != null) {
-                            oldConfig.`interface`.addExcludedApplications(Attribute.stringToList(GlobalExclusions.exclusions))
+                            oldConfig.`interface`.addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
                             tunnel.setConfig(oldConfig)
                             if (tunnel.getState() == Tunnel.State.UP)
                                 tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }

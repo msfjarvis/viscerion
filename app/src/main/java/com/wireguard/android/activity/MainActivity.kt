@@ -17,7 +17,6 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
@@ -83,8 +82,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity, menu)
-        menu.findItem(R.id.menu_theme_change).isChecked =
-            Application.sharedPreferences.getBoolean("dark_theme", true)
         return true
     }
 
@@ -108,11 +105,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 return false
             R.id.menu_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-                return true
-            }
-            R.id.menu_theme_change -> {
-                Application.sharedPreferences.edit().putBoolean("dark_theme", !item.isChecked).apply()
-                item.isChecked = !item.isChecked
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

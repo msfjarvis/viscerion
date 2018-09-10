@@ -31,7 +31,7 @@ import com.wireguard.android.activity.TunnelCreatorActivity;
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter;
 import com.wireguard.android.databinding.TunnelListFragmentBinding;
 import com.wireguard.android.databinding.TunnelListItemBinding;
-import com.wireguard.android.model.GlobalExclusions;
+import com.wireguard.android.util.ApplicationPreferences;
 import com.wireguard.android.model.Tunnel;
 import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.android.widget.MultiselectableRelativeLayout;
@@ -314,7 +314,7 @@ public class TunnelListFragment extends BaseFragment {
             for (Tunnel tunnel : allTunnels) {
                 Config oldConfig = tunnel.getConfig();
                 if (oldConfig != null) {
-                    oldConfig.getInterface().addExcludedApplications(Attribute.Companion.stringToList(GlobalExclusions.Companion.getExclusions()));
+                    oldConfig.getInterface().addExcludedApplications(Attribute.Companion.stringToList(ApplicationPreferences.Companion.getExclusions()));
                     tunnel.setConfig(oldConfig);
                     if (tunnel.getState() == Tunnel.State.UP)
                         tunnel.setState(Tunnel.State.DOWN).whenComplete((t, throwable) -> tunnel.setState(Tunnel.State.UP));

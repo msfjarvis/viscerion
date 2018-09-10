@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_color</item>
@@ -8,13 +7,15 @@
         <item name="android:navigationBarColor">@color/primary_color</item>s
     </style>
 
-    <style name="SettingsTheme" parent="AppTheme">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    <style name="AppThemeBlack" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/primary_color_black</item>
+        <item name="colorPrimaryDark">@color/primary_color_black</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:navigationBarColor">@color/primary_color_black</item>s
     </style>
 
     <style name="fab_label" parent="TextAppearance.AppCompat.Inverse">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/fab_label_text_color</item>
     </style>
-
 </resources>

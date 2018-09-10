@@ -32,7 +32,7 @@
     <string name="create_from_file">Create from file or archive</string>
     <string name="create_from_qrcode">Create from QR code</string>
     <string name="create_tunnel">Create Tunnel</string>
-    <string name="dark_theme_title">Use dark theme</string>
+    <string name="theme_title">App theme</string>
     <string name="delete">Delete</string>
     <string name="deselect_all">Deselect All</string>
     <string name="select_all">Select all</string>

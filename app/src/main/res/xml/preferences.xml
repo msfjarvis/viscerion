@@ -9,6 +9,13 @@
     <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
     <com.wireguard.android.preference.ZipExporterPreference />
     <com.wireguard.android.preference.LogExporterPreference />
+    <ListPreference
+        android:key="app_theme"
+        android:title="@string/theme_title"
+        android:summary="%s"
+        android:defaultValue="dark"
+        android:entries="@array/pref_theme_entries"
+        android:entryValues="@array/pref_theme_entry_values" />
     <Preference
         android:key="global_exclusions"
         android:title="@string/global_exclusions_title"

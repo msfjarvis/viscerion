@@ -107,7 +107,7 @@ dependencies {
     implementation "androidx.databinding:databinding-runtime:$databindingVersion"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.cardview:cardview:$androidXVersion"
-    implementation "androidx.legacy:legacy-preference-v14:$androidXVersion"
+    implementation "androidx.preference:preference:$androidXVersion"
     implementation "androidx.annotation:annotation:$androidXVersion"
     implementation "com.google.android.material:material:$materialComponentsVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"

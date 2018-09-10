@@ -8,7 +8,7 @@ import androidx.databinding.Bindable
 import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
-import com.wireguard.android.model.GlobalExclusions
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.addExclusive
 import com.wireguard.crypto.Keypair
 import java.net.InetAddress
@@ -73,7 +73,7 @@ class Interface {
     private fun getExcludedApplicationsString(): String? {
         return if (excludedApplications.isEmpty()) null else Attribute.iterableToString(
             excludedApplications.addExclusive(
-                GlobalExclusions.exclusionsArray
+                ApplicationPreferences.exclusionsArray
             )
         )
     }
@@ -137,7 +137,7 @@ class Interface {
 
     private fun setExcludedApplicationsString(applicationsString: String?) {
         excludedApplications.clear()
-        addExcludedApplications(Attribute.stringToList(GlobalExclusions.exclusions))
+        addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
         addExcludedApplications(Attribute.stringToList(applicationsString))
     }
 
@@ -177,7 +177,7 @@ class Interface {
         if (!dnsList.isEmpty())
             sb.append(Attribute.DNS.composeWith(getDnsStrings()))
         if (!excludedApplications.isEmpty())
-            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray)))
+            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray)))
         if (listenPort != 0)
             sb.append(Attribute.LISTEN_PORT.composeWith(listenPort))
         if (mtu != 0)
@@ -200,7 +200,7 @@ class Interface {
 
         val excludedApplicationsCount: Int
             @Bindable
-            get() = Attribute.stringToList(excludedApplications.addExclusive(GlobalExclusions.exclusionsArray)).size
+            get() = Attribute.stringToList(excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray)).size
 
         constructor(parent: Interface?) {
             if (parent != null)

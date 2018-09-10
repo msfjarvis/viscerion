@@ -6,4 +6,6 @@
     <color name="primary_color">#212121</color>
     <color name="accent">#FF3D00</color>
     <color name="list_multiselect_background">#EEEEEE</color>
+
+    <color name="primary_color_black">#000000</color>
 </resources>

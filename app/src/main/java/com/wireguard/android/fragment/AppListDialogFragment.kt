@@ -21,7 +21,7 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
 import com.wireguard.android.model.ApplicationData
-import com.wireguard.android.model.GlobalExclusions
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ObservableKeyedArrayList
 import java.util.ArrayList
@@ -95,7 +95,7 @@ class AppListDialogFragment : DialogFragment() {
                         resolveInfo.loadLabel(pm).toString(),
                         packageName,
                         currentlyExcludedApps!!.contains(packageName),
-                        if (isGlobalExclusionsDialog) false else GlobalExclusions.exclusionsArray.contains(packageName)
+                        if (isGlobalExclusionsDialog) false else ApplicationPreferences.exclusionsArray.contains(packageName)
                     )
                 )
             }
