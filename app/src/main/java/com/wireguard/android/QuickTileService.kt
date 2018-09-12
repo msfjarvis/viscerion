@@ -15,7 +15,6 @@ import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
@@ -24,6 +23,7 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.widget.SlashDrawable
+import timber.log.Timber
 
 /**
  * Service that maintains the application's custom Quick Settings tile. This service is bound by the
@@ -46,7 +46,7 @@ class QuickTileService : TileService() {
         try {
             ret = super.onBind(intent)
         } catch (e: Exception) {
-            Log.d(TAG, "Failed to bind to TileService", e)
+            Timber.d(e, "Failed to bind to TileService")
         }
 
         return ret
@@ -72,6 +72,7 @@ class QuickTileService : TileService() {
         icon.setBounds(0, 0, c.width, c.height)
         icon.draw(c)
         iconOff = Icon.createWithBitmap(b)
+        Timber.tag(TAG)
     }
 
     override fun onClick() {
@@ -107,7 +108,7 @@ class QuickTileService : TileService() {
             return
         val error = ExceptionLoggers.unwrapMessage(throwable)
         val message = getString(R.string.toggle_error, error)
-        Log.e(TAG, message, throwable)
+        Timber.e(TAG, message, throwable)
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
