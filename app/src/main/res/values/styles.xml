@@ -5,13 +5,20 @@
         <item name="colorPrimaryDark">@color/primary_color</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:navigationBarColor">@color/primary_color</item>
+        <item name="android:statusBarColor">@color/primary_color</item>
+        <item name="android:windowBackground">@color/primary_color</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary_color_black</item>
         <item name="colorPrimaryDark">@color/primary_color_black</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:colorBackground">@color/primary_color_black</item>
+        <!-- Note to self, colorBackgroundFloating handles _floating_ items like CardViews -->
+        <item name="android:colorBackgroundFloating">@color/primary_color_black</item>
         <item name="android:navigationBarColor">@color/primary_color_black</item>
+        <item name="android:statusBarColor">@color/primary_color_black</item>
+        <item name="android:windowBackground">@color/primary_color_black</item>
     </style>
 
     <style name="fab_label" parent="TextAppearance.AppCompat.Inverse">
