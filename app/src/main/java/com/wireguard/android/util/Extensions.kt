@@ -14,24 +14,27 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.config.Attribute
 
 fun <T> ArrayList<T>.addExclusive(otherArray: ArrayList<T>): ArrayList<T> {
-    for (item: T in otherArray)
-        if (item !in this)
-            this.add(item)
+    otherArray.forEach {
+        if (it !in this)
+            this.add(it)
+    }
     return this
 }
 
 fun <T> ArrayList<T>.addExclusive(otherArray: Array<T>): ArrayList<T> {
-    for (item: T in otherArray)
-        if (item !in this)
-            this.add(item)
+    otherArray.forEach {
+        if (it !in this)
+            this.add(it)
+    }
     return this
 }
 
 fun String?.addExclusive(otherArray: ArrayList<String>): String {
     val stringCopy = Attribute.stringToList(this).toCollection(ArrayList())
-    for (item: String in otherArray)
-        if (item !in stringCopy)
-            stringCopy.add(item)
+    otherArray.forEach {
+        if (it !in stringCopy)
+            stringCopy.add(it)
+    }
     return Attribute.iterableToString(stringCopy)
 }
 
