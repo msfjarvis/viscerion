@@ -43,8 +43,8 @@ android {
         applicationId 'me.msfjarvis.wgandroid'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 439
-        versionName '0.0.20180826'
+        versionCode 500
+        versionName '0.0.20180916'
         buildConfigField 'int', 'MIN_SDK_VERSION', "$minSdkVersion.apiLevel"
     }
     // If the keystore file exists
