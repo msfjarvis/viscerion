@@ -91,14 +91,12 @@ class QuickTileService : TileService() {
 
     override fun onStartListening() {
         Application.tunnelManager.addOnPropertyChangedCallback(onTunnelChangedCallback)
-        if (tunnel != null)
-            tunnel!!.addOnPropertyChangedCallback(onStateChangedCallback)
+        tunnel?.addOnPropertyChangedCallback(onStateChangedCallback)
         updateTile()
     }
 
     override fun onStopListening() {
-        if (tunnel != null)
-            tunnel!!.removeOnPropertyChangedCallback(onStateChangedCallback)
+        tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
         Application.tunnelManager.removeOnPropertyChangedCallback(onTunnelChangedCallback)
     }
 
@@ -107,19 +105,17 @@ class QuickTileService : TileService() {
             return
         val error = ExceptionLoggers.unwrapMessage(throwable)
         val message = getString(R.string.toggle_error, error)
-        Timber.e(TAG, message, throwable)
+        Timber.e(throwable)
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun updateTile() {
         // Update the tunnel.
         val newTunnel = Application.tunnelManager.getLastUsedTunnel()
-        if (newTunnel !== tunnel) {
-            if (tunnel != null)
-                tunnel!!.removeOnPropertyChangedCallback(onStateChangedCallback)
+        if (newTunnel != tunnel) {
+            tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
             tunnel = newTunnel
-            if (tunnel != null)
-                tunnel!!.addOnPropertyChangedCallback(onStateChangedCallback)
+            tunnel?.addOnPropertyChangedCallback(onStateChangedCallback)
         }
         // Update the tile contents.
         val label: String
@@ -127,7 +123,7 @@ class QuickTileService : TileService() {
         val tile = qsTile
         if (tunnel != null) {
             label = tunnel!!.getName()
-            state = if (tunnel!!.getState() == Tunnel.State.UP) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+            state = if (tunnel?.getState() == Tunnel.State.UP) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
             state = Tile.STATE_INACTIVE
