@@ -31,7 +31,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         try {
             config = Config.from(arguments!!.getString(KEY_CONFIG_TEXT))
         } catch (exception: IOException) {
-            throw RuntimeException("Invalid config passed to " + javaClass.simpleName, exception)
+            throw RuntimeException("Invalid config passed to ${javaClass.simpleName}", exception)
         }
     }
 

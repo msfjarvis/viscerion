@@ -26,7 +26,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         Timber.tag(TAG).d("Creating configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.createNewFile())
-            throw IOException("Configuration file " + file.name + " already exists")
+            throw IOException("Configuration file ${file.name} already exists")
         FileOutputStream(
             file,
             false
@@ -39,7 +39,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         Timber.tag(TAG).d("Deleting configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.delete())
-            throw IOException("Cannot delete configuration file " + file.name)
+            throw IOException("Cannot delete configuration file ${file.name}")
     }
 
     override fun enumerate(): Set<String> {
@@ -68,7 +68,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         if (!file.renameTo(replacementFile)) {
             if (!replacementFile.delete())
                 Timber.tag(TAG).w("Couldn't delete marker file for new name $replacement")
-            throw IOException("Cannot rename configuration file " + file.name)
+            throw IOException("Cannot rename configuration file ${file.name}")
         }
     }
 
@@ -77,7 +77,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         Timber.tag(TAG).d("Saving configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.isFile)
-            throw FileNotFoundException("Configuration file " + file.name + " not found")
+            throw FileNotFoundException("Configuration file ${file.name} not found")
         FileOutputStream(
             file,
             false

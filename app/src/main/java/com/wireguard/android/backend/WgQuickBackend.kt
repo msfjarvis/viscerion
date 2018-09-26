@@ -124,7 +124,7 @@ class WgQuickBackend(context: Context) : Backend {
         tempFile.delete()
         when (result) {
             0 -> postNotification(state, tunnel)
-            else -> throw Exception("Unable to configure tunnel (wg-quick returned " + result + ')'.toString())
+            else -> throw Exception("Unable to configure tunnel (wg-quick returned $result)")
         }
     }
 
