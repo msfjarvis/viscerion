@@ -37,11 +37,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
 
     override fun onBackPressed() {
         val backStackEntries = supportFragmentManager.backStackEntryCount
-        // If the action menu is visible and expanded, collapse it instead of navigating back.
-        if (isTwoPaneLayout || backStackEntries == 0) {
-            if (listFragment != null && listFragment!!.collapseActionMenu())
-                return
-        }
         // If the two-pane layout does not have an editor open, going back should exit the app.
         if (isTwoPaneLayout && backStackEntries <= 1) {
             finish()
@@ -75,8 +70,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
-        val actionBarView = findViewById<View>(R.id.action_bar)
-        actionBarView?.setOnTouchListener { _, _ -> listFragment != null && listFragment!!.collapseActionMenu() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

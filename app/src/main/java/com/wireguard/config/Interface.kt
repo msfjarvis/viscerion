@@ -177,7 +177,9 @@ class Interface {
         if (!dnsList.isEmpty())
             sb.append(Attribute.DNS.composeWith(getDnsStrings()))
         if (!excludedApplications.isEmpty())
-            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray)))
+            sb.append(Attribute.EXCLUDED_APPLICATIONS.composeWith(
+                excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray))
+            )
         if (listenPort != 0)
             sb.append(Attribute.LISTEN_PORT.composeWith(listenPort))
         if (mtu != 0)
@@ -200,7 +202,9 @@ class Interface {
 
         val excludedApplicationsCount: Int
             @Bindable
-            get() = Attribute.stringToList(excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray)).size
+            get() = Attribute.stringToList(
+                excludedApplications.addExclusive(ApplicationPreferences.exclusionsArray)
+            ).size
 
         constructor(parent: Interface?) {
             if (parent != null)

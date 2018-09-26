@@ -33,7 +33,9 @@ import java.lang.ref.WeakReference
 class Application : android.app.Application() {
     private lateinit var asyncWorker: AsyncWorker
     private lateinit var rootShell: RootShell
-    private val sharedPreferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val sharedPreferences: SharedPreferences by lazy {
+        PreferenceManager.getDefaultSharedPreferences(this)
+    }
     private lateinit var toolsInstaller: ToolsInstaller
     private lateinit var tunnelManager: TunnelManager
     private var backend: Backend? = null
@@ -59,7 +61,8 @@ class Application : android.app.Application() {
     // TODO: Move back to androidx when possible
     @android.annotation.TargetApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationChannel = NotificationChannel(
             TunnelManager.NOTIFICATION_CHANNEL_ID,
             getString(R.string.notification_channel_wgquick_title),

@@ -94,7 +94,7 @@ android {
 }
 
 ext {
-    androidXVersion = '1.0.0-rc02'
+    androidXVersion = '1.0.0'
     databindingVersion = '3.3.0-alpha10'
     materialComponentsVersion = '1.0.0-rc02'
     streamsupportVersion = '1.6.0'

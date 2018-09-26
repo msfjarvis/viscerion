@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fab_label_text_color">#000000</color>
-    <color name="fab_label_background_color">#bbbbbb</color>
-
     <color name="list_multiselect_background">#1AEEEEEE</color>
 </resources>

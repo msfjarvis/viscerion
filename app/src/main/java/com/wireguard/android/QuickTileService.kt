@@ -57,10 +57,14 @@ class QuickTileService : TileService() {
             iconOff = iconOn
             return
         }
-        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_tile, Application.get().theme))
-        icon.setAnimationEnabled(false) /* Unfortunately we can't have animations, since Icons are marshaled. */
+        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_tile,
+            Application.get().theme))
+        /* Unfortunately we can't have animations, since Icons are marshaled. */
+        icon.setAnimationEnabled(false)
         icon.setSlashed(false)
-        var b = Bitmap.createBitmap(icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        var b = Bitmap.createBitmap(
+            icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
         var c = Canvas(b)
         icon.setBounds(0, 0, c.width, c.height)
         icon.draw(c)
@@ -81,7 +85,9 @@ class QuickTileService : TileService() {
                 tile.icon = if (tile.icon == iconOn) iconOff else iconOn
                 tile.updateTile()
             }
-            tunnel!!.setState(State.TOGGLE).whenComplete { _, throwable -> this.onToggleFinished(throwable) }
+            tunnel!!.setState(State.TOGGLE).whenComplete { _, throwable ->
+                this.onToggleFinished(throwable)
+            }
         } else {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -123,7 +129,10 @@ class QuickTileService : TileService() {
         val tile = qsTile
         if (tunnel != null) {
             label = tunnel!!.getName()
-            state = if (tunnel?.getState() == Tunnel.State.UP) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+            state = if (tunnel?.getState() == Tunnel.State.UP)
+                Tile.STATE_ACTIVE
+            else
+                Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
             state = Tile.STATE_INACTIVE

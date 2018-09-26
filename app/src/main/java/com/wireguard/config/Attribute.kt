@@ -75,7 +75,10 @@ enum class Attribute(private val token: String) {
         }
 
         fun stringToList(string: String?): Array<String> {
-            return if (TextUtils.isEmpty(string)) emptyArray() else LIST_SEPARATOR_PATTERN.split(string!!.trim { it <= ' ' })
+            return if (TextUtils.isEmpty(string))
+                emptyArray()
+            else
+                LIST_SEPARATOR_PATTERN.split(string!!.trim { it <= ' ' })
         }
     }
 }

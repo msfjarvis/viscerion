@@ -19,7 +19,8 @@ object InetAddresses {
     init {
         try {
             // This method is only present on Android.
-            PARSER_METHOD = InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
+            PARSER_METHOD = InetAddress::class.java
+                .getMethod("parseNumericAddress", String::class.java)
         } catch (e: NoSuchMethodException) {
             throw RuntimeException(e)
         }
@@ -27,7 +28,9 @@ object InetAddresses {
 
     fun parse(address: String?): InetAddress {
         if (address == null || address.isEmpty())
-            throw IllegalArgumentException(Application.get().getString(R.string.tunnel_error_empty_inetaddress))
+            throw IllegalArgumentException(
+                Application.get().getString(R.string.tunnel_error_empty_inetaddress)
+            )
         try {
             return PARSER_METHOD.invoke(null, address) as InetAddress
         } catch (e: IllegalAccessException) {

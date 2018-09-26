@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -30,11 +31,11 @@ import com.wireguard.android.activity.TunnelCreatorActivity;
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter;
 import com.wireguard.android.databinding.TunnelListFragmentBinding;
 import com.wireguard.android.databinding.TunnelListItemBinding;
-import com.wireguard.android.util.ApplicationPreferences;
 import com.wireguard.android.model.Tunnel;
+import com.wireguard.android.util.ApplicationPreferences;
 import com.wireguard.android.util.ExceptionLoggers;
 import com.wireguard.android.widget.MultiselectableRelativeLayout;
-import com.wireguard.android.widget.fab.FloatingActionsMenuRecyclerViewScrollListener;
+import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener;
 import com.wireguard.config.Attribute;
 import com.wireguard.config.Config;
 import java9.util.concurrent.CompletableFuture;
@@ -61,14 +62,6 @@ public class TunnelListFragment extends BaseFragment {
     private ActionMode actionMode;
     @Nullable
     private TunnelListFragmentBinding binding;
-
-    public boolean collapseActionMenu() {
-        if (binding != null && binding.createMenu.isExpanded()) {
-            binding.createMenu.collapse();
-            return true;
-        }
-        return false;
-    }
 
     private void importTunnel(@NonNull final String configText) {
         try {
@@ -202,15 +195,25 @@ public class TunnelListFragment extends BaseFragment {
                              @Nullable final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Timber.tag(TAG);
-        binding = TunnelListFragmentBinding.inflate(inflater, container, false);
 
-        binding.tunnelList.setOnTouchListener((view, motionEvent) -> {
-            if (binding != null) {
-                binding.createMenu.collapse();
-            }
-            return false;
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme);
+        dialog.setContentView(R.layout.add_tunnels_bottom_sheet);
+        dialog.findViewById(R.id.create_empty).setOnClickListener(view -> {
+            dialog.dismiss();
+            onRequestCreateConfig();
         });
-        binding.tunnelList.setOnScrollListener(new FloatingActionsMenuRecyclerViewScrollListener(binding.createMenu));
+        dialog.findViewById(R.id.create_from_file).setOnClickListener(view -> {
+            dialog.dismiss();
+            onRequestImportConfig();
+        });
+        dialog.findViewById(R.id.scan_qr_code).setOnClickListener(view -> {
+            dialog.dismiss();
+            onRequestScanQRCode();
+        });
+
+        binding = TunnelListFragmentBinding.inflate(inflater, container, false);
+        binding.createFab.setOnClickListener(view -> dialog.show());
+        binding.tunnelList.setOnScrollListener(new FloatingActionButtonRecyclerViewScrollListener(binding.createFab));
         binding.executePendingBindings();
         return binding.getRoot();
     }
@@ -221,38 +224,23 @@ public class TunnelListFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    public void onRequestCreateConfig(@SuppressWarnings("unused") final View view) {
+    private void onRequestCreateConfig() {
         startActivity(new Intent(getActivity(), TunnelCreatorActivity.class));
-        if (binding != null)
-            binding.createMenu.collapse();
     }
 
-    public void onRequestImportConfig(@SuppressWarnings("unused") final View view) {
+    private void onRequestImportConfig() {
         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
         startActivityForResult(intent, REQUEST_IMPORT);
-        if (binding != null)
-            binding.createMenu.collapse();
     }
 
-    public void onRequestScanQRCode(@SuppressWarnings("unused") final View view) {
+    private void onRequestScanQRCode() {
         final IntentIntegrator intentIntegrator = IntentIntegrator.forSupportFragment(this);
         intentIntegrator.setOrientationLocked(false);
         intentIntegrator.setBeepEnabled(false);
         intentIntegrator.setPrompt(getString(R.string.qrcode_hint));
         intentIntegrator.initiateScan(Collections.singletonList(IntentIntegrator.QR_CODE));
-
-        if (binding != null)
-            binding.createMenu.collapse();
-    }
-
-    @Override
-    public void onPause() {
-        if (binding != null) {
-            binding.createMenu.collapse();
-        }
-        super.onPause();
     }
 
     private MultiselectableRelativeLayout viewForTunnel(final Tunnel tunnel, final List tunnels) {
