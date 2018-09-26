@@ -107,7 +107,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
             else
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            Timber.e(throwable, message)
+            Timber.e(throwable)
         }
     }
 
