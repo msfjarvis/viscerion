@@ -17,8 +17,8 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.config.Attribute
 import java.util.ArrayList
 import java.util.Arrays
@@ -100,7 +100,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                         screen.removePreference(pref)
                 }
             }
-            preferenceManager.findPreference("global_exclusions").setOnPreferenceClickListener {
+            preferenceManager.findPreference(ApplicationPreferences.globalExclusionsKey).setOnPreferenceClickListener {
                 val excludedApps = Attribute.stringToList(ApplicationPreferences.exclusions)
                 val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
                 fragment.show(fragmentManager, null)

@@ -11,7 +11,7 @@ import com.wireguard.config.Attribute
 class ApplicationPreferences {
     companion object {
         const val appThemeKey = "app_theme"
-        private const val globalExclusionsKey = "global_exclusions"
+        const val globalExclusionsKey = "global_exclusions"
         var exclusions: String
             get() {
                 return Application.sharedPreferences.getString(globalExclusionsKey, "") as String
