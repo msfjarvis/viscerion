@@ -92,9 +92,7 @@ android {
             path 'tools/CMakeLists.txt'
         }
     }
-    lintOptions {
-          abortOnError false
-      }
+    lintOptions.abortOnError false
 }
 
 ext {
