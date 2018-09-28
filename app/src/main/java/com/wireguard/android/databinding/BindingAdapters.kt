@@ -44,7 +44,7 @@ fun <E> setItems(
     newList: ObservableList<E>?,
     newLayoutId: Int
 ) {
-    if (oldList === newList && oldLayoutId == newLayoutId)
+    if (oldList == newList && oldLayoutId == newLayoutId)
         return
     var listener: ItemChangeListener<E>? =
         ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
@@ -79,7 +79,7 @@ fun <K, E : Keyed<out K>> setItems(
     if (view.layoutManager == null)
         view.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
 
-    if (oldList === newList && oldLayoutId == newLayoutId)
+    if (oldList == newList && oldLayoutId == newLayoutId)
         return
     // The ListAdapter interface is not generic, so this cannot be checked.
     var adapter = view.adapter as ObservableKeyedRecyclerViewAdapter<K, E>?

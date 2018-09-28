@@ -55,12 +55,12 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             setLastUsedTunnel(null)
         tunnels.remove(tunnel)
         return Application.asyncWorker.runAsync {
-            if (originalState === Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.DOWN)
             try {
                 configStore.delete(tunnel.getName())
             } catch (e: Exception) {
-                if (originalState === Tunnel.State.UP)
+                if (originalState == Tunnel.State.UP)
                     Application.backend.setState(tunnel, Tunnel.State.UP)
                 // Re-throw the exception to fail the completion.
                 throw e
@@ -177,11 +177,11 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             setLastUsedTunnel(null)
         tunnels.remove(tunnel)
         return Application.asyncWorker.supplyAsync {
-            if (originalState === Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.DOWN)
             configStore.rename(tunnel.getName(), name)
             val newName = tunnel.onNameChanged(name)
-            if (originalState === Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.UP)
             newName
         }.whenComplete { _, e ->
@@ -207,7 +207,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         }.whenComplete { newState, e ->
             // Ensure onStateChanged is always called (failure or not), and with the correct state.
             tunnel.onStateChanged(if (e == null) newState else tunnel.getState())
-            if (e == null && newState === Tunnel.State.UP)
+            if (e == null && newState == Tunnel.State.UP)
                 setLastUsedTunnel(tunnel)
             saveState()
         }
