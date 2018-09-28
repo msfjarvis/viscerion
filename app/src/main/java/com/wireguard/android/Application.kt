@@ -14,6 +14,7 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.wireguard.android.backend.Backend
@@ -58,8 +59,7 @@ class Application : android.app.Application() {
         }
     }
 
-    // TODO: Move back to androidx when possible
-    @android.annotation.TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
