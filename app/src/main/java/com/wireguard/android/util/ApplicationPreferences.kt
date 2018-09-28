@@ -5,6 +5,7 @@
 
 package com.wireguard.android.util
 
+import androidx.core.content.edit
 import com.wireguard.android.Application
 import com.wireguard.config.Attribute
 
@@ -17,7 +18,9 @@ class ApplicationPreferences {
                 return Application.sharedPreferences.getString(globalExclusionsKey, "") as String
             }
             set(value) {
-                Application.sharedPreferences.edit().putString(globalExclusionsKey, value).apply()
+                Application.sharedPreferences.edit {
+                    putString(globalExclusionsKey, value)
+                }
                 exclusionsArray = Attribute.stringToList(value).toCollection(ArrayList())
             }
         var exclusionsArray: ArrayList<String> = Attribute.stringToList(exclusions).toCollection(ArrayList())
@@ -27,7 +30,9 @@ class ApplicationPreferences {
                 return Application.sharedPreferences.getString(appThemeKey, "dark") as String
             }
             set(value) {
-                Application.sharedPreferences.edit().putString(appThemeKey, value).apply()
+                Application.sharedPreferences.edit {
+                    putString(appThemeKey, value)
+                }
             }
     }
 }

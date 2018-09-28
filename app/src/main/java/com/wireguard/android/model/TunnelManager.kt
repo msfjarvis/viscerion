@@ -5,6 +5,7 @@
 
 package com.wireguard.android.model
 
+import androidx.core.content.edit
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.Application
@@ -84,10 +85,12 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             return
         lastUsedTunnel = tunnel
         notifyPropertyChanged(BR.lastUsedTunnel)
-        if (tunnel != null)
-            Application.sharedPreferences.edit().putString(KEY_LAST_USED_TUNNEL, tunnel.getName()).apply()
-        else
-            Application.sharedPreferences.edit().remove(KEY_LAST_USED_TUNNEL).apply()
+        Application.sharedPreferences.edit {
+            if (tunnel != null)
+                putString(KEY_LAST_USED_TUNNEL, tunnel.getName())
+            else
+                remove(KEY_LAST_USED_TUNNEL)
+        }
     }
 
     internal fun getTunnelConfig(tunnel: Tunnel): CompletionStage<Config> {
@@ -147,8 +150,10 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     fun saveState() {
-        val test = tunnels.filter { it -> it.getState() == Tunnel.State.UP }.map { it.getName() }.toSet()
-        Application.sharedPreferences.edit().putStringSet(KEY_RUNNING_TUNNELS, test).apply()
+        val test = tunnels.asSequence().filter { it -> it.getState() == Tunnel.State.UP }.map { it.getName() }.toSet()
+        Application.sharedPreferences.edit {
+            putStringSet(KEY_RUNNING_TUNNELS, test)
+        }
     }
 
     internal fun setTunnelConfig(tunnel: Tunnel, config: Config): CompletionStage<Config> {

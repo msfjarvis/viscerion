@@ -95,20 +95,21 @@ android {
 
 ext {
     androidXVersion = '1.0.0'
-    databindingVersion = '3.3.0-alpha10'
-    materialComponentsVersion = '1.0.0-rc02'
+    databindingVersion = '3.3.0-alpha12'
+    materialComponentsVersion = '1.0.0'
     streamsupportVersion = '1.6.0'
     timberVersion = '4.7.1'
     zxingEmbeddedVersion = '3.6.0'
 }
 
 dependencies {
-    implementation "androidx.databinding:databinding-adapters:$databindingVersion"
-    implementation "androidx.databinding:databinding-runtime:$databindingVersion"
+    implementation "androidx.annotation:annotation:$androidXVersion"
     implementation "androidx.appcompat:appcompat:$androidXVersion"
     implementation "androidx.cardview:cardview:$androidXVersion"
+    implementation "androidx.core:core-ktx:$androidXVersion"
+    implementation "androidx.databinding:databinding-adapters:$databindingVersion"
+    implementation "androidx.databinding:databinding-runtime:$databindingVersion"
     implementation "androidx.preference:preference:$androidXVersion"
-    implementation "androidx.annotation:annotation:$androidXVersion"
     implementation "com.google.android.material:material:$materialComponentsVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.journeyapps:zxing-android-embedded:$zxingEmbeddedVersion"
