@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply from: '../dependencies.gradle'
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -26,7 +27,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 28
+    compileSdkVersion versions.compileSdk
     dataBinding.enabled true
     android.applicationVariants.all { final variant ->
         variant.outputs.all {
@@ -35,10 +36,10 @@ android {
     }
     defaultConfig {
         applicationId 'me.msfjarvis.wgandroid'
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 510
-        versionName '0.0.20180929'
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.publishVersionCode
+        versionName versions.publishVersion
         buildConfigField 'int', 'MIN_SDK_VERSION', "$minSdkVersion.apiLevel"
     }
     // If the keystore file exists
@@ -89,29 +90,20 @@ android {
     lintOptions.abortOnError false
 }
 
-ext {
-    androidXVersion = '1.0.0'
-    databindingVersion = '3.3.0-alpha12'
-    materialComponentsVersion = '1.0.0'
-    streamsupportVersion = '1.6.0'
-    timberVersion = '4.7.1'
-    zxingEmbeddedVersion = '3.6.0'
-}
-
 dependencies {
-    implementation "androidx.annotation:annotation:$androidXVersion"
-    implementation "androidx.appcompat:appcompat:$androidXVersion"
-    implementation "androidx.cardview:cardview:$androidXVersion"
-    implementation "androidx.core:core-ktx:$androidXVersion"
-    implementation "androidx.databinding:databinding-adapters:$databindingVersion"
-    implementation "androidx.databinding:databinding-runtime:$databindingVersion"
-    implementation "androidx.preference:preference:$androidXVersion"
-    implementation "com.google.android.material:material:$materialComponentsVersion"
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.journeyapps:zxing-android-embedded:$zxingEmbeddedVersion"
-    implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
-    implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.annotation:annotation:$versions.androidx"
+    implementation "androidx.appcompat:appcompat:$versions.androidx"
+    implementation "androidx.cardview:cardview:$versions.androidx"
+    implementation "androidx.core:core-ktx:$versions.androidx"
+    implementation "androidx.databinding:databinding-adapters:$versions.databinding"
+    implementation "androidx.databinding:databinding-runtime:$versions.databinding"
+    implementation "androidx.preference:preference:$versions.androidx"
+    implementation "com.google.android.material:material:$versions.materialcomponents"
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+    implementation "com.journeyapps:zxing-android-embedded:$versions.zxing"
+    implementation "net.sourceforge.streamsupport:android-retrofuture:$versions.streamsupport"
+    implementation "net.sourceforge.streamsupport:android-retrostreams:$versions.streamsupport"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 }
 
 tasks.withType(JavaCompile) {

@@ -1,0 +1,17 @@
+ext.versions = [
+        minSdk            : 21,
+        compileSdk        : 28,
+        buildTools        : '28.0.2',
+        publishVersion    : '0.0.20180929',
+        publishVersionCode: 510,
+
+        gradlePlugin      : '3.3.0-alpha12',
+
+        kotlin            : '1.2.71',
+        androidx          : '1.0.0',
+        databinding       : '3.3.0-alpha12',
+        materialcomponents: '1.0.0',
+        streamsupport     : '1.6.0',
+        timber            : '4.7.1',
+        zxing             : '3.6.0'
+]
