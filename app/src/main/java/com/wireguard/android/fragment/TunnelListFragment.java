@@ -388,6 +388,9 @@ public class TunnelListFragment extends BaseFragment {
                                 .whenComplete(TunnelListFragment.this::onTunnelDeletionFinished);
 
                     });
+                    if (binding != null)
+                        if (binding.createFab.isOrWillBeHidden())
+                            binding.createFab.show();
                     checkedItems.clear();
                     mode.finish();
                     return true;
