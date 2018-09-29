@@ -452,11 +452,7 @@ class TunnelListFragment : BaseFragment() {
             }
 
             val count = checkedItems.size
-            if (count == 0) {
-                mode.title = ""
-            } else {
-                mode.title = resources!!.getQuantityString(R.plurals.delete_title, count, count)
-            }
+            mode.title = if (count == 0) "" else resources!!.getQuantityString(R.plurals.delete_title, count, count)
         }
     }
 
