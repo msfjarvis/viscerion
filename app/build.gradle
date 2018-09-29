@@ -22,12 +22,6 @@ final def gitHash = { ->
 }
 
 android {
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,8 +37,8 @@ android {
         applicationId 'me.msfjarvis.wgandroid'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 500
-        versionName '0.0.20180916'
+        versionCode 510
+        versionName '0.0.20180929'
         buildConfigField 'int', 'MIN_SDK_VERSION', "$minSdkVersion.apiLevel"
     }
     // If the keystore file exists
