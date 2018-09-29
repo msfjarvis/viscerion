@@ -146,7 +146,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         }
         val previouslyRunning = Application.sharedPreferences.getStringSet(KEY_RUNNING_TUNNELS, null)
             ?: return CompletableFuture.completedFuture(null)
-        return KotlinCompanions.stream(tunnels, previouslyRunning, this)
+        return KotlinCompanions.streamForStateChange(tunnels, previouslyRunning, this)
     }
 
     fun saveState() {

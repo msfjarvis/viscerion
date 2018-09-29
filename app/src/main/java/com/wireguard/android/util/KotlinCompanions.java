@@ -22,13 +22,19 @@ import java.util.Set;
  */
 public final class KotlinCompanions {
 
-    public static CompletionStage<Void> stream(final ObservableSortedKeyedArrayList<String, Tunnel> tunnels,
-                                               final Set<String> previouslyRunning,
-                                               final TunnelManager tunnelManager) {
+    public static CompletionStage<Void> streamForStateChange(final ObservableSortedKeyedArrayList<String, Tunnel> tunnels,
+                                                             final Set<String> previouslyRunning,
+                                                             final TunnelManager tunnelManager) {
         return CompletableFuture.allOf(StreamSupport.stream(tunnels)
                 .filter(tunnel -> previouslyRunning.contains(tunnel.getName()))
                 .map(tunnel -> setTunnelState(tunnel, tunnelManager))
                 .toArray(CompletableFuture[]::new));
+    }
+
+    public static CompletableFuture[] streamForDeletion(final ObservableSortedKeyedList<String, Tunnel> tunnels) {
+        return StreamSupport.stream(tunnels)
+                .map(Tunnel::delete)
+                .toArray(CompletableFuture[]::new);
     }
 
     private static CompletionStage<Tunnel.State> setTunnelState(final Tunnel tunnel, final TunnelManager tunnelManager) {

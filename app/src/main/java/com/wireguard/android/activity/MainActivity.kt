@@ -20,7 +20,7 @@ import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
-import kotlinx.android.synthetic.main.main_activity.master_detail_wrapper
+import kotlinx.android.synthetic.main.main_activity.*
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
