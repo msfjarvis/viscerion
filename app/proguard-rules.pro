@@ -1,1 +1,2 @@
 -dontobfuscate
+-dontwarn sun.misc.**
