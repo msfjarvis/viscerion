@@ -5,9 +5,14 @@
 
 package com.wireguard.android.util
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.SystemClock
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
@@ -38,6 +43,19 @@ fun String?.addExclusive(otherArray: ArrayList<String>): String {
     return Attribute.iterableToString(stringCopy)
 }
 
+fun Context.restartApplication() {
+    val homeIntent = Intent(Intent.ACTION_MAIN)
+        .addCategory(Intent.CATEGORY_HOME)
+        .setPackage(this.packageName)
+        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val pi = PendingIntent.getActivity(
+        this, 42, // The answer to everything
+        homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
+    )
+    (this.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
+        .setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
+    Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
+}
 fun copyTextView(view: View) {
     if (view !is TextView)
         return

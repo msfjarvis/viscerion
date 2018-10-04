@@ -20,4 +20,10 @@
         android:key="global_exclusions"
         android:title="@string/global_exclusions_title"
         android:summary="@string/global_exclusions_summary" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="force_userspace_backend"
+        android:title="@string/force_userspace_backend_title"
+        android:summary="@string/force_userspace_backend_summary" />
+
 </PreferenceScreen>

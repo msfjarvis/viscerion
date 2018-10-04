@@ -13,6 +13,7 @@ class ApplicationPreferences {
     companion object {
         const val appThemeKey = "app_theme"
         const val globalExclusionsKey = "global_exclusions"
+        const val forceUserspaceBackendkey = "force_userspace_backend"
         var exclusions: String
             get() {
                 return Application.sharedPreferences.getString(globalExclusionsKey, "") as String
@@ -32,6 +33,15 @@ class ApplicationPreferences {
             set(value) {
                 Application.sharedPreferences.edit {
                     putString(appThemeKey, value)
+                }
+            }
+        var forceUserspaceBackend: Boolean
+            get() {
+                return Application.sharedPreferences.getBoolean(forceUserspaceBackendkey, false)
+            }
+            set(value) {
+                Application.sharedPreferences.edit {
+                    putBoolean(forceUserspaceBackendkey, value)
                 }
             }
     }

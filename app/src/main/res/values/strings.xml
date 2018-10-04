@@ -120,4 +120,8 @@
     <string name="global_exclusions_title">Global exclusions</string>
     <string name="global_exclusions_summary">Select applications to be excluded from all WireGuard tunnels by default</string>
     <string name="applist_dialog_success">Saved successfully</string>
+    <string name="force_userspace_backend_title">Force userspace backend</string>
+    <string name="force_userspace_backend_summary">Useful for debugging Go userspace issues when device has a kernel
+        module installed. Application will restart upon toggling this.
+    </string>
 </resources>

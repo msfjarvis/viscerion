@@ -14,7 +14,7 @@ class ToggleSwitch(context: Context, attrs: AttributeSet?) : Switch(context, att
     private var isRestoringState: Boolean = false
     private var listener: OnBeforeCheckedChangeListener? = null
 
-    constructor(context: Context) : this(context, null) {}
+    constructor(context: Context) : this(context, null)
 
     override fun onRestoreInstanceState(state: Parcelable) {
         isRestoringState = true
