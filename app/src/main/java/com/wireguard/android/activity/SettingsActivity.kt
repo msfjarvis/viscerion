@@ -115,11 +115,10 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 fragment.show(fragmentManager, null)
                 true
             }
-            if (preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey) != null)
-                preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey).setOnPreferenceClickListener {
-                    context?.restartApplication()
-                    true
-                }
+            preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)?.setOnPreferenceClickListener {
+                context?.restartApplication()
+                true
+            }
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
