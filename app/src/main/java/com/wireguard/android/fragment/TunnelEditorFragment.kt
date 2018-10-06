@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.Observable
 import androidx.databinding.ObservableList
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +30,6 @@ import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import com.wireguard.config.Peer
 import timber.log.Timber
-import java.util.ArrayList
 import java.util.Objects
 
 /**
@@ -183,6 +183,12 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 selectedTunnel = null
             selectedTunnel = savedTunnel
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activity!!.window.navigationBarColor = ContextCompat.getColor(context!!, R.color.accent_darker)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

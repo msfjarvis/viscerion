@@ -50,6 +50,7 @@
         </activity>
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".activity.TunnelCreatorActivity"
             android:label="@string/create_activity_title"
             android:parentActivityName=".activity.MainActivity" />
