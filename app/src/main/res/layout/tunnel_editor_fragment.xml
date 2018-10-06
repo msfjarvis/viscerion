@@ -88,26 +88,14 @@
 
                         <EditText
                             android:id="@+id/private_key_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_below="@+id/private_key_label"
-                            android:layout_toStartOf="@+id/generate_private_key_button"
                             android:contentDescription="@string/public_key_description"
                             android:inputType="textNoSuggestions|textVisiblePassword"
                             android:text="@={config.interfaceSection.privateKey}"
                             app:filter="@{KeyInputFilter.newInstance()}" />
-
-                        <Button
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                            android:id="@+id/generate_private_key_button"
-                            android:layout_width="96dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@id/private_key_text"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@+id/private_key_label"
-                            android:onClick="@{() -> config.interfaceSection.generateKeypair()}"
-                            android:text="@string/generate" />
 
                         <TextView
                             android:id="@+id/public_key_label"
@@ -157,17 +145,15 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/addresses_label"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignStart="@+id/generate_private_key_button"
                             android:labelFor="@+id/listen_port_text"
                             android:text="@string/listen_port" />
 
                         <EditText
                             android:id="@+id/listen_port_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="96dp"
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/addresses_text"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignStart="@+id/generate_private_key_button"
                             android:hint="@string/hint_random"
                             android:inputType="number"
                             android:text="@={config.interfaceSection.listenPort}"
@@ -199,24 +185,22 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/dns_servers_label"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignStart="@+id/generate_private_key_button"
                             android:labelFor="@+id/mtu_text"
                             android:text="@string/mtu" />
 
                         <EditText
                             android:id="@+id/mtu_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="96dp"
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/dns_servers_text"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignStart="@+id/generate_private_key_button"
                             android:hint="@string/hint_automatic"
                             android:inputType="number"
                             android:text="@={config.interfaceSection.mtu}"
                             android:textAlignment="center" />
 
                         <Button
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            style="@style/Widget.MaterialComponents.Button"
                             android:id="@+id/set_excluded_applications"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -224,6 +208,17 @@
                             android:layout_below="@+id/dns_servers_text"
                             android:onClick="@{fragment::onRequestSetExcludedApplications}"
                             android:text="@{@plurals/set_excluded_applications(config.interfaceSection.excludedApplicationsCount, config.interfaceSection.excludedApplicationsCount)}" />
+
+                        <Button
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:id="@+id/generate_private_key_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/dns_servers_text"
+                            android:onClick="@{() -> config.interfaceSection.generateKeypair()}"
+                            android:text="@string/generate" />
+
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -237,7 +232,7 @@
                     tools:ignore="UselessLeaf" />
 
                 <Button
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
