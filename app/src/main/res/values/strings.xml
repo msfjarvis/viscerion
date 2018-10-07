@@ -33,7 +33,7 @@
     <string name="create_from_qrcode">Create from QR code</string>
     <string name="create_tunnel">Create Tunnel</string>
     <string name="theme_title">App theme</string>
-    <string name="delete">Delete</string>
+    <string name="delete_peer">Delete peer</string>
     <string name="deselect_all">Deselect All</string>
     <string name="select_all">Select all</string>
     <string name="dns_servers">DNS servers</string>

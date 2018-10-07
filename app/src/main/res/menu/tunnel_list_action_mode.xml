@@ -11,6 +11,6 @@
         android:id="@+id/menu_action_delete"
         android:alphabeticShortcut="d"
         android:icon="@drawable/ic_action_delete"
-        android:title="@string/delete"
+        android:title="@string/delete_peer"
         app:showAsAction="always" />
 </menu>
