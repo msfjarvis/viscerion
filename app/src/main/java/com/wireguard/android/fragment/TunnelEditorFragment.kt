@@ -70,14 +70,16 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 sender: ObservableList<Peer.Observable>,
                 positionStart: Int,
                 itemCount: Int
-            ) {}
+            ) {
+            }
 
             override fun onItemRangeMoved(
                 sender: ObservableList<Peer.Observable>,
                 fromPosition: Int,
                 toPosition: Int,
                 itemCount: Int
-            ) {}
+            ) {
+            }
 
             override fun onItemRangeInserted(
                 sender: ObservableList<Peer.Observable>,

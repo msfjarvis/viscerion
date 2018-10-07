@@ -332,27 +332,28 @@ class TunnelListFragment : BaseFragment() {
         }
         binding!!.fragment = this
         Application.tunnelManager.getTunnels().thenAccept { binding!!.tunnels = it }
-        binding!!.rowConfigurationHandler = ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler { binding: TunnelListItemBinding, tunnel: Tunnel, position ->
-            binding.fragment = this
-            binding.root.setOnClickListener {
-                if (actionMode == null) {
-                    selectedTunnel = tunnel
-                } else {
-                    actionModeListener.toggleItemChecked(position)
+        binding!!.rowConfigurationHandler =
+            ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler { binding: TunnelListItemBinding, tunnel: Tunnel, position ->
+                binding.fragment = this
+                binding.root.setOnClickListener {
+                    if (actionMode == null) {
+                        selectedTunnel = tunnel
+                    } else {
+                        actionModeListener.toggleItemChecked(position)
+                    }
                 }
-            }
-            binding.root.setOnLongClickListener {
-                actionModeListener.toggleItemChecked(position)
-                true
-            }
+                binding.root.setOnLongClickListener {
+                    actionModeListener.toggleItemChecked(position)
+                    true
+                }
 
-            if (actionMode != null)
-                (binding.root as MultiselectableRelativeLayout).setMultiSelected(
-                    actionModeListener.checkedItems.contains(position)
-                )
-            else
-                (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
-        }
+                if (actionMode != null)
+                    (binding.root as MultiselectableRelativeLayout).setMultiSelected(
+                        actionModeListener.checkedItems.contains(position)
+                    )
+                else
+                    (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+            }
     }
 
     private inner class ActionModeListener : ActionMode.Callback {

@@ -56,6 +56,7 @@ fun Context.restartApplication() {
         .setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
 }
+
 fun copyTextView(view: View) {
     if (view !is TextView)
         return

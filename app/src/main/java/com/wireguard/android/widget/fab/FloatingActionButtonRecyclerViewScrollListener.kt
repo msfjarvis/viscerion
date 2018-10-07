@@ -8,7 +8,8 @@ package com.wireguard.android.widget.fab
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class FloatingActionButtonRecyclerViewScrollListener(private val fab: FloatingActionButton) : RecyclerView.OnScrollListener() {
+class FloatingActionButtonRecyclerViewScrollListener(private val fab: FloatingActionButton) :
+    RecyclerView.OnScrollListener() {
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

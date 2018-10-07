@@ -57,8 +57,12 @@ class QuickTileService : TileService() {
             iconOff = iconOn
             return
         }
-        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_tile,
-            Application.get().theme))
+        val icon = SlashDrawable(
+            resources.getDrawable(
+                R.drawable.ic_tile,
+                Application.get().theme
+            )
+        )
         /* Unfortunately we can't have animations, since Icons are marshaled. */
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)

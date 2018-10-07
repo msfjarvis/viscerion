@@ -33,7 +33,10 @@ class SettingsActivity : ThemeChangeAwareActivity() {
     private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
     private var permissionRequestCounter: Int = 0
 
-    fun ensurePermissions(permissions: Array<String>, function: (permissions: Array<String>, granted: IntArray) -> Unit) {
+    fun ensurePermissions(
+        permissions: Array<String>,
+        function: (permissions: Array<String>, granted: IntArray) -> Unit
+    ) {
         val needPermissions = ArrayList<String>(permissions.size)
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
@@ -115,10 +118,11 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 fragment.show(fragmentManager, null)
                 true
             }
-            preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)?.setOnPreferenceClickListener {
-                context?.restartApplication()
-                true
-            }
+            preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
+                ?.setOnPreferenceClickListener {
+                    context?.restartApplication()
+                    true
+                }
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {

@@ -2,7 +2,8 @@
  * Copyright © 2017-2018 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-@file:Suppress("Unused") // For statistics
+// For statistics
+@file:Suppress("Unused")
 
 package com.wireguard.android.model
 

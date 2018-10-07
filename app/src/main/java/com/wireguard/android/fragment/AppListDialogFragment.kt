@@ -76,10 +76,12 @@ class AppListDialogFragment : DialogFragment() {
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
             val launcherIntent = Intent(Intent.ACTION_MAIN, null)
             launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val resolveInfos = pm.queryIntentActivities(launcherIntent, when {
-                Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP -> PackageManager.MATCH_DISABLED_COMPONENTS
-                else -> 0
-            })
+            val resolveInfos = pm.queryIntentActivities(
+                launcherIntent, when {
+                    Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP -> PackageManager.MATCH_DISABLED_COMPONENTS
+                    else -> 0
+                }
+            )
             val appData = ArrayList<ApplicationData>()
             for (resolveInfo in resolveInfos) {
                 val packageName = resolveInfo.activityInfo.packageName
@@ -94,7 +96,9 @@ class AppListDialogFragment : DialogFragment() {
                         resolveInfo.loadLabel(pm).toString(),
                         packageName,
                         currentlyExcludedApps!!.contains(packageName),
-                        if (isGlobalExclusionsDialog) false else ApplicationPreferences.exclusionsArray.contains(packageName)
+                        if (isGlobalExclusionsDialog) false else ApplicationPreferences.exclusionsArray.contains(
+                            packageName
+                        )
                     )
                 )
             }
