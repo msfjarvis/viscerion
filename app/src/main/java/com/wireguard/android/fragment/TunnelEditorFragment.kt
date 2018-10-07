@@ -199,7 +199,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     val error = ExceptionLoggers.unwrapMessage(e)
                     val tunnelName = if (tunnel == null) binding!!.config?.name else tunnel!!.getName()
                     val message = getString(R.string.config_save_error, tunnelName, error)
-                    Timber.e(e)
+                    Timber.e(message)
                     Snackbar.make(binding!!.mainContainer, error, Snackbar.LENGTH_LONG).show()
                     return false
                 }
