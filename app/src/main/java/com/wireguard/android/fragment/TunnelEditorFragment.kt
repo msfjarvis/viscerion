@@ -186,7 +186,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onResume() {
         super.onResume()
 
-        activity!!.window.navigationBarColor = ContextCompat.getColor(context!!, R.color.accent_darker)
+        activity?.window?.navigationBarColor = ContextCompat.getColor(context!!, R.color.accent_darker)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
