@@ -130,20 +130,20 @@
                         android:text="@={item.persistentKeepalive}"
                         android:textAlignment="center"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <CheckBox
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/exclude_private_ips"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:checked="@{item.isExcludePrivateIPsOn}"
                     android:onClick="@{() -> item.toggleExcludePrivateIPs()}"
                     android:text="@string/exclude_private_ips"
                     android:visibility="@{item.canToggleExcludePrivateIPs ? View.VISIBLE : View.GONE}"/>
