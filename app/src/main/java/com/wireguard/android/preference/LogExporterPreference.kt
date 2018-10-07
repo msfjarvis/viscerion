@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.util.ExceptionLoggers
-import com.wireguard.android.util.FragmentUtils
+import com.wireguard.android.util.getPrefActivity
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
@@ -71,7 +71,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val message = context.getString(R.string.log_export_error, error)
             Timber.tag(TAG).e(throwable)
             Snackbar.make(
-                FragmentUtils.getPrefActivity(this)!!.findViewById<View>(android.R.id.content),
+                getPrefActivity()!!.findViewById<View>(android.R.id.content),
                 message, Snackbar.LENGTH_LONG
             ).show()
             isEnabled = true
@@ -93,7 +93,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     }
 
     override fun onClick() {
-        FragmentUtils.getPrefActivity(this)!!.ensurePermissions(
+        getPrefActivity()!!.ensurePermissions(
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {

@@ -13,9 +13,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.SystemClock
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
+import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
+import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.config.Attribute
 
 fun <T> ArrayList<T>.addExclusive(otherArray: ArrayList<T>): ArrayList<T> {
@@ -55,6 +58,16 @@ fun Context.restartApplication() {
     (this.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
         .setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
+}
+
+fun Preference.getPrefActivity(): SettingsActivity? {
+    val context = this.context
+    if (context is ContextThemeWrapper) {
+        if (context.baseContext is SettingsActivity) {
+            return context.baseContext as SettingsActivity
+        }
+    }
+    return null
 }
 
 fun copyTextView(view: View) {
