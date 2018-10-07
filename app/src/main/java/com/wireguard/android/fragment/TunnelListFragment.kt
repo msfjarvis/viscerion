@@ -203,6 +203,7 @@ class TunnelListFragment : BaseFragment() {
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding!!.createFab.setOnClickListener { dialog.show() }
+        @Suppress("DEPRECATION")
         binding!!.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(binding!!.createFab))
         binding!!.executePendingBindings()
         return binding!!.root

@@ -151,9 +151,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onDestroyView() {
         binding = null
         for (o in breakObjectOrientedLayeringHandlerReceivers) {
+            @Suppress("UNCHECKED_CAST")
             if (o is Observable)
                 o.removeOnPropertyChangedCallback(breakObjectOrientedLayeringHandler)
-            else (o as? ObservableList<Peer.Observable>)?.removeOnListChangedCallback(
+            else (o as ObservableList<Peer.Observable>).removeOnListChangedCallback(
                 breakObjectListOrientedLayeringHandler
             )
         }
@@ -310,6 +311,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onViewStateRestored(savedInstanceState)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onRequestSetExcludedApplications(view: View) {
         val fragmentManager = fragmentManager
         if (fragmentManager != null && binding != null) {

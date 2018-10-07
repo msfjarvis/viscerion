@@ -66,6 +66,7 @@ fun <E> setItems(
     listener.setList(newList)
 }
 
+@Suppress("UNUSED_PARAMETER", "UNCHECKED_CAST")
 @BindingAdapter(requireAll = false, value = ["items", "layout", "configurationHandler"])
 fun <K, E : Keyed<out K>> setItems(
     view: RecyclerView,
