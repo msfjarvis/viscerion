@@ -11,10 +11,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.wireguard.android.R
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.resolveAttribute
 import com.wireguard.config.Config
 
 /**
@@ -71,5 +71,11 @@ class TunnelDetailFragment : BaseFragment() {
         binding?.fragment = this
         onSelectedTunnelChanged(null, selectedTunnel)
         super.onViewStateRestored(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activity?.window?.navigationBarColor = context!!.resolveAttribute(android.R.attr.navigationBarColor)
     }
 }

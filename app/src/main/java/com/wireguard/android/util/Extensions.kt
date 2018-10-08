@@ -13,6 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.SystemClock
+import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
@@ -68,6 +69,12 @@ fun Preference.getPrefActivity(): SettingsActivity? {
         }
     }
     return null
+}
+
+fun Context.resolveAttribute(attr: Int): Int {
+    val typedValue = TypedValue()
+    this.theme.resolveAttribute(attr, typedValue, true)
+    return typedValue.data
 }
 
 fun copyTextView(view: View) {
