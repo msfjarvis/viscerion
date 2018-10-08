@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="Multiselected">
         <attr name="state_multiselected" format="boolean"/>
+        <attr name="colorBackground" format="reference|color"/>
+        <attr name="colorBottomsheetText" format="reference|color"/>
     </declare-styleable>
 </resources>
