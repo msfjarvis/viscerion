@@ -49,7 +49,6 @@ class AppListDialogFragment : DialogFragment() {
         alertDialogBuilder.setView(binding.root)
 
         alertDialogBuilder.setPositiveButton(R.string.set_exclusions) { _, _ -> setExclusionsAndDismiss() }
-        alertDialogBuilder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         alertDialogBuilder.setNeutralButton(R.string.deselect_all) { _, _ -> }
 
         binding.fragment = this
