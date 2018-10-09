@@ -32,7 +32,6 @@ import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollLi
 import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
-import kotlinx.android.synthetic.main.add_tunnels_bottom_sheet.*
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -73,6 +72,7 @@ class TunnelListFragment : BaseFragment() {
         Application.asyncWorker.supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name: String? = null
+            @Suppress("Recycle")
             contentResolver.query(uri, columns, null, null, null)!!.use { cursor ->
                 if (cursor.moveToFirst() && !cursor.isNull(0))
                     name = cursor.getString(0)
