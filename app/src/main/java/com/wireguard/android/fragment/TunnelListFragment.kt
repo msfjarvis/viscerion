@@ -94,10 +94,11 @@ class TunnelListFragment : BaseFragment() {
             if (isZip) {
                 ZipInputStream(contentResolver.openInputStream(uri)).use { zip ->
                     val reader = BufferedReader(InputStreamReader(zip, StandardCharsets.UTF_8))
-                    var entry: ZipEntry
+                    var entry: ZipEntry?
                     while (true) {
                         entry = zip.nextEntry
-                        if (entry == null) continue
+                        if (entry == null)
+                            break
                         name = entry.name
                         idx = name!!.lastIndexOf('/')
                         if (idx >= 0) {
