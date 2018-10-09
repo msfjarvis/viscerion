@@ -245,10 +245,8 @@ class TunnelListFragment : BaseFragment() {
         if (binding == null)
             return
         Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-            if (newTunnel != null)
-                viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
-            if (oldTunnel != null)
-                viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
+            newTunnel ?: viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
+            oldTunnel ?: viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
         }
     }
 
@@ -369,9 +367,9 @@ class TunnelListFragment : BaseFragment() {
                     Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                         val tunnelsToDelete = ArrayList<Tunnel>()
                         for (position in copyCheckedItems)
-                            tunnelsToDelete.add(tunnels[position!!])
+                            tunnelsToDelete.add(tunnels[position])
 
-                        val futures = KotlinCompanions.streamForDeletion(tunnels)
+                        val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                         CompletableFuture.allOf(*futures)
                             .thenApply { futures.size }
                             .whenComplete { count, throwable ->
