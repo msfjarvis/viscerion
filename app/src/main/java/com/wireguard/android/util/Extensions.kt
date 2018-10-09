@@ -16,9 +16,9 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
-import android.widget.TextView
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.config.Attribute
 
@@ -78,13 +78,13 @@ fun Context.resolveAttribute(attr: Int): Int {
 }
 
 fun copyTextView(view: View) {
-    if (view !is TextView)
+    if (view !is TextInputEditText)
         return
-    val text = view.text
+    val text = view.editableText
     if (text == null || text.isEmpty())
         return
     val service = view.getContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
-    val description = view.getContentDescription()
+    val description = view.hint
     service.primaryClip = ClipData.newPlainText(description, text)
     Snackbar.make(view, description.toString() + " copied to clipboard", Snackbar.LENGTH_LONG).show()
 }

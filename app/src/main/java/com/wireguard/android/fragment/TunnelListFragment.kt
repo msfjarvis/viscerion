@@ -32,7 +32,6 @@ import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollLi
 import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
-import kotlinx.android.synthetic.main.add_tunnels_bottom_sheet.*
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -73,6 +72,7 @@ class TunnelListFragment : BaseFragment() {
         Application.asyncWorker.supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name: String? = null
+            @Suppress("Recycle")
             contentResolver.query(uri, columns, null, null, null)!!.use { cursor ->
                 if (cursor.moveToFirst() && !cursor.isNull(0))
                     name = cursor.getString(0)
@@ -94,10 +94,11 @@ class TunnelListFragment : BaseFragment() {
             if (isZip) {
                 ZipInputStream(contentResolver.openInputStream(uri)).use { zip ->
                     val reader = BufferedReader(InputStreamReader(zip, StandardCharsets.UTF_8))
-                    var entry: ZipEntry
+                    var entry: ZipEntry?
                     while (true) {
                         entry = zip.nextEntry
-                        if (entry == null) continue
+                        if (entry == null)
+                            break
                         name = entry.name
                         idx = name!!.lastIndexOf('/')
                         if (idx >= 0) {
@@ -244,10 +245,8 @@ class TunnelListFragment : BaseFragment() {
         if (binding == null)
             return
         Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-            if (newTunnel != null)
-                viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
-            if (oldTunnel != null)
-                viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
+            newTunnel ?: viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
+            oldTunnel ?: viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
         }
     }
 
@@ -368,9 +367,9 @@ class TunnelListFragment : BaseFragment() {
                     Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                         val tunnelsToDelete = ArrayList<Tunnel>()
                         for (position in copyCheckedItems)
-                            tunnelsToDelete.add(tunnels[position!!])
+                            tunnelsToDelete.add(tunnels[position])
 
-                        val futures = KotlinCompanions.streamForDeletion(tunnels)
+                        val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                         CompletableFuture.allOf(*futures)
                             .thenApply { futures.size }
                             .whenComplete { count, throwable ->

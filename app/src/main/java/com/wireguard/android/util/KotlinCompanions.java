@@ -12,6 +12,7 @@ import java9.util.concurrent.CompletableFuture;
 import java9.util.concurrent.CompletionStage;
 import java9.util.stream.StreamSupport;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -31,7 +32,7 @@ public final class KotlinCompanions {
                 .toArray(CompletableFuture[]::new));
     }
 
-    public static CompletableFuture[] streamForDeletion(final ObservableSortedKeyedList<String, Tunnel> tunnels) {
+    public static CompletableFuture[] streamForDeletion(final ArrayList<Tunnel> tunnels) {
         return StreamSupport.stream(tunnels)
                 .map(Tunnel::delete)
                 .toArray(CompletableFuture[]::new);
