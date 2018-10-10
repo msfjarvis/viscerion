@@ -15,6 +15,7 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.transaction
 import com.wireguard.android.R
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
@@ -85,11 +86,11 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 return true
             }
             R.id.menu_action_edit -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.detail_container, TunnelEditorFragment())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null)
-                    .commit()
+                supportFragmentManager.transaction {
+                    replace(R.id.detail_container, TunnelEditorFragment())
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    addToBackStack(null)
+                }
                 return true
             }
             R.id.menu_action_save ->
@@ -120,11 +121,11 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             fragmentManager.popBackStackImmediate()
         } else if (backStackEntries == 0) {
             // Create and show a new detail fragment.
-            fragmentManager.beginTransaction()
-                .add(R.id.detail_container, TunnelDetailFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack(null)
-                .commit()
+            fragmentManager.transaction {
+                add(R.id.detail_container, TunnelDetailFragment())
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                addToBackStack(null)
+            }
         }
     }
 }
