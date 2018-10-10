@@ -12,6 +12,7 @@ import android.view.MenuItem
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.transaction
 import androidx.preference.PreferenceFragmentCompat
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
@@ -59,9 +60,9 @@ class SettingsActivity : ThemeChangeAwareActivity() {
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
-            supportFragmentManager.beginTransaction()
-                .add(android.R.id.content, SettingsFragment())
-                .commit()
+            supportFragmentManager.transaction {
+                add(android.R.id.content, SettingsFragment())
+            }
         }
     }
 

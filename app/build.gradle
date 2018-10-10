@@ -96,6 +96,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$versions.androidx"
     implementation "androidx.databinding:databinding-adapters:$versions.databinding"
     implementation "androidx.databinding:databinding-runtime:$versions.databinding"
+    implementation "androidx.fragment:fragment-ktx:$versions.androidx"
     implementation "androidx.preference:preference:$versions.androidx"
     implementation "com.google.android.material:material:$versions.materialcomponents"
     implementation "com.jakewharton.timber:timber:$versions.timber"
