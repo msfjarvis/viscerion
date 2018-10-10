@@ -245,8 +245,10 @@ class TunnelListFragment : BaseFragment() {
         if (binding == null)
             return
         Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-            newTunnel ?: viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
-            oldTunnel ?: viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
+            if (newTunnel != null)
+                viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
+            if (oldTunnel != null)
+                viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
         }
     }
 
