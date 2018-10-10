@@ -17,7 +17,6 @@ import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
 import com.wireguard.config.Config
 import java.io.IOException
-import java.util.Objects
 
 class ConfigNamingDialogFragment : DialogFragment() {
 
@@ -82,12 +81,10 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     private fun setKeyboardVisible(visible: Boolean) {
-        Objects.requireNonNull<InputMethodManager>(imm)
-
         if (visible) {
-            imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else if (binding != null) {
-            imm!!.hideSoftInputFromWindow(binding!!.tunnelNameText.windowToken, 0)
+            imm?.hideSoftInputFromWindow(binding!!.tunnelNameText.windowToken, 0)
         }
     }
 
