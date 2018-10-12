@@ -12,6 +12,7 @@
         <item name="android:navigationBarColor">@color/primary_color</item>
         <item name="android:statusBarColor">@color/primary_color</item>
         <item name="android:windowBackground">@color/primary_color</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.MaterialComponents">
@@ -26,5 +27,7 @@
         <item name="android:navigationBarColor">@color/primary_color_black</item>
         <item name="android:statusBarColor">@color/primary_color_black</item>
         <item name="android:windowBackground">@color/primary_color_black</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
+
 </resources>
