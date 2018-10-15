@@ -29,5 +29,4 @@
         <item name="android:windowBackground">@color/primary_color_black</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
-
 </resources>
