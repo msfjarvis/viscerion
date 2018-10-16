@@ -1,4 +1,4 @@
-# \[ 🚧 Work in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 \] Android GUI for [WireGuard](https://www.wireguard.com/)
+# Android GUI for [WireGuard](https://www.wireguard.com/)
 
 [![Build Status](https://travis-ci.com/MSF-Jarvis/wireguard-kt.svg?branch=master)](https://travis-ci.com/MSF-Jarvis/wireguard-kt)
 
