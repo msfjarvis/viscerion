@@ -52,14 +52,6 @@ public class ObservableKeyedArrayList<K, E extends Keyed<? extends K>>
     }
 
     @Override
-    public boolean containsAllKeys(final Collection<K> keys) {
-        for (final K key : keys)
-            if (!containsKey(key))
-                return false;
-        return true;
-    }
-
-    @Override
     public boolean containsKey(final K key) {
         return indexOfKey(key) >= 0;
     }
@@ -105,5 +97,13 @@ public class ObservableKeyedArrayList<K, E extends Keyed<? extends K>>
         if (e == null)
             throw new NullPointerException("Trying to set a null key");
         return super.set(index, e);
+    }
+
+    @Override
+    public boolean containsAllKeys(@NonNull Collection<? extends K> keys) {
+        for (final K key : keys)
+            if (!containsKey(key))
+                return false;
+        return true;
     }
 }

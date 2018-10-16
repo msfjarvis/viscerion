@@ -27,6 +27,8 @@ class Tunnel internal constructor(
     private var config: Config?,
     private var state: State?
 ) : BaseObservable(), Keyed<String> {
+    override val key: String
+        get() = name
 
     private var statistics: Statistics? = null
 
@@ -51,10 +53,6 @@ class Tunnel internal constructor(
         if (config == null)
             manager.getTunnelConfig(this).whenComplete(ExceptionLoggers.E)
         return config
-    }
-
-    override fun getKey(): String? {
-        return name
     }
 
     @Bindable

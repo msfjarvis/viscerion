@@ -18,6 +18,8 @@ class ApplicationData(
     private var excludedFromTunnel: Boolean,
     private var globallyExcluded: Boolean = false
 ) : BaseObservable(), Keyed<String> {
+    override val key: String
+        get() = name
 
     var isExcludedFromTunnel: Boolean
         @Bindable
@@ -32,8 +34,4 @@ class ApplicationData(
     var isGloballyExcluded: Boolean = false
         @Bindable
         get() = globallyExcluded
-
-    override fun getKey(): String {
-        return name
-    }
 }
