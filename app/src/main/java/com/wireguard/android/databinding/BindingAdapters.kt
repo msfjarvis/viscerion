@@ -12,11 +12,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableList
+import androidx.databinding.ViewDataBinding
 import androidx.databinding.adapters.ListenerUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wireguard.android.R
-import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler
 import com.wireguard.android.util.ObservableKeyedList
 import com.wireguard.android.widget.ToggleSwitch
 import com.wireguard.android.widget.ToggleSwitch.OnBeforeCheckedChangeListener
@@ -72,10 +72,10 @@ fun <K, E : Keyed<out K>> setItems(
     view: RecyclerView,
     oldList: ObservableKeyedList<K, E>?,
     oldLayoutId: Int,
-    oldRowConfigurationHandler: RowConfigurationHandler<*, *>? = null,
+    oldRowConfigurationHandler: ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<ViewDataBinding, E>? = null,
     newList: ObservableKeyedList<K, E>?,
     newLayoutId: Int,
-    newRowConfigurationHandler: RowConfigurationHandler<*, *>? = null
+    newRowConfigurationHandler: ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<ViewDataBinding, E>? = null
 ) {
     if (view.layoutManager == null)
         view.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
