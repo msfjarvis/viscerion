@@ -25,23 +25,8 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
     private final Comparator<? super K> comparator;
     private final transient KeyList<K, E> keyList = new KeyList<>(this);
 
-    @SuppressWarnings("WeakerAccess")
-    public ObservableSortedKeyedArrayList() {
-        comparator = null;
-    }
-
     public ObservableSortedKeyedArrayList(@Nullable final Comparator<? super K> comparator) {
         this.comparator = comparator;
-    }
-
-    public ObservableSortedKeyedArrayList(final Collection<? extends E> elements) {
-        this();
-        addAll(elements);
-    }
-
-    public ObservableSortedKeyedArrayList(final SortedKeyedList<K, E> other) {
-        this(other.comparator());
-        addAll(other);
     }
 
     @Override
