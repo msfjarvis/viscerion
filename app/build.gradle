@@ -61,7 +61,6 @@ android {
     }
     buildTypes {
         release {
-            if (keystorePropertiesFile.exists()) signingConfig signingConfigs.release
             externalNativeBuild {
                 cmake {
                     arguments "-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}"
