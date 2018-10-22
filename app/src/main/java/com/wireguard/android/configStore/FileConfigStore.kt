@@ -44,8 +44,8 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     override fun enumerate(): Set<String> {
         return context.fileList()
-            .filter { it -> it.endsWith(".conf") }
-            .map { it -> it.substring(0, it.length - ".conf".length) }
+            .filter { it -> it.endsWith(CONFIGURATION_FILE_SUFFIX) }
+            .map { it -> it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
             .toSet()
     }
 
@@ -87,5 +87,6 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     companion object {
         private val TAG = "WireGuard/" + FileConfigStore::class.java.simpleName
+        const val CONFIGURATION_FILE_SUFFIX = ".conf"
     }
 }

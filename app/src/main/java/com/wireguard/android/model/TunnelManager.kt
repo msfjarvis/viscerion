@@ -86,10 +86,10 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         lastUsedTunnel = tunnel
         notifyPropertyChanged(BR.lastUsedTunnel)
         Application.sharedPreferences.edit {
-            if (tunnel != null)
-                putString(KEY_LAST_USED_TUNNEL, tunnel.getName())
-            else
-                remove(KEY_LAST_USED_TUNNEL)
+            when {
+                tunnel != null -> putString(KEY_LAST_USED_TUNNEL, tunnel.getName())
+                else -> remove(KEY_LAST_USED_TUNNEL)
+            }
         }
     }
 
@@ -115,7 +115,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             addToList(name, null, if (running.contains(name)) Tunnel.State.UP else Tunnel.State.DOWN)
         val lastUsedName = Application.sharedPreferences.getString(KEY_LAST_USED_TUNNEL, null)
         if (lastUsedName != null)
-            setLastUsedTunnel(tunnels.get(lastUsedName))
+            setLastUsedTunnel(tunnels[lastUsedName])
         var toComplete: Array<CompletableFuture<Void>>? = null
         synchronized(delayedLoadRestoreTunnels) {
             haveLoaded = true
@@ -123,11 +123,13 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             delayedLoadRestoreTunnels.clear()
         }
         restoreState(true).whenComplete { v, t ->
-            for (f in toComplete!!) {
-                if (t == null)
-                    f.complete(v)
-                else
-                    f.completeExceptionally(t)
+            toComplete?.let {
+                for (f in it) {
+                    if (t == null)
+                        f.complete(v)
+                    else
+                        f.completeExceptionally(t)
+                }
             }
         }
 

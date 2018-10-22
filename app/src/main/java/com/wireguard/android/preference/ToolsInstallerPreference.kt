@@ -55,10 +55,10 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
             .whenComplete { result, throwable -> this.onInstallResult(result, throwable) }
     }
 
-    private fun onInstallResult(result: Int?, throwable: Throwable?) {
+    private fun onInstallResult(result: Int, throwable: Throwable?) {
         when {
             throwable != null -> setState(State.FAILURE)
-            result!! and ((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
+            result and ((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
                 State.SUCCESS_MAGISK
             )
             result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == ToolsInstaller.YES or ToolsInstaller.SYSTEM -> setState(

@@ -37,7 +37,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
     private var pendingTunnelUp: Boolean? = null
 
     protected var selectedTunnel: Tunnel?
-        get() = if (activity != null) activity!!.selectedTunnel else null
+        get() = activity?.selectedTunnel
         set(tunnel) {
             activity?.selectedTunnel = tunnel
         }
@@ -63,8 +63,11 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CODE_VPN_PERMISSION) {
-            if (pendingTunnel != null && pendingTunnelUp != null)
-                setTunnelStateWithPermissionsResult(pendingTunnel!!, pendingTunnelUp!!)
+            pendingTunnel?.let { tunnel ->
+                pendingTunnelUp?.let { tunnelUp ->
+                    setTunnelStateWithPermissionsResult(tunnel, tunnelUp)
+                }
+            }
             pendingTunnel = null
             pendingTunnelUp = null
         }
@@ -84,10 +87,10 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         Application.backendAsync.thenAccept { backend ->
             if (backend is GoBackend) {
                 val intent = GoBackend.VpnService.prepare(view.context)
-                if (intent != null) {
+                intent?.let {
                     pendingTunnel = tunnel
                     pendingTunnelUp = checked
-                    startActivityForResult(intent, REQUEST_CODE_VPN_PERMISSION)
+                    startActivityForResult(it, REQUEST_CODE_VPN_PERMISSION)
                     return@thenAccept
                 }
             }

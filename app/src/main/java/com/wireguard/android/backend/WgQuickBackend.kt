@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
+import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
@@ -108,7 +109,7 @@ class WgQuickBackend(context: Context) : Backend {
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: State?) {
         Objects.requireNonNull<Config>(config, "Trying to set state with a null config")
 
-        val tempFile = File(localTemporaryDir, tunnel?.getName() + ".conf")
+        val tempFile = File(localTemporaryDir, tunnel?.getName() + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(
             tempFile,
             false

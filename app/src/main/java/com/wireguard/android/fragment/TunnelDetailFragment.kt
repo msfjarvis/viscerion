@@ -34,7 +34,7 @@ class TunnelDetailFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater!!.inflate(R.menu.tunnel_detail, menu)
+        inflater?.inflate(R.menu.tunnel_detail, menu)
     }
 
     override fun onCreateView(

@@ -46,9 +46,9 @@ class ConfigNamingDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity
 
-        imm = getActivity()!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
+        val alertDialogBuilder = AlertDialog.Builder(activity)
         alertDialogBuilder.setTitle(R.string.import_from_qrcode)
 
         binding = ConfigNamingDialogFragmentBinding.inflate(getActivity()!!.layoutInflater, null, false)
@@ -67,14 +67,14 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     private fun createTunnelAndDismiss() {
-        if (binding != null) {
-            val name = binding!!.tunnelNameText.text.toString()
+        binding?.let {
+            val name = it.tunnelNameText.text.toString()
 
             Application.tunnelManager.create(name, config).whenComplete { tunnel, throwable ->
                 if (tunnel != null) {
                     dismiss()
                 } else {
-                    binding!!.tunnelNameTextLayout.error = throwable.message
+                    it.tunnelNameTextLayout.error = throwable.message
                 }
             }
         }

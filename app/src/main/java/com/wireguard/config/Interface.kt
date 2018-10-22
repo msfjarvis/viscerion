@@ -43,8 +43,9 @@ class Interface {
     }
 
     fun addExcludedApplications(applications: Array<String>?) {
-        if (applications != null && applications.isNotEmpty()) {
-            excludedApplications.addExclusive(applications)
+        applications?.let {
+            if (it.isNotEmpty())
+                excludedApplications.addExclusive(applications)
         }
     }
 
@@ -99,11 +100,11 @@ class Interface {
     }
 
     fun getPrivateKey(): String? {
-        return if (keypair == null) null else keypair!!.privateKey
+        return keypair?.privateKey
     }
 
     fun getPublicKey(): String? {
-        return if (keypair == null) null else keypair!!.publicKey
+        return keypair?.publicKey
     }
 
     fun parse(line: String) {
@@ -185,7 +186,7 @@ class Interface {
         if (mtu != 0)
             sb.append(Attribute.MTU.composeWith(mtu))
         if (keypair != null)
-            sb.append(Attribute.PRIVATE_KEY.composeWith(keypair!!.privateKey))
+            sb.append(Attribute.PRIVATE_KEY.composeWith(keypair?.privateKey))
         return sb.toString()
     }
 
@@ -211,14 +212,14 @@ class Interface {
                 loadData(parent)
         }
 
-        private constructor(`in`: Parcel) {
-            addresses = `in`.readString()
-            dnses = `in`.readString()
-            publicKey = `in`.readString()
-            privateKey = `in`.readString()
-            listenPort = `in`.readString()
-            mtu = `in`.readString()
-            excludedApplications = `in`.readString()
+        private constructor(input: Parcel) {
+            addresses = input.readString()
+            dnses = input.readString()
+            publicKey = input.readString()
+            privateKey = input.readString()
+            listenPort = input.readString()
+            mtu = input.readString()
+            excludedApplications = input.readString()
         }
 
         fun commitData(parent: Interface) {

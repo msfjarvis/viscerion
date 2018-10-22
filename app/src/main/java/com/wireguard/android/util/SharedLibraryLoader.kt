@@ -42,7 +42,7 @@ object SharedLibraryLoader {
             var f: File? = null
             try {
                 f = File.createTempFile("lib", ".so", context.cacheDir)
-                Timber.tag(TAG).d("Extracting apk:/$libZipPath to ${f!!.absolutePath} and loading")
+                Timber.tag(TAG).d("Extracting apk:/$libZipPath to ${f?.absolutePath} and loading")
                 FileOutputStream(f).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)

@@ -43,10 +43,11 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
             else -> null
         }
 
-        if (savedTunnelName != null)
+        savedTunnelName?.let {
             Application.tunnelManager.completableTunnels.thenAccept { tunnels ->
-                selectedTunnel = tunnels.get(savedTunnelName)
+                selectedTunnel = tunnels[it]
             }
+        }
 
         // The selected tunnel must be set before the superclass method recreates fragments.
         super.onCreate(savedInstanceState)
@@ -55,8 +56,9 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        if (this.selectedTunnel != null)
-            outState!!.putString(KEY_SELECTED_TUNNEL, this.selectedTunnel!!.getName())
+        selectedTunnel?.let {
+            outState?.putString(KEY_SELECTED_TUNNEL, it.getName())
+        }
         super.onSaveInstanceState(outState)
     }
 

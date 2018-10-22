@@ -144,10 +144,12 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = TunnelEditorFragmentBinding.inflate(inflater, container, false)
-        binding?.addOnPropertyChangedCallback(breakObjectOrientedLayeringHandler)
-        breakObjectOrientedLayeringHandlerReceivers.add(binding!!)
-        binding!!.executePendingBindings()
-        return binding!!.root
+        binding?.let {
+            it.addOnPropertyChangedCallback(breakObjectOrientedLayeringHandler)
+            breakObjectOrientedLayeringHandlerReceivers.add(it)
+            it.executePendingBindings()
+        }
+        return binding?.root
     }
 
     override fun onDestroyView() {
@@ -167,11 +169,11 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         // Hide the keyboard; it rarely goes away on its own.
         val activity = activity ?: return
         val focusedView = activity.currentFocus
-        if (focusedView != null) {
+        focusedView?.let {
             val service = activity.getSystemService(Context.INPUT_METHOD_SERVICE)
             val inputManager = service as InputMethodManager
             inputManager.hideSoftInputFromWindow(
-                focusedView.windowToken,
+                it.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
@@ -193,7 +195,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+        when (item?.itemId) {
             R.id.menu_action_save -> {
                 val newConfig = Config()
                 try {
@@ -237,8 +239,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(KEY_LOCAL_CONFIG, binding!!.config)
-        outState.putString(KEY_ORIGINAL_NAME, if (tunnel == null) null else tunnel!!.getName())
+        outState.putParcelable(KEY_LOCAL_CONFIG, binding?.config)
+        outState.putString(KEY_ORIGINAL_NAME, tunnel?.getName())
         super.onSaveInstanceState(outState)
     }
 
@@ -246,9 +248,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         tunnel = newTunnel
         if (binding == null)
             return
-        binding!!.config = Config.Observable(null, null)
-        if (tunnel != null)
-            tunnel!!.configAsync.thenAccept { a -> onConfigLoaded(tunnel!!.getName(), a) }
+        binding?.config = Config.Observable(null, null)
+        tunnel?.let {
+            it.configAsync.thenAccept { a -> onConfigLoaded(it.getName(), a) }
+        }
     }
 
     private fun onTunnelCreated(newTunnel: Tunnel, throwable: Throwable?) {
@@ -263,8 +266,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_create_error, error)
             Timber.e(throwable)
-            if (binding != null) {
-                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
+            binding?.let {
+                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -285,8 +288,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_rename_error, error)
             Timber.e(throwable)
-            if (binding != null) {
-                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
+            binding?.let {
+                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -296,7 +299,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             return
         }
 
-        binding!!.fragment = this
+        binding?.fragment = this
 
         if (savedInstanceState == null) {
             onSelectedTunnelChanged(null, selectedTunnel)
@@ -317,7 +320,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     fun onRequestSetExcludedApplications(view: View) {
         val fragmentManager = fragmentManager
         if (fragmentManager != null && binding != null) {
-            val excludedApps = Attribute.stringToList(binding!!.config?.interfaceSection?.getExcludedApplications())
+            val excludedApps = Attribute.stringToList(binding?.config?.interfaceSection?.getExcludedApplications())
             val fragment = AppListDialogFragment.newInstance(excludedApps, target = this)
             fragment.show(fragmentManager, null)
         }
@@ -328,7 +331,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             binding,
             "Tried to set excluded apps while no view was loaded"
         )
-        binding!!.config?.interfaceSection?.setExcludedApplications(Attribute.iterableToString(excludedApps))
+        binding?.config?.interfaceSection?.setExcludedApplications(Attribute.iterableToString(excludedApps))
     }
 
     companion object {

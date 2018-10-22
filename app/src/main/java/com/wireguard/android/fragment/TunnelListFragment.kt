@@ -20,6 +20,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
+import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
@@ -53,9 +54,9 @@ class TunnelListFragment : BaseFragment() {
             Config.from(configText)
 
             // Config text is valid, now create the tunnel…
-            val fragmentManager = fragmentManager
-            if (fragmentManager != null)
+            fragmentManager?.let {
                 ConfigNamingDialogFragment.newInstance(configText).show(fragmentManager, null)
+            }
         } catch (exception: Exception) {
             onTunnelImportFinished(emptyList(), listOf<Throwable>(exception))
         }
@@ -71,23 +72,25 @@ class TunnelListFragment : BaseFragment() {
         val throwables = ArrayList<Throwable>()
         Application.asyncWorker.supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
-            var name: String? = null
+            var name = ""
             @Suppress("Recycle")
-            contentResolver.query(uri, columns, null, null, null)!!.use { cursor ->
-                if (cursor.moveToFirst() && !cursor.isNull(0))
-                    name = cursor.getString(0)
+            contentResolver.query(uri, columns, null, null, null).use { cursor ->
+                cursor?.let {
+                    if (cursor.moveToFirst() && !cursor.isNull(0))
+                        name = cursor.getString(0)
+                }
             }
-            if (name == null)
+            if (name.isEmpty())
                 name = Uri.decode(uri.lastPathSegment)
-            var idx = name!!.lastIndexOf('/')
+            var idx = name.lastIndexOf('/')
             if (idx >= 0) {
-                if (idx >= name!!.length - 1)
-                    throw IllegalArgumentException("Illegal file name: " + name!!)
-                name = name!!.substring(idx + 1)
+                if (idx >= name.length - 1)
+                    throw IllegalArgumentException("Illegal file name: $name")
+                name = name.substring(idx + 1)
             }
-            val isZip = name!!.toLowerCase().endsWith(".zip")
-            if (name!!.toLowerCase().endsWith(".conf"))
-                name = name!!.substring(0, name!!.length - ".conf".length)
+            val isZip = name.toLowerCase().endsWith(".zip")
+            if (name.toLowerCase().endsWith(CONFIGURATION_FILE_SUFFIX))
+                name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
             else if (!isZip)
                 throw IllegalArgumentException("File must be .conf or .zip")
 
@@ -100,14 +103,14 @@ class TunnelListFragment : BaseFragment() {
                         if (entry == null)
                             break
                         name = entry.name
-                        idx = name!!.lastIndexOf('/')
+                        idx = name.lastIndexOf('/')
                         if (idx >= 0) {
-                            if (idx >= name!!.length - 1)
+                            if (idx >= name.length - 1)
                                 continue
-                            name = name!!.substring(name!!.lastIndexOf('/') + 1)
+                            name = name.substring(name.lastIndexOf('/') + 1)
                         }
-                        if (name!!.toLowerCase().endsWith(".conf"))
-                            name = name!!.substring(0, name!!.length - ".conf".length)
+                        if (name.toLowerCase().endsWith(CONFIGURATION_FILE_SUFFIX))
+                            name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
                         else
                             continue
                         var config: Config? = null
@@ -118,13 +121,13 @@ class TunnelListFragment : BaseFragment() {
                         }
 
                         if (config != null)
-                            futureTunnels.add(Application.tunnelManager.create(name!!, config).toCompletableFuture())
+                            futureTunnels.add(Application.tunnelManager.create(name, config).toCompletableFuture())
                     }
                 }
             } else {
                 futureTunnels.add(
                     Application.tunnelManager.create(
-                        name!!,
+                        name,
                         Config.from(contentResolver.openInputStream(uri))
                     ).toCompletableFuture()
                 )
@@ -152,8 +155,9 @@ class TunnelListFragment : BaseFragment() {
                             throwables.add(e)
                         }
 
-                        if (tunnel != null)
+                        tunnel?.let {
                             tunnels.add(tunnel)
+                        }
                     }
                     onTunnelImportFinished(tunnels, throwables)
                 }
@@ -203,11 +207,13 @@ class TunnelListFragment : BaseFragment() {
         }
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
-        binding!!.createFab.setOnClickListener { dialog.show() }
-        @Suppress("DEPRECATION")
-        binding!!.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(binding!!.createFab))
-        binding!!.executePendingBindings()
-        return binding!!.root
+        binding?.let {
+            it.createFab.setOnClickListener { _ -> dialog.show() }
+            @Suppress("DEPRECATION")
+            it.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
+            it.executePendingBindings()
+        }
+        return binding?.root
     }
 
     override fun onDestroyView() {
@@ -234,21 +240,24 @@ class TunnelListFragment : BaseFragment() {
         intentIntegrator.initiateScan(listOf(IntentIntegrator.QR_CODE))
     }
 
-    private fun viewForTunnel(tunnel: Tunnel?, tunnels: List<*>): MultiselectableRelativeLayout? {
-        return if (binding != null && binding!!.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel)) != null)
-            binding!!.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))!!.itemView as MultiselectableRelativeLayout
-        else
-            null
+    private fun viewForTunnel(tunnel: Tunnel, tunnels: List<Tunnel>): MultiselectableRelativeLayout? {
+        var view: MultiselectableRelativeLayout? = null
+        binding?.let {
+            view = it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
+        }
+        return view
     }
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
         if (binding == null)
             return
         Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-            if (newTunnel != null)
-                viewForTunnel(newTunnel, tunnels)!!.setSingleSelected(true)
-            if (oldTunnel != null)
-                viewForTunnel(oldTunnel, tunnels)!!.setSingleSelected(false)
+            newTunnel?.let {
+                viewForTunnel(it, tunnels)?.setSingleSelected(true)
+            }
+            oldTunnel?.let {
+                viewForTunnel(it, tunnels)?.setSingleSelected(false)
+            }
         }
     }
 
@@ -261,13 +270,13 @@ class TunnelListFragment : BaseFragment() {
             message = resources.getQuantityString(R.plurals.delete_error, count, count, error)
             Timber.e(throwable)
         }
-        if (binding != null) {
-            Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
+        binding?.let {
+            Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
     private fun onTunnelImportFinished(tunnels: List<Tunnel>, throwables: Collection<Throwable>) {
-        var message: String? = null
+        var message = ""
 
         for (throwable in throwables) {
             val error = ExceptionLoggers.unwrapMessage(throwable)
@@ -293,18 +302,20 @@ class TunnelListFragment : BaseFragment() {
         Application.tunnelManager.completableTunnels.thenAccept { allTunnels ->
             for (tunnel in allTunnels) {
                 val oldConfig = tunnel.getConfig()
-                if (oldConfig != null) {
-                    oldConfig.getInterface()
+                oldConfig?.let {
+                    it.getInterface()
                         .addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
-                    tunnel.setConfig(oldConfig)
-                    if (tunnel.getState() === Tunnel.State.UP)
+                    tunnel.setConfig(it)
+                    if (tunnel.getState() == Tunnel.State.UP)
                         tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
                 }
             }
         }
 
-        if (binding != null)
-            Snackbar.make(binding!!.mainContainer, message!!, Snackbar.LENGTH_LONG).show()
+        binding?.let {
+            if (message.isNotEmpty())
+                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -316,10 +327,10 @@ class TunnelListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (savedInstanceState != null) {
-            val checkedItems = savedInstanceState.getIntegerArrayList("CHECKED_ITEMS")
-            if (checkedItems != null) {
-                for (i in checkedItems)
+        savedInstanceState?.let { bundle ->
+            val checkedItems = bundle.getIntegerArrayList("CHECKED_ITEMS")
+            checkedItems?.let {
+                for (i in it)
                     actionModeListener.setItemChecked(i!!, true)
             }
         }
@@ -331,9 +342,9 @@ class TunnelListFragment : BaseFragment() {
         if (binding == null) {
             return
         }
-        binding!!.fragment = this
-        Application.tunnelManager.getTunnels().thenAccept { binding!!.tunnels = it }
-        binding!!.rowConfigurationHandler = object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
+        binding?.fragment = this
+        Application.tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
+        binding?.rowConfigurationHandler = object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
             override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
                 binding.fragment = this@TunnelListFragment
                 binding.root.setOnClickListener {
@@ -379,9 +390,10 @@ class TunnelListFragment : BaseFragment() {
                                 onTunnelDeletionFinished(count, throwable)
                             }
                     }
-                    if (binding != null)
-                        if (binding!!.createFab.isOrWillBeHidden)
-                            binding!!.createFab.show()
+                    binding?.let {
+                        if (it.createFab.isOrWillBeHidden)
+                            it.createFab.show()
+                    }
                     checkedItems.clear()
                     mode.finish()
                     return true
@@ -400,12 +412,13 @@ class TunnelListFragment : BaseFragment() {
 
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
             actionMode = mode
-            if (activity != null) {
-                resources = activity!!.resources
+            activity?.let {
+                resources = it.resources
             }
             mode.menuInflater.inflate(R.menu.tunnel_list_action_mode, menu)
-            if (binding != null)
-                binding!!.tunnelList.adapter!!.notifyDataSetChanged()
+            binding?.let {
+                it.tunnelList.adapter?.notifyDataSetChanged()
+            }
             return true
         }
 
@@ -413,8 +426,9 @@ class TunnelListFragment : BaseFragment() {
             actionMode = null
             resources = null
             checkedItems.clear()
-            if (binding != null)
-                binding!!.tunnelList.adapter!!.notifyDataSetChanged()
+            binding?.let {
+                it.tunnelList.adapter?.notifyDataSetChanged()
+            }
         }
 
         internal fun toggleItemChecked(position: Int) {
@@ -432,12 +446,12 @@ class TunnelListFragment : BaseFragment() {
                 checkedItems.remove(position)
             }
 
-            val adapter = if (binding == null) null else binding!!.tunnelList.adapter
+            val adapter = binding?.tunnelList?.adapter
 
-            if (actionMode == null && !checkedItems.isEmpty() && activity != null) {
+            if (actionMode == null && !checkedItems.isEmpty()) {
                 (activity as AppCompatActivity).startSupportActionMode(this)
-            } else if (actionMode != null && checkedItems.isEmpty()) {
-                actionMode!!.finish()
+            } else if (checkedItems.isEmpty()) {
+                actionMode?.finish()
             }
 
             adapter?.notifyItemChanged(position)

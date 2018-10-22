@@ -10,11 +10,9 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.Switch
 
-class ToggleSwitch(context: Context, attrs: AttributeSet?) : Switch(context, attrs) {
+class ToggleSwitch(context: Context, attrs: AttributeSet? = null) : Switch(context, attrs) {
     private var isRestoringState: Boolean = false
     private var listener: OnBeforeCheckedChangeListener? = null
-
-    constructor(context: Context) : this(context, null)
 
     override fun onRestoreInstanceState(state: Parcelable) {
         isRestoringState = true
