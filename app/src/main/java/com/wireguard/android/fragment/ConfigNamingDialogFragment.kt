@@ -51,9 +51,9 @@ class ConfigNamingDialogFragment : DialogFragment() {
         val alertDialogBuilder = AlertDialog.Builder(activity)
         alertDialogBuilder.setTitle(R.string.import_from_qrcode)
 
-        binding = ConfigNamingDialogFragmentBinding.inflate(getActivity()!!.layoutInflater, null, false)
-        binding!!.executePendingBindings()
-        alertDialogBuilder.setView(binding!!.root)
+        binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)
+        binding?.executePendingBindings()
+        alertDialogBuilder.setView(binding?.root)
 
         alertDialogBuilder.setPositiveButton(R.string.create_tunnel, null)
         alertDialogBuilder.setNegativeButton(R.string.cancel) { _, _ -> dismiss() }
