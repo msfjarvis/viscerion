@@ -53,7 +53,7 @@ class WgQuickBackend(context: Context) : Backend {
 
     @Throws(Exception::class)
     override fun applyConfig(tunnel: Tunnel?, config: Config?): Config? {
-        if (tunnel?.getState() == State.UP) {
+        if (tunnel?.state == State.UP) {
             // Restart the tunnel to apply the new config.
             setStateInternal(tunnel, tunnel.getConfig(), State.DOWN)
             try {
@@ -84,7 +84,7 @@ class WgQuickBackend(context: Context) : Backend {
     }
 
     override fun getState(tunnel: Tunnel?): State? {
-        return if (enumerate().contains(tunnel?.getName())) State.UP else State.DOWN
+        return if (enumerate().contains(tunnel?.name)) State.UP else State.DOWN
     }
 
     override fun getStatistics(tunnel: Tunnel?): Statistics? {
@@ -99,7 +99,7 @@ class WgQuickBackend(context: Context) : Backend {
             stateToSet = if (originalState == State.UP) State.DOWN else State.UP
         if (stateToSet == originalState)
             return originalState
-        Timber.tag(TAG).d("Changing tunnel %s to state %s", tunnel?.getName(), stateToSet)
+        Timber.tag(TAG).d("Changing tunnel %s to state %s", tunnel?.name, stateToSet)
         Application.toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
         return getState(tunnel)
@@ -109,7 +109,7 @@ class WgQuickBackend(context: Context) : Backend {
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: State?) {
         Objects.requireNonNull<Config>(config, "Trying to set state with a null config")
 
-        val tempFile = File(localTemporaryDir, tunnel?.getName() + CONFIGURATION_FILE_SUFFIX)
+        val tempFile = File(localTemporaryDir, tunnel?.name + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(
             tempFile,
             false
@@ -141,14 +141,14 @@ class WgQuickBackend(context: Context) : Backend {
                 TunnelManager.NOTIFICATION_CHANNEL_ID
             )
             builder.setContentTitle(cachedContext.getString(R.string.notification_channel_wgquick_title))
-                .setContentText(tunnel.getName())
+                .setContentText(tunnel.name)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .setPriority(Notification.FLAG_ONGOING_EVENT)
                 .setSmallIcon(R.drawable.ic_stat_wgquick)
-            notificationManager.notify(tunnel.getName().hashCode(), builder.build())
+            notificationManager.notify(tunnel.name.hashCode(), builder.build())
         } else if (state == State.DOWN) {
-            notificationManager.cancel(tunnel.getName().hashCode())
+            notificationManager.cancel(tunnel.name.hashCode())
         }
     }
 

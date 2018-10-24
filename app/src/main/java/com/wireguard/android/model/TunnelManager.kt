@@ -48,7 +48,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     internal fun delete(tunnel: Tunnel): CompletionStage<Void> {
-        val originalState = tunnel.getState()
+        val originalState = tunnel.state
         val wasLastUsed = tunnel == lastUsedTunnel
         // Make sure nothing touches the tunnel.
         if (wasLastUsed)
@@ -58,7 +58,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.DOWN)
             try {
-                configStore.delete(tunnel.getName())
+                configStore.delete(tunnel.name)
             } catch (e: Exception) {
                 if (originalState == Tunnel.State.UP)
                     Application.backend.setState(tunnel, Tunnel.State.UP)
@@ -87,14 +87,14 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         notifyPropertyChanged(BR.lastUsedTunnel)
         Application.sharedPreferences.edit {
             when {
-                tunnel != null -> putString(KEY_LAST_USED_TUNNEL, tunnel.getName())
+                tunnel != null -> putString(KEY_LAST_USED_TUNNEL, tunnel.name)
                 else -> remove(KEY_LAST_USED_TUNNEL)
             }
         }
     }
 
     internal fun getTunnelConfig(tunnel: Tunnel): CompletionStage<Config> {
-        return Application.asyncWorker.supplyAsync { configStore.load(tunnel.getName()) }
+        return Application.asyncWorker.supplyAsync { configStore.load(tunnel.name) }
             .thenApply(tunnel::onConfigChanged)
     }
 
@@ -124,11 +124,11 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         }
         restoreState(true).whenComplete { v, t ->
             toComplete?.let {
-                for (f in it) {
+                it.forEach { future ->
                     if (t == null)
-                        f.complete(v)
+                        future.complete(v)
                     else
-                        f.completeExceptionally(t)
+                        future.completeExceptionally(t)
                 }
             }
         }
@@ -152,7 +152,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     fun saveState() {
-        val test = tunnels.asSequence().filter { it -> it.getState() == Tunnel.State.UP }.map { it.getName() }.toSet()
+        val test = tunnels.asSequence().filter { it -> it.state == Tunnel.State.UP }.map { it.name }.toSet()
         Application.sharedPreferences.edit {
             putStringSet(KEY_RUNNING_TUNNELS, test)
         }
@@ -161,7 +161,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     internal fun setTunnelConfig(tunnel: Tunnel, config: Config): CompletionStage<Config> {
         return Application.asyncWorker.supplyAsync {
             val appliedConfig = Application.backend.applyConfig(tunnel, config)
-            configStore.save(tunnel.getName(), appliedConfig!!)
+            configStore.save(tunnel.name, appliedConfig!!)
         }.thenApply(tunnel::onConfigChanged)
     }
 
@@ -172,7 +172,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             val message = context.getString(R.string.tunnel_error_already_exists, name)
             return CompletableFuture.failedFuture(IllegalArgumentException(message))
         }
-        val originalState = tunnel.getState()
+        val originalState = tunnel.state
         val wasLastUsed = tunnel == lastUsedTunnel
         // Make sure nothing touches the tunnel.
         if (wasLastUsed)
@@ -181,7 +181,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         return Application.asyncWorker.supplyAsync {
             if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.DOWN)
-            configStore.rename(tunnel.getName(), name)
+            configStore.rename(tunnel.name, name)
             val newName = tunnel.onNameChanged(name)
             if (originalState == Tunnel.State.UP)
                 Application.backend.setState(tunnel, Tunnel.State.UP)
@@ -208,7 +208,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             }
         }.whenComplete { newState, e ->
             // Ensure onStateChanged is always called (failure or not), and with the correct state.
-            tunnel.onStateChanged(if (e == null) newState else tunnel.getState())
+            tunnel.onStateChanged(if (e == null) newState else tunnel.state)
             if (e == null && newState == Tunnel.State.UP)
                 setLastUsedTunnel(tunnel)
             saveState()

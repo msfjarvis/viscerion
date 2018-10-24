@@ -61,7 +61,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
                     try {
                         ZipOutputStream(FileOutputStream(file)).use { zip ->
                             for (i in futureConfigs.indices) {
-                                zip.putNextEntry(ZipEntry(tunnels[i].getName() + ".conf"))
+                                zip.putNextEntry(ZipEntry(tunnels[i].name + ".conf"))
                                 zip.write(futureConfigs[i].getNow(null).toString().toByteArray(StandardCharsets.UTF_8))
                             }
                             zip.closeEntry()

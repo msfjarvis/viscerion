@@ -23,9 +23,11 @@ import java.util.regex.Pattern
 
 class Tunnel internal constructor(
     private val manager: TunnelManager,
-    private var name: String,
+    @Bindable
+    var name: String,
     private var config: Config?,
-    private var state: State?
+    @Bindable
+    var state: State?
 ) : BaseObservable(), Keyed<String> {
     override val key: String
         get() = name
@@ -53,16 +55,6 @@ class Tunnel internal constructor(
         if (config == null)
             manager.getTunnelConfig(this).whenComplete(ExceptionLoggers.E)
         return config
-    }
-
-    @Bindable
-    fun getName(): String {
-        return name
-    }
-
-    @Bindable
-    fun getState(): State? {
-        return state
     }
 
     @Bindable
@@ -125,7 +117,6 @@ class Tunnel internal constructor(
         UP;
 
         companion object {
-
             fun of(running: Boolean): State {
                 return if (running) UP else DOWN
             }

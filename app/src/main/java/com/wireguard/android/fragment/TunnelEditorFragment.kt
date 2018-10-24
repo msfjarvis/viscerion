@@ -5,7 +5,6 @@
 
 package com.wireguard.android.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -16,6 +15,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.databinding.Observable
 import androidx.databinding.ObservableList
 import com.google.android.material.snackbar.Snackbar
@@ -44,7 +44,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
                 if (binding == null)
                     return
-                val config = binding!!.config ?: return
+                val config = binding?.config ?: return
                 if (propertyId == BR.config) {
                     config.addOnPropertyChangedCallback(this)
                     breakObjectOrientedLayeringHandlerReceivers.add(config)
@@ -87,7 +87,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 itemCount: Int
             ) {
                 if (binding != null)
-                    breakObjectOrientedLayeringHandler.onPropertyChanged(binding!!.config, BR.peers)
+                    breakObjectOrientedLayeringHandler.onPropertyChanged(binding?.config, BR.peers)
             }
 
             override fun onItemRangeRemoved(
@@ -96,14 +96,14 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 itemCount: Int
             ) {
                 if (binding != null)
-                    breakObjectOrientedLayeringHandler.onPropertyChanged(binding!!.config, BR.peers)
+                    breakObjectOrientedLayeringHandler.onPropertyChanged(binding?.config, BR.peers)
             }
         }
     private var tunnel: Tunnel? = null
 
     private fun onConfigLoaded(name: String, config: Config) {
         if (binding != null) {
-            binding!!.config = Config.Observable(config, name)
+            binding?.config = Config.Observable(config, name)
         }
     }
 
@@ -113,17 +113,15 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     ) {
         val message: String
         if (throwable == null) {
-            message = getString(R.string.config_save_success, savedTunnel.getName())
+            message = getString(R.string.config_save_success, savedTunnel.name)
             Timber.d(message)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             onFinished()
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
-            message = getString(R.string.config_save_error, savedTunnel.getName(), error)
+            message = getString(R.string.config_save_error, savedTunnel.name, error)
             Timber.e(throwable)
-            if (binding != null) {
-                Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
-            }
+            binding?.let { Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show() }
         }
     }
 
@@ -134,7 +132,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater!!.inflate(R.menu.config_editor, menu)
+        inflater?.inflate(R.menu.config_editor, menu)
     }
 
     override fun onCreateView(
@@ -170,9 +168,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         val activity = activity ?: return
         val focusedView = activity.currentFocus
         focusedView?.let {
-            val service = activity.getSystemService(Context.INPUT_METHOD_SERVICE)
-            val inputManager = service as InputMethodManager
-            inputManager.hideSoftInputFromWindow(
+            val inputManager = context?.getSystemService<InputMethodManager>()
+            inputManager?.hideSoftInputFromWindow(
                 it.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
@@ -191,7 +188,9 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onResume() {
         super.onResume()
 
-        activity?.window?.navigationBarColor = ContextCompat.getColor(context!!, R.color.accent_darker)
+        context?.let {
+            activity?.window?.navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -199,21 +198,21 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             R.id.menu_action_save -> {
                 val newConfig = Config()
                 try {
-                    binding!!.config?.commitData(newConfig)
+                    binding?.config?.commitData(newConfig)
                 } catch (e: Exception) {
                     val error = ExceptionLoggers.unwrapMessage(e)
-                    val tunnelName = if (tunnel == null) binding!!.config?.name else tunnel!!.getName()
+                    val tunnelName = if (tunnel == null) binding?.config?.name else tunnel?.name
                     val message = getString(R.string.config_save_error, tunnelName, error)
                     Timber.e(message)
-                    Snackbar.make(binding!!.mainContainer, error, Snackbar.LENGTH_LONG).show()
+                    binding?.let { Snackbar.make(it.mainContainer, error, Snackbar.LENGTH_LONG).show() }
                     return false
                 }
 
                 when {
                     tunnel == null -> {
-                        Timber.d("Attempting to create new tunnel %s", binding!!.config?.name)
+                        Timber.d("Attempting to create new tunnel %s", binding?.config?.name)
                         val manager = Application.tunnelManager
-                        manager.create(binding!!.config?.name!!, newConfig)
+                        manager.create(binding?.config?.name ?: "", newConfig)
                             .whenComplete { newTunnel, throwable ->
                                 this.onTunnelCreated(
                                     newTunnel,
@@ -221,15 +220,17 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                                 )
                             }
                     }
-                    tunnel!!.getName() != binding!!.config?.name -> {
-                        Timber.d("Attempting to rename tunnel to %s", binding!!.config?.name)
-                        tunnel!!.setName(binding!!.config!!.name)
-                            .whenComplete { _, b -> onTunnelRenamed(tunnel, newConfig, b) }
+                    tunnel?.name != binding?.config?.name -> {
+                        tunnel?.let {
+                            Timber.d("Attempting to rename tunnel to %s", binding?.config?.name)
+                            it.setName(binding?.config?.name!!).whenComplete { _, b -> onTunnelRenamed(it, newConfig, b) }
+                        }
                     }
                     else -> {
-                        Timber.d("Attempting to save config of %s", tunnel!!.getName())
-                        tunnel!!.setConfig(newConfig)
-                            .whenComplete { _, b -> onConfigSaved(tunnel!!, b) }
+                        tunnel?.let {
+                            Timber.d("Attempting to save config of %s", it.name)
+                            it.setConfig(newConfig).whenComplete { _, b -> onConfigSaved(it, b) }
+                        }
                     }
                 }
                 return true
@@ -240,7 +241,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(KEY_LOCAL_CONFIG, binding?.config)
-        outState.putString(KEY_ORIGINAL_NAME, tunnel?.getName())
+        outState.putString(KEY_ORIGINAL_NAME, tunnel?.name)
         super.onSaveInstanceState(outState)
     }
 
@@ -250,7 +251,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             return
         binding?.config = Config.Observable(null, null)
         tunnel?.let {
-            it.configAsync.thenAccept { a -> onConfigLoaded(it.getName(), a) }
+            it.configAsync.thenAccept { a -> onConfigLoaded(it.name, a) }
         }
     }
 
@@ -258,7 +259,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         val message: String
         if (throwable == null) {
             tunnel = newTunnel
-            message = getString(R.string.tunnel_create_success, tunnel!!.getName())
+            message = getString(R.string.tunnel_create_success, tunnel?.name)
             Timber.d(message)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             onFinished()
@@ -266,9 +267,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_create_error, error)
             Timber.e(throwable)
-            binding?.let {
-                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
-            }
+            binding?.let { Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show() }
         }
     }
 
@@ -279,18 +278,16 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     ) {
         val message: String
         if (throwable == null) {
-            message = getString(R.string.tunnel_rename_success, renamedTunnel?.getName())
+            message = getString(R.string.tunnel_rename_success, renamedTunnel?.name)
             Timber.d(message)
             // Now save the rest of configuration changes.
-            Timber.d("Attempting to save config of renamed tunnel %s", tunnel!!.getName())
+            Timber.d("Attempting to save config of renamed tunnel %s", tunnel?.name)
             renamedTunnel?.setConfig(newConfig)?.whenComplete { _, b -> onConfigSaved(renamedTunnel, b) }
         } else {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             message = getString(R.string.tunnel_rename_error, error)
             Timber.e(throwable)
-            binding?.let {
-                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
-            }
+            binding?.let { Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show() }
         }
     }
 
@@ -307,10 +304,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             tunnel = selectedTunnel
             val config = savedInstanceState.getParcelable<Config.Observable>(KEY_LOCAL_CONFIG)
             val originalName = savedInstanceState.getString(KEY_ORIGINAL_NAME)
-            if (tunnel != null && tunnel!!.getName() != originalName)
+            if (tunnel != null && tunnel?.name != originalName)
                 onSelectedTunnelChanged(null, tunnel)
             else
-                binding!!.config = config
+                binding?.config = config
         }
 
         super.onViewStateRestored(savedInstanceState)

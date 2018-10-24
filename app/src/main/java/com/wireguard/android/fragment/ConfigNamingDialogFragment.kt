@@ -84,7 +84,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         if (visible) {
             imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else if (binding != null) {
-            imm?.hideSoftInputFromWindow(binding!!.tunnelNameText.windowToken, 0)
+            imm?.hideSoftInputFromWindow(binding?.tunnelNameText?.windowToken, 0)
         }
     }
 

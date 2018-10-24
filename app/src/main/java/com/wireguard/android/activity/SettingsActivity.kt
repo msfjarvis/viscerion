@@ -133,9 +133,9 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
                         oldConfig?.let {
-                            oldConfig.`interface`.addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
-                            tunnel.setConfig(oldConfig)
-                            if (tunnel.getState() == Tunnel.State.UP)
+                            it.`interface`.addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
+                            tunnel.setConfig(it)
+                            if (tunnel.state == Tunnel.State.UP)
                                 tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
                         }
                     }

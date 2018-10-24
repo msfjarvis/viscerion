@@ -89,7 +89,7 @@ class QuickTileService : TileService() {
                 tile.icon = if (tile.icon == iconOn) iconOff else iconOn
                 tile.updateTile()
             }
-            tunnel!!.setState(State.TOGGLE).whenComplete { _, throwable ->
+            tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
                 this.onToggleFinished(throwable)
             }
         } else {
@@ -132,8 +132,8 @@ class QuickTileService : TileService() {
         val state: Int
         val tile = qsTile
         if (tunnel != null) {
-            label = tunnel!!.getName()
-            state = if (tunnel?.getState() == Tunnel.State.UP)
+            label = tunnel?.name ?: ""
+            state = if (tunnel?.state == Tunnel.State.UP)
                 Tile.STATE_ACTIVE
             else
                 Tile.STATE_INACTIVE

@@ -45,7 +45,7 @@ class Interface {
     fun addExcludedApplications(applications: Array<String>?) {
         applications?.let {
             if (it.isNotEmpty())
-                excludedApplications.addExclusive(applications)
+                excludedApplications.addExclusive(it)
         }
     }
 
