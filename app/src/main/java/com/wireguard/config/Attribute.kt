@@ -78,7 +78,7 @@ enum class Attribute(private val token: String) {
             return if (TextUtils.isEmpty(string))
                 emptyArray()
             else
-                LIST_SEPARATOR_PATTERN.split(string!!.trim { it <= ' ' })
+                LIST_SEPARATOR_PATTERN.split(string?.trim { it <= ' ' })
         }
     }
 }

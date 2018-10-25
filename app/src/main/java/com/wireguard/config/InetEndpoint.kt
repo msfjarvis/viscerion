@@ -44,7 +44,7 @@ class InetEndpoint internal constructor(@Nullable endpoint: String) {
                 if (resolvedHost is Inet6Address)
                     "[%s]:%d"
                 else
-                    "%s:%d", resolvedHost!!.hostAddress, port
+                    "%s:%d", resolvedHost?.hostAddress, port
             )
         }
 

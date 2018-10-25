@@ -33,7 +33,7 @@ class InetNetwork internal constructor(input: String) {
         if (other !is InetNetwork)
             return false
         val network = other as InetNetwork?
-        return address == network!!.address && mask == network.mask
+        return address == network?.address && mask == network.mask
     }
 
     override fun hashCode(): Int {

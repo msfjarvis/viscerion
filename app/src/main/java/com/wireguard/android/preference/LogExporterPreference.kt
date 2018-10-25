@@ -70,10 +70,9 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.log_export_error, error)
             Timber.tag(TAG).e(throwable)
-            Snackbar.make(
-                getPrefActivity()!!.findViewById<View>(android.R.id.content),
-                message, Snackbar.LENGTH_LONG
-            ).show()
+            getPrefActivity()?.findViewById<View>(android.R.id.content)?.let {
+                Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
+            }
             isEnabled = true
         } else {
             exportedFilePath = filePath
@@ -93,7 +92,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     }
 
     override fun onClick() {
-        getPrefActivity()!!.ensurePermissions(
+        getPrefActivity()?.ensurePermissions(
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {

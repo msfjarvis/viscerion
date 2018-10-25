@@ -82,10 +82,9 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.zip_export_error, error)
             Timber.tag(TAG).e(message)
-            Snackbar.make(
-                getPrefActivity()!!.findViewById<View>(android.R.id.content),
-                message, Snackbar.LENGTH_LONG
-            ).show()
+            getPrefActivity()?.findViewById<View>(android.R.id.content)?.let {
+                Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
+            }
             isEnabled = true
         } else {
             exportedFilePath = filePath
@@ -105,7 +104,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     }
 
     override fun onClick() {
-        getPrefActivity()!!.ensurePermissions(
+        getPrefActivity()?.ensurePermissions(
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {

@@ -43,7 +43,9 @@ class ObservableKeyedRecyclerViewAdapter<K, E : Keyed<out K>> internal construct
     }
 
     private fun getItem(position: Int): E? {
-        return if (list == null || position < 0 || position >= (list?.size ?: 0)) null else list!![position]
+        return list?.let {
+            if (position < 0 || position >= it.size) null else it[position]
+        }
     }
 
     override fun getItemId(position: Int): Long {

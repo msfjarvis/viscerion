@@ -104,9 +104,9 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             if (throwable == null) return@whenComplete
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val messageResId = if (checked) R.string.error_up else R.string.error_down
-            val message = context!!.getString(messageResId, error)
+            val message = context?.getString(messageResId, error)
             val view = view
-            if (view != null)
+            if (view != null && message != null)
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
             else
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()

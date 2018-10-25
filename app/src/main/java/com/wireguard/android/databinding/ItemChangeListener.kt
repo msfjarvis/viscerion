@@ -24,7 +24,7 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
     private val layoutInflater: LayoutInflater = LayoutInflater.from(container.context)
     private var list: ObservableList<T>? = null
 
-    private fun getView(position: Int, convertView: View?): View {
+    private fun getView(position: Int, convertView: View?): View? {
         var binding: ViewDataBinding? = if (convertView != null) DataBindingUtil.getBinding(convertView) else null
         if (binding == null) {
             binding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
@@ -32,10 +32,10 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
 
         Objects.requireNonNull<ObservableList<T>>(list, "Trying to get a view while list is still null")
 
-        binding!!.setVariable(BR.collection, list)
-        binding.setVariable(BR.item, list!![position])
-        binding.executePendingBindings()
-        return binding.root
+        binding?.setVariable(BR.collection, list)
+        list?.let { binding?.setVariable(BR.item, it[position]) }
+        binding?.executePendingBindings()
+        return binding?.root
     }
 
     fun setList(newList: ObservableList<T>?) {
@@ -43,8 +43,10 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
             list?.removeOnListChangedCallback(callback)
         list = newList
         if (list != null) {
-            list?.addOnListChangedCallback(callback)
-            callback.onChanged(list!!)
+            list?.let {
+                it.addOnListChangedCallback(callback)
+                callback.onChanged(it)
+            }
         } else {
             container.removeAllViews()
         }
@@ -60,8 +62,9 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
             if (listener != null) {
                 // TODO: recycle views
                 listener.container.removeAllViews()
-                for (i in sender.indices)
-                    listener.container.addView(listener.getView(i, null))
+                sender.indices.forEach {
+                    listener.container.addView(listener.getView(it, null))
+                }
             } else {
                 sender.removeOnListChangedCallback(this)
             }

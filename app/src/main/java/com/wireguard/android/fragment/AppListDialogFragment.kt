@@ -24,7 +24,6 @@ import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ObservableKeyedArrayList
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.Comparator
 
 class AppListDialogFragment : DialogFragment() {
@@ -36,34 +35,34 @@ class AppListDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentlyExcludedApps = Arrays.asList(*arguments!!.getStringArray(KEY_EXCLUDED_APPS)!!)
-        isGlobalExclusionsDialog = arguments!!.getBoolean(KEY_GLOBAL_EXCLUSIONS)
+        currentlyExcludedApps = arguments?.getStringArray(KEY_EXCLUDED_APPS)?.toList()
+        isGlobalExclusionsDialog = arguments?.getBoolean(KEY_GLOBAL_EXCLUSIONS) ?: false
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
-        alertDialogBuilder.setTitle(R.string.excluded_applications)
+        val alertDialogBuilder = activity?.let { AlertDialog.Builder(it) }
+        alertDialogBuilder?.setTitle(R.string.excluded_applications)
 
-        val binding = AppListDialogFragmentBinding.inflate(activity!!.layoutInflater, null, false)
-        binding.executePendingBindings()
-        alertDialogBuilder.setView(binding.root)
+        val binding = activity?.layoutInflater?.let { AppListDialogFragmentBinding.inflate(it, null, false) }
+        binding?.executePendingBindings()
+        alertDialogBuilder?.setView(binding?.root)
 
-        alertDialogBuilder.setPositiveButton(R.string.set_exclusions) { _, _ -> setExclusionsAndDismiss() }
-        alertDialogBuilder.setNeutralButton(R.string.deselect_all) { _, _ -> }
+        alertDialogBuilder?.setPositiveButton(R.string.set_exclusions) { _, _ -> setExclusionsAndDismiss() }
+        alertDialogBuilder?.setNeutralButton(R.string.deselect_all) { _, _ -> }
 
-        binding.fragment = this
-        binding.appData = appData
+        binding?.fragment = this
+        binding?.appData = appData
 
         loadData()
 
-        val dialog = alertDialogBuilder.create()
-        dialog.setOnShowListener { _ ->
+        val dialog = alertDialogBuilder?.create()
+        dialog?.setOnShowListener { _ ->
             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
                 for (app in appData)
                     app.isExcludedFromTunnel = false
             }
         }
-        return dialog
+        return dialog as Dialog
     }
 
     @SuppressLint("InlinedApi") // Handled in the code
@@ -94,7 +93,7 @@ class AppListDialogFragment : DialogFragment() {
                         resolveInfo.loadIcon(pm),
                         resolveInfo.loadLabel(pm).toString(),
                         packageName,
-                        currentlyExcludedApps!!.contains(packageName),
+                        currentlyExcludedApps?.contains(packageName) ?: false,
                         if (isGlobalExclusionsDialog) false else ApplicationPreferences.exclusionsArray.contains(
                             packageName
                         )
@@ -120,7 +119,7 @@ class AppListDialogFragment : DialogFragment() {
     private fun setExclusionsAndDismiss() {
         val excludedApps = ArrayList<String>()
         for (data in appData) {
-            if (data.isExcludedFromTunnel) {
+            if (data.isExcludedFromTunnel ?: false) {
                 excludedApps.add(data.packageName)
             }
         }

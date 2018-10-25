@@ -75,7 +75,7 @@ class ToolsInstaller(context: Context) {
                     }
                 }
             }
-            if (!areToolsAvailable!!)
+            if (areToolsAvailable ?: false)
                 throw FileNotFoundException("Required tools unavailable")
         }
     }
@@ -92,7 +92,7 @@ class ToolsInstaller(context: Context) {
                     false
                 }
             }
-            return installAsMagiskModule!!
+            return installAsMagiskModule as Boolean
         }
     }
 
@@ -138,7 +138,7 @@ class ToolsInstaller(context: Context) {
         )
         script.append("touch /sbin/.core/img/wireguard/auto_mount; ")
         for (names in EXECUTABLES) {
-            val destination = File("/sbin/.core/img/wireguard" + INSTALL_DIR!!, names[1])
+            val destination = File("/sbin/.core/img/wireguard$INSTALL_DIR", names[1])
             script.append(
                 String.format(
                     "cp '%s' '%s'; chmod 755 '%s'; restorecon '%s' || true; ",

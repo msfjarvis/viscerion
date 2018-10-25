@@ -113,7 +113,7 @@ class WgQuickBackend(context: Context) : Backend {
         FileOutputStream(
             tempFile,
             false
-        ).use { stream -> stream.write(config!!.toString().toByteArray(StandardCharsets.UTF_8)) }
+        ).use { stream -> stream.write(config?.toString()?.toByteArray(StandardCharsets.UTF_8)) }
         var command = String.format(
             "wg-quick %s '%s'",
             state.toString().toLowerCase(), tempFile.absolutePath

@@ -43,7 +43,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             val message = context.getString(R.string.tunnel_error_already_exists, name)
             return CompletableFuture.failedFuture(IllegalArgumentException(message))
         }
-        return Application.asyncWorker.supplyAsync { configStore.create(name, config!!) }
+        return Application.asyncWorker.supplyAsync { config?.let { configStore.create(name, it) } }
             .thenApply { savedConfig -> addToList(name, savedConfig, Tunnel.State.DOWN) }
     }
 

@@ -75,7 +75,8 @@ class TunnelDetailFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
-        activity?.window?.navigationBarColor = context!!.resolveAttribute(android.R.attr.navigationBarColor)
+        context?.let {
+            activity?.window?.navigationBarColor = it.resolveAttribute(android.R.attr.navigationBarColor)
+        }
     }
 }

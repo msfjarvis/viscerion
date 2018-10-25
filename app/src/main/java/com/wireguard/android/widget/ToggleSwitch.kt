@@ -28,7 +28,7 @@ class ToggleSwitch(context: Context, attrs: AttributeSet? = null) : Switch(conte
             return
         }
         isEnabled = false
-        listener!!.onBeforeCheckedChanged(this, checked)
+        listener?.onBeforeCheckedChanged(this, checked)
     }
 
     fun setCheckedInternal(checked: Boolean) {
