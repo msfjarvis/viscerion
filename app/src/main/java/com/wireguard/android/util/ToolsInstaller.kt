@@ -75,7 +75,7 @@ class ToolsInstaller(context: Context) {
                     }
                 }
             }
-            if (areToolsAvailable ?: false)
+            if (areToolsAvailable == true)
                 throw FileNotFoundException("Required tools unavailable")
         }
     }
@@ -92,7 +92,7 @@ class ToolsInstaller(context: Context) {
                     false
                 }
             }
-            return installAsMagiskModule as Boolean
+            return installAsMagiskModule == true
         }
     }
 

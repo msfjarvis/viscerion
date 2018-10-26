@@ -40,29 +40,29 @@ class AppListDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialogBuilder = activity?.let { AlertDialog.Builder(it) }
-        alertDialogBuilder?.setTitle(R.string.excluded_applications)
+        val alertDialogBuilder = AlertDialog.Builder(activity!!)
+        alertDialogBuilder.setTitle(R.string.excluded_applications)
 
         val binding = activity?.layoutInflater?.let { AppListDialogFragmentBinding.inflate(it, null, false) }
         binding?.executePendingBindings()
-        alertDialogBuilder?.setView(binding?.root)
+        alertDialogBuilder.setView(binding?.root)
 
-        alertDialogBuilder?.setPositiveButton(R.string.set_exclusions) { _, _ -> setExclusionsAndDismiss() }
-        alertDialogBuilder?.setNeutralButton(R.string.deselect_all) { _, _ -> }
+        alertDialogBuilder.setPositiveButton(R.string.set_exclusions) { _, _ -> setExclusionsAndDismiss() }
+        alertDialogBuilder.setNeutralButton(R.string.deselect_all) { _, _ -> }
 
         binding?.fragment = this
         binding?.appData = appData
 
         loadData()
 
-        val dialog = alertDialogBuilder?.create()
+        val dialog = alertDialogBuilder.create()
         dialog?.setOnShowListener { _ ->
             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
                 for (app in appData)
                     app.isExcludedFromTunnel = false
             }
         }
-        return dialog as Dialog
+        return dialog
     }
 
     @SuppressLint("InlinedApi") // Handled in the code
@@ -119,7 +119,7 @@ class AppListDialogFragment : DialogFragment() {
     private fun setExclusionsAndDismiss() {
         val excludedApps = ArrayList<String>()
         for (data in appData) {
-            if (data.isExcludedFromTunnel ?: false) {
+            if (data.isExcludedFromTunnel) {
                 excludedApps.add(data.packageName)
             }
         }
