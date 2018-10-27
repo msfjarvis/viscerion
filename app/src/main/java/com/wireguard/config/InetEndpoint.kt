@@ -6,10 +6,8 @@
 package com.wireguard.config
 
 import android.annotation.SuppressLint
-import androidx.annotation.Nullable
 import com.wireguard.android.Application
 import com.wireguard.android.R
-
 import java.net.Inet4Address
 import java.net.Inet6Address
 import java.net.InetAddress
@@ -17,10 +15,9 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.net.UnknownHostException
 
-class InetEndpoint internal constructor(@Nullable endpoint: String) {
+class InetEndpoint internal constructor(endpoint: String?) {
     val host: String
     val port: Int
-    @Nullable
     private var resolvedHost: InetAddress? = null
 
     val resolvedEndpoint: String
@@ -58,8 +55,10 @@ class InetEndpoint internal constructor(@Nullable endpoint: String) {
         )
 
     init {
-        if (endpoint.indexOf('/') != -1 || endpoint.indexOf('?') != -1 || endpoint.indexOf('#') != -1)
-            throw IllegalArgumentException(Application.get().getString(R.string.tunnel_error_forbidden_endpoint_chars))
+        endpoint?.let {
+            if (it.indexOf('/') != -1 || it.indexOf('?') != -1 || it.indexOf('#') != -1)
+                throw IllegalArgumentException(Application.get().getString(R.string.tunnel_error_forbidden_endpoint_chars))
+        }
         val uri: URI
         try {
             uri = URI("wg://$endpoint")

@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.MenuItem
-import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
@@ -57,7 +56,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         )
     }
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
             supportFragmentManager.transaction {

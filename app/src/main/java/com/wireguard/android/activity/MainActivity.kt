@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
-import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -30,10 +29,8 @@ import kotlinx.android.synthetic.main.main_activity.*
  */
 
 class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
-    @Nullable
     private var actionBar: ActionBar? = null
     private var isTwoPaneLayout: Boolean = false
-    @Nullable
     private var listFragment: TunnelListFragment? = null
 
     override fun onBackPressed() {
@@ -63,7 +60,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     // We use onTouchListener here to avoid the UI click sound, hence
     // calling View#performClick defeats the purpose of it.
     @SuppressLint("ClickableViewAccessibility")
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         actionBar = supportActionBar
@@ -105,8 +102,8 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     }
 
     override fun onSelectedTunnelChanged(
-        @Nullable oldTunnel: Tunnel?,
-        @Nullable newTunnel: Tunnel?
+        oldTunnel: Tunnel?,
+        newTunnel: Tunnel?
     ) {
         val fragmentManager = supportFragmentManager
         val backStackEntries = fragmentManager.backStackEntryCount

@@ -8,7 +8,6 @@ package com.wireguard.android.activity
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.wireguard.android.Application
@@ -19,7 +18,7 @@ import java.lang.reflect.Field
 
 abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         when (ApplicationPreferences.theme) {
             ApplicationPreferences.appThemeBlackValue -> setTheme(R.style.AppThemeBlack)
@@ -54,7 +53,6 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
     companion object {
         private val TAG = "WireGuard/" + ThemeChangeAwareActivity::class.java.simpleName
 
-        @Nullable
         private var lastResources: Resources? = null
         private var lastDarkMode: Boolean = false
         @Synchronized

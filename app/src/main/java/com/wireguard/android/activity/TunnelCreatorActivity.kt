@@ -6,7 +6,6 @@
 package com.wireguard.android.activity
 
 import android.os.Bundle
-import androidx.annotation.Nullable
 import androidx.fragment.app.transaction
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.model.Tunnel
@@ -16,7 +15,7 @@ import com.wireguard.android.model.Tunnel
  */
 
 class TunnelCreatorActivity : BaseActivity() {
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
             supportFragmentManager.transaction {
@@ -25,7 +24,7 @@ class TunnelCreatorActivity : BaseActivity() {
         }
     }
 
-    override fun onSelectedTunnelChanged(@Nullable oldTunnel: Tunnel?, @Nullable newTunnel: Tunnel?) {
+    override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
         finish()
     }
 }

@@ -6,7 +6,6 @@
 package com.wireguard.android.activity
 
 import android.os.Bundle
-import androidx.annotation.Nullable
 import androidx.databinding.CallbackRegistry
 import androidx.databinding.CallbackRegistry.NotifierCallback
 import com.wireguard.android.Application
@@ -19,10 +18,8 @@ import com.wireguard.android.model.Tunnel
 abstract class BaseActivity : ThemeChangeAwareActivity() {
 
     private val selectionChangeRegistry = SelectionChangeRegistry()
-    @Nullable
-    @get:Nullable
     var selectedTunnel: Tunnel? = null
-        set(@Nullable tunnel) {
+        set(tunnel) {
             val oldTunnel = this.selectedTunnel
             if (oldTunnel == tunnel)
                 return
@@ -35,7 +32,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
         selectionChangeRegistry.add(listener)
     }
 
-    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         // Restore the saved tunnel if there is one; otherwise grab it from the arguments.
         val savedTunnelName: String? = when {
             savedInstanceState != null -> savedInstanceState.getString(KEY_SELECTED_TUNNEL)
@@ -62,7 +59,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    protected abstract fun onSelectedTunnelChanged(@Nullable oldTunnel: Tunnel?, @Nullable newTunnel: Tunnel?)
+    protected abstract fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?)
 
     fun removeOnSelectedTunnelChangedListener(
         listener: OnSelectedTunnelChangedListener
@@ -71,7 +68,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
     }
 
     interface OnSelectedTunnelChangedListener {
-        fun onSelectedTunnelChanged(@Nullable oldTunnel: Tunnel?, @Nullable newTunnel: Tunnel?)
+        fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?)
     }
 
     private class SelectionChangeNotifier : NotifierCallback<OnSelectedTunnelChangedListener, Tunnel, Tunnel>() {
