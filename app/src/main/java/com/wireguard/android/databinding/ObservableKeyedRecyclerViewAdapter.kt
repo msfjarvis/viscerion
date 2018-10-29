@@ -68,9 +68,8 @@ class ObservableKeyedRecyclerViewAdapter<K, E : Keyed<out K>> internal construct
         holder.binding.setVariable(BR.item, getItem(position))
         holder.binding.executePendingBindings()
 
-        val item = getItem(position)
-        if (item != null) {
-            rowConfigurationHandler?.onConfigureRow(holder.binding, item, position)
+        getItem(position)?.let {
+            rowConfigurationHandler?.onConfigureRow(holder.binding, it, position)
         }
     }
 

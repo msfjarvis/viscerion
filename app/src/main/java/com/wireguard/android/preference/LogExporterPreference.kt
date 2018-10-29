@@ -62,7 +62,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             }
 
             file.absolutePath
-        }.whenComplete { filePath, throwable -> this.exportLogComplete(filePath, throwable) }
+        }.whenComplete(this::exportLogComplete)
     }
 
     private fun exportLogComplete(filePath: String, throwable: Throwable?) {

@@ -16,8 +16,7 @@ class BootShutdownReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.tag(TAG)
-        if (intent.action == null)
-            return
+        intent.action ?: return
         Application.backendAsync.thenAccept { backend ->
             if (backend !is WgQuickBackend)
                 return@thenAccept

@@ -6,11 +6,11 @@
 package com.wireguard.android.fragment
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import com.wireguard.android.Application
 import com.wireguard.android.R
@@ -46,9 +46,10 @@ class ConfigNamingDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity
 
-        imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm = context?.getSystemService<InputMethodManager>()
 
-        val alertDialogBuilder = AlertDialog.Builder(activity)
+        // Allow throwing with a null activity, there's not much to do anyway
+        val alertDialogBuilder = AlertDialog.Builder(activity!!)
         alertDialogBuilder.setTitle(R.string.import_from_qrcode)
 
         binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)

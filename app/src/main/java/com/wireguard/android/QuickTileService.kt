@@ -47,7 +47,6 @@ class QuickTileService : TileService() {
         } catch (e: Exception) {
             Timber.d(e, "Failed to bind to TileService")
         }
-
         return ret
     }
 
@@ -111,8 +110,7 @@ class QuickTileService : TileService() {
     }
 
     private fun onToggleFinished(throwable: Throwable?) {
-        if (throwable == null)
-            return
+        throwable ?: return
         val error = ExceptionLoggers.unwrapMessage(throwable)
         val message = getString(R.string.toggle_error, error)
         Timber.e(throwable)

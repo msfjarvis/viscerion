@@ -10,4 +10,5 @@
     <color name="ic_launcher_background">#871719</color>
     <color name="bottomsheet_text_white">#FFFFFF</color>
     <color name="bottomsheet_text_dark">#212121</color>
+    <color name="md_grey_800">#424242</color>
 </resources>

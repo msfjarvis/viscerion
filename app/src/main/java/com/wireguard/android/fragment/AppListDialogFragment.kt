@@ -56,10 +56,11 @@ class AppListDialogFragment : DialogFragment() {
         loadData()
 
         val dialog = alertDialogBuilder.create()
-        dialog?.setOnShowListener { _ ->
+        dialog?.setOnShowListener {
             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                for (app in appData)
+                appData.forEach { app ->
                     app.isExcludedFromTunnel = false
+                }
             }
         }
         return dialog
@@ -118,7 +119,7 @@ class AppListDialogFragment : DialogFragment() {
 
     private fun setExclusionsAndDismiss() {
         val excludedApps = ArrayList<String>()
-        for (data in appData) {
+        appData.forEach { data ->
             if (data.isExcludedFromTunnel) {
                 excludedApps.add(data.packageName)
             }

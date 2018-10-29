@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_color</item>
@@ -7,6 +7,7 @@
         <item name="colorBackground">@android:color/background_light</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_dark</item>
         <item name="android:navigationBarColor">@color/primary_color</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/md_grey_800</item>
         <item name="android:statusBarColor">@color/primary_color</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
@@ -17,12 +18,13 @@
     </style>
 
     <style name="BottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
+        <item name="android:background">@drawable/bottom_sheet_dialog_fragment_bg</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?attr/colorBackground</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/md_grey_800</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowIsTranslucent">false</item>

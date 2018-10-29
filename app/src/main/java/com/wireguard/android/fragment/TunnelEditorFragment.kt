@@ -42,8 +42,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     private val breakObjectOrientedLayeringHandler: Observable.OnPropertyChangedCallback =
         object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-                if (binding == null)
-                    return
+                binding ?: return
                 val config = binding?.config ?: return
                 if (propertyId == BR.config) {
                     config.addOnPropertyChangedCallback(this)
@@ -152,7 +151,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onDestroyView() {
         binding = null
-        for (o in breakObjectOrientedLayeringHandlerReceivers) {
+        breakObjectOrientedLayeringHandlerReceivers.forEach { o ->
             @Suppress("UNCHECKED_CAST")
             if (o is Observable)
                 o.removeOnPropertyChangedCallback(breakObjectOrientedLayeringHandler)
@@ -247,8 +246,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
         tunnel = newTunnel
-        if (binding == null)
-            return
+        binding ?: return
         binding?.config = Config.Observable(null, null)
         tunnel?.let {
             it.configAsync.thenAccept { a -> onConfigLoaded(it.name, a) }
@@ -292,9 +290,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        if (binding == null) {
-            return
-        }
+        binding ?: return
 
         binding?.fragment = this
 

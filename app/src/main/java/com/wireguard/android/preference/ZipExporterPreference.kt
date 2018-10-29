@@ -73,7 +73,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
                     }
 
                     file.absolutePath
-                }.whenComplete { filePath, throwable -> this.exportZipComplete(filePath, throwable) }
+                }.whenComplete(this::exportZipComplete)
             }
     }
 

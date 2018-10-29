@@ -19,7 +19,6 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
     private var versionSummary: String? = null
 
     init {
-
         Application.backendAsync.thenAccept { backend ->
             versionSummary =
                 getContext().getString(R.string.version_summary_checking, backend.getTypeName().toLowerCase())

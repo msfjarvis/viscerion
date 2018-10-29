@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppTheme" parent="Theme.MaterialComponents">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_color</item>
@@ -8,8 +8,9 @@
         <item name="colorBottomsheetText">@color/bottomsheet_text_white</item>
         <item name="android:colorBackground">@color/primary_color</item>
         <!-- Note to self, colorBackgroundFloating handles _floating_ items like CardViews -->
-        <item name="android:colorBackgroundFloating">@color/primary_color_lighter</item>
+        <item name="android:colorBackgroundFloating" tools:targetApi="m">@color/primary_color_lighter</item>
         <item name="android:navigationBarColor">@color/primary_color</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/md_grey_800</item>
         <item name="android:statusBarColor">@color/primary_color</item>
         <item name="android:windowBackground">@color/primary_color</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
@@ -23,8 +24,9 @@
         <item name="colorBottomsheetText">@color/bottomsheet_text_white</item>
         <item name="android:colorBackground">@color/primary_color_black</item>
         <!-- Note to self, colorBackgroundFloating handles _floating_ items like CardViews -->
-        <item name="android:colorBackgroundFloating">@color/primary_color</item>
+        <item name="android:colorBackgroundFloating" tools:targetApi="m">@color/primary_color</item>
         <item name="android:navigationBarColor">@color/primary_color_black</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/md_grey_800   </item>
         <item name="android:statusBarColor">@color/primary_color_black</item>
         <item name="android:windowBackground">@color/primary_color_black</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>

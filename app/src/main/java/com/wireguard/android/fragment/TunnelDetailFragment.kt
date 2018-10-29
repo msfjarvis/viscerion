@@ -54,8 +54,7 @@ class TunnelDetailFragment : BaseFragment() {
     }
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
-        if (binding == null)
-            return
+        binding ?: return
         binding?.tunnel = newTunnel
         if (newTunnel == null)
             binding?.config = null
@@ -64,9 +63,7 @@ class TunnelDetailFragment : BaseFragment() {
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        if (binding == null) {
-            return
-        }
+        binding ?: return
 
         binding?.fragment = this
         onSelectedTunnelChanged(null, selectedTunnel)

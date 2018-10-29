@@ -116,7 +116,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         val lastUsedName = Application.sharedPreferences.getString(KEY_LAST_USED_TUNNEL, null)
         if (lastUsedName != null)
             setLastUsedTunnel(tunnels[lastUsedName])
-        var toComplete: Array<CompletableFuture<Void>>? = null
+        var toComplete: Array<CompletableFuture<Void>>?
         synchronized(delayedLoadRestoreTunnels) {
             haveLoaded = true
             toComplete = delayedLoadRestoreTunnels.toTypedArray()
@@ -132,7 +132,6 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                 }
             }
         }
-
         completableTunnels.complete(tunnels)
     }
 

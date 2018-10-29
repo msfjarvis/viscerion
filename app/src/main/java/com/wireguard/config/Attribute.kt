@@ -61,7 +61,7 @@ enum class Attribute(private val token: String) {
 
         init {
             KEY_MAP = HashMap(Attribute.values().size)
-            for (key in Attribute.values()) {
+            Attribute.values().forEach { key ->
                 KEY_MAP[key.token.toLowerCase()] = key
             }
         }
