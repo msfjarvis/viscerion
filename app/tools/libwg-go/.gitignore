@@ -1,4 +1,3 @@
-build/
+src/
 .gobuildversion
 goroot
-/src/golang.org/
