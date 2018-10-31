@@ -5,9 +5,6 @@
 cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
-# Work around https://github.com/android-ndk/ndk/issues/602
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-
 add_executable(libwg-quick.so wireguard/src/tools/wg-quick/android.c ndk-compat/compat.c)
 target_compile_options(libwg-quick.so PUBLIC -O3 -std=gnu11 -Wall -pedantic -Wno-missing-field-initializers -include ${CMAKE_CURRENT_SOURCE_DIR}/ndk-compat/compat.h -DWG_PACKAGE_NAME=\"${ANDROID_PACKAGE_NAME}\")
 
@@ -23,7 +20,7 @@ add_custom_target(libwg-go.so WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib
     ANDROID_SYSROOT=${ANDROID_SYSROOT}
     ANDROID_PACKAGE_NAME=${ANDROID_PACKAGE_NAME}
     CFLAGS=${CMAKE_C_FLAGS}\ -Wno-unused-command-line-argument
-    LDFLAGS=${CMAKE_SHARED_LINKER_FLAGS}\ -fuse-ld=gold
+    LDFLAGS=${CMAKE_SHARED_LINKER_FLAGS}
     DESTDIR=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 # Hack to make it actually build as part of the default target
