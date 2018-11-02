@@ -69,6 +69,7 @@ class Application : android.app.Application() {
             NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationChannel.description = getString(R.string.notification_channel_wgquick_desc)
+        notificationChannel.setShowBadge(false)
         notificationManager.createNotificationChannel(notificationChannel)
     }
 
