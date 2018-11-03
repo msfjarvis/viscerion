@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/tunnel_name"
-            style="?android:attr/textAppearanceMedium"
+            style="@style/TextAppearance.CustomFont.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

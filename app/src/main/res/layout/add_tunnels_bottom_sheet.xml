@@ -21,7 +21,7 @@
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
         app:rippleColor="@color/accent"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/create_from_file"
@@ -37,7 +37,7 @@
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
         app:rippleColor="@color/accent"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/scan_qr_code"
@@ -53,6 +53,6 @@
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
         app:rippleColor="@color/accent"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
 </LinearLayout>

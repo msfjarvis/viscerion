@@ -56,7 +56,7 @@
 
                         <TextView
                             android:id="@+id/interface_title"
-                            style="@style/TextAppearance.MaterialComponents.Headline5"
+                            style="@style/TextAppearance.CustomFont.HeadLine5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
@@ -233,7 +233,7 @@
         </ScrollView>
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Button"
+            style="@style/TextAppearance.MaterialComponents.Button.CustomFont"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"

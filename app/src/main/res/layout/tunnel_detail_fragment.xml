@@ -50,7 +50,7 @@
 
                     <TextView
                         android:id="@+id/interface_title"
-                        style="?android:attr/textAppearanceMedium"
+                        style="@style/TextAppearance.CustomFont.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -77,7 +77,7 @@
 
                     <TextView
                         android:id="@+id/interface_name_text"
-                        style="?android:attr/textAppearanceMedium"
+                        style="@style/TextAppearance.CustomFont.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/interface_name_label"
@@ -94,7 +94,7 @@
 
                     <TextView
                         android:id="@+id/public_key_text"
-                        style="?android:attr/textAppearanceMedium"
+                        style="@style/TextAppearance.CustomFont.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/public_key_label"
@@ -115,7 +115,7 @@
 
                     <TextView
                         android:id="@+id/addresses_text"
-                        style="?android:attr/textAppearanceMedium"
+                        style="@style/TextAppearance.CustomFont.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/addresses_label"
