@@ -16,7 +16,7 @@ class ApplicationPreferences {
         const val forceUserspaceBackendkey = "force_userspace_backend"
         private const val appThemeDarkValue = "dark"
         const val appThemeBlackValue = "amoled"
-        val isDarkTheme = theme in arrayOf(appThemeBlackValue, appThemeDarkValue)
+        val darkAppThemeValues = arrayOf(appThemeDarkValue, appThemeBlackValue)
         var exclusions: String
             get() {
                 return Application.sharedPreferences.getString(globalExclusionsKey, "") as String

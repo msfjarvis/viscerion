@@ -22,6 +22,7 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
         super.onCreate(savedInstanceState)
         when (ApplicationPreferences.theme) {
             ApplicationPreferences.appThemeBlackValue -> setTheme(R.style.AppThemeBlack)
+            else -> setTheme(R.style.AppTheme)
         }
         Application.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         Timber.tag(TAG)
@@ -34,7 +35,7 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         if (ApplicationPreferences.appThemeKey == key) {
-            val isDarkTheme = ApplicationPreferences.isDarkTheme
+            val isDarkTheme = ApplicationPreferences.theme in ApplicationPreferences.darkAppThemeValues
             AppCompatDelegate.setDefaultNightMode(
                 if (isDarkTheme)
                     AppCompatDelegate.MODE_NIGHT_YES
