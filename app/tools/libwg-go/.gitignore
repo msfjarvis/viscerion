@@ -1,3 +1,6 @@
-src/
+/build/
 .gobuildversion
-goroot
+/goroot/
+/gopath/
+/src/golang.org/
+/src/git.zx2c4.com/
