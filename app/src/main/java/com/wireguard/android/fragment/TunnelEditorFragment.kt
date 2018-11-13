@@ -200,7 +200,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     binding?.config?.commitData(newConfig)
                 } catch (e: Exception) {
                     val error = ExceptionLoggers.unwrapMessage(e)
-                    val tunnelName = if (tunnel == null) binding?.config?.name else tunnel?.name
+                    val tunnelName = if (tunnel == null) binding?.config?.getName() else tunnel?.name
                     val message = getString(R.string.config_save_error, tunnelName, error)
                     Timber.e(message)
                     binding?.let { Snackbar.make(it.mainContainer, error, Snackbar.LENGTH_LONG).show() }
@@ -209,9 +209,9 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
                 when {
                     tunnel == null -> {
-                        Timber.d("Attempting to create new tunnel %s", binding?.config?.name)
+                        Timber.d("Attempting to create new tunnel %s", binding?.config?.getName())
                         val manager = Application.tunnelManager
-                        manager.create(binding?.config?.name ?: "", newConfig)
+                        manager.create(binding?.config?.getName() ?: "", newConfig)
                             .whenComplete { newTunnel, throwable ->
                                 this.onTunnelCreated(
                                     newTunnel,
@@ -219,10 +219,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                                 )
                             }
                     }
-                    tunnel?.name != binding?.config?.name -> {
+                    tunnel?.name != binding?.config?.getName() -> {
                         tunnel?.let {
-                            Timber.d("Attempting to rename tunnel to %s", binding?.config?.name)
-                            it.setName(binding?.config?.name ?: "").whenComplete { _, b -> onTunnelRenamed(it, newConfig, b) }
+                            Timber.d("Attempting to rename tunnel to %s", binding?.config?.getName())
+                            it.setName(binding?.config?.getName() ?: "").whenComplete { _, b -> onTunnelRenamed(it, newConfig, b) }
                         }
                     }
                     else -> {

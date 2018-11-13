@@ -193,15 +193,15 @@ class TunnelListFragment : BaseFragment() {
         context?.let {
             dialog = BottomSheetDialog(it, R.style.BottomSheetDialogTheme)
             dialog.setContentView(R.layout.add_tunnels_bottom_sheet)
-            dialog.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener { _ ->
+            dialog.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
                 dialog.dismiss()
                 onRequestCreateConfig()
             }
-            dialog.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener { _ ->
+            dialog.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
                 dialog.dismiss()
                 onRequestImportConfig()
             }
-            dialog.findViewById<MaterialButton>(R.id.scan_qr_code)?.setOnClickListener { _ ->
+            dialog.findViewById<MaterialButton>(R.id.scan_qr_code)?.setOnClickListener {
                 dialog.dismiss()
                 onRequestScanQRCode()
             }
@@ -209,7 +209,7 @@ class TunnelListFragment : BaseFragment() {
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.let {
-            it.createFab.setOnClickListener { _ -> dialog.show() }
+            it.createFab.setOnClickListener { dialog.show() }
             @Suppress("DEPRECATION")
             it.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
             it.executePendingBindings()
@@ -303,7 +303,7 @@ class TunnelListFragment : BaseFragment() {
             for (tunnel in allTunnels) {
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {
-                    it.getInterface()
+                    it.`interface`
                         .addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
                     tunnel.setConfig(it)
                     if (tunnel.state == Tunnel.State.UP)
