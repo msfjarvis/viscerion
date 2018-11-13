@@ -11,14 +11,13 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.wireguard.android.R
 
-class MultiselectableRelativeLayout : RelativeLayout {
+class MultiselectableRelativeLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes) {
     private var multiselected: Boolean = false
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
         if (multiselected) {
