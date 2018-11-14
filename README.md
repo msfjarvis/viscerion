@@ -2,11 +2,7 @@
 
 [![Build Status](https://travis-ci.com/MSF-Jarvis/wireguard-kt.svg?branch=master)](https://travis-ci.com/MSF-Jarvis/wireguard-kt)
 
-This is an under construction rewrite of the WireGuard Android GUI. This fork was initiated for me
-to have someplace for me to work on the app where _I_ decide what goes in, not somebody else
-with zero app development experience or sense of UX.
-
-**I HAVE NO INTENTION TO SUBMIT THIS UPSTREAM**
+Refreshed take at the official Android client with a nicer UI and additional features. Built with the best of [Android Jetpack](https://developer.android.com/jetpack/).
 
 ## Building
 
