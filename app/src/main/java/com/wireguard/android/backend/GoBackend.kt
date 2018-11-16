@@ -127,7 +127,7 @@ class GoBackend(context: Context) : Backend {
                     )
                 if (iface.getListenPort() != 0)
                     fmt.format("listen_port=%d\n", config.`interface`.getListenPort())
-                for (peer in config.getPeers()) {
+                config.getPeers().forEach { peer ->
                     if (peer.publicKey != null)
                         fmt.format("public_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.publicKey!!)))
                     if (peer.preSharedKey != null)
@@ -154,18 +154,22 @@ class GoBackend(context: Context) : Backend {
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
-            for (excludedApplication in config.`interface`.getExcludedApplications())
+            config.`interface`.getExcludedApplications().forEach { excludedApplication ->
                 builder.addDisallowedApplication(excludedApplication)
+            }
 
-            for (addr in config.`interface`.getAddresses())
+            config.`interface`.getAddresses().forEach { addr ->
                 builder.addAddress(addr.address, addr.mask)
+            }
 
-            for (addr in config.`interface`.getDnses())
-                builder.addDnsServer(addr.hostAddress)
+            config.`interface`.getDnses().forEach { dns ->
+                builder.addDnsServer(dns.hostAddress)
+            }
 
-            for (peer in config.getPeers()) {
-                for (addr in peer.allowedIPs)
+            config.getPeers().forEach { peer ->
+                peer.allowedIPs.forEach { addr ->
                     builder.addRoute(addr.address, addr.mask)
+                }
             }
 
             val mtu = if (config.`interface`.getMtu() != 0) config.`interface`.getMtu() else 1280
@@ -216,8 +220,8 @@ class GoBackend(context: Context) : Backend {
 
         override fun onDestroy() {
             Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-                for (tunnel in tunnels) {
-                    if (tunnel != null && tunnel.state !== Tunnel.State.DOWN)
+                tunnels.forEach { tunnel ->
+                    if (tunnel != null && tunnel.state != Tunnel.State.DOWN)
                         tunnel.setState(Tunnel.State.DOWN)
                 }
             }
