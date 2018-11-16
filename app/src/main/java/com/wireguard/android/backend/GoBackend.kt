@@ -168,9 +168,7 @@ class GoBackend(context: Context) : Backend {
                     builder.addRoute(addr.address, addr.mask)
             }
 
-            var mtu = config.`interface`.getMtu()
-            if (mtu == 0)
-                mtu = 1280
+            val mtu = if (config.`interface`.getMtu() != 0) config.`interface`.getMtu() else 1280
             builder.setMtu(mtu)
 
             builder.setBlocking(true)
