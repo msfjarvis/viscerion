@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -62,7 +63,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_CODE_VPN_PERMISSION) {
+        if (requestCode == REQUEST_CODE_VPN_PERMISSION && resultCode == AppCompatActivity.RESULT_OK) {
             pendingTunnel?.let { tunnel ->
                 pendingTunnelUp?.let { tunnelUp ->
                     setTunnelStateWithPermissionsResult(tunnel, tunnelUp)
