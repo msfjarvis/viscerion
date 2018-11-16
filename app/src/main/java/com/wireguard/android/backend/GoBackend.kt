@@ -183,7 +183,7 @@ class GoBackend(context: Context) : Backend {
                 currentTunnelHandle = wgTurnOn(tunnel!!.name, tun.detachFd(), goConfig)
             }
             if (currentTunnelHandle < 0)
-                throw Exception("Unable to turn tunnel on (wgTurnOn return " + currentTunnelHandle + ')'.toString())
+                throw Exception("Unable to turn tunnel on (wgTurnOn return $currentTunnelHandle)")
 
             currentTunnel = tunnel
 
