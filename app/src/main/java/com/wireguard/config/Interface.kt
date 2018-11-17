@@ -83,7 +83,7 @@ class Interface {
         return excludedApplications.toTypedArray()
     }
 
-    fun getListenPort(): Int {
+    fun getListenPort(): Int? {
         return listenPort
     }
 

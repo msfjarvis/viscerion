@@ -120,27 +120,32 @@ class GoBackend(context: Context) : Backend {
             var goConfig = ""
             Formatter(StringBuilder()).use { fmt ->
                 fmt.format("replace_peers=true\n")
-                if (iface.getPrivateKey() != null)
+                iface.getPrivateKey()?.let {
                     fmt.format(
                         "private_key=%s\n",
-                        KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(iface.getPrivateKey()!!))
+                        KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(it))
                     )
-                if (iface.getListenPort() != 0)
-                    fmt.format("listen_port=%d\n", config.`interface`.getListenPort())
+                }
+                iface.getListenPort()?.let {
+                    fmt.format("listen_port=%d\n", it)
+                }
                 config.getPeers().forEach { peer ->
-                    if (peer.publicKey != null)
-                        fmt.format("public_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.publicKey!!)))
-                    if (peer.preSharedKey != null)
+                    peer.publicKey?.let {
+                        fmt.format("public_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(it)))
+                    }
+                    peer.preSharedKey?.let {
                         fmt.format(
                             "preshared_key=%s\n",
-                            KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.preSharedKey!!))
+                            KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(it))
                         )
-                    if (peer.endpoint != null)
+                    }
+                    peer.endpoint?.let {
                         fmt.format("endpoint=%s\n", peer.resolvedEndpointString)
+                    }
                     if (peer.persistentKeepalive != 0)
                         fmt.format("persistent_keepalive_interval=%d\n", peer.persistentKeepalive)
-                    for (addr in peer.allowedIPs) {
-                        fmt.format("allowed_ip=%s\n", addr.toString())
+                    peer.allowedIPs.forEach {
+                        fmt.format("allowed_ip=%s\n", it.toString())
                     }
                 }
                 goConfig = fmt.toString()
@@ -232,7 +237,7 @@ class GoBackend(context: Context) : Backend {
 
         override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
             vpnService.complete(this)
-            if (intent == null || intent.component == null || intent.component!!.packageName != packageName) {
+            if (intent == null || intent.component == null || intent.component?.packageName != packageName) {
                 Timber.tag(TAG).d("Service started by Always-on VPN feature")
                 Application.tunnelManager.restoreState(true).whenComplete(ExceptionLoggers.D)
             }
