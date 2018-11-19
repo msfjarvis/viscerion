@@ -126,8 +126,8 @@ class GoBackend(context: Context) : Backend {
                         KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(it))
                     )
                 }
-                iface.getListenPort()?.let {
-                    fmt.format("listen_port=%d\n", it)
+                if (iface.getListenPort() != 0) {
+                    fmt.format("listen_port=%d\n", iface.getListenPort())
                 }
                 config.getPeers().forEach { peer ->
                     peer.publicKey?.let {
