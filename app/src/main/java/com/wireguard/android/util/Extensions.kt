@@ -61,15 +61,16 @@ fun Context.restartApplication() {
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
 }
 
-fun Preference.getPrefActivity(): SettingsActivity? {
-    val context = this.context
-    if (context is ContextThemeWrapper) {
-        if (context.baseContext is SettingsActivity) {
-            return context.baseContext as SettingsActivity
+val Preference.parentActivity: SettingsActivity?
+    get() {
+        val context = this.context
+        if (context is ContextThemeWrapper) {
+            if (context.baseContext is SettingsActivity) {
+                return context.baseContext as SettingsActivity
+            }
         }
+        return null
     }
-    return null
-}
 
 fun Context.resolveAttribute(attr: Int): Int {
     val typedValue = TypedValue()
