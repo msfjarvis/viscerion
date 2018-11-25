@@ -244,7 +244,8 @@ class TunnelListFragment : BaseFragment() {
     private fun viewForTunnel(tunnel: Tunnel, tunnels: List<Tunnel>): MultiselectableRelativeLayout? {
         var view: MultiselectableRelativeLayout? = null
         binding?.let {
-            view = it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
+            view =
+                it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
         }
         return view
     }
@@ -343,29 +344,30 @@ class TunnelListFragment : BaseFragment() {
         binding ?: return
         binding?.fragment = this
         Application.tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
-        binding?.rowConfigurationHandler = object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
-            override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
-                binding.fragment = this@TunnelListFragment
-                binding.root.setOnClickListener {
-                    if (actionMode == null) {
-                        selectedTunnel = tunnel
-                    } else {
-                        actionModeListener.toggleItemChecked(position)
+        binding?.rowConfigurationHandler =
+            object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
+                override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
+                    binding.fragment = this@TunnelListFragment
+                    binding.root.setOnClickListener {
+                        if (actionMode == null) {
+                            selectedTunnel = tunnel
+                        } else {
+                            actionModeListener.toggleItemChecked(position)
+                        }
                     }
-                }
-                binding.root.setOnLongClickListener {
-                    actionModeListener.toggleItemChecked(position)
-                    true
-                }
+                    binding.root.setOnLongClickListener {
+                        actionModeListener.toggleItemChecked(position)
+                        true
+                    }
 
-                if (actionMode != null)
-                    (binding.root as MultiselectableRelativeLayout).setMultiSelected(
-                        actionModeListener.checkedItems.contains(position)
-                    )
-                else
-                    (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+                    if (actionMode != null)
+                        (binding.root as MultiselectableRelativeLayout).setMultiSelected(
+                            actionModeListener.checkedItems.contains(position)
+                        )
+                    else
+                        (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+                }
             }
-        }
     }
 
     private inner class ActionModeListener : ActionMode.Callback {

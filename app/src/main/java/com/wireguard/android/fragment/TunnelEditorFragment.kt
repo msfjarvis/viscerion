@@ -222,7 +222,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     tunnel?.name != binding?.config?.getName() -> {
                         tunnel?.let {
                             Timber.d("Attempting to rename tunnel to %s", binding?.config?.getName())
-                            it.setName(binding?.config?.getName() ?: "").whenComplete { _, b -> onTunnelRenamed(it, newConfig, b) }
+                            it.setName(binding?.config?.getName() ?: "")
+                                .whenComplete { _, b -> onTunnelRenamed(it, newConfig, b) }
                         }
                     }
                     else -> {
