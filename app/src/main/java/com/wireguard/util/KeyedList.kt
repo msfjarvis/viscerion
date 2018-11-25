@@ -10,7 +10,7 @@ package com.wireguard.util
  * `null` elements.
  */
 
-interface KeyedList<K, E : Keyed<out K>> : java.util.List<E> {
+interface KeyedList<K, E : Keyed<out K>> : List<E> {
     fun containsAllKeys(keys: Collection<K>): Boolean
 
     fun containsKey(key: K): Boolean
