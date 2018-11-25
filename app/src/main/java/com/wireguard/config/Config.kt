@@ -121,7 +121,7 @@ class Config {
         }
 
         @Throws(IOException::class)
-        fun from(stream: InputStream): Config {
+        fun from(stream: InputStream?): Config {
             return from(BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8)))
         }
 
