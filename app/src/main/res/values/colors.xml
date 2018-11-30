@@ -7,7 +7,6 @@
     <color name="list_multiselect_background">#EEEEEE</color>
     <color name="primary_color_black">#000000</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/accent</color>
-    <color name="ic_launcher_background">#871719</color>
     <color name="bottomsheet_text_white">#FFFFFF</color>
     <color name="bottomsheet_text_dark">#212121</color>
 </resources>
