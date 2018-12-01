@@ -6,6 +6,7 @@
 
         <import type="android.view.View"/>
         <import type="com.wireguard.android.widget.KeyInputFilter"/>
+        <import type="com.wireguard.android.R"/>
 
         <variable
             name="collection"
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="@{() -> item.toggleExcludePrivateIPs()}"
-                    android:text="@string/exclude_private_ips"
+                    android:text="@{item.isExcludePrivateIPsOn ? R.string.exclude_private_ips_on : R.string.exclude_private_ips_off}"
                     android:visibility="@{item.canToggleExcludePrivateIPs ? View.VISIBLE : View.GONE}"/>
 
                 <com.google.android.material.button.MaterialButton
