@@ -9,13 +9,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <permission
-        android:name="${applicationId}.permission.CONTROL_TUNNELS"
-        android:protectionLevel="dangerous"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/permission_label"
-        android:description="@string/permission_description" />
-
     <application
         android:name=".Application"
         android:allowBackup="false"
