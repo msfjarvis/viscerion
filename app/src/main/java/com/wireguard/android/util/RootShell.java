@@ -11,7 +11,12 @@ import com.wireguard.android.BuildConfig;
 import com.wireguard.android.R;
 import timber.log.Timber;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.UUID;
