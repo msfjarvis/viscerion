@@ -9,6 +9,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <permission
+        android:name="${applicationId}.permission.CONTROL_TUNNELS"
+        android:protectionLevel="dangerous"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/permission_label"
+        android:description="@string/permission_description" />
+
     <application
         android:name=".Application"
         android:allowBackup="false"
@@ -56,6 +63,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".model.TunnelManager$IntentReceiver"
+                  android:permission="${applicationId}.permission.CONTROL_TUNNELS">
+            <intent-filter>
+                <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
             </intent-filter>
         </receiver>
 

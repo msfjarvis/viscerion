@@ -5,6 +5,9 @@
 
 package com.wireguard.android.model
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import androidx.core.content.edit
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
@@ -135,6 +138,16 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         completableTunnels.complete(tunnels)
     }
 
+    fun refreshTunnelStates() {
+        Application.asyncWorker.supplyAsync { Application.backend.enumerate() }
+            .thenAccept { running ->
+                tunnels.forEach { tunnel ->
+                    tunnel.onStateChanged(if (running?.contains(tunnel.name) == true) Tunnel.State.UP else Tunnel.State.DOWN)
+                }
+            }
+            .whenComplete(ExceptionLoggers.E)
+    }
+
     fun restoreState(force: Boolean): CompletionStage<Void> {
         if (!force && !Application.sharedPreferences.getBoolean(KEY_RESTORE_ON_BOOT, false))
             return CompletableFuture.completedFuture(null)
@@ -211,6 +224,17 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             if (e == null && newState == Tunnel.State.UP)
                 setLastUsedTunnel(tunnel)
             saveState()
+        }
+    }
+
+    class IntentReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val manager = Application.tunnelManager
+            if (intent == null || intent.action == null)
+                return
+            if ("com.wireguard.android.action.REFRESH_TUNNEL_STATES" == intent.action) {
+                manager.refreshTunnelStates()
+            }
         }
     }
 
