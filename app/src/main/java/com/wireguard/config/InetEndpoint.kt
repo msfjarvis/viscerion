@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@file:Suppress("DefaultLocale")
 package com.wireguard.config
 
-import android.annotation.SuppressLint
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import java.net.Inet4Address
@@ -21,7 +21,6 @@ class InetEndpoint internal constructor(endpoint: String?) {
     private var resolvedHost: InetAddress? = null
 
     val resolvedEndpoint: String
-        @SuppressLint("DefaultLocale")
         @Throws(UnknownHostException::class)
         get() {
             if (resolvedHost == null) {
@@ -46,7 +45,6 @@ class InetEndpoint internal constructor(endpoint: String?) {
         }
 
     val endpoint: String
-        @SuppressLint("DefaultLocale")
         get() = String.format(
             if (host.contains(":") && !host.contains("["))
                 "[%s]:%d"

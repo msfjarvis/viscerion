@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@file:Suppress("DefaultLocale")
 package com.wireguard.config
 
-import android.annotation.SuppressLint
 import android.text.TextUtils
 import java.util.regex.Pattern
 
@@ -29,12 +29,10 @@ enum class Attribute(private val token: String) {
 
     private val pattern: Pattern = Pattern.compile("$token\\s*=\\s*(\\S.*)")
 
-    @SuppressLint("DefaultLocale")
     fun composeWith(value: Any?): String {
         return String.format("%s = %s%n", token, value)
     }
 
-    @SuppressLint("DefaultLocale")
     fun composeWith(value: Int): String {
         return String.format("%s = %d%n", token, value)
     }
