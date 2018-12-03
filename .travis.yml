@@ -24,7 +24,7 @@ branches:
 
 script:
   - source ci/style-check.sh
-  - "./gradlew :app:assembleDebug :app:lint"
+  - "./gradlew :app:assembleDebug :app:bundleDebug :app:lint"
 
 notifications:
   email: false
