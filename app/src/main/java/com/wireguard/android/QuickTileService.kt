@@ -51,6 +51,7 @@ class QuickTileService : TileService() {
     }
 
     override fun onCreate() {
+        Timber.tag(TAG)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             iconOn = Icon.createWithResource(this, R.drawable.ic_tile)
             iconOff = iconOn
@@ -78,7 +79,6 @@ class QuickTileService : TileService() {
         icon.setBounds(0, 0, c.width, c.height)
         icon.draw(c)
         iconOff = Icon.createWithBitmap(b)
-        Timber.tag(TAG)
     }
 
     override fun onClick() {
