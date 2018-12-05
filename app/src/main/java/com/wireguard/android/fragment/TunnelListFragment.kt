@@ -251,7 +251,8 @@ class TunnelListFragment : BaseFragment() {
     }
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
-        binding ?: return
+        if (binding == null)
+            return
         Application.tunnelManager.getTunnels().thenAccept { tunnels ->
             newTunnel?.let {
                 viewForTunnel(it, tunnels)?.setSingleSelected(true)
@@ -341,7 +342,8 @@ class TunnelListFragment : BaseFragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
 
-        binding ?: return
+        if (binding == null)
+            return
         binding?.fragment = this
         Application.tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
         binding?.rowConfigurationHandler =
