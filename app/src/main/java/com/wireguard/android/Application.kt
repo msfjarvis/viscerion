@@ -93,7 +93,7 @@ class Application : android.app.Application() {
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
         tunnelManager.onCreate()
 
-        asyncWorker.supplyAsync<Backend> { backend }.thenAccept { backend ->
+        asyncWorker.supplyAsync { backend }.thenAccept { backend ->
             futureBackend.complete(backend)
         }
 
