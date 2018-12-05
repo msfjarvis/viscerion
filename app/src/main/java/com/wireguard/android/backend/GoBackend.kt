@@ -86,7 +86,7 @@ class GoBackend(context: Context) : Backend {
     }
 
     override fun getVersion(): String? {
-        return getVersion()
+        return wgVersion()
     }
 
     override fun getTypeName(): String {
