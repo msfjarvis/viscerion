@@ -1,6 +1,7 @@
 import java.io.FileInputStream
 import java.util.Properties
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.IOException
 
 plugins {
     id("com.android.application")
@@ -12,11 +13,12 @@ plugins {
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
 val keystorePropertiesFile = rootProject.file("keystore.properties")
+val buildTypeRelease = "release"
 
 fun gitHash(): String {
     try {
         return Runtime.getRuntime().exec("git rev-parse --short HEAD").inputStream.reader().use { it.readText() }.trim()
-    } catch (e: Exception) {
+    } catch (ignored: IOException) {
     }
     return ""
 }
@@ -46,7 +48,7 @@ android {
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
         signingConfigs {
-            create("release") {
+            create(buildTypeRelease) {
                 keyAlias = keystoreProperties["keyAlias"].toString()
                 keyPassword = keystoreProperties["keyPassword"].toString()
                 storeFile = rootProject.file(keystoreProperties["storeFile"].toString())
@@ -55,7 +57,7 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        getByName(buildTypeRelease) {
             if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("release")
             externalNativeBuild {
                 cmake {
@@ -77,7 +79,7 @@ android {
         }
     }
     externalNativeBuild.cmake {
-        path = rootProject.file("app/tools/CMakeLists.txt")
+        path = rootProject.file("$name/tools/CMakeLists.txt")
     }
     lintOptions.isAbortOnError = false
 }
