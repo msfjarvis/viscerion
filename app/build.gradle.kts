@@ -17,7 +17,7 @@ val buildTypeRelease = "release"
 
 fun gitHash(): String {
     try {
-        return Runtime.getRuntime().exec("git rev-parse --short HEAD").inputStream.reader().use { it.readText() }.trim()
+        return Runtime.getRuntime().exec("git describe --tags").inputStream.reader().use { it.readText() }.trim()
     } catch (ignored: IOException) {
     }
     return ""
