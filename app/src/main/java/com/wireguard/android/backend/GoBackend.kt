@@ -37,6 +37,7 @@ class GoBackend(context: Context) : Backend {
     init {
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go")
         this.context = context
+        Timber.tag(TAG)
     }
 
     override fun applyConfig(tunnel: Tunnel?, config: Config?): Config? {
@@ -80,7 +81,7 @@ class GoBackend(context: Context) : Backend {
             return originalState
         if (state == Tunnel.State.UP && currentTunnel != null)
             throw IllegalStateException("Only one userspace tunnel can run at a time")
-        Timber.tag(TAG).d("Changing tunnel %s to state %s ", tunnel?.name, finalState)
+        Timber.d("Changing tunnel %s to state %s ", tunnel?.name, finalState)
         setStateInternal(tunnel, tunnel?.getConfig(), finalState)
         return getState(tunnel)
     }
@@ -96,7 +97,7 @@ class GoBackend(context: Context) : Backend {
     @Throws(Exception::class)
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: Tunnel.State?) {
         if (state == Tunnel.State.UP) {
-            Timber.tag(TAG).i("Bringing tunnel up")
+            Timber.i("Bringing tunnel up")
 
             Objects.requireNonNull<Config>(config, "Trying to bring up a tunnel with no config")
 
@@ -111,7 +112,7 @@ class GoBackend(context: Context) : Backend {
             }
 
             if (currentTunnelHandle != -1) {
-                Timber.tag(TAG).w("Tunnel already up")
+                Timber.w("Tunnel already up")
                 return
             }
 
@@ -184,7 +185,7 @@ class GoBackend(context: Context) : Backend {
             builder.establish().use { tun ->
                 if (tun == null)
                     throw Exception("Unable to create tun device")
-                Timber.tag(TAG).d("Go backend v%s", wgVersion())
+                Timber.d("Go backend v%s", wgVersion())
                 currentTunnelHandle = wgTurnOn(tunnel!!.name, tun.detachFd(), goConfig)
             }
             if (currentTunnelHandle < 0)
@@ -195,10 +196,10 @@ class GoBackend(context: Context) : Backend {
             service.protect(wgGetSocketV4(currentTunnelHandle))
             service.protect(wgGetSocketV6(currentTunnelHandle))
         } else {
-            Timber.tag(TAG).i("Bringing tunnel down")
+            Timber.i("Bringing tunnel down")
 
             if (currentTunnelHandle == -1) {
-                Timber.tag(TAG).w("Tunnel already down")
+                Timber.w("Tunnel already down")
                 return
             }
 
@@ -209,7 +210,7 @@ class GoBackend(context: Context) : Backend {
     }
 
     private fun startVpnService() {
-        Timber.tag(TAG).d("Requesting to start VpnService")
+        Timber.d("Requesting to start VpnService")
         context.startService(Intent(context, VpnService::class.java))
     }
 
@@ -238,7 +239,7 @@ class GoBackend(context: Context) : Backend {
         override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
             vpnService.complete(this)
             if (intent == null || intent.component == null || intent.component?.packageName != packageName) {
-                Timber.tag(TAG).d("Service started by Always-on VPN feature")
+                Timber.d("Service started by Always-on VPN feature")
                 Application.tunnelManager.restoreState(true).whenComplete(ExceptionLoggers.D)
             }
             return super.onStartCommand(intent, flags, startId)
