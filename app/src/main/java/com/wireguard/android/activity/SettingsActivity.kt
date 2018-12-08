@@ -98,7 +98,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
             val debugOnlyPrefs = arrayOf(
                 preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
             )
-            if (!BuildConfig.DEBUG)
+            if (!BuildConfig.DEBUG || !Application.supportsKernelModule)
                 debugOnlyPrefs.forEach {
                     screen.removePreference(it)
                 }
