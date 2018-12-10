@@ -43,8 +43,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
 
     private fun exportZip(tunnels: List<Tunnel>) {
         val futureConfigs = ArrayList<CompletableFuture<Config>>(tunnels.size)
-        for (tunnel in tunnels)
-            futureConfigs.add(tunnel.configAsync.toCompletableFuture())
+        tunnels.forEach { futureConfigs.add(it.configAsync.toCompletableFuture()) }
         if (futureConfigs.isEmpty()) {
             exportZipComplete(null, IllegalArgumentException("No tunnels exist"))
             return
