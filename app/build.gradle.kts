@@ -30,8 +30,8 @@ android {
         applicationId = "me.msfjarvis.wgandroid"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 1001
-        versionName = "1.0.1"
+        versionCode = 1002
+        versionName = "1.0.2"
         buildConfigField("int", "MIN_SDK_VERSION", "21")
         setProperty("archivesBaseName", "wg-android_${gitHash()}")
     }
