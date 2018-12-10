@@ -63,13 +63,11 @@ fun Context.restartApplication() {
 
 val Preference.parentActivity: SettingsActivity?
     get() {
-        val context = this.context
-        if (context is ContextThemeWrapper) {
-            if (context.baseContext is SettingsActivity) {
-                return context.baseContext as SettingsActivity
-            }
+        return try {
+            ((context as ContextThemeWrapper).baseContext as SettingsActivity)
+        } catch (ignored: ClassCastException) {
+            null
         }
-        return null
     }
 
 fun Context.resolveAttribute(attr: Int): Int {
