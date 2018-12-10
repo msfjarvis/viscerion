@@ -23,10 +23,13 @@ import java.util.Arrays
 class ToolsInstaller(context: Context) {
 
     private val localBinaryDir: File = File(context.cacheDir, "bin")
-    private val lock = Any()
     private val nativeLibraryDir: File = File(context.applicationInfo.nativeLibraryDir)
     private var areToolsAvailable: Boolean? = null
     private var installAsMagiskModule: Boolean? = null
+
+    init {
+        Timber.tag(TAG)
+    }
 
     @Throws(NoRootException::class)
     fun areInstalled(): Int {
@@ -56,44 +59,43 @@ class ToolsInstaller(context: Context) {
     }
 
     @Throws(FileNotFoundException::class, NoRootException::class)
+    @Synchronized
     fun ensureToolsAvailable() {
-        synchronized(lock) {
-            if (areToolsAvailable == null) {
-                val ret = symlink()
-                areToolsAvailable = when (ret) {
-                    OsConstants.EALREADY -> {
-                        Timber.tag(TAG).d("Tools were already symlinked into our private binary dir")
-                        true
-                    }
-                    OsConstants.EXIT_SUCCESS -> {
-                        Timber.tag(TAG).d("Tools are now symlinked into our private binary dir")
-                        true
-                    }
-                    else -> {
-                        Timber.tag(TAG).e("For some reason, wg and wg-quick are not available at all")
-                        false
-                    }
+        if (areToolsAvailable == null) {
+            val ret = symlink()
+            areToolsAvailable = when (ret) {
+                OsConstants.EALREADY -> {
+                    Timber.d("Tools were already symlinked into our private binary dir")
+                    true
                 }
-            }
-            if (areToolsAvailable == false)
-                throw FileNotFoundException("Required tools unavailable")
-        }
-    }
-
-    private fun willInstallAsMagiskModule(): Boolean {
-        synchronized(lock) {
-            if (installAsMagiskModule == null) {
-                installAsMagiskModule = try {
-                    Application.rootShell.run(
-                        null,
-                        "[ -d /sbin/.core/mirror -a -d /sbin/.core/img -a ! -f /cache/.disable_magisk ]"
-                    ) == OsConstants.EXIT_SUCCESS
-                } catch (ignored: Exception) {
+                OsConstants.EXIT_SUCCESS -> {
+                    Timber.d("Tools are now symlinked into our private binary dir")
+                    true
+                }
+                else -> {
+                    Timber.e("For some reason, wg and wg-quick are not available at all")
                     false
                 }
             }
-            return installAsMagiskModule == true
         }
+        if (areToolsAvailable == false)
+            throw FileNotFoundException("Required tools unavailable")
+    }
+
+    @Synchronized
+    private fun willInstallAsMagiskModule(): Boolean {
+        val magiskDirectory = getMagiskDirectory
+        if (installAsMagiskModule == null) {
+            installAsMagiskModule = try {
+                Application.rootShell.run(
+                    null,
+                    "[ -d $magiskDirectory/mirror -a -d $magiskDirectory/img -a ! -f /cache/.disable_magisk ]"
+                ) == OsConstants.EXIT_SUCCESS
+            } catch (ignored: Exception) {
+                false
+            }
+        }
+        return installAsMagiskModule == true
     }
 
     @Throws(NoRootException::class)
@@ -121,24 +123,25 @@ class ToolsInstaller(context: Context) {
     @Throws(NoRootException::class)
     private fun installMagisk(): Int {
         val script = StringBuilder("set -ex; ")
+        val magiskDirectory = "$getMagiskDirectory/img/wireguard"
 
-        script.append("trap 'rm -rf /sbin/.core/img/wireguard' INT TERM EXIT; ")
+        script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
             String.format(
-                "rm -rf /sbin/.core/img/wireguard/; mkdir -p /sbin/.core/img/wireguard%s; ",
+                "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/%s; ",
                 INSTALL_DIR
             )
         )
         script.append(
             String.format(
-                "printf 'name=WireGuard Command Line Tools\nversion=%s\nversionCode=%s\nauthor=zx2c4\ndescription=Command line tools for WireGuard\nminMagisk=1500\n' > /sbin/.core/img/wireguard/module.prop; ",
+                "printf 'name=WireGuard Command Line Tools\nversion=%s\nversionCode=%s\nauthor=zx2c4\ndescription=Command line tools for WireGuard\nminMagisk=1500\n' > $magiskDirectory/module.prop; ",
                 BuildConfig.VERSION_NAME,
                 BuildConfig.VERSION_CODE
             )
         )
-        script.append("touch /sbin/.core/img/wireguard/auto_mount; ")
+        script.append("touch $magiskDirectory/auto_mount; ")
         for (names in EXECUTABLES) {
-            val destination = File("/sbin/.core/img/wireguard$INSTALL_DIR", names[1])
+            val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
             script.append(
                 String.format(
                     "cp '%s' '%s'; chmod 755 '%s'; restorecon '%s' || true; ",
@@ -213,6 +216,15 @@ class ToolsInstaller(context: Context) {
                         return dir
                 }
                 return null
+            }
+        private val getMagiskDirectory: String
+            get() {
+                val output = ArrayList<String>()
+                Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
+                return when (output[0]) {
+                    "18.0" -> "/sbin/.magisk"
+                    else -> "/sbin/.core"
+                }
             }
     }
 }
