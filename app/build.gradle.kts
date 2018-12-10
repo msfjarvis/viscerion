@@ -98,7 +98,7 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:3.6.0")
     implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")
     implementation("net.sourceforge.streamsupport:android-retrostreams:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.extra.get("kotlinVersion")}")
 }
 
 repositories {

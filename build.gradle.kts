@@ -1,13 +1,14 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
+    val kotlinVersion by rootProject.extra { "1.3.11" }
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
