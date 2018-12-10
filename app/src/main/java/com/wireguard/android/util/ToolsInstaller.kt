@@ -14,7 +14,6 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.util.Arrays
 
 /**
  * Helper to install WireGuard tools to the system partition.
@@ -210,7 +209,7 @@ class ToolsInstaller(context: Context) {
         private val installDir: File?
             get() {
                 val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
-                val paths = Arrays.asList(*path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+                val paths = path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toList()
                 for (dir in INSTALL_DIRS) {
                     if (paths.contains(dir.path) && dir.isDirectory)
                         return dir
