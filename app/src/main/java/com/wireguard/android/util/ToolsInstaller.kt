@@ -219,8 +219,9 @@ class ToolsInstaller(context: Context) {
         private fun getmagiskDirectory(): String {
                 val output = ArrayList<String>()
                 Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
-                return when (output[0]) {
-                    "18.0" -> "/sbin/.magisk"
+                val magiskVer = output[0]
+                return when {
+                    magiskVer.startsWith("18.") -> "/sbin/.magisk"
                     else -> "/sbin/.core"
                 }
             }
