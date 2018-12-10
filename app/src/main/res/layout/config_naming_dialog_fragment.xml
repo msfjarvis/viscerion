@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <import type="com.wireguard.android.widget.NameInputFilter" />
@@ -21,12 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/tunnel_name"
-                android:inputType="textNoSuggestions|textVisiblePassword"
-                app:filter="@{NameInputFilter.newInstance()}" />
+                android:inputType="textNoSuggestions|textVisiblePassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
     </FrameLayout>
-
-
 </layout>

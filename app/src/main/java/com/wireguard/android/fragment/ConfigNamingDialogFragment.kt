@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
+import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.Config
 import java.io.IOException
 
@@ -55,6 +56,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)
         binding?.executePendingBindings()
         alertDialogBuilder.setView(binding?.root)
+        binding?.tunnelNameText?.filters = arrayOf(NameInputFilter())
 
         alertDialogBuilder.setPositiveButton(R.string.create_tunnel, null)
         alertDialogBuilder.setNegativeButton(R.string.cancel) { _, _ -> dismiss() }
