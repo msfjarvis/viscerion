@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import java.io.FileInputStream
 import java.util.Properties
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -98,7 +99,7 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:3.6.0")
     implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")
     implementation("net.sourceforge.streamsupport:android-retrostreams:1.7.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.extra.get("kotlinVersion")}")
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 }
 
 repositories {
