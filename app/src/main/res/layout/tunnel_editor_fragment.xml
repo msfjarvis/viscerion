@@ -7,8 +7,6 @@
 
         <import type="com.wireguard.android.util.ExtensionsKt" />
 
-        <import type="com.wireguard.android.widget.KeyInputFilter" />
-
         <import type="com.wireguard.config.Peer" />
 
         <variable
@@ -90,8 +88,7 @@
                                 android:layout_alignParentStart="true"
                                 android:hint="@string/private_key"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interfaceSection.privateKey}"
-                                app:filter="@{KeyInputFilter.newInstance()}" />
+                                android:text="@={config.interfaceSection.privateKey}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout

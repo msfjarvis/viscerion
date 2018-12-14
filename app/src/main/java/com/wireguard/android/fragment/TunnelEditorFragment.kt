@@ -26,6 +26,7 @@ import com.wireguard.android.databinding.TunnelEditorFragmentBinding
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.widget.KeyInputFilter
 import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.Attribute
 import com.wireguard.config.Config
@@ -148,6 +149,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             it.executePendingBindings()
         }
         binding?.interfaceNameText?.filters = arrayOf(NameInputFilter())
+        binding?.privateKeyText?.filters = arrayOf(KeyInputFilter())
         return binding?.root
     }
 

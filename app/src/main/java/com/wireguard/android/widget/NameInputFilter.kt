@@ -47,9 +47,5 @@ class NameInputFilter : InputFilter {
         private fun isAllowed(c: Char): Boolean {
             return Character.isLetterOrDigit(c) || "_=+.-".indexOf(c) >= 0
         }
-
-        fun newInstance(): InputFilter {
-            return NameInputFilter()
-        }
     }
 }
