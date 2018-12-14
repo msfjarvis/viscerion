@@ -1,8 +1,8 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import java.io.FileInputStream
-import java.util.Properties
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.IOException
+import java.util.Properties
+import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.application")
@@ -99,7 +99,7 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:3.6.0")
     implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")
     implementation("net.sourceforge.streamsupport:android-retrostreams:1.7.0")
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
 }
 
 repositories {
