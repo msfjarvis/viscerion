@@ -26,6 +26,7 @@ import com.wireguard.android.databinding.TunnelEditorFragmentBinding
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import com.wireguard.config.Peer
@@ -146,6 +147,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             breakObjectOrientedLayeringHandlerReceivers.add(it)
             it.executePendingBindings()
         }
+        binding?.interfaceNameText?.filters = arrayOf(NameInputFilter())
         return binding?.root
     }
 

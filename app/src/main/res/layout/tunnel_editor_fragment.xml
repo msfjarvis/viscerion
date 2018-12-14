@@ -9,8 +9,6 @@
 
         <import type="com.wireguard.android.widget.KeyInputFilter" />
 
-        <import type="com.wireguard.android.widget.NameInputFilter" />
-
         <import type="com.wireguard.config.Peer" />
 
         <variable
@@ -75,8 +73,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/name"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.name}"
-                                app:filter="@{NameInputFilter.newInstance()}" />
+                                android:text="@={config.name}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
