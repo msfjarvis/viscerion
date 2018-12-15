@@ -83,7 +83,7 @@ class ToolsInstaller(context: Context) {
 
     @Synchronized
     private fun willInstallAsMagiskModule(): Boolean {
-        val magiskDirectory = getmagiskDirectory()
+        val magiskDirectory = getMagiskDirectory()
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
                 Application.rootShell.run(
@@ -122,7 +122,7 @@ class ToolsInstaller(context: Context) {
     @Throws(NoRootException::class)
     private fun installMagisk(): Int {
         val script = StringBuilder("set -ex; ")
-        val magiskDirectory = "${getmagiskDirectory()}/img/wireguard"
+        val magiskDirectory = "${getMagiskDirectory()}/img/wireguard"
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
@@ -216,7 +216,7 @@ class ToolsInstaller(context: Context) {
                 }
                 return null
             }
-        private fun getmagiskDirectory(): String {
+        private fun getMagiskDirectory(): String {
                 val output = ArrayList<String>()
                 Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
                 val magiskVer = output[0]
