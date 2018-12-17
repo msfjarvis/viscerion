@@ -101,6 +101,9 @@ class GoBackend(context: Context) : Backend {
 
             Objects.requireNonNull<Config>(config, "Trying to bring up a tunnel with no config")
 
+            if (VpnService.prepare(context) != null)
+                throw Exception("VPN service not authorized by user")
+
             val service: VpnService
             if (!vpnService.isDone)
                 startVpnService()
