@@ -3,68 +3,101 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@file:Suppress("DefaultLocale")
 package com.wireguard.config
 
-import com.wireguard.android.Application
-import com.wireguard.android.R
+import org.threeten.bp.Duration
+import org.threeten.bp.Instant
 import java.net.Inet4Address
-import java.net.Inet6Address
 import java.net.InetAddress
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.UnknownHostException
+import java.util.regex.Pattern
 
-class InetEndpoint internal constructor(endpoint: String?) {
-    val host: String
-    val port: Int
-    private var resolvedHost: InetAddress? = null
+/**
+ * An external endpoint (host and port) used to connect to a WireGuard [Peer].
+ *
+ *
+ * Instances of this class are externally immutable.
+ */
+class InetEndpoint private constructor(val host: String, private val isResolved: Boolean, val port: Int) {
+    private val lock = Any()
+    private var lastResolution = Instant.EPOCH
+    private var resolved: InetEndpoint? = null
 
-    val resolvedEndpoint: String
-        @Throws(UnknownHostException::class)
-        get() {
-            if (resolvedHost == null) {
-                val candidates = InetAddress.getAllByName(host)
-                if (candidates.isEmpty())
-                    throw UnknownHostException(host)
-                for (addr in candidates) {
-                    if (addr is Inet4Address) {
-                        resolvedHost = addr
-                        break
+    override fun equals(other: Any?): Boolean {
+        if (other !is InetEndpoint)
+            return false
+        return host == other.host && port == other.port
+    }
+
+    /**
+     * Generate an `InetEndpoint` instance with the same port and the host resolved using DNS
+     * to a numeric address. If the host is already numeric, the existing instance may be returned.
+     * Because this function may perform network I/O, it must not be called from the main thread.
+     *
+     * @return the resolved endpoint, or null
+     */
+    fun getResolved(): InetEndpoint? {
+        if (isResolved)
+            return this
+        synchronized(lock) {
+            // TODO(zx2c4): Implement a real timeout mechanism using DNS TTL
+            if (Duration.between(lastResolution, Instant.now()).toMinutes() > 1) {
+                try {
+                    // Prefer v4 endpoints over v6 to work around DNS64 and IPv6 NAT issues.
+                    val candidates = InetAddress.getAllByName(host)
+                    var address = candidates[0]
+                    for (candidate in candidates) {
+                        if (candidate is Inet4Address) {
+                            address = candidate
+                            break
+                        }
                     }
+                    resolved = InetEndpoint(address.hostAddress, true, port)
+                    lastResolution = Instant.now()
+                } catch (e: UnknownHostException) {
+                    resolved = null
                 }
-                if (resolvedHost == null)
-                    resolvedHost = candidates[0]
             }
-            return String.format(
-                if (resolvedHost is Inet6Address)
-                    "[%s]:%d"
-                else
-                    "%s:%d", resolvedHost?.hostAddress, port
-            )
+            return resolved
         }
+    }
 
-    val endpoint: String
-        get() = String.format(
-            if (host.contains(":") && !host.contains("["))
-                "[%s]:%d"
-            else
-                "%s:%d", host, port
-        )
+    override fun hashCode(): Int {
+        return host.hashCode() xor port
+    }
 
-    init {
-        endpoint?.let {
-            if (it.indexOf('/') != -1 || it.indexOf('?') != -1 || it.indexOf('#') != -1)
-                throw IllegalArgumentException(Application.get().getString(R.string.tunnel_error_forbidden_endpoint_chars))
+    override fun toString(): String {
+        val isBareIpv6 = isResolved && BARE_IPV6.matcher(host).matches()
+        return (if (isBareIpv6) '['.toString() + host + ']'.toString() else host) + ':'.toString() + port
+    }
+
+    companion object {
+        private val BARE_IPV6 = Pattern.compile("^[^\\[]*:")
+        private val FORBIDDEN_CHARACTERS = Pattern.compile("[/?#]")
+
+        @Throws(ParseException::class)
+        fun parse(endpoint: String): InetEndpoint {
+            if (FORBIDDEN_CHARACTERS.matcher(endpoint).find())
+                throw ParseException(InetEndpoint::class.java, endpoint, "Forbidden characters")
+            val uri: URI
+            try {
+                uri = URI("wg://$endpoint")
+            } catch (e: URISyntaxException) {
+                throw IllegalArgumentException(e)
+            }
+
+            if (uri.port < 0 || uri.port > 65535)
+                throw ParseException(InetEndpoint::class.java, endpoint, "Missing/invalid port number")
+            return try {
+                InetAddresses.parse(uri.host)
+                // Parsing ths host as a numeric address worked, so we don't need to do DNS lookups.
+                InetEndpoint(uri.host, true, uri.port)
+            } catch (ignored: ParseException) {
+                // Failed to parse the host as a numeric address, so it must be a DNS hostname/FQDN.
+                InetEndpoint(uri.host, false, uri.port)
+            }
         }
-        val uri: URI
-        try {
-            uri = URI("wg://$endpoint")
-        } catch (e: URISyntaxException) {
-            throw IllegalArgumentException(e)
-        }
-
-        host = uri.host
-        port = uri.port
     }
 }

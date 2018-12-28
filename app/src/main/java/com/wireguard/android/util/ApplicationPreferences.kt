@@ -7,7 +7,6 @@ package com.wireguard.android.util
 
 import androidx.core.content.edit
 import com.wireguard.android.Application
-import com.wireguard.config.Attribute
 
 class ApplicationPreferences {
     companion object {
@@ -25,9 +24,9 @@ class ApplicationPreferences {
                 Application.sharedPreferences.edit {
                     putString(globalExclusionsKey, value)
                 }
-                exclusionsArray = Attribute.stringToList(value).toCollection(ArrayList())
+                exclusionsArray = value.toList().toCollection(ArrayList())
             }
-        var exclusionsArray: ArrayList<String> = Attribute.stringToList(exclusions).toCollection(ArrayList())
+        var exclusionsArray: ArrayList<String> = exclusions.toList().toCollection(ArrayList())
 
         var theme: String
             get() {

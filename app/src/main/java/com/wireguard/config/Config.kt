@@ -5,133 +5,163 @@
 
 package com.wireguard.config
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
-import androidx.databinding.library.baseAdapters.BR
-import com.wireguard.android.Application
-import com.wireguard.android.R
+import com.wireguard.config.BadConfigException.Location
+import com.wireguard.config.BadConfigException.Reason
+import com.wireguard.config.BadConfigException.Section
+
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.io.StringReader
-import java.nio.charset.StandardCharsets
 import java.util.ArrayList
+import java.util.Collections
+import java.util.LinkedHashSet
+import java.util.Objects
 
 /**
- * Represents a wg-quick configuration file, its name, and its connection state.
+ * Represents the contents of a wg-quick configuration file, made up of one or more "Interface"
+ * sections (combined together), and zero or more "Peer" sections (treated individually).
+ *
+ *
+ * Instances of this class are immutable.
  */
+class Config private constructor(builder: Builder) {
+    /**
+     * Returns the interface section of the configuration.
+     *
+     * @return the interface configuration
+     */
+    val `interface`: Interface
+    /**
+     * Returns a list of the configuration's peer sections.
+     *
+     * @return a list of [Peer]s
+     */
+    val peers: List<Peer>
 
-class Config {
-    val `interface` = Interface()
-    private var peers: MutableList<Peer> = ArrayList()
-
-    fun getPeers(): List<Peer> {
-        return peers
+    init {
+        `interface` = Objects.requireNonNull<Interface>(builder.interfaze, "An [Interface] section is required")
+        // Defensively copy to ensure immutability even if the Builder is reused.
+        peers = Collections.unmodifiableList(ArrayList(builder.peers))
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is Config)
+            return false
+        return `interface` == other.`interface` && peers == other.peers
+    }
+
+    override fun hashCode(): Int {
+        return 31 * `interface`.hashCode() + peers.hashCode()
+    }
+
+    /**
+     * Converts the `Config` into a string suitable for debugging purposes. The `Config`
+     * is identified by its interface's public key and the number of peers it has.
+     *
+     * @return a concise single-line identifier for the `Config`
+     */
     override fun toString(): String {
-        val sb = StringBuilder().append(`interface`)
+        return "(Config " + `interface` + " (" + peers.size + " peers))"
+    }
+
+    /**
+     * Converts the `Config` into a string suitable for use as a `wg-quick`
+     * configuration file.
+     *
+     * @return the `Config` represented as one [Interface] and zero or more [Peer] sections
+     */
+    fun toWgQuickString(): String {
+        val sb = StringBuilder()
+        sb.append("[Interface]\n").append(`interface`.toWgQuickString())
         for (peer in peers)
-            sb.append('\n').append(peer)
+            sb.append("\n[Peer]\n").append(peer.toWgQuickString())
         return sb.toString()
     }
 
-    class Observable : BaseObservable, Parcelable {
-        @get:Bindable
-        val interfaceSection: Interface.Observable
-        @get:Bindable
-        val peers: ObservableList<Peer.Observable>
-        private var name: String? = null
+    /**
+     * Serializes the `Config` for use with the WireGuard cross-platform userspace API.
+     *
+     * @return the `Config` represented as a series of "key=value" lines
+     */
+    fun toWgUserspaceString(): String {
+        val sb = StringBuilder()
+        sb.append(`interface`.toWgUserspaceString())
+        sb.append("replace_peers=true\n")
+        for (peer in peers)
+            sb.append(peer.toWgUserspaceString())
+        return sb.toString()
+    }
 
-        constructor(parent: Config?, name: String?) {
-            this.name = name
+    class Builder {
+        // Defaults to an empty set.
+        val peers = LinkedHashSet<Peer>()
+        // No default; must be provided before building.
+        var interfaze: Interface? = null
 
-            this.interfaceSection = Interface.Observable(parent?.`interface`)
-            this.peers = ObservableArrayList<Peer.Observable>()
-            parent?.let {
-                for (peer in it.getPeers())
-                    this.peers.add(Peer.Observable(peer))
-            }
+        private fun addPeer(peer: Peer): Builder {
+            peers.add(peer)
+            return this
         }
 
-        private constructor(parcel: Parcel) {
-            name = parcel.readString()
-            interfaceSection =
-                parcel.readParcelable(Interface.Observable::class.java.classLoader) as Interface.Observable
-            peers = ObservableArrayList<Peer.Observable>()
-            parcel.readTypedList(peers, Peer.Observable.CREATOR)
+        fun addPeers(peers: Collection<Peer>): Builder {
+            this.peers.addAll(peers)
+            return this
         }
 
-        fun commitData(parent: Config) {
-            this.interfaceSection.commitData(parent.`interface`)
-            val newPeers = ArrayList<Peer>(this.peers.size)
-            for (observablePeer in this.peers) {
-                val peer = Peer()
-                observablePeer.commitData(peer)
-                newPeers.add(peer)
-            }
-            parent.peers = newPeers
-            notifyChange()
+        fun build(): Config {
+            if (interfaze == null)
+                throw IllegalArgumentException("An [Interface] section is required")
+            return Config(this)
         }
 
-        override fun describeContents(): Int {
-            return 0
+        @Throws(BadConfigException::class)
+        fun parseInterface(lines: Iterable<CharSequence>): Builder {
+            return setInterface(Interface.parse(lines))
         }
 
-        @Bindable
-        fun getName(): String {
-            return if (name == null) "" else name as String
+        @Throws(BadConfigException::class)
+        fun parsePeer(lines: Iterable<CharSequence>): Builder {
+            return addPeer(Peer.parse(lines))
         }
 
-        fun setName(name: String) {
-            this.name = name
-            notifyPropertyChanged(BR.name)
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(name)
-            dest.writeParcelable(this.interfaceSection, flags)
-            dest.writeTypedList<Peer.Observable>(this.peers)
-        }
-
-        companion object {
-            @JvmField
-            val CREATOR: Parcelable.Creator<Observable> = object : Parcelable.Creator<Observable> {
-                override fun createFromParcel(parcel: Parcel): Observable {
-                    return Observable(parcel)
-                }
-
-                override fun newArray(size: Int): Array<Observable?> {
-                    return arrayOfNulls(size)
-                }
-            }
+        fun setInterface(interfaze: Interface): Builder {
+            this.interfaze = interfaze
+            return this
         }
     }
 
     companion object {
 
-        @Throws(IOException::class)
-        fun from(string: String?): Config {
-            return from(BufferedReader(StringReader(string)))
+        /**
+         * Parses an series of "Interface" and "Peer" sections into a `Config`. Throws
+         * [BadConfigException] if the input is not well-formed or contains data that cannot
+         * be parsed.
+         *
+         * @param stream a stream of UTF-8 text that is interpreted as a WireGuard configuration
+         * @return a `Config` instance representing the supplied configuration
+         */
+        @Throws(IOException::class, BadConfigException::class)
+        fun parse(stream: InputStream?): Config {
+            return parse(BufferedReader(InputStreamReader(stream)))
         }
 
-        @Throws(IOException::class)
-        fun from(stream: InputStream?): Config {
-            return from(BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8)))
-        }
-
-        @Throws(IOException::class)
-        fun from(reader: BufferedReader): Config {
-            val config = Config()
-            val context = Application.get()
-            var currentPeer: Peer? = null
-            var line: String?
+        /**
+         * Parses an series of "Interface" and "Peer" sections into a `Config`. Throws
+         * [BadConfigException] if the input is not well-formed or contains data that cannot
+         * be parsed.
+         *
+         * @param reader a BufferedReader of UTF-8 text that is interpreted as a WireGuard configuration
+         * @return a `Config` instance representing the supplied configuration
+         */
+        @Throws(IOException::class, BadConfigException::class)
+        fun parse(reader: BufferedReader): Config {
+            val builder = Builder()
+            val interfaceLines = ArrayList<String>()
+            val peerLines = ArrayList<String>()
             var inInterfaceSection = false
+            var inPeerSection = false
+            var line: String?
             while (true) {
                 line = reader.readLine()
                 if (line == null)
@@ -143,29 +173,45 @@ class Config {
                 if (line.isEmpty())
                     continue
                 when {
-                    "[Interface]".toLowerCase() == line.toLowerCase() -> {
-                        currentPeer = null
-                        inInterfaceSection = true
+                    line.startsWith("[") -> {
+                        // Consume all [Peer] lines read so far.
+                        if (inPeerSection) {
+                            builder.parsePeer(peerLines)
+                            peerLines.clear()
+                        }
+                        when {
+                            "[Interface]".equals(line, ignoreCase = true) -> {
+                                inInterfaceSection = true
+                                inPeerSection = false
+                            }
+                            "[Peer]".equals(line, ignoreCase = true) -> {
+                                inInterfaceSection = false
+                                inPeerSection = true
+                            }
+                            else -> throw BadConfigException(
+                                Section.CONFIG, Location.TOP_LEVEL,
+                                Reason.UNKNOWN_SECTION, line
+                            )
+                        }
                     }
-                    "[Peer]".toLowerCase() == line.toLowerCase() -> {
-                        currentPeer = Peer()
-                        config.peers.add(currentPeer)
-                        inInterfaceSection = false
-                    }
-                    inInterfaceSection -> config.`interface`.parse(line)
-                    currentPeer != null -> currentPeer.parse(line)
-                    else -> throw IllegalArgumentException(
-                        context.getString(
-                            R.string.tunnel_error_invalid_config_line,
-                            line
-                        )
+                    inInterfaceSection -> interfaceLines.add(line)
+                    inPeerSection -> peerLines.add(line)
+                    else -> throw BadConfigException(
+                        Section.CONFIG, Location.TOP_LEVEL,
+                        Reason.UNKNOWN_SECTION, line
                     )
                 }
             }
-            if (!inInterfaceSection && currentPeer == null) {
-                throw IllegalArgumentException(context.getString(R.string.tunnel_error_no_config_information))
-            }
-            return config
+            if (inPeerSection)
+                builder.parsePeer(peerLines)
+            else if (!inInterfaceSection)
+                throw BadConfigException(
+                    Section.CONFIG, Location.TOP_LEVEL,
+                    Reason.MISSING_SECTION, null
+                )
+            // Combine all [Interface] sections in the file.
+            builder.parseInterface(interfaceLines)
+            return builder.build()
         }
     }
 }

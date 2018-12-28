@@ -20,7 +20,7 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
-import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
 
@@ -111,7 +111,7 @@ class QuickTileService : TileService() {
 
     private fun onToggleFinished(throwable: Throwable?) {
         throwable ?: return
-        val error = ExceptionLoggers.unwrapMessage(throwable)
+        val error = ErrorMessages[throwable]
         val message = getString(R.string.toggle_error, error)
         Timber.e(throwable)
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()

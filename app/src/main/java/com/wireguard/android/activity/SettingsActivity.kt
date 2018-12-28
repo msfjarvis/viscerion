@@ -20,8 +20,9 @@ import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.asString
 import com.wireguard.android.util.restartApplication
-import com.wireguard.config.Attribute
+import com.wireguard.android.util.toList
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -113,7 +114,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 }
             }
             preferenceManager.findPreference(ApplicationPreferences.globalExclusionsKey).setOnPreferenceClickListener {
-                val excludedApps = Attribute.stringToList(ApplicationPreferences.exclusions)
+                val excludedApps = ArrayList<String>(ApplicationPreferences.exclusions.toList())
                 val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
                 fragment.show(fragmentManager, null)
                 true
@@ -126,13 +127,13 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            ApplicationPreferences.exclusions = Attribute.iterableToString(excludedApps)
+            ApplicationPreferences.exclusions = excludedApps.asString()
             Application.tunnelManager.completableTunnels
                 .thenAccept { tunnels ->
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
                         oldConfig?.let {
-                            it.`interface`.addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
+                            it.`interface`.excludedApplications += ApplicationPreferences.exclusions.toList()
                             tunnel.setConfig(it)
                             if (tunnel.state == Tunnel.State.UP)
                                 tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }

@@ -10,11 +10,11 @@
 
         <variable
             name="collection"
-            type="androidx.databinding.ObservableList&lt;com.wireguard.config.Peer.Observable&gt;"/>
+            type="androidx.databinding.ObservableList&lt;com.wireguard.android.viewmodel.PeerProxy&gt;"/>
 
         <variable
             name="item"
-            type="com.wireguard.config.Peer.Observable"/>
+            type="com.wireguard.android.viewmodel.PeerProxy"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions|textVisiblePassword"
                     android:hint="@string/allowed_ips"
-                    android:text="@={item.allowedIPs}"/>
+                    android:text="@={item.allowedIps}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -146,8 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="@{() -> item.toggleExcludePrivateIPs()}"
-                    android:text="@{item.isExcludePrivateIPsOn ? R.string.exclude_private_ips_on : R.string.exclude_private_ips_off}"
-                    android:visibility="@{item.canToggleExcludePrivateIPs ? View.VISIBLE : View.GONE}"/>
+                    android:text="@{item.excludingPrivateIps ? R.string.exclude_private_ips_on : R.string.exclude_private_ips_off}"
+                    android:visibility="@{item.ableToExcludePrivateIps ? View.VISIBLE : View.GONE}"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/peer_action_delete"
@@ -155,9 +155,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:contentDescription="@string/delete_peer"
-                    android:text="@string/delete_peer"
-                    android:onClick="@{() -> collection.remove(item)}"/>
+                    android:contentDescription="@string/delete"
+                    android:text="@string/delete"
+                    android:onClick="@{() -> item.unbind()}"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

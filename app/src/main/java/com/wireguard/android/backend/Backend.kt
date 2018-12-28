@@ -79,5 +79,5 @@ interface Backend {
      *
      * @return Type name
      */
-    fun getTypeName(): String
+    fun getTypePrettyName(): String
 }

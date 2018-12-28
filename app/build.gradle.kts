@@ -95,6 +95,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.0.0")
     implementation("androidx.preference:preference:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.journeyapps:zxing-android-embedded:3.6.0")
     implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")

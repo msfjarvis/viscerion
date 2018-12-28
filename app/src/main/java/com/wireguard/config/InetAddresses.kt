@@ -1,42 +1,55 @@
 /*
- * Copyright © 2018 Samuel Holland <samuel@sholland.org>
- * Copyright © 2018 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+ * Copyright © 2017-2018 WireGuard LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.wireguard.config
 
-import com.wireguard.android.Application
-import com.wireguard.android.R
-
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
+import java.net.Inet4Address
+import java.net.Inet6Address
 import java.net.InetAddress
 
+/**
+ * Utility methods for creating instances of [InetAddress].
+ */
 object InetAddresses {
     private val PARSER_METHOD: Method
 
     init {
         try {
             // This method is only present on Android.
-            PARSER_METHOD = InetAddress::class.java
-                .getMethod("parseNumericAddress", String::class.java)
+            PARSER_METHOD = InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
         } catch (e: NoSuchMethodException) {
             throw RuntimeException(e)
         }
     }
 
-    fun parse(address: String?): InetAddress {
-        if (address == null || address.isEmpty())
-            throw IllegalArgumentException(
-                Application.get().getString(R.string.tunnel_error_empty_inetaddress)
-            )
+    /**
+     * Parses a numeric IPv4 or IPv6 address without performing any DNS lookups.
+     *
+     * @param address a string representing the IP address
+     * @return an instance of [Inet4Address] or [Inet6Address], as appropriate
+     */
+    @Throws(ParseException::class)
+    fun parse(address: String): InetAddress {
+        if (address.isEmpty())
+            throw ParseException(InetAddress::class.java, address, "Empty address")
         try {
             return PARSER_METHOD.invoke(null, address) as InetAddress
         } catch (e: IllegalAccessException) {
-            throw RuntimeException(if (e.cause == null) e else e.cause)
+            val cause = e.cause
+            // Re-throw parsing exceptions with the original type, as callers might try to catch
+            // them. On the other hand, callers cannot be expected to handle reflection failures.
+            if (cause is IllegalArgumentException)
+                throw ParseException(InetAddress::class.java, address, cause)
+            throw RuntimeException(e)
         } catch (e: InvocationTargetException) {
-            throw RuntimeException(if (e.cause == null) e else e.cause)
+            val cause = e.cause
+            if (cause is IllegalArgumentException)
+                throw ParseException(InetAddress::class.java, address, cause)
+            throw RuntimeException(e)
         }
     }
-}
+} // Prevent instantiation.

@@ -16,8 +16,11 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
 import com.wireguard.android.widget.NameInputFilter
+import com.wireguard.config.BadConfigException
 import com.wireguard.config.Config
+import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.nio.charset.StandardCharsets
 
 class ConfigNamingDialogFragment : DialogFragment() {
 
@@ -27,11 +30,13 @@ class ConfigNamingDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val configText = arguments?.getString(KEY_CONFIG_TEXT)?.toByteArray(StandardCharsets.UTF_8)
         try {
-            config = Config.from(arguments?.getString(KEY_CONFIG_TEXT))
+            config = Config.parse(ByteArrayInputStream(configText))
         } catch (exception: IOException) {
-            throw RuntimeException("Invalid config passed to ${javaClass.simpleName}", exception)
+            throw IllegalArgumentException("Invalid config passed to ${javaClass.simpleName}", exception)
+        } catch (exception: BadConfigException) {
+            throw IllegalArgumentException("Invalid config passed to ${javaClass.simpleName}", exception)
         }
     }
 
@@ -51,7 +56,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
 
         // Allow throwing with a null activity, there's not much to do anyway
         val alertDialogBuilder = AlertDialog.Builder(activity!!)
-        alertDialogBuilder.setTitle(R.string.import_from_qrcode)
+        alertDialogBuilder.setTitle(R.string.import_from_qr_code)
 
         binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)
         binding?.executePendingBindings()

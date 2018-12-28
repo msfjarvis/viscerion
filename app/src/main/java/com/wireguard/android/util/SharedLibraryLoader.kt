@@ -5,7 +5,6 @@
 
 package com.wireguard.android.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import timber.log.Timber
@@ -17,7 +16,7 @@ import java.util.zip.ZipFile
 object SharedLibraryLoader {
     private val TAG = "WireGuard/" + SharedLibraryLoader::class.java.simpleName
 
-    @SuppressLint("UnsafeDynamicallyLoadedCode")
+    @Suppress("UnsafeDynamicallyLoadedCode")
     fun loadSharedLibrary(context: Context, libName: String) {
         var noAbiException: Throwable
         try {

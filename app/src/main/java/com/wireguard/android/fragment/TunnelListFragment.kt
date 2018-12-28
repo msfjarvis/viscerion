@@ -28,13 +28,14 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
+import com.wireguard.android.util.toList
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
-import com.wireguard.config.Attribute
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
 import timber.log.Timber
 import java.io.BufferedReader
+import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.util.ArrayList
@@ -52,7 +53,7 @@ class TunnelListFragment : BaseFragment() {
     private fun importTunnel(configText: String) {
         try {
             // Ensure the config text is parseable before proceeding…
-            Config.from(configText)
+            Config.parse(ByteArrayInputStream(configText.toByteArray(StandardCharsets.UTF_8)))
 
             // Config text is valid, now create the tunnel…
             fragmentManager?.let {
@@ -114,7 +115,7 @@ class TunnelListFragment : BaseFragment() {
                             continue
                         var config: Config? = null
                         try {
-                            config = Config.from(reader)
+                            config = Config.parse(reader)
                         } catch (e: Exception) {
                             throwables.add(e)
                         }
@@ -127,7 +128,7 @@ class TunnelListFragment : BaseFragment() {
                 futureTunnels.add(
                     Application.tunnelManager.create(
                         name,
-                        Config.from(contentResolver.openInputStream(uri))
+                        Config.parse(contentResolver.openInputStream(uri))
                     ).toCompletableFuture()
                 )
             }
@@ -201,7 +202,7 @@ class TunnelListFragment : BaseFragment() {
                 dialog.dismiss()
                 onRequestImportConfig()
             }
-            dialog.findViewById<MaterialButton>(R.id.scan_qr_code)?.setOnClickListener {
+            dialog.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
                 dialog.dismiss()
                 onRequestScanQRCode()
             }
@@ -237,7 +238,7 @@ class TunnelListFragment : BaseFragment() {
         val intentIntegrator = IntentIntegrator.forSupportFragment(this)
         intentIntegrator.setOrientationLocked(false)
         intentIntegrator.setBeepEnabled(false)
-        intentIntegrator.setPrompt(getString(R.string.qrcode_hint))
+        intentIntegrator.setPrompt(getString(R.string.qr_code_hint))
         intentIntegrator.initiateScan(listOf(IntentIntegrator.QR_CODE))
     }
 
@@ -305,8 +306,7 @@ class TunnelListFragment : BaseFragment() {
             for (tunnel in allTunnels) {
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {
-                    it.`interface`
-                        .addExcludedApplications(Attribute.stringToList(ApplicationPreferences.exclusions))
+                    it.`interface`.excludedApplications += ApplicationPreferences.exclusions.toList()
                     tunnel.setConfig(it)
                     if (tunnel.state == Tunnel.State.UP)
                         tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }

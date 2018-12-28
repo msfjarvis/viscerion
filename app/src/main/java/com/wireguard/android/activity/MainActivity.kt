@@ -5,7 +5,6 @@
 
 package com.wireguard.android.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -59,7 +58,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
 
     // We use onTouchListener here to avoid the UI click sound, hence
     // calling View#performClick defeats the purpose of it.
-    @SuppressLint("ClickableViewAccessibility")
+    @Suppress("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)

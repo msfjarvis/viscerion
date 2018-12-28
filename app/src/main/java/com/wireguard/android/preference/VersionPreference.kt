@@ -21,13 +21,16 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
     init {
         Application.backendAsync.thenAccept { backend ->
             versionSummary =
-                getContext().getString(R.string.version_summary_checking, backend.getTypeName().toLowerCase())
+                getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase())
             Application.asyncWorker.supplyAsync { backend.getVersion() }
                 .whenComplete { version, exception ->
                     versionSummary = if (exception == null)
-                        getContext().getString(R.string.version_summary, backend.getTypeName(), version)
+                        getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
                     else
-                        getContext().getString(R.string.version_summary_unknown, backend.getTypeName().toLowerCase())
+                        getContext().getString(
+                            R.string.version_summary_unknown,
+                            backend.getTypePrettyName().toLowerCase()
+                        )
                     notifyChanged()
                 }
         }

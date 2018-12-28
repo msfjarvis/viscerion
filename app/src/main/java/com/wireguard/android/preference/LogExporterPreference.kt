@@ -88,7 +88,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     }
 
     override fun getTitle(): CharSequence {
-        return context.getString(R.string.log_exporter_title)
+        return context.getString(R.string.log_export_title)
     }
 
     override fun onClick() {

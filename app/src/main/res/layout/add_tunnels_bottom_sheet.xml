@@ -40,13 +40,13 @@
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/scan_qr_code"
+        android:id="@+id/create_from_qrcode"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_item_height"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_marginBottom="@dimen/extra_margin"
-        android:text="@string/create_from_qrcode"
+        android:text="@string/create_from_qr_code"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
         app:icon="@drawable/ic_action_scan_qr_code_white"

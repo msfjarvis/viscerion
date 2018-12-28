@@ -5,7 +5,6 @@
 
 package com.wireguard.android.fragment
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -21,21 +20,20 @@ import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
 import com.wireguard.android.model.ApplicationData
 import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
 import java.util.ArrayList
 import java.util.Comparator
 
 class AppListDialogFragment : DialogFragment() {
 
-    private var currentlyExcludedApps: List<String>? = null
+    private var currentlyExcludedApps: ArrayList<String>? = null
     private var isGlobalExclusionsDialog = false
     private val appData = ObservableKeyedArrayList<String, ApplicationData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        currentlyExcludedApps = arguments?.getStringArray(KEY_EXCLUDED_APPS)?.toList()
+        currentlyExcludedApps = arguments?.getStringArrayList(KEY_EXCLUDED_APPS)
         isGlobalExclusionsDialog = arguments?.getBoolean(KEY_GLOBAL_EXCLUSIONS) ?: false
     }
 
@@ -66,7 +64,7 @@ class AppListDialogFragment : DialogFragment() {
         return dialog
     }
 
-    @SuppressLint("InlinedApi") // Handled in the code
+    @Suppress("InlinedApi") // Handled in the code
     private fun loadData() {
         val activity = activity ?: return
         val seenPackages: ArrayList<String> = ArrayList()
@@ -109,7 +107,7 @@ class AppListDialogFragment : DialogFragment() {
                 appData.clear()
                 appData.addAll(data)
             } else {
-                val error = if (throwable != null) ExceptionLoggers.unwrapMessage(throwable) else "Unknown"
+                val error = ErrorMessages[throwable]
                 val message = activity.getString(R.string.error_fetching_apps, error)
                 Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
                 dismissAllowingStateLoss()
@@ -140,12 +138,12 @@ class AppListDialogFragment : DialogFragment() {
         private const val KEY_GLOBAL_EXCLUSIONS = "globalExclusions"
 
         fun <T> newInstance(
-            excludedApps: Array<String>,
+            excludedApps: ArrayList<String>,
             isGlobalExclusions: Boolean = false,
             target: T
         ): AppListDialogFragment where T : Fragment, T : AppListDialogFragment.AppExclusionListener {
             val extras = Bundle()
-            extras.putStringArray(KEY_EXCLUDED_APPS, excludedApps)
+            extras.putStringArrayList(KEY_EXCLUDED_APPS, excludedApps)
             extras.putBoolean(KEY_GLOBAL_EXCLUSIONS, isGlobalExclusions)
             val fragment = AppListDialogFragment()
             fragment.setTargetFragment(target, 0)

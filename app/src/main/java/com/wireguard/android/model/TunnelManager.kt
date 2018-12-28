@@ -83,7 +83,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         return lastUsedTunnel
     }
 
-    fun setLastUsedTunnel(tunnel: Tunnel?) {
+    private fun setLastUsedTunnel(tunnel: Tunnel?) {
         if (tunnel == lastUsedTunnel)
             return
         lastUsedTunnel = tunnel
