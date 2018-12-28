@@ -23,7 +23,7 @@ allprojects {
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
-    checkForGradleUpdate = true
+    checkForGradleUpdate = false
         resolutionStrategy {
             componentSelection {
                 all {
