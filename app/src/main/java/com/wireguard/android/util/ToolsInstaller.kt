@@ -143,7 +143,7 @@ class ToolsInstaller(context: Context) {
             val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
             script.append(
                 String.format(
-                    "cp '%s' '%s'; chmod 755 '%s'; restorecon '%s' || true; ",
+                    "cp '%s' '%s'; chmod 755 '%s'; chcon 'u:object_r:system_file:s0' '%s' || true; ",
                     File(nativeLibraryDir, names[0]), destination, destination, destination
                 )
             )
