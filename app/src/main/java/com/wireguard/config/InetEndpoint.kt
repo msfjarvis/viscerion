@@ -70,7 +70,7 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
 
     override fun toString(): String {
         val isBareIpv6 = isResolved && BARE_IPV6.matcher(host).matches()
-        return (if (isBareIpv6) '['.toString() + host + ']'.toString() else host) + ':'.toString() + port
+        return (if (isBareIpv6) "[$host]" else host) + ":$port"
     }
 
     companion object {
