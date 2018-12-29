@@ -73,7 +73,7 @@ android {
             versionNameSuffix = "-debug"
             externalNativeBuild {
                 cmake {
-                    arguments.add("-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}")
+                    arguments.add("-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}$applicationIdSuffix")
                 }
             }
             isMinifyEnabled = false
