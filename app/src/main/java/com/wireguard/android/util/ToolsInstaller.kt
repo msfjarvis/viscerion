@@ -205,6 +205,7 @@ class ToolsInstaller(context: Context) {
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR = installDir
         private val TAG = "WireGuard/" + ToolsInstaller::class.java.simpleName
+        private var magiskDir: String? = null
 
         private val installDir: File?
             get() {
@@ -218,13 +219,16 @@ class ToolsInstaller(context: Context) {
             }
 
         private fun getMagiskDirectory(): String {
+            if (magiskDir != null)
+                return magiskDir as String
             val output = ArrayList<String>()
             Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
             val magiskVer = output[0]
-            return when {
+            magiskDir = when {
                 magiskVer.startsWith("18.") -> "/sbin/.magisk"
                 else -> "/sbin/.core"
             }
+            return magiskDir as String
         }
     }
 }
