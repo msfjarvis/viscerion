@@ -5,10 +5,10 @@
 
 package com.wireguard.config
 
+import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
-
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -16,7 +16,6 @@ import java.io.InputStreamReader
 import java.util.ArrayList
 import java.util.Collections
 import java.util.LinkedHashSet
-import java.util.Objects
 
 /**
  * Represents the contents of a wg-quick configuration file, made up of one or more "Interface"
@@ -40,7 +39,7 @@ class Config private constructor(builder: Builder) {
     val peers: List<Peer>
 
     init {
-        `interface` = Objects.requireNonNull<Interface>(builder.interfaze, "An [Interface] section is required")
+        `interface` = builder.interfaze.requireNonNull("An [Interface] section is required")
         // Defensively copy to ensure immutability even if the Builder is reused.
         peers = Collections.unmodifiableList(ArrayList(builder.peers))
     }

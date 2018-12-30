@@ -6,6 +6,7 @@
 package com.wireguard.config
 
 import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
@@ -18,7 +19,6 @@ import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
 import java.util.Locale
-import java.util.Objects
 
 /**
  * Represents the configuration for a WireGuard interface (an [Interface] block). Interfaces must
@@ -75,7 +75,7 @@ class Interface private constructor(builder: Builder) {
         addresses = Collections.unmodifiableSet(LinkedHashSet(builder.addresses))
         dnsServers = Collections.unmodifiableSet(LinkedHashSet(builder.dnsServers))
         excludedApplications = Collections.unmodifiableSet(LinkedHashSet(builder.excludedApplications))
-        keyPair = Objects.requireNonNull<KeyPair>(builder.keyPair, "Interfaces must have a private key")
+        keyPair = builder.keyPair.requireNonNull("Interfaces must have a private key")
         listenPort = builder.listenPort
         mtu = builder.mtu
     }

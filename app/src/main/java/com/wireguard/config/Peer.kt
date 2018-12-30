@@ -5,6 +5,7 @@
 
 package com.wireguard.config
 
+import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
@@ -12,7 +13,6 @@ import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import java.util.Collections
 import java.util.Locale
-import java.util.Objects
 
 /**
  * Represents the configuration for a WireGuard peer (a [Peer] block). Peers must have a public key,
@@ -60,7 +60,7 @@ class Peer private constructor(builder: Builder) {
         endpoint = builder.endpoint
         persistentKeepalive = builder.persistentKeepalive
         preSharedKey = builder.preSharedKey
-        publicKey = Objects.requireNonNull<Key>(builder.publicKey, "Peers must have a public key")
+        publicKey = builder.publicKey.requireNonNull("Peers must have a public key")
     }
 
     override fun equals(other: Any?): Boolean {

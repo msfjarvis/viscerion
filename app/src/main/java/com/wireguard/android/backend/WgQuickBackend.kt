@@ -19,6 +19,7 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.Config
 import timber.log.Timber
 import java.io.File
@@ -26,7 +27,6 @@ import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
 import java.util.ArrayList
 import java.util.Locale
-import java.util.Objects
 
 /**
  * WireGuard backend that uses `wg-quick` to implement tunnel configuration.
@@ -107,7 +107,7 @@ class WgQuickBackend(private var context: Context) : Backend {
 
     @Throws(Exception::class)
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: State?) {
-        Objects.requireNonNull<Config>(config, "Trying to set state with a null config")
+        config.requireNonNull<Config>("Trying to set state with a null config")
 
         val tempFile = File(localTemporaryDir, tunnel?.name + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(

@@ -34,6 +34,12 @@ fun <T> List<T>.asString(): String {
     return TextUtils.join(", ", this)
 }
 
+fun <T> Any?.requireNonNull(message: String): T {
+    if (this == null)
+        throw NullPointerException(message)
+    return this as T
+}
+
 fun Context.restartApplication() {
     val homeIntent = Intent(Intent.ACTION_MAIN)
         .addCategory(Intent.CATEGORY_HOME)
