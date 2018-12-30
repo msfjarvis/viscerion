@@ -49,8 +49,10 @@ class Interface private constructor(builder: Builder) {
      *
      * @return a set of package names
      */
-    // The collection is already immutable.
-    var excludedApplications: Set<String>
+    // This should ideally be immutable but I require it to not be
+    // for my global exclusions implementation. Suggestions welcome
+    // on alternate ways to do this.
+    var excludedApplications: ArrayList<String>
     /**
      * Returns the public/private key pair used by the interface.
      *
@@ -74,7 +76,7 @@ class Interface private constructor(builder: Builder) {
         // Defensively copy to ensure immutability even if the Builder is reused.
         addresses = Collections.unmodifiableSet(LinkedHashSet(builder.addresses))
         dnsServers = Collections.unmodifiableSet(LinkedHashSet(builder.dnsServers))
-        excludedApplications = Collections.unmodifiableSet(LinkedHashSet(builder.excludedApplications))
+        excludedApplications = ArrayList(builder.excludedApplications)
         keyPair = builder.keyPair.requireNonNull("Interfaces must have a private key")
         listenPort = builder.listenPort
         mtu = builder.mtu

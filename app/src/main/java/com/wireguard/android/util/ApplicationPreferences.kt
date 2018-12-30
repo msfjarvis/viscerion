@@ -24,9 +24,9 @@ class ApplicationPreferences {
                 Application.sharedPreferences.edit {
                     putString(globalExclusionsKey, value)
                 }
-                exclusionsArray = value.toList().toCollection(ArrayList())
+                exclusionsArray = value.toArrayList().toCollection(ArrayList())
             }
-        var exclusionsArray: ArrayList<String> = exclusions.toList().toCollection(ArrayList())
+        var exclusionsArray: ArrayList<String> = exclusions.toArrayList().toCollection(ArrayList())
 
         var theme: String
             get() {
