@@ -318,10 +318,10 @@ class Interface private constructor(builder: Builder) {
             val builder = Builder()
             for (line in lines) {
                 val attribute = Attribute.parse(line) ?: throw
-                    BadConfigException(
-                        Section.INTERFACE, Location.TOP_LEVEL,
-                        Reason.SYNTAX_ERROR, line
-                    )
+                BadConfigException(
+                    Section.INTERFACE, Location.TOP_LEVEL,
+                    Reason.SYNTAX_ERROR, line
+                )
                 when (attribute.key.toLowerCase(Locale.ENGLISH)) {
                     "address" -> builder.parseAddresses(attribute.value)
                     "dns" -> builder.parseDnsServers(attribute.value)
