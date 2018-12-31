@@ -27,7 +27,7 @@ enum class ExceptionLoggers(private val priority: Int) : BiConsumer<Any, Throwab
 
     companion object {
 
-        private val TAG = "WireGuard/" + ExceptionLoggers::class.java.simpleName
+        private val TAG = ExceptionLoggers::class.java.simpleName
 
         private fun unwrap(throwable: Throwable): Throwable {
             return if (throwable is CompletionException && throwable.cause != null) (throwable.cause

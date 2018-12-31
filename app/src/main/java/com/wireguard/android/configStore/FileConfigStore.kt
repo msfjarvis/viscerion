@@ -25,7 +25,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun create(name: String, config: Config): Config {
-        Timber.tag(TAG).d("Creating configuration for tunnel $name")
+        Timber.d("Creating configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.createNewFile())
             throw IOException(context.getString(R.string.config_file_exists_error, file.name))
@@ -38,7 +38,7 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun delete(name: String) {
-        Timber.tag(TAG).d("Deleting configuration for tunnel $name")
+        Timber.d("Deleting configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.delete())
             throw IOException(context.getString(R.string.config_delete_error, file.name))
@@ -62,21 +62,21 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     @Throws(IOException::class)
     override fun rename(name: String, replacement: String) {
-        Timber.tag(TAG).d("Renaming configuration for tunnel $name to $replacement")
+        Timber.d("Renaming configuration for tunnel $name to $replacement")
         val file = fileFor(name)
         val replacementFile = fileFor(replacement)
         if (!replacementFile.createNewFile())
             throw IOException(context.getString(R.string.config_exists_error, replacement))
         if (!file.renameTo(replacementFile)) {
             if (!replacementFile.delete())
-                Timber.tag(TAG).w("Couldn't delete marker file for new name $replacement")
+                Timber.w("Couldn't delete marker file for new name $replacement")
             throw IOException(context.getString(R.string.config_rename_error, file.name))
         }
     }
 
     @Throws(IOException::class)
     override fun save(name: String, config: Config): Config {
-        Timber.tag(TAG).d("Saving configuration for tunnel $name")
+        Timber.d("Saving configuration for tunnel $name")
         val file = fileFor(name)
         if (!file.isFile)
             throw FileNotFoundException(context.getString(R.string.config_not_found_error, file.name))
@@ -88,7 +88,6 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     }
 
     companion object {
-        private val TAG = "WireGuard/" + FileConfigStore::class.java.simpleName
         const val CONFIGURATION_FILE_SUFFIX = ".conf"
     }
 }

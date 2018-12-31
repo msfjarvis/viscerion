@@ -75,7 +75,7 @@ class WgQuickBackend(private var context: Context) : Backend {
             if (Application.rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
                 return emptySet()
         } catch (e: Exception) {
-            Timber.tag(TAG).w(e, "Unable to enumerate running tunnels")
+            Timber.w(e, "Unable to enumerate running tunnels")
             return emptySet()
         }
 
@@ -99,7 +99,7 @@ class WgQuickBackend(private var context: Context) : Backend {
             stateToSet = if (originalState == State.UP) State.DOWN else State.UP
         if (stateToSet == originalState)
             return originalState
-        Timber.tag(TAG).d("Changing tunnel %s to state %s", tunnel?.name, stateToSet)
+        Timber.d("Changing tunnel %s to state %s", tunnel?.name, stateToSet)
         Application.toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
         return getState(tunnel)
@@ -150,9 +150,5 @@ class WgQuickBackend(private var context: Context) : Backend {
         } else if (state == State.DOWN) {
             notificationManager.cancel(tunnel.name.hashCode())
         }
-    }
-
-    companion object {
-        private val TAG = "WireGuard/" + WgQuickBackend::class.java.simpleName
     }
 }

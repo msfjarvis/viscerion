@@ -15,7 +15,6 @@ import timber.log.Timber
 class BootShutdownReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Timber.tag(TAG)
         intent.action ?: return
         Application.backendAsync.thenAccept { backend ->
             if (backend !is WgQuickBackend)
@@ -30,9 +29,5 @@ class BootShutdownReceiver : BroadcastReceiver() {
                 tunnelManager.saveState()
             }
         }
-    }
-
-    companion object {
-        private val TAG = "WireGuard/" + BootShutdownReceiver::class.java.simpleName
     }
 }

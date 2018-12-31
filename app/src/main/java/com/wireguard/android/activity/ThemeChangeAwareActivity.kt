@@ -25,7 +25,6 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
             else -> setTheme(R.style.AppTheme)
         }
         Application.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        Timber.tag(TAG)
     }
 
     override fun onDestroy() {
@@ -52,8 +51,6 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
     }
 
     companion object {
-        private val TAG = "WireGuard/" + ThemeChangeAwareActivity::class.java.simpleName
-
         private var lastResources: Resources? = null
         private var lastDarkMode: Boolean = false
         @Synchronized

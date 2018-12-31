@@ -190,7 +190,6 @@ class TunnelListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        Timber.tag(TAG)
 
         context?.let {
             dialog = BottomSheetDialog(it, R.style.BottomSheetDialogTheme)
@@ -484,6 +483,5 @@ class TunnelListFragment : BaseFragment() {
 
     companion object {
         private const val REQUEST_IMPORT = 1
-        private val TAG = "WireGuard/" + TunnelListFragment::class.java.simpleName
     }
 }

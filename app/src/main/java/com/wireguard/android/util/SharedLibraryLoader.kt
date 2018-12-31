@@ -14,8 +14,6 @@ import java.io.IOException
 import java.util.zip.ZipFile
 
 object SharedLibraryLoader {
-    private val TAG = "WireGuard/" + SharedLibraryLoader::class.java.simpleName
-
     @Suppress("UnsafeDynamicallyLoadedCode")
     fun loadSharedLibrary(context: Context, libName: String) {
         var noAbiException: Throwable
@@ -23,7 +21,7 @@ object SharedLibraryLoader {
             System.loadLibrary(libName)
             return
         } catch (e: UnsatisfiedLinkError) {
-            Timber.tag(TAG).d(e, "Failed to load library normally, so attempting to extract from apk")
+            Timber.d(e, "Failed to load library normally, so attempting to extract from apk")
             noAbiException = e
         }
 
@@ -41,7 +39,7 @@ object SharedLibraryLoader {
             var f: File? = null
             try {
                 f = File.createTempFile("lib", ".so", context.cacheDir)
-                Timber.tag(TAG).d("Extracting apk:/$libZipPath to ${f?.absolutePath} and loading")
+                Timber.d("Extracting apk:/$libZipPath to ${f?.absolutePath} and loading")
                 FileOutputStream(f).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)
@@ -50,7 +48,7 @@ object SharedLibraryLoader {
                 System.load(f.absolutePath)
                 return
             } catch (e: Exception) {
-                Timber.tag(TAG).d(e, "Failed to load library apk:/$libZipPath")
+                Timber.d(e, "Failed to load library apk:/$libZipPath")
                 noAbiException = e
             } finally {
                 f?.delete()

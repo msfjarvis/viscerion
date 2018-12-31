@@ -33,7 +33,6 @@ class GoBackend(private var context: Context) : Backend {
 
     init {
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go")
-        Timber.tag(TAG)
     }
 
     override fun applyConfig(tunnel: Tunnel?, config: Config?): Config? {
@@ -222,7 +221,6 @@ class GoBackend(private var context: Context) : Backend {
     }
 
     companion object {
-        private val TAG = "WireGuard/" + GoBackend::class.java.simpleName
         private var vpnService = CompletableFuture<VpnService>()
     }
 }

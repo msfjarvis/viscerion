@@ -80,7 +80,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
         if (throwable != null) {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.zip_export_error, error)
-            Timber.tag(TAG).e(message)
+            Timber.e(message)
             parentActivity?.findViewById<View>(android.R.id.content)?.let {
                 Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
             }
@@ -111,9 +111,5 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
                 exportZip()
             }
         }
-    }
-
-    companion object {
-        private val TAG = "WireGuard/" + ZipExporterPreference::class.java.simpleName
     }
 }

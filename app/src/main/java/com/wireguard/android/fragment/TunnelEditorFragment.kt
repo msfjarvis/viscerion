@@ -65,7 +65,6 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        Timber.tag(TAG)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -263,6 +262,5 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     companion object {
         private const val KEY_LOCAL_CONFIG = "local_config"
         private const val KEY_ORIGINAL_NAME = "original_name"
-        private val TAG = "WireGuard/" + TunnelEditorFragment::class.java.simpleName
     }
 }

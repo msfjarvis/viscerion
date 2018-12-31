@@ -51,7 +51,6 @@ class QuickTileService : TileService() {
     }
 
     override fun onCreate() {
-        Timber.tag(TAG)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             iconOn = Icon.createWithResource(this, R.drawable.ic_tile)
             iconOff = iconOn
@@ -167,9 +166,5 @@ class QuickTileService : TileService() {
                 return
             updateTile()
         }
-    }
-
-    companion object {
-        private val TAG = "WireGuard/" + QuickTileService::class.java.simpleName
     }
 }

@@ -69,7 +69,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
         if (throwable != null) {
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.log_export_error, error)
-            Timber.tag(TAG).e(throwable)
+            Timber.e(throwable)
             parentActivity?.findViewById<View>(android.R.id.content)?.let {
                 Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
             }
@@ -100,9 +100,5 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
                 exportLog()
             }
         }
-    }
-
-    companion object {
-        private val TAG = "WireGuard/" + LogExporterPreference::class.java.simpleName
     }
 }
