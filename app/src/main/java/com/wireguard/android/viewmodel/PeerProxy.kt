@@ -178,16 +178,11 @@ class PeerProxy : BaseObservable, Parcelable {
     @Throws(BadConfigException::class)
     fun resolve(): Peer {
         val builder = Peer.Builder()
-        if (!allowedIps!!.isEmpty())
-            builder.parseAllowedIPs(allowedIps!!)
-        if (!endpoint!!.isEmpty())
-            builder.parseEndpoint(endpoint!!)
-        if (!persistentKeepalive!!.isEmpty())
-            builder.parsePersistentKeepalive(persistentKeepalive!!)
-        if (!preSharedKey!!.isEmpty())
-            builder.parsePreSharedKey(preSharedKey!!)
-        if (!publicKey!!.isEmpty())
-            builder.parsePublicKey(publicKey!!)
+        allowedIps?.let { if (it.isNotEmpty()) builder.parseAllowedIPs(it) }
+        endpoint?.let { if (it.isNotEmpty()) builder.parseEndpoint(it) }
+        persistentKeepalive?.let { if (it.isNotEmpty()) builder.parsePersistentKeepalive(it) }
+        preSharedKey?.let { if (it.isNotEmpty()) builder.parsePreSharedKey(it) }
+        publicKey?.let { if (it.isNotEmpty()) builder.parsePublicKey(it) }
         return builder.build()
     }
 
