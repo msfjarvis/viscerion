@@ -85,13 +85,12 @@ class Interface private constructor(builder: Builder) {
     override fun equals(other: Any?): Boolean {
         if (other !is Interface)
             return false
-        val obj = other as Interface?
-        return (addresses == obj!!.addresses &&
-            dnsServers == obj.dnsServers &&
-            excludedApplications == obj.excludedApplications &&
-            keyPair == obj.keyPair &&
-            listenPort == obj.listenPort &&
-            mtu == obj.mtu)
+        return (addresses == other.addresses &&
+            dnsServers == other.dnsServers &&
+            excludedApplications == other.excludedApplications &&
+            keyPair == other.keyPair &&
+            listenPort == other.listenPort &&
+            mtu == other.mtu)
     }
 
     override fun hashCode(): Int {
