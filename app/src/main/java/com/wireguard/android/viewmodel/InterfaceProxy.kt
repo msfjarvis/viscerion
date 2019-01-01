@@ -112,18 +112,12 @@ class InterfaceProxy : BaseObservable, Parcelable {
     @Throws(BadConfigException::class)
     fun resolve(): Interface {
         val builder = Interface.Builder()
-        if (!addresses!!.isEmpty())
-            builder.parseAddresses(addresses!!)
-        if (!dnsServers!!.isEmpty())
-            builder.parseDnsServers(dnsServers!!)
-        if (!excludedApplications.isEmpty())
-            builder.excludeApplications(excludedApplications)
-        if (!listenPort!!.isEmpty())
-            builder.parseListenPort(listenPort!!)
-        if (!mtu!!.isEmpty())
-            builder.parseMtu(mtu!!)
-        if (!privateKey!!.isEmpty())
-            builder.parsePrivateKey(privateKey!!)
+        addresses?.let { if (it.isNotEmpty()) builder.parseAddresses(it) }
+        dnsServers?.let { if (it.isNotEmpty()) builder.parseDnsServers(it) }
+        excludedApplications.let { if (it.isNotEmpty()) builder.excludeApplications(it) }
+        listenPort?.let { if (it.isNotEmpty()) builder.parseListenPort(it) }
+        mtu?.let { if (it.isNotEmpty()) builder.parseMtu(it) }
+        privateKey?.let { if (it.isNotEmpty()) builder.parsePrivateKey(it) }
         return builder.build()
     }
 
