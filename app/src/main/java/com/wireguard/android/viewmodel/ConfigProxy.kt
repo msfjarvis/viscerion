@@ -18,11 +18,11 @@ import java.util.ArrayList
 
 class ConfigProxy : Parcelable {
 
-    val `interface`: InterfaceProxy?
+    val `interface`: InterfaceProxy
     val peers: ObservableList<PeerProxy> = ObservableArrayList()
 
     private constructor(`in`: Parcel) {
-        `interface` = `in`.readParcelable(InterfaceProxy::class.java.classLoader)
+        `interface` = `in`.readParcelable(InterfaceProxy::class.java.classLoader) as InterfaceProxy
         `in`.readTypedList(peers, PeerProxy.CREATOR)
         for (proxy in peers)
             proxy.bind(this)
@@ -58,7 +58,7 @@ class ConfigProxy : Parcelable {
         for (proxy in peers)
             resolvedPeers.add(proxy.resolve())
         return Config.Builder()
-            .setInterface(`interface`!!.resolve())
+            .setInterface(`interface`.resolve())
             .addPeers(resolvedPeers)
             .build()
     }
