@@ -173,7 +173,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     internal fun setTunnelConfig(tunnel: Tunnel, config: Config): CompletionStage<Config> {
         return Application.asyncWorker.supplyAsync {
             val appliedConfig = Application.backend.applyConfig(tunnel, config)
-            configStore.save(tunnel.name, appliedConfig!!)
+            configStore.save(tunnel.name, appliedConfig)
         }.thenApply(tunnel::onConfigChanged)
     }
 

@@ -26,14 +26,14 @@ interface Backend {
      * @return The updated configuration of the tunnel.
      */
     @Throws(Exception::class)
-    fun applyConfig(tunnel: Tunnel?, config: Config?): Config?
+    fun applyConfig(tunnel: Tunnel, config: Config): Config
 
     /**
      * Enumerate the names of currently-running tunnels.
      *
      * @return The set of running tunnel names.
      */
-    fun enumerate(): Set<String>?
+    fun enumerate(): Set<String>
 
     /**
      * Get the actual state of a tunnel.
@@ -42,7 +42,7 @@ interface Backend {
      * @return The state of the tunnel.
      */
     @Throws(Exception::class)
-    fun getState(tunnel: Tunnel?): State?
+    fun getState(tunnel: Tunnel): State
 
     /**
      * Get statistics about traffic and errors on this tunnel. If the tunnel is not running, the
@@ -52,7 +52,7 @@ interface Backend {
      * @return The statistics for the tunnel.
      */
     @Throws(Exception::class)
-    fun getStatistics(tunnel: Tunnel?): Statistics?
+    fun getStatistics(tunnel: Tunnel): Statistics?
 
     /**
      * Set the state of a tunnel.
@@ -63,7 +63,7 @@ interface Backend {
      * @return The updated state of the tunnel.
      */
     @Throws(Exception::class)
-    fun setState(tunnel: Tunnel?, state: State?): State?
+    fun setState(tunnel: Tunnel, state: State): State
 
     /**
      * Determine version of underlying backend.
@@ -72,7 +72,7 @@ interface Backend {
      * @throws Exception Any exception that happens during IO from the go library or sysfs
      */
     @Throws(Exception::class)
-    fun getVersion(): String?
+    fun getVersion(): String
 
     /**
      * Determine type name of underlying backend.

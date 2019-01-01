@@ -52,8 +52,8 @@ class WgQuickBackend(private var context: Context) : Backend {
     }
 
     @Throws(Exception::class)
-    override fun applyConfig(tunnel: Tunnel?, config: Config?): Config? {
-        if (tunnel?.state == State.UP) {
+    override fun applyConfig(tunnel: Tunnel, config: Config): Config {
+        if (tunnel.state == State.UP) {
             // Restart the tunnel to apply the new config.
             setStateInternal(tunnel, tunnel.getConfig(), State.DOWN)
             try {
@@ -83,25 +83,25 @@ class WgQuickBackend(private var context: Context) : Backend {
         return output[0].split(" ".toRegex()).toSet()
     }
 
-    override fun getState(tunnel: Tunnel?): State? {
-        return if (enumerate().contains(tunnel?.name)) State.UP else State.DOWN
+    override fun getState(tunnel: Tunnel): State {
+        return if (enumerate().contains(tunnel.name)) State.UP else State.DOWN
     }
 
-    override fun getStatistics(tunnel: Tunnel?): Statistics? {
+    override fun getStatistics(tunnel: Tunnel): Statistics {
         return Statistics()
     }
 
     @Throws(Exception::class)
-    override fun setState(tunnel: Tunnel?, state: State?): State? {
+    override fun setState(tunnel: Tunnel, state: State): State {
         var stateToSet = state
         val originalState = getState(tunnel)
         if (stateToSet == State.TOGGLE)
             stateToSet = if (originalState == State.UP) State.DOWN else State.UP
         if (stateToSet == originalState)
             return originalState
-        Timber.d("Changing tunnel %s to state %s", tunnel?.name, stateToSet)
+        Timber.d("Changing tunnel %s to state %s", tunnel.name, stateToSet)
         Application.toolsInstaller.ensureToolsAvailable()
-        setStateInternal(tunnel, tunnel?.getConfig(), stateToSet)
+        setStateInternal(tunnel, tunnel.getConfig(), stateToSet)
         return getState(tunnel)
     }
 
