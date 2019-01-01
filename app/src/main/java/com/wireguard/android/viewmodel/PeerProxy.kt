@@ -113,7 +113,7 @@ class PeerProxy : BaseObservable, Parcelable {
         val peers = owner.peers
         if (interfaceDnsListener == null)
             interfaceDnsListener = InterfaceDnsListener(this)
-        interfaze!!.addOnPropertyChangedCallback(interfaceDnsListener!!)
+        interfaze.addOnPropertyChangedCallback(interfaceDnsListener!!)
         setInterfaceDns(interfaze.getDnsServers())
         if (peerListListener == null)
             peerListListener = PeerListListener(this)
@@ -243,15 +243,15 @@ class PeerProxy : BaseObservable, Parcelable {
     fun unbind() {
         if (owner == null)
             return
-        val interfaze = owner!!.`interface`
-        val peers = owner!!.peers
-        if (interfaceDnsListener != null)
-            interfaze!!.removeOnPropertyChangedCallback(interfaceDnsListener!!)
-        if (peerListListener != null)
-            peers.removeOnListChangedCallback(peerListListener)
-        peers.remove(this)
-        setInterfaceDns("")
-        setTotalPeers(0)
+        owner?.let {
+            val interfaze = it.`interface`
+            val peers = it.peers
+            interfaceDnsListener?.let { interfaceDnsListener -> interfaze.removeOnPropertyChangedCallback(interfaceDnsListener) }
+            peerListListener?.let { peerListListener -> peers.removeOnListChangedCallback(peerListListener) }
+            peers.remove(this)
+            setInterfaceDns("")
+            setTotalPeers(0)
+        }
         owner = null
     }
 
