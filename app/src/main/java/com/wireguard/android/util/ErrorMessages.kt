@@ -72,7 +72,7 @@ object ErrorMessages {
                 val explanation = getBadConfigExceptionExplanation(resources, rootCause)
                 message = resources.getString(R.string.bad_config_error, reason, context) + explanation
             }
-            rootCause.message != null -> message = rootCause.message!!
+            rootCause.message != null -> message = rootCause.message as String
             else -> {
                 val errorType = rootCause.javaClass.simpleName
                 message = resources.getString(R.string.generic_error, errorType)
@@ -88,7 +88,7 @@ object ErrorMessages {
         if (bce.cause is KeyFormatException) {
             val kfe = bce.cause
             if (kfe.type == Type.LENGTH)
-                return resources.getString(KFE_FORMAT_MAP[kfe.format]!!)
+                return resources.getString(KFE_FORMAT_MAP[kfe.format] as Int)
         } else if (bce.cause is ParseException) {
             val pe = bce.cause
             if (pe.message != null)
@@ -109,18 +109,18 @@ object ErrorMessages {
     ): String {
         if (bce.cause is KeyFormatException) {
             val kfe = bce.cause
-            return resources.getString(KFE_TYPE_MAP[kfe.type]!!)
+            return resources.getString(KFE_TYPE_MAP[kfe.type] as Int)
         } else if (bce.cause is ParseException) {
             val pe = bce.cause
             val type = resources.getString(
                 if (PE_CLASS_MAP.containsKey(pe.parsingClass))
-                    PE_CLASS_MAP[pe.parsingClass]!!
+                    PE_CLASS_MAP[pe.parsingClass] as Int
                 else
                     R.string.parse_error_generic
             )
             return resources.getString(R.string.parse_error_reason, type, pe.text)
         }
-        return resources.getString(BCE_REASON_MAP[bce.reason]!!, bce.text)
+        return resources.getString(BCE_REASON_MAP[bce.reason] as Int, bce.text)
     }
 
     private fun rootCause(throwable: Throwable): Throwable {
@@ -128,7 +128,7 @@ object ErrorMessages {
         while (cause.cause != null) {
             if (cause is BadConfigException)
                 break
-            cause = cause.cause!!
+            cause = cause.cause as Throwable
         }
         return cause
     }
