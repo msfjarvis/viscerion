@@ -80,6 +80,7 @@ class ConfigProxy : Parcelable {
 
     companion object {
         @JvmField
+        @Suppress("Unused")
         val CREATOR: Parcelable.Creator<ConfigProxy> = ConfigProxyCreator()
     }
 }

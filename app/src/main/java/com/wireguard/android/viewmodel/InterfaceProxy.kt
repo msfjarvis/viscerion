@@ -175,6 +175,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
 
     companion object {
         @JvmField
+        @Suppress("Unused")
         val CREATOR: Parcelable.Creator<InterfaceProxy> = InterfaceProxyCreator()
     }
 }
