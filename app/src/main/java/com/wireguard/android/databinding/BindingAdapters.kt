@@ -11,7 +11,6 @@ import android.text.InputFilter
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.Nullable
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableList
@@ -149,6 +148,6 @@ fun setText(view: TextView, text: Any?) {
 }
 
 @BindingAdapter("android:text")
-fun setText(view: TextView, @Nullable networks: Iterable<InetNetwork>?) {
+fun setText(view: TextView, networks: Iterable<InetNetwork>?) {
     view.text = if (networks != null) Attribute.join(networks) else ""
 }

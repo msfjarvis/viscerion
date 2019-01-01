@@ -5,23 +5,21 @@
 
 package com.wireguard.config
 
-import androidx.annotation.Nullable
 import com.wireguard.crypto.KeyFormatException
 
 class BadConfigException private constructor(
     val section: Section,
     val location: Location,
     val reason: Reason,
-    @param:Nullable @field:Nullable @get:Nullable
     val text: CharSequence?,
-    @Nullable cause: Throwable?
+    cause: Throwable?
 ) : Exception(cause) {
 
     constructor(
         section: Section,
         location: Location,
         reason: Reason,
-        @Nullable text: CharSequence?
+        text: CharSequence?
     ) : this(section, location, reason, text, null)
 
     constructor(
@@ -33,7 +31,7 @@ class BadConfigException private constructor(
     constructor(
         section: Section,
         location: Location,
-        @Nullable text: CharSequence?,
+        text: CharSequence?,
         cause: NumberFormatException
     ) : this(section, location, Reason.INVALID_NUMBER, text, cause)
 

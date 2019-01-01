@@ -7,7 +7,6 @@ package com.wireguard.android.viewmodel
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.Nullable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
@@ -275,7 +274,7 @@ class PeerProxy : BaseObservable, Parcelable {
         private val weakPeerProxy: WeakReference<PeerProxy> = WeakReference(peerProxy)
 
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-            @Nullable val peerProxy = weakPeerProxy.get()
+            val peerProxy: PeerProxy? = weakPeerProxy.get()
             if (peerProxy == null) {
                 sender.removeOnPropertyChangedCallback(this)
                 return
@@ -294,7 +293,7 @@ class PeerProxy : BaseObservable, Parcelable {
         private val weakPeerProxy: WeakReference<PeerProxy> = WeakReference(peerProxy)
 
         override fun onChanged(sender: ObservableList<PeerProxy>) {
-            @Nullable val peerProxy = weakPeerProxy.get()
+            val peerProxy: PeerProxy? = weakPeerProxy.get()
             if (peerProxy == null) {
                 sender.removeOnListChangedCallback(this)
                 return

@@ -6,7 +6,6 @@
 package com.wireguard.android.util
 
 import android.content.res.Resources
-import androidx.annotation.Nullable
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.config.BadConfigException
@@ -49,7 +48,7 @@ object ErrorMessages {
         Int::class.java to R.string.parse_error_integer
     )
 
-    operator fun get(@Nullable throwable: Throwable?): String {
+    operator fun get(throwable: Throwable?): String {
         val resources = Application.get().resources
         if (throwable == null)
             return resources.getString(R.string.unknown_error)
