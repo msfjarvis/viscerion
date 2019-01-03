@@ -198,6 +198,7 @@ class PeerProxy : BaseObservable, Parcelable {
 
     private fun setInterfaceDns(dnsServers: CharSequence?) {
         val newDnsRoutes: Array<String> = Attribute.split(dnsServers ?: "")
+            .filter { server -> !server.contains(":") }
             .map { server -> "$server/32" }
             .toTypedArray()
         if (allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS) {
