@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="android.view.View" />
 
         <import type="com.wireguard.android.model.ApplicationData" />
@@ -17,7 +16,7 @@
             type="com.wireguard.android.util.ObservableKeyedList&lt;String, ApplicationData&gt;" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="200dp" >
@@ -26,18 +25,23 @@
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="@{appData.isEmpty() ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{appData.isEmpty() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/app_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:items="@{appData}"
-            app:layout="@{@layout/app_list_item}" />
+            app:layout="@{@layout/app_list_item}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </FrameLayout>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
