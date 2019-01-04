@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/bottom_sheet_top_padding">
@@ -11,15 +10,21 @@
         android:id="@+id/create_empty"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_item_height"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/extra_margin"
+        android:layout_marginBottom="4dp"
         android:text="@string/create_empty"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
         app:icon="@drawable/ic_action_edit"
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/create_from_file"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/accent"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
@@ -27,15 +32,21 @@
         android:id="@+id/create_from_file"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_item_height"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/extra_margin"
+        android:layout_marginBottom="4dp"
         android:text="@string/create_from_file"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
         app:icon="@drawable/ic_action_open_white"
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
+        app:layout_constraintTop_toBottomOf="@+id/create_empty"
+        app:layout_constraintBottom_toTopOf="@+id/create_from_qrcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/accent"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
@@ -43,16 +54,22 @@
         android:id="@+id/create_from_qrcode"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_item_height"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/extra_margin"
+        android:layout_marginBottom="4dp"
         android:text="@string/create_from_qr_code"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
         app:icon="@drawable/ic_action_scan_qr_code_white"
         app:iconPadding="16dp"
         app:iconTint="@color/accent"
+        app:layout_constraintTop_toBottomOf="@+id/create_from_file"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/accent"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon.CustomFont"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
