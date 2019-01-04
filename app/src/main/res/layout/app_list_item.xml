@@ -19,12 +19,12 @@
             type="com.wireguard.android.model.ApplicationData" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_background"
+        android:layout_marginTop="4dp"
         android:padding="16dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
         android:onClick="@{(view) -> item.setExcludedFromTunnel(!item.excludedFromTunnel)}"
         android:clickable="@{!item.globallyExcluded}">
@@ -33,26 +33,35 @@
             android:id="@+id/app_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@{item.icon}" />
+            android:src="@{item.icon}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/app_name"
             style="@style/TextAppearance.CustomFont.Medium"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
-            android:text="@{key}" />
+            android:text="@{key}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/app_icon"/>
 
         <CheckBox
             android:id="@+id/excluded_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@={item.excludedFromTunnel}"
-            android:enabled="@{!item.globallyExcluded}" />
+            android:enabled="@{!item.globallyExcluded}"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
