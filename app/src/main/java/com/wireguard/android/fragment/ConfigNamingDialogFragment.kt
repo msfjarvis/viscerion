@@ -61,6 +61,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)
         binding?.executePendingBindings()
         alertDialogBuilder.setView(binding?.root)
+        binding?.tunnelNameText?.requestFocus()
         binding?.tunnelNameText?.filters = arrayOf(NameInputFilter())
 
         alertDialogBuilder.setPositiveButton(R.string.create_tunnel, null)
