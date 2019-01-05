@@ -47,25 +47,31 @@
                     app:cardElevation="2dp"
                     app:contentPadding="8dp">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/interface_title"
                             style="@style/TextAppearance.CustomFont.HeadLine5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:text="@string/interface_title" />
+                            android:text="@string/interface_title"
+                            android:layout_marginTop="32dp"
+                            app:layout_constraintEnd_toEndOf="@+id/interface_name_layout"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/interface_name_layout"
+                            android:layout_margin="8dp"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/interface_name_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:layout_constraintStart_toStartOf="@+id/private_key_text_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/interface_title"
+                            app:layout_constraintEnd_toEndOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/interface_name_text"
@@ -73,7 +79,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/name"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={name}" />
+                                android:text="@={name}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -81,16 +87,18 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:layout_constraintStart_toStartOf="@+id/public_key_label_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/interface_name_layout"
+                            app:layout_constraintEnd_toEndOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/private_key_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
                                 android:hint="@string/private_key"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.privateKey}" />
+                                android:text="@={config.interface.privateKey}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +106,10 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:layout_constraintStart_toStartOf="@+id/addresses_label_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/private_key_text_layout"
+                            app:layout_constraintEnd_toEndOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/public_key_text"
@@ -110,7 +121,7 @@
                                 android:hint="@string/public_key"
                                 android:onClick="@{ExtensionsKt::copyTextView}"
                                 android:singleLine="true"
-                                android:text="@{config.interface.publicKey}" />
+                                android:text="@{config.interface.publicKey}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -118,16 +129,18 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:layout_constraintStart_toStartOf="@+id/dns_servers_label_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/public_key_label_layout"
+                            app:layout_constraintEnd_toEndOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/addresses_label_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
                                 android:hint="@string/addresses"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.addresses}" />
+                                android:text="@={config.interface.addresses}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +148,10 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:layout_constraintStart_toStartOf="@+id/listen_port_mtu_parent_constaint"
+                            app:layout_constraintTop_toBottomOf="@+id/addresses_label_layout"
+                            app:layout_constraintEnd_toEndOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/dns_servers_text"
@@ -143,22 +159,25 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/dns_servers"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.dnsServers}" />
+                                android:text="@={config.interface.dnsServers}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/listen_port_mtu_parent_constaint"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:baselineAligned="false"
-                            android:orientation="horizontal">
+                            app:layout_constraintTop_toBottomOf="@+id/dns_servers_label_layout">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/listen_port_label_layout"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_margin="4dp">
+                                android:layout_margin="4dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/mtu_label_layout"
+                                app:layout_constraintStart_toStartOf="parent">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
@@ -166,7 +185,7 @@
                                     android:hint="@string/listen_port"
                                     android:inputType="number"
                                     android:text="@={config.interface.listenPort}"
-                                    android:textAlignment="center" />
+                                    android:textAlignment="center"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -175,7 +194,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:layout_weight="1">
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/listen_port_label_layout"
+                                app:layout_constraintEnd_toEndOf="parent">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/mtu_text"
@@ -184,37 +205,44 @@
                                     android:hint="@string/mtu"
                                     android:inputType="number"
                                     android:text="@={config.interface.mtu}"
-                                    android:textAlignment="center" />
+                                    android:textAlignment="center"/>
                             </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
 
-                        <LinearLayout
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            app:layout_constraintTop_toBottomOf="@id/listen_port_mtu_parent_constaint">
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/set_excluded_applications"
                                 style="@style/Widget.MaterialComponents.Button.TextButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_margin="4dp"
                                 android:onClick="@{fragment::onRequestSetExcludedApplications}"
-                                android:text="@{@plurals/set_excluded_applications(config.interface.excludedApplications.size, config.interface.excludedApplications.size)}" />
+                                android:text="@{@plurals/set_excluded_applications(config.interface.excludedApplications.size, config.interface.excludedApplications.size)}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/generate_private_key_button"
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/generate_private_key_button"
                                 style="@style/Widget.MaterialComponents.Button.TextButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:onClick="@{() -> config.interface.generateKeyPair()}"
-                                android:text="@string/generate" />
-                        </LinearLayout>
+                                android:text="@string/generate"
+                                app:layout_constraintStart_toEndOf="@+id/set_excluded_applications"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
 
-                    </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
