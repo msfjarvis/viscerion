@@ -3,17 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="com.wireguard.android.model.Tunnel" />
-
         <variable
             name="fragment"
             type="com.wireguard.android.fragment.TunnelListFragment" />
-
         <variable
             name="rowConfigurationHandler"
             type="com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler" />
-
         <variable
             name="tunnels"
             type="com.wireguard.android.util.ObservableKeyedList&lt;String, Tunnel&gt;" />

@@ -4,13 +4,10 @@
 
     <data>
         <import type="android.view.View" />
-
         <import type="com.wireguard.android.model.ApplicationData" />
-
         <variable
             name="fragment"
             type="com.wireguard.android.fragment.AppListDialogFragment" />
-
         <variable
             name="appData"
             type="com.wireguard.android.util.ObservableKeyedList&lt;String, ApplicationData&gt;" />

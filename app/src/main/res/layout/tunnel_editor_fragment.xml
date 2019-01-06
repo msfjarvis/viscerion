@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="com.wireguard.android.util.ExtensionsKt" />
-
         <variable
             name="fragment"
             type="com.wireguard.android.fragment.TunnelEditorFragment" />
-
         <variable
             name="config"
             type="com.wireguard.android.viewmodel.ConfigProxy" />
-
         <variable
             name="name"
             type="String" />

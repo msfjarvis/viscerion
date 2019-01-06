@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="android.view.View"/>
         <import type="com.wireguard.android.widget.KeyInputFilter"/>
         <import type="com.wireguard.android.R"/>
-
         <variable
             name="collection"
             type="androidx.databinding.ObservableList&lt;com.wireguard.android.viewmodel.PeerProxy&gt;"/>
-
         <variable
             name="item"
             type="com.wireguard.android.viewmodel.PeerProxy"/>
