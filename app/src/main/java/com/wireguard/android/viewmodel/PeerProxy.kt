@@ -246,7 +246,11 @@ class PeerProxy : BaseObservable, Parcelable {
         owner?.let {
             val interfaze = it.`interface`
             val peers = it.peers
-            interfaceDnsListener?.let { interfaceDnsListener -> interfaze.removeOnPropertyChangedCallback(interfaceDnsListener) }
+            interfaceDnsListener?.let { interfaceDnsListener ->
+                interfaze.removeOnPropertyChangedCallback(
+                    interfaceDnsListener
+                )
+            }
             peerListListener?.let { peerListListener -> peers.removeOnListChangedCallback(peerListListener) }
             peers.remove(this)
             setInterfaceDns("")
