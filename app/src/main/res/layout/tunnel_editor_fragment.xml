@@ -57,10 +57,10 @@
                             android:layout_height="wrap_content"
                             android:text="@string/interface_title"
                             android:layout_marginTop="32dp"
+                            android:layout_margin="8dp"
                             app:layout_constraintEnd_toEndOf="@+id/interface_name_layout"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/interface_name_layout"
-                            android:layout_margin="8dp"/>
+                            app:layout_constraintStart_toStartOf="@+id/interface_name_layout"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/interface_name_layout"

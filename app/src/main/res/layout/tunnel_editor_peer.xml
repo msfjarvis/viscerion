@@ -36,6 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/peer"
+                android:layout_marginTop="32dp"
                 android:layout_margin="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -160,6 +161,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/endpoint_keepalive_parent_constraint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/exclude_private_ips"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
