@@ -48,8 +48,6 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
 
         // The selected tunnel must be set before the superclass method recreates fragments.
         super.onCreate(savedInstanceState)
-
-        supportActionBar?.elevation = 0f
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
