@@ -62,6 +62,11 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        onFinished(false)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -89,7 +94,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onDestroyView()
     }
 
-    private fun onFinished() {
+    private fun onFinished(informActivity: Boolean = true) {
         // Hide the keyboard; it rarely goes away on its own.
         val activity = activity ?: return
         val focusedView = activity.currentFocus
@@ -100,20 +105,21 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
-        // Tell the activity to finish itself or go back to the detail view.
-        activity.runOnUiThread {
-            // TODO(smaeul): Remove this hack when fixing the Config ViewModel
-            // The selected tunnel has to actually change, but we have to remember this one.
-            val savedTunnel = tunnel
-            if (savedTunnel == selectedTunnel)
-                selectedTunnel = null
-            selectedTunnel = savedTunnel
+        if (informActivity) {
+            // Tell the activity to finish itself or go back to the detail view.
+            activity.runOnUiThread {
+                // TODO(smaeul): Remove this hack when fixing the Config ViewModel
+                // The selected tunnel has to actually change, but we have to remember this one.
+                val savedTunnel = tunnel
+                if (savedTunnel == selectedTunnel)
+                    selectedTunnel = null
+                selectedTunnel = savedTunnel
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         context?.let {
             activity?.window?.navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
         }
