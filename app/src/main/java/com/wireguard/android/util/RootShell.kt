@@ -26,9 +26,9 @@ class RootShell(context: Context) {
     private val localTemporaryDir: File
     private val preamble: String
     private var process: Process? = null
-    private var stderr: BufferedReader? = null
-    private var stdin: OutputStreamWriter? = null
-    private var stdout: BufferedReader? = null
+    private lateinit var stderr: BufferedReader
+    private lateinit var stdin: OutputStreamWriter
+    private lateinit var stdout: BufferedReader
 
     init {
         val cacheDir = context.cacheDir
@@ -68,14 +68,14 @@ class RootShell(context: Context) {
         val script = "echo " + marker + "; echo " + marker + " >&2; (" + command +
             "); ret=$?; echo " + marker + " \$ret; echo " + marker + " \$ret >&2\n"
         Timber.v("executing: %s", command)
-        stdin!!.write(script)
-        stdin!!.flush()
+        stdin.write(script)
+        stdin.flush()
         var line: String?
         var errnoStdout = Integer.MIN_VALUE
         var errnoStderr = Integer.MAX_VALUE
         var markersSeen = 0
         while (true) {
-            line = stdout!!.readLine()
+            line = stdout.readLine()
             if (line == null)
                 break
             if (line.startsWith(marker)) {
@@ -90,7 +90,7 @@ class RootShell(context: Context) {
             }
         }
         while (true) {
-            line = stderr!!.readLine()
+            line = stderr.readLine()
             if (line == null)
                 break
             if (line.startsWith(marker)) {
@@ -145,10 +145,10 @@ class RootShell(context: Context) {
                     StandardCharsets.UTF_8
                 )
             )
-            stdin!!.write(preamble)
-            stdin!!.flush()
+            stdin.write(preamble)
+            stdin.flush()
             // Check that the shell started successfully.
-            val uid = stdout!!.readLine()
+            val uid = stdout.readLine()
             if ("0" != uid) {
                 Timber.w("Root check did not return correct UID: %s", uid)
                 throw NoRootException(deviceNotRootedMessage)
@@ -156,7 +156,7 @@ class RootShell(context: Context) {
             if (!isRunning()) {
                 var line: String?
                 while (true) {
-                    line = stderr!!.readLine()
+                    line = stderr.readLine()
                     if (line == null)
                         break
                     Timber.w("Root check returned an error: %s", line)
