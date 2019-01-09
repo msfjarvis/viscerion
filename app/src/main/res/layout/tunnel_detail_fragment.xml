@@ -48,7 +48,7 @@
 
                     <TextView
                         android:id="@+id/interface_title"
-                        style="@style/TextAppearance.CustomFont.Medium"
+                        style="@style/Medium.CustomFont"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/interface_title"
@@ -76,7 +76,7 @@
 
                     <TextView
                         android:id="@+id/interface_name_text"
-                        style="@style/TextAppearance.CustomFont.Medium"
+                        style="@style/Medium.CustomFont"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{tunnel.name}"
@@ -95,7 +95,7 @@
 
                     <TextView
                         android:id="@+id/public_key_text"
-                        style="@style/TextAppearance.CustomFont.Medium"
+                        style="@style/Medium.CustomFont"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/public_key_description"
@@ -118,7 +118,7 @@
 
                     <TextView
                         android:id="@+id/addresses_text"
-                        style="@style/TextAppearance.CustomFont.Medium"
+                        style="@style/Medium.CustomFont"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/addresses"

@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/app_name"
-            style="@style/TextAppearance.CustomFont.Medium"
+            style="@style/Medium.CustomFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"

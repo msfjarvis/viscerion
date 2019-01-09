@@ -31,17 +31,17 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
-    <style name="TextAppearance.CustomFont.HeadLine5" parent="@style/TextAppearance.MaterialComponents.Headline5">
+    <style name="Headline5.CustomFont" parent="@style/TextAppearance.MaterialComponents.Headline5">
         <item name="android:fontFamily">@font/lato</item>
     </style>
 
-    <style name="TextAppearance.CustomFont.Medium" parent="@android:style/TextAppearance.DeviceDefault.Medium">
+    <style name="Medium.CustomFont" parent="@android:style/TextAppearance.DeviceDefault.Medium">
         <item name="android:fontFamily">@font/lato</item>
     </style>
-    <style name="Widget.MaterialComponents.Button.TextButton.Icon.CustomFont" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
+    <style name="TextButton.Icon.CustomFont" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="android:fontFamily">@font/lato</item>
     </style>
-    <style name="TextAppearance.MaterialComponents.Button.CustomFont" parent="@style/TextAppearance.MaterialComponents.Button">
+    <style name="Button.CustomFont" parent="@style/TextAppearance.MaterialComponents.Button">
         <item name="android:fontFamily">@font/lato</item>
     </style>
 </resources>
