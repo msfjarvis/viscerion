@@ -20,7 +20,6 @@ import java.util.UUID
 
 class RootShell(context: Context) {
 
-    private val SU = "su"
     private val deviceNotRootedMessage: String = context.getString(R.string.error_root)
     private val localBinaryDir: File
     private val localTemporaryDir: File
@@ -186,5 +185,9 @@ class RootShell(context: Context) {
         internal constructor(message: String, cause: Throwable) : super(message, cause)
 
         internal constructor(message: String) : super(message)
+    }
+
+    companion object {
+        private const val SU = "su"
     }
 }
