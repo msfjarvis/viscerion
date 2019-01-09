@@ -13,8 +13,6 @@ import com.wireguard.config.BadConfigException.Section
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
-import java9.util.stream.Collectors
-import java9.util.stream.StreamSupport
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
@@ -128,9 +126,7 @@ class Interface private constructor(builder: Builder) {
         if (!addresses.isEmpty())
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
         if (!dnsServers.isEmpty()) {
-            val dnsServerStrings = StreamSupport.stream(dnsServers)
-                .map<String>(InetAddress::getHostAddress)
-                .collect(Collectors.toUnmodifiableList())
+            val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
         if (!excludedApplications.isEmpty())

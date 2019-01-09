@@ -11,7 +11,6 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
-
 import com.wireguard.android.BR
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
@@ -19,10 +18,6 @@ import com.wireguard.config.Interface
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
-
-import java9.util.stream.Collectors
-import java9.util.stream.StreamSupport
-import java.net.InetAddress
 
 class InterfaceProxy : BaseObservable, Parcelable {
 
@@ -47,9 +42,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
 
     constructor(other: Interface) {
         addresses = Attribute.join(other.addresses)
-        val dnsServerStrings = StreamSupport.stream(other.dnsServers)
-            .map(InetAddress::getHostAddress)
-            .collect(Collectors.toUnmodifiableList<Any>())
+        val dnsServerStrings = other.dnsServers.map { dnsServer -> dnsServer.hostAddress }
         dnsServers = Attribute.join(dnsServerStrings)
         excludedApplications.addAll(other.excludedApplications)
         listenPort = other.listenPort?.toString() ?: ""
