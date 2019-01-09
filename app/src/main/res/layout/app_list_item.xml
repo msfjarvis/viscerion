@@ -19,8 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_background"
-        android:layout_marginTop="4dp"
-        android:padding="16dp"
+        android:padding="12dp"
         android:gravity="center_vertical"
         android:onClick="@{(view) -> item.setExcludedFromTunnel(!item.excludedFromTunnel)}"
         android:clickable="@{!item.globallyExcluded}">
