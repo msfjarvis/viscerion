@@ -168,6 +168,6 @@
     <string name="applist_dialog_success">Saved successfully</string>
     <string name="force_userspace_backend_title">Force userspace backend</string>
     <string name="force_userspace_backend_summary">Useful for debugging Go userspace issues when device has a kernel
-        module installed. Application will restart upon toggling this.
+        module installed. Application will restart upon toggling this. DEVELOPERS ONLY!
     </string>
 </resources>
