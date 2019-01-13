@@ -129,7 +129,7 @@ class WgQuickBackend(private var context: Context) : Backend {
         }
     }
 
-    private fun postNotification(state: State?, tunnel: Tunnel?) {
+    fun postNotification(state: State?, tunnel: Tunnel?) {
         if (tunnel == null || state == null)
             return
         if (state == State.UP) {
