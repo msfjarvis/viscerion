@@ -56,9 +56,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         actionBar?.setDisplayHomeAsUpEnabled(backStackEntries >= minBackStackEntries)
     }
 
-    // We use onTouchListener here to avoid the UI click sound, hence
-    // calling View#performClick defeats the purpose of it.
-    @Suppress("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
