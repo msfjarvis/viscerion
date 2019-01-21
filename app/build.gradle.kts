@@ -86,6 +86,7 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation("androidx.annotation:annotation:1.0.1")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.cardview:cardview:1.0.0")
@@ -96,9 +97,10 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.0.0")
     implementation("androidx.preference:preference:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
+    implementation("com.google.zxing:core:3.3.2")
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("com.journeyapps:zxing-android-embedded:3.6.0")
+//    implementation("com.journeyapps:zxing-android-embedded:3.6.0")
     implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")
     implementation("net.sourceforge.streamsupport:android-retrostreams:1.7.0")
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
