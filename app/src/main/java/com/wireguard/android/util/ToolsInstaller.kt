@@ -79,6 +79,7 @@ class ToolsInstaller(context: Context) {
 
     @Synchronized
     private fun willInstallAsMagiskModule(): Boolean {
+        if (!isMagiskSu()) return false
         val magiskDirectory = getMagiskDirectory()
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
@@ -212,6 +213,12 @@ class ToolsInstaller(context: Context) {
                 }
                 return null
             }
+
+        private fun isMagiskSu(): Boolean {
+            val output = ArrayList<String>()
+            Application.rootShell.run(output, "su --version")
+            return if (output[0].contains("MAGISKSU")) true else false
+        }
 
         private fun getMagiskDirectory(): String {
             if (magiskDir != null)
