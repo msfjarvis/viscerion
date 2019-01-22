@@ -33,10 +33,7 @@ class RootShell(context: Context) {
         val cacheDir = context.cacheDir
         localBinaryDir = File(cacheDir, "bin")
         localTemporaryDir = File(cacheDir, "tmp")
-        preamble = String.format(
-            "export CALLING_PACKAGE=%s PATH=\"%s:\$PATH\" TMPDIR='%s'; id -u\n",
-            BuildConfig.APPLICATION_ID, localBinaryDir, localTemporaryDir
-        )
+        preamble = "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
     }
 
     private fun isExecutableInPath(name: String): Boolean {
