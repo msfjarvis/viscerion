@@ -33,7 +33,6 @@ android {
         targetSdkVersion(28)
         versionCode = 2000
         versionName = "2.0.0"
-        buildConfigField("int", "MIN_SDK_VERSION", "21")
         setProperty("archivesBaseName", "wg-android_${gitHash()}")
     }
     compileOptions {

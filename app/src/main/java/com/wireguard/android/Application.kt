@@ -8,7 +8,6 @@ package com.wireguard.android
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Build
@@ -44,19 +43,6 @@ class Application : android.app.Application() {
 
     init {
         Application.weakSelf = WeakReference(this)
-    }
-
-    override fun attachBaseContext(context: Context) {
-        super.attachBaseContext(context)
-
-        if (BuildConfig.MIN_SDK_VERSION > Build.VERSION.SDK_INT) {
-            val intent = Intent(Intent.ACTION_MAIN)
-            intent.addCategory(Intent.CATEGORY_HOME)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            System.exit(0)
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
