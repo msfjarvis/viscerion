@@ -248,9 +248,11 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         private val COMPARATOR = Comparators.thenComparing(
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
         )
+        private var lastUsedTunnel: Tunnel? = null
         private const val KEY_LAST_USED_TUNNEL = "last_used_tunnel"
         private const val KEY_RESTORE_ON_BOOT = "restore_on_boot"
         private const val KEY_RUNNING_TUNNELS = "enabled_configs"
+
         internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
             return Application.asyncWorker.supplyAsync { Application.backend.getState(tunnel) }
                 .thenApply(tunnel::onStateChanged)
@@ -261,7 +263,5 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                 .supplyAsync { Application.backend.getStatistics(tunnel) }
                 .thenApply(tunnel::onStatisticsChanged)
         }
-
-        private var lastUsedTunnel: Tunnel? = null
     }
 }
