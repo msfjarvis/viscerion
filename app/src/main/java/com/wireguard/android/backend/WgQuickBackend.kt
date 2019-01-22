@@ -114,10 +114,7 @@ class WgQuickBackend(private var context: Context) : Backend {
             tempFile,
             false
         ).use { stream -> stream.write(config?.toWgQuickString()?.toByteArray(StandardCharsets.UTF_8)) }
-        var command = String.format(
-            "wg-quick %s '%s'",
-            state.toString().toLowerCase(Locale.ENGLISH), tempFile.absolutePath
-        )
+        var command = "wg-quick ${state.toString().toLowerCase(Locale.ENGLISH)} '${tempFile.absolutePath}'"
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"
         val result = Application.rootShell.run(null, command)

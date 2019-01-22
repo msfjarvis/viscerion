@@ -33,11 +33,7 @@ class ToolsInstaller(context: Context) {
         val script = StringBuilder()
         for (names in EXECUTABLES) {
             script.append(
-                String.format(
-                    "cmp -s '%s' '%s' && ",
-                    File(nativeLibraryDir, names[0]),
-                    File(INSTALL_DIR, names[1])
-                )
+                "cmp -s '${File(nativeLibraryDir, names[0])}' '${File(INSTALL_DIR, names[1])}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
@@ -103,10 +99,7 @@ class ToolsInstaller(context: Context) {
         for (names in EXECUTABLES) {
             val destination = File(INSTALL_DIR, names[1])
             script.append(
-                String.format(
-                    "cp '%s' '%s'; chmod 755 '%s'; restorecon '%s' || true; ",
-                    File(nativeLibraryDir, names[0]), destination, destination, destination
-                )
+                "cp '${File(nativeLibraryDir, names[0])}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
             )
         }
         return try {
@@ -123,26 +116,16 @@ class ToolsInstaller(context: Context) {
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
-            String.format(
-                "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/%s; ",
-                INSTALL_DIR
-            )
+            "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
         )
         script.append(
-            String.format(
-                "printf 'name=WireGuard Command Line Tools\nversion=%s\nversionCode=%s\nauthor=zx2c4\ndescription=Command line tools for WireGuard\nminMagisk=1500\n' > $magiskDirectory/module.prop; ",
-                BuildConfig.VERSION_NAME,
-                BuildConfig.VERSION_CODE
-            )
+            "printf 'name=WireGuard Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=zx2c4\ndescription=Command line tools for WireGuard\nminMagisk=1500\n' > $magiskDirectory/module.prop; "
         )
         script.append("touch $magiskDirectory/auto_mount; ")
         for (names in EXECUTABLES) {
             val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
             script.append(
-                String.format(
-                    "cp '%s' '%s'; chmod 755 '%s'; chcon 'u:object_r:system_file:s0' '%s' || true; ",
-                    File(nativeLibraryDir, names[0]), destination, destination, destination
-                )
+                "cp '${File(nativeLibraryDir, names[0])}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
             )
         }
         script.append("trap - INT TERM EXIT;")
@@ -164,22 +147,14 @@ class ToolsInstaller(context: Context) {
         val script = StringBuilder("set -x; ")
         for (names in EXECUTABLES) {
             script.append(
-                String.format(
-                    "test '%s' -ef '%s' && ",
-                    File(nativeLibraryDir, names[0]),
-                    File(localBinaryDir, names[1])
-                )
+                "test '${File(nativeLibraryDir, names[0])}' -ef '${File(localBinaryDir, names[1])}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append("; set -e; ")
 
         for (names in EXECUTABLES) {
             script.append(
-                String.format(
-                    "ln -fns '%s' '%s'; ",
-                    File(nativeLibraryDir, names[0]),
-                    File(localBinaryDir, names[1])
-                )
+                "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(nativeLibraryDir, names[1])}'; "
             )
         }
         script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';')
