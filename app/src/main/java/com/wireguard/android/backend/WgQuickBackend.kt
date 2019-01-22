@@ -26,7 +26,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
 import java.util.ArrayList
-import java.util.Locale
 
 /**
  * WireGuard backend that uses `wg-quick` to implement tunnel configuration.
@@ -114,7 +113,7 @@ class WgQuickBackend(private var context: Context) : Backend {
             tempFile,
             false
         ).use { stream -> stream.write(config?.toWgQuickString()?.toByteArray(StandardCharsets.UTF_8)) }
-        var command = "wg-quick ${state.toString().toLowerCase(Locale.ENGLISH)} '${tempFile.absolutePath}'"
+        var command = "wg-quick $state '${tempFile.absolutePath}'"
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"
         val result = Application.rootShell.run(null, command)

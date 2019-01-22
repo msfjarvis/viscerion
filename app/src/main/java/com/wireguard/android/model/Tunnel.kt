@@ -15,6 +15,7 @@ import com.wireguard.config.Config
 import com.wireguard.util.Keyed
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import java.util.Locale
 import java.util.regex.Pattern
 
 /**
@@ -115,6 +116,10 @@ class Tunnel internal constructor(
         DOWN,
         TOGGLE,
         UP;
+
+        override fun toString(): String {
+            return super.toString().toLowerCase(Locale.ENGLISH)
+        }
 
         companion object {
             fun of(running: Boolean): State {
