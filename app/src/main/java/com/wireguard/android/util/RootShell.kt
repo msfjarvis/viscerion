@@ -63,7 +63,7 @@ class RootShell(context: Context) {
         val marker = UUID.randomUUID().toString()
         val script = "echo " + marker + "; echo " + marker + " >&2; (" + command +
             "); ret=$?; echo " + marker + " \$ret; echo " + marker + " \$ret >&2\n"
-        Timber.v("executing: %s", command)
+        if (DEBUG) Timber.v("executing: %s", command)
         stdin.write(script)
         stdin.flush()
         var line: String?
@@ -82,7 +82,7 @@ class RootShell(context: Context) {
                 }
             } else if (markersSeen > 0) {
                 output?.add(line)
-                Timber.v("stdout: %s", line)
+                if (DEBUG) Timber.v("stdout: %s", line)
             }
         }
         while (true) {
@@ -96,14 +96,14 @@ class RootShell(context: Context) {
                     break
                 }
             } else if (markersSeen > 2) {
-                Timber.v("stdout: %s", line)
+                if (DEBUG) Timber.v("stdout: %s", line)
             }
         }
         if (markersSeen != 4)
             throw IOException("Expected 4 markers, received $markersSeen")
         if (errnoStdout != errnoStderr)
             throw IOException("Unable to read exit status")
-        Timber.v("exit: %s", errnoStdout)
+        if (DEBUG) Timber.v("exit: %s", errnoStdout)
         return errnoStdout
     }
 
@@ -186,5 +186,6 @@ class RootShell(context: Context) {
 
     companion object {
         private const val SU = "su"
+        private const val DEBUG = true
     }
 }
