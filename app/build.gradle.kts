@@ -37,8 +37,8 @@ android {
         setProperty("archivesBaseName", "wg-android_${gitHash()}")
     }
     compileOptions {
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     // If the keystore file exists
     if (keystorePropertiesFile.exists()) {
@@ -80,7 +80,7 @@ android {
         }
     }
     externalNativeBuild.cmake {
-        path = rootProject.file("$name/tools/CMakeLists.txt")
+        setPath(rootProject.file("$name/tools/CMakeLists.txt"))
     }
     lintOptions.isAbortOnError = false
 }
@@ -92,8 +92,8 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("androidx.core:core-ktx:1.0.1")
-    implementation("androidx.databinding:databinding-adapters:3.2.1")
-    implementation("androidx.databinding:databinding-runtime:3.2.1")
+    implementation("androidx.databinding:databinding-adapters:3.3.0")
+    implementation("androidx.databinding:databinding-runtime:3.3.0")
     implementation("androidx.fragment:fragment-ktx:1.0.0")
     implementation("androidx.preference:preference:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
