@@ -121,7 +121,7 @@ class WgQuickBackend(private var context: Context) : Backend {
         tempFile.delete()
         when (result) {
             0 -> postNotification(state, tunnel)
-            else -> throw Exception(context.getString(R.string.tunnel_config_error))
+            else -> throw Exception(context.getString(R.string.tunnel_config_error, result))
         }
     }
 
