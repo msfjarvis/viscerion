@@ -170,4 +170,8 @@
     <string name="force_userspace_backend_summary">Useful for debugging Go userspace issues when device has a kernel
         module installed. Application will restart upon toggling this. DEVELOPERS ONLY!
     </string>
+    <string name="whitelist_exclusions_title">Whitelist apps in tunnels</string>
+    <string name="whitelist_exclusions_summary">Rather than allow selected apps to bypass the tunnel, make exclusions
+        force them to go through the tunnel instead, letting all other apps behave as if there is no active VPN connection.
+    </string>
 </resources>

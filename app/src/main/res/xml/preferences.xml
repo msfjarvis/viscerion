@@ -6,6 +6,11 @@
         android:key="restore_on_boot"
         android:summary="@string/restore_on_boot_summary"
         android:title="@string/restore_on_boot_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="whitelist_exclusions"
+        android:title="@string/whitelist_exclusions_title"
+        android:summary="@string/whitelist_exclusions_summary"/>
     <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
     <com.wireguard.android.preference.ZipExporterPreference />
     <com.wireguard.android.preference.LogExporterPreference />

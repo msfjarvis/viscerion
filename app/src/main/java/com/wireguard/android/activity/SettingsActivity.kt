@@ -16,6 +16,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
+import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.model.Tunnel
@@ -100,15 +101,26 @@ class SettingsActivity : ThemeChangeAwareActivity() {
             val debugOnlyPrefs = arrayOf(
                 preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
             )
+            val wgOnlyPrefs = arrayOf(
+                preferenceManager.findPreference(ApplicationPreferences.whitelistAppsKey)
+            )
             if (!BuildConfig.DEBUG || !Application.supportsKernelModule)
                 debugOnlyPrefs.forEach {
                     screen.removePreference(it)
                 }
             for (pref in wgQuickOnlyPrefs)
                 pref.isVisible = false
+            for (pref in wgOnlyPrefs)
+                pref.isVisible = false
             Application.backendAsync.thenAccept { backend ->
                 for (pref in wgQuickOnlyPrefs) {
                     if (backend is WgQuickBackend)
+                        pref.isVisible = true
+                    else
+                        screen.removePreference(pref)
+                }
+                for (pref in wgOnlyPrefs) {
+                    if (backend is GoBackend)
                         pref.isVisible = true
                     else
                         screen.removePreference(pref)
