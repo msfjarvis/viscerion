@@ -56,6 +56,8 @@ class Application : android.app.Application() {
         )
         notificationChannel.description = getString(R.string.notification_channel_wgquick_desc)
         notificationChannel.setShowBadge(false)
+        notificationChannel.setSound(null, null)
+        notificationChannel.enableVibration(false)
         notificationManager.createNotificationChannel(notificationChannel)
     }
 
