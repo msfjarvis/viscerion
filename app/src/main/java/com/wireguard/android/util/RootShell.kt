@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 
-class RootShell(context: Context) {
+class RootShell(val context: Context) {
 
     private val deviceNotRootedMessage: String = context.getString(R.string.error_root)
     private val localBinaryDir: File
@@ -100,7 +100,7 @@ class RootShell(context: Context) {
             }
         }
         if (markersSeen != 4)
-            throw IOException("Expected 4 markers, received $markersSeen")
+            throw IOException(context.getString(R.string.shell_marker_count_error, markersSeen))
         if (errnoStdout != errnoStderr)
             throw IOException("Unable to read exit status")
         if (DEBUG) Timber.v("exit: %s", errnoStdout)
@@ -159,7 +159,7 @@ class RootShell(context: Context) {
                     if (line.contains("Permission denied"))
                         throw NoRootException(deviceNotRootedMessage)
                 }
-                throw IOException("Shell failed to start: " + process!!.exitValue())
+                throw IOException(context.getString(R.string.shell_start_error, process!!.exitValue()))
             }
         } catch (e: IOException) {
             stop()
