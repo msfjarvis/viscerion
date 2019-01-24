@@ -154,7 +154,7 @@ class ToolsInstaller(context: Context) {
 
         for (names in EXECUTABLES) {
             script.append(
-                "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(nativeLibraryDir, names[1])}'; "
+                "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(localBinaryDir, names[1])}'; "
             )
         }
         script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';')
