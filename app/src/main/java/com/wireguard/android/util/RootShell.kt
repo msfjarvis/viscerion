@@ -186,6 +186,6 @@ class RootShell(val context: Context) {
 
     companion object {
         private const val SU = "su"
-        private const val DEBUG = true
+        private val DEBUG = BuildConfig.DEBUG
     }
 }
