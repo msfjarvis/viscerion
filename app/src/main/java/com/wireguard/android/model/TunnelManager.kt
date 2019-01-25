@@ -175,6 +175,15 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         }
     }
 
+    fun restartActiveTunnels() {
+        completableTunnels.thenAccept { tunnels ->
+            tunnels.forEach { tunnel ->
+                if (tunnel.state == Tunnel.State.UP)
+                    tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
+            }
+        }
+    }
+
     internal fun setTunnelConfig(tunnel: Tunnel, config: Config): CompletionStage<Config> {
         return Application.asyncWorker.supplyAsync {
             val appliedConfig = Application.backend.applyConfig(tunnel, config)
