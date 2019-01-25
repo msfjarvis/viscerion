@@ -91,5 +91,5 @@ fun copyTextView(view: View) {
     val service = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
     val description = if (isTextInput) (view as TextInputEditText).hint else view.contentDescription
     service.primaryClip = ClipData.newPlainText(description, text)
-    Snackbar.make(view, description.toString() + " copied to clipboard", Snackbar.LENGTH_LONG).show()
+    Snackbar.make(view, "$description copied to clipboard", Snackbar.LENGTH_LONG).show()
 }

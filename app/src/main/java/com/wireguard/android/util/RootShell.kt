@@ -61,8 +61,7 @@ class RootShell(val context: Context) {
     fun run(output: ArrayList<String>? = null, command: String): Int {
         start()
         val marker = UUID.randomUUID().toString()
-        val script = "echo " + marker + "; echo " + marker + " >&2; (" + command +
-            "); ret=$?; echo " + marker + " \$ret; echo " + marker + " \$ret >&2\n"
+        val script = "echo $marker; echo $marker >&2; ($command); ret=$?; echo $marker \$ret; echo $marker \$ret >&2\n"
         if (DEBUG) Timber.v("executing: %s", command)
         stdin.write(script)
         stdin.flush()

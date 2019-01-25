@@ -61,7 +61,7 @@ class Config private constructor(builder: Builder) {
      * @return a concise single-line identifier for the `Config`
      */
     override fun toString(): String {
-        return "(Config " + `interface` + " (" + peers.size + " peers))"
+        return "(Config $`interface` (${peers.size}))"
     }
 
     /**
