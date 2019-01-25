@@ -19,7 +19,6 @@ import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
-import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.addExclusive
 import com.wireguard.android.util.asString
@@ -133,13 +132,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 true
             }
             preferenceManager.findPreference(ApplicationPreferences.whitelistAppsKey)?.setOnPreferenceClickListener {
-                Application.tunnelManager.completableTunnels
-                    .thenAccept { tunnels ->
-                        tunnels.forEach { tunnel ->
-                            if (tunnel.state == Tunnel.State.UP)
-                                tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
-                        }
-                    }
+                Application.tunnelManager.restartActiveTunnels()
                 true
             }
             preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
@@ -162,11 +155,10 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                                 }
                                 it.`interface`.excludedApplications.addExclusive(ApplicationPreferences.exclusions.toArrayList())
                                 tunnel.setConfig(it)
-                                if (tunnel.state == Tunnel.State.UP)
-                                    tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
                             }
                         }
                     }
+            Application.tunnelManager.restartActiveTunnels()
         }
     }
 }
