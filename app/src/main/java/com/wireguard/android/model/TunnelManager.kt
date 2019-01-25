@@ -169,9 +169,8 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     fun saveState() {
-        val test = tunnels.asSequence().filter { it -> it.state == Tunnel.State.UP }.map { it.name }.toSet()
         Application.sharedPreferences.edit {
-            putStringSet(KEY_RUNNING_TUNNELS, test)
+            putStringSet(KEY_RUNNING_TUNNELS, tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet())
         }
     }
 
