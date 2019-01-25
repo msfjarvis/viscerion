@@ -38,7 +38,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     private var exportedFilePath: String? = null
 
     private fun exportZip() {
-        Application.tunnelManager.completableTunnels.thenAccept { this.exportZip(it) }
+        Application.tunnelManager.getTunnels().thenAccept { this.exportZip(it) }
     }
 
     private fun exportZip(tunnels: List<Tunnel>) {

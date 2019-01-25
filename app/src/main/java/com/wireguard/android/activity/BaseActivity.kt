@@ -41,7 +41,7 @@ abstract class BaseActivity : ThemeChangeAwareActivity() {
         }
 
         savedTunnelName?.let {
-            Application.tunnelManager.completableTunnels.thenAccept { tunnels ->
+            Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                 selectedTunnel = tunnels[it]
             }
         }

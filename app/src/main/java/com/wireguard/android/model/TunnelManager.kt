@@ -29,7 +29,7 @@ import java.util.ArrayList
 
 class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     private val context = Application.get()
-    val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
+    private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
     private val delayedLoadRestoreTunnels = ArrayList<CompletableFuture<Void>>()
     private var haveLoaded: Boolean = false

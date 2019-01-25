@@ -303,7 +303,7 @@ class TunnelListFragment : BaseFragment() {
             )/* Use the exception message from above. */
 
         if (ApplicationPreferences.exclusions.isNotEmpty())
-            Application.tunnelManager.completableTunnels.thenAccept { allTunnels ->
+            Application.tunnelManager.getTunnels().thenAccept { allTunnels ->
                 for (tunnel in allTunnels) {
                     val oldConfig = tunnel.getConfig()
                     oldConfig?.let {

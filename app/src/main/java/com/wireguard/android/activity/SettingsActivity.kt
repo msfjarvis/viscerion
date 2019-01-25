@@ -145,8 +145,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
             ApplicationPreferences.exclusions = excludedApps.asString()
             if (ApplicationPreferences.exclusions.isNotEmpty())
-                Application.tunnelManager.completableTunnels
-                    .thenAccept { tunnels ->
+                Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                         tunnels.forEach { tunnel ->
                             val oldConfig = tunnel.getConfig()
                             oldConfig?.let {
