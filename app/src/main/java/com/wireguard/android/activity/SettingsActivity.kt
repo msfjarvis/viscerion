@@ -132,6 +132,16 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 fragment.show(fragmentManager, null)
                 true
             }
+            preferenceManager.findPreference(ApplicationPreferences.whitelistAppsKey)?.setOnPreferenceClickListener {
+                Application.tunnelManager.completableTunnels
+                    .thenAccept { tunnels ->
+                        tunnels.forEach { tunnel ->
+                            if (tunnel.state == Tunnel.State.UP)
+                                tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
+                        }
+                    }
+                true
+            }
             preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
                 ?.setOnPreferenceClickListener {
                     context?.restartApplication()
