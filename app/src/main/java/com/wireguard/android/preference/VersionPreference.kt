@@ -46,7 +46,7 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
 
     override fun onClick() {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse("https://www.wireguard.com/")
+        intent.data = Uri.parse("https://github.com/MSF-Jarvis/wireguard-kt")
         try {
             context.startActivity(intent)
         } catch (ignored: ActivityNotFoundException) {
