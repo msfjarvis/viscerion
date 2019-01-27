@@ -1,4 +1,4 @@
-# WireGuard-KT, Unofficial Android client for [WireGuard](https://www.wireguard.com/)
+# WG-KT, Unofficial Android client for [WireGuard](https://www.wireguard.com/)™️
 
 [![Build Status](https://travis-ci.com/MSF-Jarvis/wireguard-kt.svg?branch=master)](https://travis-ci.com/MSF-Jarvis/wireguard-kt)
 
