@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
@@ -29,13 +28,13 @@ android {
     compileSdkVersion(28)
     dataBinding.isEnabled = true
     defaultConfig {
-        applicationId = "me.msfjarvis.wgandroid"
+        applicationId = "me.msfjarvis.viscerion"
         minSdkVersion(21)
         targetSdkVersion(28)
         versionCode = 2000
         versionName = "2.0.0"
         buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
-        setProperty("archivesBaseName", "wg-android_${gitHash()}")
+        setProperty("archivesBaseName", "viscerion_${gitHash()}")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
