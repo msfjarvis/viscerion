@@ -24,14 +24,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 
-fun <T> ArrayList<T>.addExclusive(otherArray: ArrayList<T>): ArrayList<T> {
-    otherArray.forEach {
-        if (it !in this)
-            this.add(it)
-    }
-    return this
-}
-
 fun String.toArrayList(): ArrayList<String> {
     if (TextUtils.isEmpty(this))
         return ArrayList()

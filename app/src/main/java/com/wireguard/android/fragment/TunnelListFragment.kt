@@ -28,7 +28,6 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
-import com.wireguard.android.util.addExclusive
 import com.wireguard.android.util.toArrayList
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
@@ -302,21 +301,16 @@ class TunnelListFragment : BaseFragment() {
                 tunnels.size, tunnels.size + throwables.size
             )/* Use the exception message from above. */
 
-        if (ApplicationPreferences.exclusions.isNotEmpty())
-            Application.tunnelManager.getTunnels().thenAccept { allTunnels ->
-                for (tunnel in allTunnels) {
-                    val oldConfig = tunnel.getConfig()
-                    oldConfig?.let {
-                        ApplicationPreferences.exclusions.toArrayList().forEach { exclusion ->
-                            it.`interface`.excludedApplications.remove(exclusion)
-                        }
-                        it.`interface`.excludedApplications.addExclusive(ApplicationPreferences.exclusions.toArrayList())
-                        tunnel.setConfig(it)
-                        if (tunnel.state == Tunnel.State.UP)
-                            tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
-                    }
+        if (ApplicationPreferences.exclusions.isNotEmpty()) {
+            val excludedApps = ApplicationPreferences.exclusions.toArrayList()
+            tunnels.forEach { tunnel ->
+                val oldConfig = tunnel.getConfig()
+                oldConfig?.let {
+                    it.`interface`.excludedApplications.addAll(excludedApps)
+                    tunnel.setConfig(it)
                 }
             }
+        }
 
         binding?.let {
             if (message.isNotEmpty())
