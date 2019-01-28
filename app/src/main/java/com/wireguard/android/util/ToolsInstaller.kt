@@ -119,7 +119,7 @@ class ToolsInstaller(context: Context) {
             "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
         )
         script.append(
-            "printf 'name=WireGuard Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=zx2c4\ndescription=Command line tools for WireGuard\nminMagisk=1500\n' > $magiskDirectory/module.prop; "
+            "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
         )
         script.append("touch $magiskDirectory/auto_mount; ")
         for (names in EXECUTABLES) {
