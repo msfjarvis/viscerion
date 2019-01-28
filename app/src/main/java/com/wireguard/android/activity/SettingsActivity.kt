@@ -20,7 +20,6 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.addExclusive
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.restartApplication
 import com.wireguard.android.util.toArrayList
@@ -143,20 +142,27 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            ApplicationPreferences.exclusions = excludedApps.asString()
-            if (ApplicationPreferences.exclusions.isNotEmpty())
+            if (excludedApps.asString() == ApplicationPreferences.exclusions) return
+            if (excludedApps.isNotEmpty()) {
                 Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                         tunnels.forEach { tunnel ->
                             val oldConfig = tunnel.getConfig()
                             oldConfig?.let {
-                                ApplicationPreferences.exclusions.toArrayList().forEach { exclusion ->
-                                    it.`interface`.excludedApplications.remove(exclusion)
-                                }
-                                it.`interface`.excludedApplications.addExclusive(ApplicationPreferences.exclusions.toArrayList())
+                                ApplicationPreferences.exclusions.toArrayList().forEach { exclusion -> it.`interface`.excludedApplications.remove(exclusion) }
+                                it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))
                                 tunnel.setConfig(it)
                             }
                         }
                     }
+                ApplicationPreferences.exclusions = excludedApps.asString()
+            } else {
+                Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+                        tunnels.forEach { tunnel ->
+                            ApplicationPreferences.exclusions.toArrayList().forEach { exclusion -> tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion) }
+                        }
+                    }
+                ApplicationPreferences.exclusions = ""
+            }
             Application.tunnelManager.restartActiveTunnels()
         }
     }
