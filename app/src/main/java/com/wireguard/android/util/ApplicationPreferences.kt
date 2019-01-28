@@ -27,7 +27,7 @@ class ApplicationPreferences {
                 }
                 exclusionsArray = value.toArrayList().toCollection(ArrayList())
             }
-        var exclusionsArray: ArrayList<String> = exclusions.toArrayList().toCollection(ArrayList())
+        var exclusionsArray: ArrayList<String> = exclusions.toArrayList()
 
         var theme: String
             get() {

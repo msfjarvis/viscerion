@@ -22,7 +22,6 @@ import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.restartApplication
-import com.wireguard.android.util.toArrayList
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -125,7 +124,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 }
             }
             preferenceManager.findPreference(ApplicationPreferences.globalExclusionsKey).setOnPreferenceClickListener {
-                val excludedApps = ArrayList<String>(ApplicationPreferences.exclusions.toArrayList())
+                val excludedApps = ArrayList<String>(ApplicationPreferences.exclusionsArray)
                 val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
                 fragment.show(fragmentManager, null)
                 true
@@ -148,7 +147,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                         tunnels.forEach { tunnel ->
                             val oldConfig = tunnel.getConfig()
                             oldConfig?.let {
-                                ApplicationPreferences.exclusions.toArrayList().forEach { exclusion -> it.`interface`.excludedApplications.remove(exclusion) }
+                                ApplicationPreferences.exclusionsArray.forEach { exclusion -> it.`interface`.excludedApplications.remove(exclusion) }
                                 it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))
                                 tunnel.setConfig(it)
                             }
@@ -158,7 +157,7 @@ class SettingsActivity : ThemeChangeAwareActivity() {
             } else {
                 Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                         tunnels.forEach { tunnel ->
-                            ApplicationPreferences.exclusions.toArrayList().forEach { exclusion -> tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion) }
+                            ApplicationPreferences.exclusionsArray.forEach { exclusion -> tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion) }
                         }
                     }
                 ApplicationPreferences.exclusions = ""
