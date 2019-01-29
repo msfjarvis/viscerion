@@ -201,10 +201,7 @@ class ToolsInstaller(context: Context) {
             val output = ArrayList<String>()
             Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
             val magiskVer = output[0]
-            magiskDir = when {
-                magiskVer.startsWith("18.") -> "/sbin/.magisk"
-                else -> "/sbin/.core"
-            }
+            magiskDir = if (magiskVer.startsWith("18.")) "/sbin.magisk" else "/sbin.core"
             return magiskDir as String
         }
     }
