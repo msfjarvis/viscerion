@@ -6,11 +6,13 @@
 package com.wireguard.android.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.transaction
@@ -67,6 +69,19 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.notice_title))
+            .setMessage(getString(R.string.notice_message))
+            .setPositiveButton("Play Store") { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=me.msfjarvis.viscerion")))
+                finish()
+            }
+            .setNegativeButton("GitHub releases") { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MSF-Jarvis/viscerion")))
+                finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

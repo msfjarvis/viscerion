@@ -170,4 +170,10 @@
     <string name="force_userspace_backend_summary">Useful for debugging Go userspace issues when device has a kernel
         module installed. Application will restart upon toggling this.
     </string>
+    <string name="notice_title">Information</string>
+    <string name="notice_message">WireGuard-KT\'s Play Store listing has been taken down due to a copyright violation
+        concerning the use of the WireGuard name. The new app titled \'Viscerion\' is available on the Play Store as
+        well as GitHub. Click one of the buttons below to switch to Viscerion since this app will not be receiving any
+        further updates.
+    </string>
 </resources>
