@@ -19,6 +19,7 @@ import androidx.core.content.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
+import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.databinding.TunnelEditorFragmentBinding
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
@@ -120,9 +121,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onResume() {
         super.onResume()
-        context?.let {
-            activity?.window?.navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
-        }
+        if (!MainActivity.isTwoPaneLayout)
+            context?.let {
+                activity?.window?.navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

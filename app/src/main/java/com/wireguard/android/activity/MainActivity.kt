@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
     private var actionBar: ActionBar? = null
-    private var isTwoPaneLayout: Boolean = false
     private var listFragment: TunnelListFragment? = null
 
     override fun onBackPressed() {
@@ -120,5 +119,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 addToBackStack(null)
             }
         }
+    }
+
+    companion object {
+        var isTwoPaneLayout: Boolean = false
+            private set
     }
 }
