@@ -192,7 +192,7 @@ class ToolsInstaller(context: Context) {
         private fun isMagiskSu(): Boolean {
             val output = ArrayList<String>()
             Application.rootShell.run(output, "su --version")
-            return if (output[0].contains("MAGISKSU")) true else false
+            return output[0].contains("MAGISKSU")
         }
 
         private fun getMagiskDirectory(): String {
