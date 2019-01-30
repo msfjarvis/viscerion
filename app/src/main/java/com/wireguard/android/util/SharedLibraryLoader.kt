@@ -27,7 +27,7 @@ object SharedLibraryLoader {
 
         val zipFile: ZipFile
         try {
-            zipFile = ZipFile(File(context.applicationInfo.sourceDir), ZipFile.OPEN_READ)
+            zipFile = ZipFile(File(getApkPath(context)), ZipFile.OPEN_READ)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
@@ -57,5 +57,20 @@ object SharedLibraryLoader {
         if (noAbiException is RuntimeException)
             throw noAbiException
         throw RuntimeException(noAbiException)
+    }
+
+    private fun getApkPath(context: Context): String {
+        val splitDirs = context.applicationInfo.splitSourceDirs
+        if (splitDirs.isNotNullOrEmpty()) {
+            for (abi in Build.SUPPORTED_ABIS) {
+                for (splitDir in splitDirs) {
+                    val splits = splitDir.split("/")
+                    val apkName = splits[splits.size - 1]
+                    if (apkName.contains(abi.replace("-", "_")))
+                        return splitDir
+                }
+            }
+        }
+        return context.applicationInfo.sourceDir
     }
 }

@@ -34,6 +34,10 @@ fun <T> List<T>.asString(): String {
     return TextUtils.join(", ", this)
 }
 
+fun <T> Array<out T>?.isNotNullOrEmpty(): Boolean {
+    return this != null && !isEmpty()
+}
+
 inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
     if (this == null)
         throw NullPointerException(message)
