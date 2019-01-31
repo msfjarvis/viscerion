@@ -4,4 +4,4 @@
 TAG="${1}"
 hub tag -a "${TAG:?}"
 ./gradlew clean bundleRelease assembleRelease
-hub release create "${TAG}" -a app/build/outputs/apk/release/wg-android_"${TAG}"-release.apk
+hub release create "${TAG}" -a app/build/outputs/apk/release/viscerion_"${TAG}"-release.apk
