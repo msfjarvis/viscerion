@@ -79,7 +79,7 @@ android {
         }
     }
     externalNativeBuild.cmake {
-        setPath(rootProject.file("$name/tools/CMakeLists.txt"))
+        setPath(file("tools/CMakeLists.txt"))
     }
     lintOptions {
         isAbortOnError = true
