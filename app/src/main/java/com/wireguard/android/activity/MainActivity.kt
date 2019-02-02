@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
@@ -19,7 +20,6 @@ import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
-import kotlinx.android.synthetic.main.main_activity.*
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -59,7 +59,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         actionBar = supportActionBar
-        isTwoPaneLayout = master_detail_wrapper is LinearLayout
+        isTwoPaneLayout = findViewById<View>(R.id.master_detail_wrapper) is LinearLayout
         listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
