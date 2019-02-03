@@ -10,13 +10,10 @@ import com.wireguard.android.Application
 
 class ApplicationPreferences {
     companion object {
-        const val appThemeKey = "app_theme"
+        const val appThemeKey = "dark_theme"
         const val globalExclusionsKey = "global_exclusions"
         const val forceUserspaceBackendkey = "force_userspace_backend"
         const val whitelistAppsKey = "whitelist_exclusions"
-        private const val appThemeDarkValue = "dark"
-        const val appThemeBlackValue = "amoled"
-        val darkAppThemeValues = arrayOf(appThemeDarkValue, appThemeBlackValue)
         var exclusions: String
             get() {
                 return Application.sharedPreferences.getString(globalExclusionsKey, "") as String
@@ -29,15 +26,12 @@ class ApplicationPreferences {
             }
         var exclusionsArray: ArrayList<String> = exclusions.toArrayList()
 
-        var theme: String
+        var useDarkTheme: Boolean = false
+            private set
             get() {
-                return Application.sharedPreferences.getString(appThemeKey, appThemeDarkValue) as String
+                return Application.sharedPreferences.getBoolean(appThemeKey, false)
             }
-            set(value) {
-                Application.sharedPreferences.edit {
-                    putString(appThemeKey, value)
-                }
-            }
+
         var forceUserspaceBackend: Boolean
             get() {
                 return Application.sharedPreferences.getBoolean(forceUserspaceBackendkey, false)

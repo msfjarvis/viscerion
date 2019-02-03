@@ -60,7 +60,12 @@
     <string name="create_from_qr_code">Create from QR code</string>
     <string name="create_output_dir_error">Cannot create output directory</string>
     <string name="create_temp_dir_error">Cannot create local temporary directory</string>
-    <string name="theme_title">App theme</string>
+    <string name="theme_title">Use dark theme</string>
+    <string name="theme_summary">Apply a pitch black theme to the UI</string>
+    <string name="light_theme_entry">Light theme</string>
+    <string name="dark_theme_entry">Dark theme</string>
+    <string name="light_theme_value" translatable="false">light</string>
+    <string name="dark_theme_value" translatable="false">dark</string>
     <string name="create_tunnel">Create Tunnel</string>
     <string name="delete">Delete</string>
     <string name="deselect_all">Deselect All</string>
