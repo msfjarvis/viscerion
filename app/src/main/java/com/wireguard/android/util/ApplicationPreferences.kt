@@ -25,25 +25,15 @@ class ApplicationPreferences {
                 exclusionsArray = value.toArrayList().toCollection(ArrayList())
             }
         var exclusionsArray: ArrayList<String> = exclusions.toArrayList()
-
-        var useDarkTheme: Boolean = false
             private set
-            get() {
-                return Application.sharedPreferences.getBoolean(appThemeKey, false)
-            }
 
-        var forceUserspaceBackend: Boolean
-            get() {
-                return Application.sharedPreferences.getBoolean(forceUserspaceBackendkey, false)
-            }
-            set(value) {
-                Application.sharedPreferences.edit {
-                    putBoolean(forceUserspaceBackendkey, value)
-                }
-            }
+        val useDarkTheme: Boolean
+            get() = Application.sharedPreferences.getBoolean(appThemeKey, false)
+
+        val forceUserspaceBackend: Boolean
+            get() = Application.sharedPreferences.getBoolean(forceUserspaceBackendkey, false)
+
         val whitelistApps: Boolean
-            get() {
-                return Application.sharedPreferences.getBoolean(whitelistAppsKey, false)
-            }
+            get() = Application.sharedPreferences.getBoolean(whitelistAppsKey, false)
     }
 }
