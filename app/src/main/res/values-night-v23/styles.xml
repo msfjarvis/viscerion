@@ -7,6 +7,8 @@
         <item name="colorBackground">@color/primary_color_black</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_white</item>
         <item name="android:colorBackground">@color/primary_color_black</item>
+        <!-- Note to self, colorBackgroundFloating handles _floating_ items like CardViews -->
+        <item name="android:colorBackgroundFloating">@color/primary_color</item>
         <item name="android:navigationBarColor">@color/primary_color_black</item>
         <item name="android:statusBarColor">@color/primary_color_black</item>
         <item name="android:windowBackground">@color/primary_color_black</item>
