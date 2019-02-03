@@ -110,7 +110,7 @@ class RootShell(val context: Context) {
     @Throws(IOException::class, NoRootException::class)
     fun start() {
         if (!isExecutableInPath(SU))
-            return
+            throw NoRootException(deviceNotRootedMessage)
         if (isRunning())
             return
         if (!localBinaryDir.isDirectory && !localBinaryDir.mkdirs())
