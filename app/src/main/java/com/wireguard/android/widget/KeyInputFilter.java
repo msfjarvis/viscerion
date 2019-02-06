@@ -11,10 +11,7 @@ import android.text.Spanned;
 import androidx.annotation.Nullable;
 import com.wireguard.crypto.Key;
 
-/**
- * InputFilter for entering WireGuard private/public keys encoded with base64.
- */
-
+/** InputFilter for entering WireGuard private/public keys encoded with base64. */
 public class KeyInputFilter implements InputFilter {
     private static boolean isAllowed(final char c) {
         return Character.isLetterOrDigit(c) || c == '+' || c == '/';
@@ -26,10 +23,13 @@ public class KeyInputFilter implements InputFilter {
 
     @Override
     @Nullable
-    public CharSequence filter(final CharSequence source,
-                               final int sStart, final int sEnd,
-                               final Spanned dest,
-                               final int dStart, final int dEnd) {
+    public CharSequence filter(
+            final CharSequence source,
+            final int sStart,
+            final int sEnd,
+            final Spanned dest,
+            final int dStart,
+            final int dEnd) {
         SpannableStringBuilder replacement = null;
         int rIndex = 0;
         final int dLength = dest.length();
@@ -38,9 +38,9 @@ public class KeyInputFilter implements InputFilter {
             final int dIndex = dStart + (sIndex - sStart);
             // Restrict characters to the base64 character set.
             // Ensure adding this character does not push the length over the limit.
-            if (((dIndex + 1 < Key.Format.BASE64.getLength() && isAllowed(c)) ||
-                    (dIndex + 1 == Key.Format.BASE64.getLength() && c == '=')) &&
-                    dLength + (sIndex - sStart) < Key.Format.BASE64.getLength()) {
+            if (((dIndex + 1 < Key.Format.BASE64.getLength() && isAllowed(c))
+                            || (dIndex + 1 == Key.Format.BASE64.getLength() && c == '='))
+                    && dLength + (sIndex - sStart) < Key.Format.BASE64.getLength()) {
                 ++rIndex;
             } else {
                 if (replacement == null)

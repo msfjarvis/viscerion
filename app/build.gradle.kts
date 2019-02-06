@@ -4,6 +4,10 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.util.Properties
 
+apply {
+    from("../spotless.gradle")
+}
+
 plugins {
     id("com.android.application")
     id("kotlin-android")

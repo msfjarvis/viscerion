@@ -8,7 +8,6 @@ package com.wireguard.android.util;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.wireguard.util.Keyed;
-
 import java.util.*;
 
 /**
@@ -17,11 +16,9 @@ import java.util.*;
  * array-based nature of this class, insertion and removal of elements with anything but the largest
  * key still require O(n) time.
  */
-
 public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         extends ObservableKeyedArrayList<K, E> implements ObservableSortedKeyedList<K, E> {
-    @Nullable
-    private final Comparator<? super K> comparator;
+    @Nullable private final Comparator<? super K> comparator;
     private final transient KeyList<K, E> keyList = new KeyList<>(this);
 
     public ObservableSortedKeyedArrayList(@Nullable final Comparator<? super K> comparator) {
@@ -33,8 +30,7 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         final int insertionPoint = getInsertionPoint(element);
         if (insertionPoint < 0) {
             // Skipping insertion is non-destructive if the new and existing objects are the same.
-            if (element == get(-insertionPoint - 1))
-                return false;
+            if (element == get(-insertionPoint - 1)) return false;
             throw new IllegalArgumentException("Element with same key already exists in list");
         }
         super.add(insertionPoint, element);
@@ -54,16 +50,13 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
     @Override
     public boolean addAll(@NonNull final Collection<? extends E> elements) {
         boolean didChange = false;
-        for (final E e : elements)
-            if (add(e))
-                didChange = true;
+        for (final E e : elements) if (add(e)) didChange = true;
         return didChange;
     }
 
     @Override
     public boolean addAll(int index, @NonNull final Collection<? extends E> elements) {
-        for (final E e : elements)
-            add(index++, e);
+        for (final E e : elements) add(index++, e);
         return true;
     }
 
@@ -86,8 +79,8 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         if (comparator != null) {
             return -Collections.binarySearch(keyList, e.getKey(), comparator) - 1;
         } else {
-            @SuppressWarnings("unchecked") final List<Comparable<? super K>> list =
-                    (List<Comparable<? super K>>) keyList;
+            @SuppressWarnings("unchecked")
+            final List<Comparable<? super K>> list = (List<Comparable<? super K>>) keyList;
             return -Collections.binarySearch(list, e.getKey()) - 1;
         }
     }
@@ -98,8 +91,8 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         if (comparator != null) {
             index = Collections.binarySearch(keyList, key, comparator);
         } else {
-            @SuppressWarnings("unchecked") final List<Comparable<? super K>> list =
-                    (List<Comparable<? super K>>) keyList;
+            @SuppressWarnings("unchecked")
+            final List<Comparable<? super K>> list = (List<Comparable<? super K>>) keyList;
             index = Collections.binarySearch(list, key);
         }
         return index >= 0 ? index : -1;
@@ -131,8 +124,8 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         if (comparator != null) {
             order = comparator.compare(e.getKey(), get(index).getKey());
         } else {
-            @SuppressWarnings("unchecked") final Comparable<? super K> key =
-                    (Comparable<? super K>) e.getKey();
+            @SuppressWarnings("unchecked")
+            final Comparable<? super K> key = (Comparable<? super K>) e.getKey();
             order = key.compareTo(get(index).getKey());
         }
         if (order != 0) {
@@ -149,8 +142,8 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         return this;
     }
 
-    private static final class KeyList<K, E extends Keyed<? extends K>>
-            extends AbstractList<K> implements Set<K> {
+    private static final class KeyList<K, E extends Keyed<? extends K>> extends AbstractList<K>
+            implements Set<K> {
         private final ObservableSortedKeyedArrayList<K, E> list;
 
         private KeyList(final ObservableSortedKeyedArrayList<K, E> list) {

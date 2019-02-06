@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2019 Harsh Shandilya. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.wireguard.android.fragment
 
 import android.app.Activity

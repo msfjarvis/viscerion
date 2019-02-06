@@ -24,7 +24,8 @@ import androidx.annotation.Nullable;
 @TargetApi(Build.VERSION_CODES.N)
 public class SlashDrawable extends Drawable {
 
-    private static final float CORNER_RADIUS = Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? 0f : 1f;
+    private static final float CORNER_RADIUS =
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? 0f : 1f;
     private static final long QS_ANIM_LENGTH = 350;
     // These values are derived in un-rotated (vertical) orientation
     private static final float SLASH_WIDTH = 1.8384776f;
@@ -38,17 +39,18 @@ public class SlashDrawable extends Drawable {
     private static final float RIGHT = (CENTER_X + (SLASH_WIDTH / 2)) / SCALE;
     // Draw the slash washington-monument style; rotate to no-u-turn style
     private static final float DEFAULT_ROTATION = -45f;
-    private static final FloatProperty mSlashLengthProp = new FloatProperty<SlashDrawable>("slashLength") {
-        @Override
-        public void setValue(final SlashDrawable object, final float value) {
-            object.mCurrentSlashLength = value;
-        }
+    private static final FloatProperty mSlashLengthProp =
+            new FloatProperty<SlashDrawable>("slashLength") {
+                @Override
+                public void setValue(final SlashDrawable object, final float value) {
+                    object.mCurrentSlashLength = value;
+                }
 
-        @Override
-        public Float get(final SlashDrawable object) {
-            return object.mCurrentSlashLength;
-        }
-    };
+                @Override
+                public Float get(final SlashDrawable object) {
+                    return object.mCurrentSlashLength;
+                }
+            };
     private final Path mPath = new Path();
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Drawable mDrawable;
@@ -80,8 +82,7 @@ public class SlashDrawable extends Drawable {
     }
 
     public void setRotation(final float rotation) {
-        if (mRotation == rotation)
-            return;
+        if (mRotation == rotation) return;
         mRotation = rotation;
         invalidateSelf();
     }
@@ -123,8 +124,7 @@ public class SlashDrawable extends Drawable {
                 scale(LEFT, width),
                 scale(TOP, height),
                 scale(RIGHT, width),
-                scale(TOP + mCurrentSlashLength, height)
-        );
+                scale(TOP + mCurrentSlashLength, height));
 
         mPath.reset();
         // Draw the slash vertically
@@ -147,8 +147,7 @@ public class SlashDrawable extends Drawable {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             canvas.clipPath(mPath, Region.Op.DIFFERENCE);
-        else
-            canvas.clipOutPath(mPath);
+        else canvas.clipOutPath(mPath);
 
         mDrawable.draw(canvas);
         canvas.restore();
@@ -158,7 +157,8 @@ public class SlashDrawable extends Drawable {
         return frac * width;
     }
 
-    private void updateRect(final float left, final float top, final float right, final float bottom) {
+    private void updateRect(
+            final float left, final float top, final float right, final float bottom) {
         mSlashRect.left = left;
         mSlashRect.top = top;
         mSlashRect.right = right;

@@ -6,15 +6,14 @@
 package com.wireguard.crypto;
 
 import com.wireguard.crypto.KeyFormatException.Type;
-
 import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
  * Represents a WireGuard public or private key. This class uses specialized constant-time base64
  * and hexadecimal codec implementations that resist side-channel attacks.
- * <p>
- * Instances of this class are immutable.
+ *
+ * <p>Instances of this class are immutable.
  */
 @SuppressWarnings("MagicNumber")
 public final class Key {
@@ -24,7 +23,7 @@ public final class Key {
      * Constructs an object encapsulating the supplied key.
      *
      * @param key an array of bytes containing a binary key. Callers of this constructor are
-     *            responsible for ensuring that the array is of the correct length.
+     *     responsible for ensuring that the array is of the correct length.
      */
     private Key(final byte[] key) {
         // Defensively copy to ensure immutability.
@@ -34,22 +33,23 @@ public final class Key {
     /**
      * Decodes a single 4-character base64 chunk to an integer in constant time.
      *
-     * @param src       an array of at least 4 characters in base64 format
+     * @param src an array of at least 4 characters in base64 format
      * @param srcOffset the offset of the beginning of the chunk in {@code src}
      * @return the decoded 3-byte integer, or some arbitrary integer value if the input was not
-     * valid base64
+     *     valid base64
      */
     private static int decodeBase64(final char[] src, final int srcOffset) {
         int val = 0;
         for (int i = 0; i < 4; ++i) {
             final char c = src[i + srcOffset];
-            val |= (-1
-                    + ((((('A' - 1) - c) & (c - ('Z' + 1))) >>> 8) & (c - 64))
-                    + ((((('a' - 1) - c) & (c - ('z' + 1))) >>> 8) & (c - 70))
-                    + ((((('0' - 1) - c) & (c - ('9' + 1))) >>> 8) & (c + 5))
-                    + ((((('+' - 1) - c) & (c - ('+' + 1))) >>> 8) & 63)
-                    + ((((('/' - 1) - c) & (c - ('/' + 1))) >>> 8) & 64)
-            ) << (18 - 6 * i);
+            val |=
+                    (-1
+                                    + ((((('A' - 1) - c) & (c - ('Z' + 1))) >>> 8) & (c - 64))
+                                    + ((((('a' - 1) - c) & (c - ('z' + 1))) >>> 8) & (c - 70))
+                                    + ((((('0' - 1) - c) & (c - ('9' + 1))) >>> 8) & (c + 5))
+                                    + ((((('+' - 1) - c) & (c - ('+' + 1))) >>> 8) & 63)
+                                    + ((((('/' - 1) - c) & (c - ('/' + 1))) >>> 8) & 64))
+                            << (18 - 6 * i);
         }
         return val;
     }
@@ -57,25 +57,28 @@ public final class Key {
     /**
      * Encodes a single 4-character base64 chunk from 3 consecutive bytes in constant time.
      *
-     * @param src        an array of at least 3 bytes
-     * @param srcOffset  the offset of the beginning of the chunk in {@code src}
-     * @param dest       an array of at least 4 characters
+     * @param src an array of at least 3 bytes
+     * @param srcOffset the offset of the beginning of the chunk in {@code src}
+     * @param dest an array of at least 4 characters
      * @param destOffset the offset of the beginning of the chunk in {@code dest}
      */
-    private static void encodeBase64(final byte[] src, final int srcOffset,
-                                     final char[] dest, final int destOffset) {
+    private static void encodeBase64(
+            final byte[] src, final int srcOffset, final char[] dest, final int destOffset) {
         final byte[] input = {
-                (byte) ((src[srcOffset] >>> 2) & 63),
-                (byte) ((src[srcOffset] << 4 | ((src[1 + srcOffset] & 0xff) >>> 4)) & 63),
-                (byte) ((src[1 + srcOffset] << 2 | ((src[2 + srcOffset] & 0xff) >>> 6)) & 63),
-                (byte) ((src[2 + srcOffset]) & 63),
+            (byte) ((src[srcOffset] >>> 2) & 63),
+            (byte) ((src[srcOffset] << 4 | ((src[1 + srcOffset] & 0xff) >>> 4)) & 63),
+            (byte) ((src[1 + srcOffset] << 2 | ((src[2 + srcOffset] & 0xff) >>> 6)) & 63),
+            (byte) ((src[2 + srcOffset]) & 63),
         };
         for (int i = 0; i < 4; ++i) {
-            dest[i + destOffset] = (char) (input[i] + 'A'
-                    + (((25 - input[i]) >>> 8) & 6)
-                    - (((51 - input[i]) >>> 8) & 75)
-                    - (((61 - input[i]) >>> 8) & 15)
-                    + (((62 - input[i]) >>> 8) & 3));
+            dest[i + destOffset] =
+                    (char)
+                            (input[i]
+                                    + 'A'
+                                    + (((25 - input[i]) >>> 8) & 6)
+                                    - (((51 - input[i]) >>> 8) & 75)
+                                    - (((61 - input[i]) >>> 8) & 15)
+                                    + (((62 - input[i]) >>> 8) & 3));
         }
     }
 
@@ -101,18 +104,14 @@ public final class Key {
             key[i * 3 + 2] = (byte) (val & 0xff);
         }
         final char[] endSegment = {
-                input[i * 4],
-                input[i * 4 + 1],
-                input[i * 4 + 2],
-                'A',
+            input[i * 4], input[i * 4 + 1], input[i * 4 + 2], 'A',
         };
         final int val = decodeBase64(endSegment, 0);
         ret |= (val >>> 31) | (val & 0xff);
         key[i * 3] = (byte) ((val >>> 16) & 0xff);
         key[i * 3 + 1] = (byte) ((val >>> 8) & 0xff);
 
-        if (ret != 0)
-            throw new KeyFormatException(Format.BASE64, Type.CONTENTS);
+        if (ret != 0) throw new KeyFormatException(Format.BASE64, Type.CONTENTS);
         return new Key(key);
     }
 
@@ -169,8 +168,7 @@ public final class Key {
             cVal = (cNum0 & cNum) | (cAlpha0 & cAlpha);
             key[i] = (byte) (cAcc | cVal);
         }
-        if (ret != 0)
-            throw new KeyFormatException(Format.HEX, Type.CONTENTS);
+        if (ret != 0) throw new KeyFormatException(Format.HEX, Type.CONTENTS);
         return new Key(key);
     }
 
@@ -219,12 +217,9 @@ public final class Key {
     public String toBase64() {
         final char[] output = new char[Format.BASE64.length];
         int i;
-        for (i = 0; i < key.length / 3; ++i)
-            encodeBase64(key, i * 3, output, i * 4);
+        for (i = 0; i < key.length / 3; ++i) encodeBase64(key, i * 3, output, i * 4);
         final byte[] endSegment = {
-                key[i * 3],
-                key[i * 3 + 1],
-                0,
+            key[i * 3], key[i * 3 + 1], 0,
         };
         encodeBase64(endSegment, 0, output, i * 4);
         output[Format.BASE64.length - 1] = '=';
@@ -239,17 +234,14 @@ public final class Key {
     public String toHex() {
         final char[] output = new char[Format.HEX.length];
         for (int i = 0; i < key.length; ++i) {
-            output[i * 2] = (char) (87 + (key[i] >> 4 & 0xf)
-                    + ((((key[i] >> 4 & 0xf) - 10) >> 8) & ~38));
-            output[i * 2 + 1] = (char) (87 + (key[i] & 0xf)
-                    + ((((key[i] & 0xf) - 10) >> 8) & ~38));
+            output[i * 2] =
+                    (char) (87 + (key[i] >> 4 & 0xf) + ((((key[i] >> 4 & 0xf) - 10) >> 8) & ~38));
+            output[i * 2 + 1] = (char) (87 + (key[i] & 0xf) + ((((key[i] & 0xf) - 10) >> 8) & ~38));
         }
         return new String(output);
     }
 
-    /**
-     * The supported formats for encoding a WireGuard key.
-     */
+    /** The supported formats for encoding a WireGuard key. */
     public enum Format {
         BASE64(44),
         BINARY(32),
@@ -265,5 +257,4 @@ public final class Key {
             return length;
         }
     }
-
 }

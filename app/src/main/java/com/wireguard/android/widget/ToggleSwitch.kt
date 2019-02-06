@@ -1,8 +1,7 @@
 /*
- * Copyright © 2013 The Android Open Source Project
+ * Copyright © 2019 Harsh Shandilya. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package com.wireguard.android.widget
 
 import android.content.Context

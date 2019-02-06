@@ -18,8 +18,9 @@ branches:
     - master
 
 script:
-  - source ci/style-check.sh
-  - ./gradlew assemble bundle check
+  - |
+      ./gradlew spotlessCheck && \
+      ./gradlew assemble check
 
 notifications:
   email: false
