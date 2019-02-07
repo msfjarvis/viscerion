@@ -10,6 +10,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.wireguard.android.Application
+import com.wireguard.android.util.restartApplication
 import com.wireguard.android.util.ApplicationPreferences
 import timber.log.Timber
 import java.lang.reflect.Field
@@ -36,7 +37,7 @@ abstract class ThemeChangeAwareActivity : AppCompatActivity(), SharedPreferences
                     AppCompatDelegate.MODE_NIGHT_NO
             )
             invalidateDrawableCache(resources, isDarkTheme)
-            recreate()
+            applicationContext?.restartApplication()
         }
     }
 
