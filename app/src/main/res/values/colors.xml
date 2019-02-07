@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="primary_color">#212121</color>
-    <color name="primary_color_lighter">#323232</color>
+    <color name="primary_color_lighter">#32323232</color>
     <color name="accent">#FF3D00</color>
     <color name="accent_darker">#DD2C00</color>
     <color name="list_multiselect_background">#EEEEEE</color>
