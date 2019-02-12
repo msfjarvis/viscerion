@@ -179,4 +179,8 @@
     <string name="whitelist_exclusions_summary">Rather than allow selected apps to bypass the tunnel, make exclusions
         force them to go through the tunnel instead, letting all other apps behave as if there is no active VPN connection.
     </string>
+    <string name="preference_category_about">About</string>
+    <string name="preference_category_config">Tunnel configurations</string>
+    <string name="preference_category_debugging">Debugging</string>
+    <string name="preference_category_theme">Theming</string>
 </resources>

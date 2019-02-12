@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.wireguard.android.preference.VersionPreference android:icon="@mipmap/ic_launcher" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="restore_on_boot"
-        android:summary="@string/restore_on_boot_summary"
-        android:title="@string/restore_on_boot_title" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="whitelist_exclusions"
-        android:title="@string/whitelist_exclusions_title"
-        android:summary="@string/whitelist_exclusions_summary"/>
-    <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
-    <com.wireguard.android.preference.ZipExporterPreference />
-    <com.wireguard.android.preference.LogExporterPreference />
-    <SwitchPreference
-        android:key="dark_theme"
-        android:title="@string/theme_title"
-        android:summary="@string/theme_summary"/>
-    <Preference
-        android:key="global_exclusions"
-        android:title="@string/global_exclusions_title"
-        android:summary="@string/global_exclusions_summary" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="force_userspace_backend"
-        android:title="@string/force_userspace_backend_title"
-        android:summary="@string/force_userspace_backend_summary" />
-
+    <PreferenceCategory android:title="@string/preference_category_about">
+        <com.wireguard.android.preference.VersionPreference
+            android:icon="@mipmap/ic_launcher" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_theme">
+        <SwitchPreferenceCompat
+            android:key="dark_theme"
+            android:title="@string/theme_title"
+            android:summary="@string/theme_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_debugging">
+        <com.wireguard.android.preference.ZipExporterPreference />
+        <com.wireguard.android.preference.LogExporterPreference />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="force_userspace_backend"
+            android:title="@string/force_userspace_backend_title"
+            android:summary="@string/force_userspace_backend_summary" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_config">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="restore_on_boot"
+            android:summary="@string/restore_on_boot_summary"
+            android:title="@string/restore_on_boot_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="whitelist_exclusions"
+            android:title="@string/whitelist_exclusions_title"
+            android:summary="@string/whitelist_exclusions_summary"/>
+        <Preference
+            android:key="global_exclusions"
+            android:title="@string/global_exclusions_title"
+            android:summary="@string/global_exclusions_summary" />
+        <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
