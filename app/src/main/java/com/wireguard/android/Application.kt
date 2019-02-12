@@ -98,6 +98,7 @@ class Application : android.app.Application() {
         val toolsInstaller by lazy { get().toolsInstaller }
         val tunnelManager by lazy { get().tunnelManager }
         var supportsKernelModule = false
+            private set
 
         fun get(): Application {
             return weakSelf.get() as Application
