@@ -117,7 +117,9 @@ class Application : android.app.Application() {
                                     throw Exception("Forcing userspace backend on user request.")
                                 app.rootShell.start()
                                 backend = WgQuickBackend(app.applicationContext)
-                            } catch (ignored: Exception) {
+                            } catch (exc: Exception) {
+                                if (exc is RootShell.NoRootException)
+                                    supportsKernelModule = false
                             }
                         }
                         if (backend == null)
