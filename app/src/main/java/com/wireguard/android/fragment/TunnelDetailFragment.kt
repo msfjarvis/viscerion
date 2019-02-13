@@ -5,6 +5,7 @@
 package com.wireguard.android.fragment
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,7 +14,6 @@ import android.view.ViewGroup
 import com.wireguard.android.R
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.util.resolveAttribute
 
 /**
  * Fragment that shows details about a specific tunnel.
@@ -67,7 +67,9 @@ class TunnelDetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         context?.let {
-            activity?.window?.navigationBarColor = it.resolveAttribute(android.R.attr.navigationBarColor)
+            val typedValue = TypedValue()
+            it.theme.resolveAttribute(android.R.attr.navigationBarColor, typedValue, true)
+            activity?.window?.navigationBarColor = typedValue.data
         }
     }
 }

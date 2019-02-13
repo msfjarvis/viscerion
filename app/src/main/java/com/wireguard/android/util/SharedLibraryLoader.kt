@@ -60,7 +60,7 @@ object SharedLibraryLoader {
 
     private fun getApkPath(context: Context): String {
         val splitDirs = context.applicationInfo.splitSourceDirs
-        if (splitDirs.isNotNullOrEmpty()) {
+        if (!splitDirs.isNullOrEmpty()) {
             for (abi in Build.SUPPORTED_ABIS) {
                 for (splitDir in splitDirs) {
                     val splits = splitDir.split("/")

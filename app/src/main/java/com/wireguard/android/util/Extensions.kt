@@ -13,7 +13,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
-import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
@@ -24,17 +23,14 @@ import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 
 fun String.toArrayList(): ArrayList<String> {
-    if (TextUtils.isEmpty(this))
-        return ArrayList()
-    return LIST_SEPARATOR.split(this.trim()).toCollection(ArrayList())
+    return if (TextUtils.isEmpty(this))
+        ArrayList()
+    else
+        LIST_SEPARATOR.split(this.trim()).toCollection(ArrayList())
 }
 
 fun <T> List<T>.asString(): String {
     return TextUtils.join(", ", this)
-}
-
-fun <T> Array<out T>?.isNotNullOrEmpty(): Boolean {
-    return !isNullOrEmpty()
 }
 
 inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
@@ -67,12 +63,6 @@ val Preference.parentActivity: SettingsActivity?
             null
         }
     }
-
-fun Context.resolveAttribute(attr: Int): Int {
-    val typedValue = TypedValue()
-    this.theme.resolveAttribute(attr, typedValue, true)
-    return typedValue.data
-}
 
 fun copyTextView(view: View) {
     var isTextInput = false
