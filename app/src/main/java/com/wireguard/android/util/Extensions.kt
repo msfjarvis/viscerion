@@ -34,7 +34,7 @@ fun <T> List<T>.asString(): String {
 }
 
 fun <T> Array<out T>?.isNotNullOrEmpty(): Boolean {
-    return this != null && !isEmpty()
+    return !isNullOrEmpty()
 }
 
 inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
