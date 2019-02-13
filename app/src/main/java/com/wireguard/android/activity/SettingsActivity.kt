@@ -131,11 +131,10 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 Application.tunnelManager.restartActiveTunnels()
                 true
             }
-            preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
-                ?.setOnPreferenceClickListener {
-                    context?.restartApplication()
-                    true
-                }
+            preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)?.setOnPreferenceClickListener {
+                context?.restartApplication()
+                true
+            }
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
