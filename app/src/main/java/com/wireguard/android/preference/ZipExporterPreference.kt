@@ -14,9 +14,10 @@ import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
+import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ExceptionLoggers
-import com.wireguard.android.util.parentActivity
+import com.wireguard.android.util.getParentActivity
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
 import timber.log.Timber
@@ -80,7 +81,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
             val error = ExceptionLoggers.unwrapMessage(throwable)
             val message = context.getString(R.string.zip_export_error, error)
             Timber.e(message)
-            parentActivity?.findViewById<View>(android.R.id.content)?.let {
+            getParentActivity<SettingsActivity>()?.findViewById<View>(android.R.id.content)?.let {
                 Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
             }
             isEnabled = true
@@ -102,7 +103,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     }
 
     override fun onClick() {
-        parentActivity?.ensurePermissions(
+        getParentActivity<SettingsActivity>()?.ensurePermissions(
             arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {

@@ -16,10 +16,10 @@ import android.text.TextUtils
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.wireguard.android.activity.SettingsActivity
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 
 fun String.toArrayList(): ArrayList<String> {
@@ -55,14 +55,13 @@ fun Context.restartApplication() {
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
 }
 
-val Preference.parentActivity: SettingsActivity?
-    get() {
-        return try {
-            ((context as ContextThemeWrapper).baseContext as SettingsActivity)
-        } catch (ignored: ClassCastException) {
-            null
-        }
+inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
+    return try {
+        ((context as ContextThemeWrapper).baseContext as T)
+    } catch (ignored: ClassCastException) {
+        null
     }
+}
 
 fun copyTextView(view: View) {
     var isTextInput = false
