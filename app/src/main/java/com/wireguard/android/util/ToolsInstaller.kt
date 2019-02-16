@@ -174,19 +174,18 @@ class ToolsInstaller(context: Context) {
 
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
-        private val INSTALL_DIR = installDir
+        private val INSTALL_DIR = getInstallDir()
         private var magiskDir: String? = null
 
-        private val installDir: File?
-            get() {
-                val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
-                val paths = path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toList()
-                for (dir in INSTALL_DIRS) {
-                    if (paths.contains(dir.path) && dir.isDirectory)
-                        return dir
-                }
-                return null
+        private fun getInstallDir(): File? {
+            val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
+            val paths = path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toList()
+            for (dir in INSTALL_DIRS) {
+                if (paths.contains(dir.path) && dir.isDirectory)
+                    return dir
             }
+            return null
+        }
 
         private fun isMagiskSu(): Boolean {
             val output = ArrayList<String>()
