@@ -32,7 +32,7 @@ class ToolsInstaller(context: Context) {
         val script = StringBuilder()
         for (names in EXECUTABLES) {
             script.append(
-                "cmp -s '${File(nativeLibraryDir, names[0])}' '${File(INSTALL_DIR, names[1])}' && "
+                "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(INSTALL_DIR, names[1])}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
