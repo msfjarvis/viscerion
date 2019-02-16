@@ -33,6 +33,7 @@ import java.util.zip.ZipOutputStream
  * Preference implementing a button that asynchronously exports config zips.
  */
 
+@Suppress("Unused")
 class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
 
     private var exportedFilePath: String? = null
