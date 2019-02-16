@@ -14,7 +14,7 @@ import java.util.zip.ZipFile
 
 object SharedLibraryLoader {
 
-    fun extractNativeLibrary(context: Context, libName: String): String {
+    fun extractNativeLibrary(context: Context, libName: String, useActualName: Boolean = false, skipDeletion: Boolean = false): String {
         val apkPath = getApkPath(context)
         Timber.d("apkPath: $apkPath")
         val zipFile: ZipFile
@@ -30,19 +30,22 @@ object SharedLibraryLoader {
             val zipEntry = zipFile.getEntry(libZipPath) ?: continue
             var f: File? = null
             try {
-                f = File.createTempFile("lib", ".so", context.cacheDir)
+                f = if (useActualName)
+                    File(context.cacheDir.absolutePath + File.separatorChar + mappedLibName)
+                else
+                    File.createTempFile("lib", ".so", context.cacheDir)
                 Timber.d("Extracting apk:/$libZipPath to ${f?.absolutePath} and loading")
                 FileOutputStream(f).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)
                     }
                 }
-                return f.absolutePath
+                return f!!.absolutePath
             } catch (e: Exception) {
                 Timber.d(e, "Failed to load library apk:/$libZipPath")
                 throw e
             } finally {
-                f?.delete()
+                if (!skipDeletion) f?.delete()
             }
         }
         return ""
