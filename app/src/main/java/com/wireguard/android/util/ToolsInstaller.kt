@@ -80,7 +80,7 @@ class ToolsInstaller(context: Context) {
             installAsMagiskModule = try {
                 Application.rootShell.run(
                     null,
-                    "[ -d $magiskDirectory/mirror -a -d $magiskDirectory/img -a ! -f /cache/.disable_magisk ]"
+                    "[ -d $magiskDirectory/img -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
             } catch (ignored: Exception) {
                 false
