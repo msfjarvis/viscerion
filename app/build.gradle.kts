@@ -34,8 +34,8 @@ android {
         applicationId = "me.msfjarvis.viscerion"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 3000
-        versionName = "3.0.0"
+        versionCode = 3100
+        versionName = "3.1.0"
         buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
         setProperty("archivesBaseName", "viscerion_${gitHash()}")
     }
