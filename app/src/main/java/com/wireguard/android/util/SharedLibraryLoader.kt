@@ -13,20 +13,13 @@ import java.io.IOException
 import java.util.zip.ZipFile
 
 object SharedLibraryLoader {
-    @Suppress("UnsafeDynamicallyLoadedCode")
-    fun loadSharedLibrary(context: Context, libName: String) {
-        var noAbiException: Throwable
-        try {
-            System.loadLibrary(libName)
-            return
-        } catch (e: UnsatisfiedLinkError) {
-            Timber.d(e, "Failed to load library normally, so attempting to extract from apk")
-            noAbiException = e
-        }
 
+    fun extractNativeLibrary(context: Context, libName: String): String {
+        val apkPath = getApkPath(context)
+        Timber.d("apkPath: $apkPath")
         val zipFile: ZipFile
         try {
-            zipFile = ZipFile(File(getApkPath(context)), ZipFile.OPEN_READ)
+            zipFile = ZipFile(File(apkPath), ZipFile.OPEN_READ)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
@@ -44,15 +37,38 @@ object SharedLibraryLoader {
                         inputStream.copyTo(out)
                     }
                 }
-                System.load(f.absolutePath)
-                return
+                return f.absolutePath
             } catch (e: Exception) {
                 Timber.d(e, "Failed to load library apk:/$libZipPath")
-                noAbiException = e
+                throw e
             } finally {
                 f?.delete()
             }
         }
+        return ""
+    }
+
+    @Suppress("UnsafeDynamicallyLoadedCode")
+    fun loadSharedLibrary(context: Context, libName: String) {
+        var noAbiException: Throwable
+        try {
+            System.loadLibrary(libName)
+            return
+        } catch (e: UnsatisfiedLinkError) {
+            Timber.d(e, "Failed to load library normally, so attempting to extract from apk")
+            noAbiException = e
+        }
+
+        val libPath = extractNativeLibrary(context, libName)
+        if (libPath.isNotEmpty()) {
+            try {
+                System.load(libPath)
+            } catch (e: Exception) {
+                Timber.d(e, "Failed to load library apk:/$libPath")
+                noAbiException = e
+            }
+        }
+
         if (noAbiException is RuntimeException)
             throw noAbiException
         throw RuntimeException(noAbiException)
