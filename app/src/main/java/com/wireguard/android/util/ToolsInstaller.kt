@@ -9,6 +9,7 @@ import android.system.OsConstants
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.RootShell.NoRootException
+import com.wireguard.android.util.SharedLibraryLoader.extractNativeLibrary
 import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
@@ -18,12 +19,26 @@ import java.io.IOException
  * Helper to install WireGuard tools to the system partition.
  */
 
-class ToolsInstaller(context: Context) {
+class ToolsInstaller(val context: Context) {
 
     private val localBinaryDir: File = File(context.cacheDir, "bin")
-    private val nativeLibraryDir: File = File(context.applicationInfo.nativeLibraryDir)
+    private val nativeLibraryDir: File
     private var areToolsAvailable: Boolean? = null
     private var installAsMagiskModule: Boolean? = null
+
+    init {
+        nativeLibraryDir = if (!context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            // App bundles, unpack executables from the split config APK.
+            EXECUTABLES.forEach {
+                extractNativeLibrary(context,
+                    it[0],
+                    useActualName = true, skipDeletion = true)
+            }
+            context.cacheDir
+        } else {
+            File(context.applicationInfo.nativeLibraryDir)
+        }
+    }
 
     @Throws(NoRootException::class)
     fun areInstalled(): Int {

@@ -24,7 +24,7 @@ object SharedLibraryLoader {
             throw RuntimeException(e)
         }
 
-        val mappedLibName = System.mapLibraryName(libName)
+        val mappedLibName = if (libName.contains(".so")) libName else System.mapLibraryName(libName)
         for (abi in Build.SUPPORTED_ABIS) {
             val libZipPath = "lib" + File.separatorChar + abi + File.separatorChar + mappedLibName
             val zipEntry = zipFile.getEntry(libZipPath) ?: continue
