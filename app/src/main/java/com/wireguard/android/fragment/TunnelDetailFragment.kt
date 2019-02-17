@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import com.wireguard.android.R
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 
 /**
  * Fragment that shows details about a specific tunnel.
@@ -67,9 +69,20 @@ class TunnelDetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         context?.let {
-            val typedValue = TypedValue()
-            it.theme.resolveAttribute(android.R.attr.navigationBarColor, typedValue, true)
-            activity?.window?.navigationBarColor = typedValue.data
+            activity?.window?.apply {
+                val typedValue = TypedValue()
+                it.theme.resolveAttribute(android.R.attr.navigationBarColor, typedValue, true)
+                navigationBarColor = typedValue.data
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    it.theme.resolveAttribute(android.R.attr.navigationBarDividerColor, typedValue, true)
+                    navigationBarDividerColor = typedValue.data
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !ApplicationPreferences.useDarkTheme) {
+                    // Restore window flags
+                    decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
+            }
         }
     }
 }

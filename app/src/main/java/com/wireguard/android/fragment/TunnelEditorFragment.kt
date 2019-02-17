@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,6 +24,7 @@ import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.databinding.TunnelEditorFragmentBinding
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.android.viewmodel.ConfigProxy
@@ -123,7 +125,16 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onResume()
         if (!MainActivity.isTwoPaneLayout)
             context?.let {
-                activity?.window?.navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
+                activity?.window?.apply {
+                    navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        navigationBarDividerColor = ContextCompat.getColor(it, android.R.color.transparent)
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !ApplicationPreferences.useDarkTheme) {
+                        // Clear window flags to let navigation bar be dark
+                        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    }
+                }
             }
     }
 
