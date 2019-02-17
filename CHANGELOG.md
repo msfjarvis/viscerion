@@ -1,5 +1,10 @@
 # Release Notes
 
+### [v3.1.1](https://github.com/MSF-Jarvis/viscerion/releases/3.1.1)
+- Update userspace backend to latest upstream, should bring significant
+  speed improvements.
+- Fix more theming related issues.
+
 ### [v3.1.0](https://github.com/MSF-Jarvis/viscerion/releases/3.1.0)
 
 - Rewrite theming options - Replace light/dark/black options
