@@ -73,14 +73,14 @@ class TunnelDetailFragment : BaseFragment() {
                 val typedValue = TypedValue()
                 it.theme.resolveAttribute(android.R.attr.navigationBarColor, typedValue, true)
                 navigationBarColor = typedValue.data
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    it.theme.resolveAttribute(android.R.attr.navigationBarDividerColor, typedValue, true)
-                    navigationBarDividerColor = typedValue.data
-                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !ApplicationPreferences.useDarkTheme) {
                     // Restore window flags
                     decorView.systemUiVisibility =
                         View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        it.theme.resolveAttribute(android.R.attr.navigationBarDividerColor, typedValue, true)
+                        navigationBarDividerColor = typedValue.data
+                    }
                 }
             }
         }
