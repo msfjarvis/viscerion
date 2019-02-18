@@ -17,4 +17,15 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
         <item name="android:fontFamily">@font/lato</item>
     </style>
+
+    <style name="BaseBottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">?attr/colorBackground</item>
+        <item name="android:navigationBarDividerColor">?attr/colorBackground</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
 </resources>
