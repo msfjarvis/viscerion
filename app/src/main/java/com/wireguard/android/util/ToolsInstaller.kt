@@ -91,12 +91,11 @@ class ToolsInstaller(val context: Context) {
     @Synchronized
     private fun willInstallAsMagiskModule(): Boolean {
         if (!isMagiskSu()) return false
-        val magiskDirectory = getMagiskDirectory()
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
                 Application.rootShell.run(
                     null,
-                    "[ -d $magiskDirectory/img -a ! -f /cache/.disable_magisk ]"
+                    "[ -d $magiskDir/img -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
             } catch (ignored: Exception) {
                 false
@@ -127,7 +126,7 @@ class ToolsInstaller(val context: Context) {
     @Throws(NoRootException::class)
     private fun installMagisk(): Int {
         val script = StringBuilder("set -ex; ")
-        val magiskDirectory = "${getMagiskDirectory()}/img/wireguard"
+        val magiskDirectory = "$magiskDir/img/wireguard"
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
@@ -191,7 +190,7 @@ class ToolsInstaller(val context: Context) {
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR = getInstallDir()
-        private var magiskDir: String? = null
+        private val magiskDir: String = "/sbin/.magisk"
 
         private fun getInstallDir(): File? {
             val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
@@ -207,16 +206,6 @@ class ToolsInstaller(val context: Context) {
             val output = ArrayList<String>()
             Application.rootShell.run(output, "su --version")
             return output[0].contains("MAGISKSU")
-        }
-
-        private fun getMagiskDirectory(): String {
-            if (magiskDir == null) {
-                val output = ArrayList<String>()
-                Application.rootShell.run(output, "su --version | cut -d ':' -f 1")
-                val magiskVer = output[0]
-                magiskDir = if (magiskVer.startsWith("18.")) "/sbin/.magisk" else "/sbin/.core"
-            }
-            return magiskDir as String
         }
     }
 }
