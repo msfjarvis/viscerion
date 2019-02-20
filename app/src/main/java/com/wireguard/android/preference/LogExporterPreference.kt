@@ -37,7 +37,7 @@ class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     private fun exportLog() {
         Application.asyncWorker.supplyAsync {
             val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val file = File(path, "wireguard-log.txt")
+            val file = File(path, "viscerion-log.txt")
             if (!path.isDirectory && !path.mkdirs())
                 throw IOException("Cannot create output directory")
 

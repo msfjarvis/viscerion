@@ -56,7 +56,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
                     if (exception != null)
                         throw exception
                     val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    val file = File(path, "wireguard-export.zip")
+                    val file = File(path, "viscerion-export.zip")
                     if (!path.isDirectory && !path.mkdirs())
                         throw IOException("Cannot create output directory")
                     try {
