@@ -112,8 +112,6 @@
     <string name="parse_error_integer">number</string>
     <string name="parse_error_reason">Cannot parse %1$s “%2$s”</string>
     <string name="peer">Peer</string>
-    <string name="permission_description">Allows an app to control WireGuard tunnels. Apps with this permission may enable and disable WireGuard tunnels at will, potentially misdirecting Internet traffic.</string>
-    <string name="permission_label">control WireGuard tunnels</string>
     <string name="persistent_keepalive">Persistent keepalive</string>
     <string name="pre_shared_key">Pre-shared key</string>
     <string name="private_key">Private key</string>
