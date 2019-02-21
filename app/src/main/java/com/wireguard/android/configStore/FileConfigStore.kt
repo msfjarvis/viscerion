@@ -46,8 +46,8 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     override fun enumerate(): Set<String> {
         return context.fileList()
-            .filter { it -> it.endsWith(CONFIGURATION_FILE_SUFFIX) }
-            .map { it -> it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
+            .filter { it.endsWith(CONFIGURATION_FILE_SUFFIX) }
+            .map { it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
             .toSet()
     }
 

@@ -15,7 +15,12 @@ import java.util.zip.ZipFile
 
 object SharedLibraryLoader {
 
-    fun extractNativeLibrary(context: Context, libName: String, useActualName: Boolean = false, skipDeletion: Boolean = false): String {
+    fun extractNativeLibrary(
+        context: Context,
+        libName: String,
+        useActualName: Boolean = false,
+        skipDeletion: Boolean = false
+    ): String {
         val apkPath = getApkPath(context)
         Timber.d("apkPath: $apkPath")
         val zipFile: ZipFile

@@ -31,9 +31,11 @@ class ToolsInstaller(val context: Context) {
         nativeLibraryDir = if (!context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
             // App bundles, unpack executables from the split config APK.
             EXECUTABLES.forEach {
-                extractNativeLibrary(context,
+                extractNativeLibrary(
+                    context,
                     it[0],
-                    useActualName = true, skipDeletion = true)
+                    useActualName = true, skipDeletion = true
+                )
             }
             context.cacheDir
         } else {

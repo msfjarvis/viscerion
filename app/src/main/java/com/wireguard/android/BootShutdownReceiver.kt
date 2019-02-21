@@ -15,7 +15,7 @@ import timber.log.Timber
 class BootShutdownReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        intent.action ?: return
+        if (intent.action == null) return
         Application.backendAsync.thenAccept { backend ->
             if (backend !is WgQuickBackend)
                 return@thenAccept

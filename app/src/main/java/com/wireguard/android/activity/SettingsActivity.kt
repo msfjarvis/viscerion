@@ -142,22 +142,28 @@ class SettingsActivity : ThemeChangeAwareActivity() {
             if (excludedApps.asString() == ApplicationPreferences.exclusions) return
             if (excludedApps.isNotEmpty()) {
                 Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-                        tunnels.forEach { tunnel ->
-                            val oldConfig = tunnel.getConfig()
-                            oldConfig?.let {
-                                ApplicationPreferences.exclusionsArray.forEach { exclusion -> it.`interface`.excludedApplications.remove(exclusion) }
-                                it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))
-                                tunnel.setConfig(it)
+                    tunnels.forEach { tunnel ->
+                        val oldConfig = tunnel.getConfig()
+                        oldConfig?.let {
+                            ApplicationPreferences.exclusionsArray.forEach { exclusion ->
+                                it.`interface`.excludedApplications.remove(
+                                    exclusion
+                                )
                             }
+                            it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))
+                            tunnel.setConfig(it)
                         }
                     }
+                }
                 ApplicationPreferences.exclusions = excludedApps.asString()
             } else {
                 Application.tunnelManager.getTunnels().thenAccept { tunnels ->
-                        tunnels.forEach { tunnel ->
-                            ApplicationPreferences.exclusionsArray.forEach { exclusion -> tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion) }
+                    tunnels.forEach { tunnel ->
+                        ApplicationPreferences.exclusionsArray.forEach { exclusion ->
+                            tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
                         }
                     }
+                }
                 ApplicationPreferences.exclusions = ""
             }
             Application.tunnelManager.restartActiveTunnels()
