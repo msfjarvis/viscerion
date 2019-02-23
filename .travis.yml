@@ -20,7 +20,7 @@ branches:
 script:
   - |
       ./gradlew spotlessCheck && \
-      ./gradlew assemble check
+      ./gradlew assembleDebug checkDebug
 
 notifications:
   email: false
