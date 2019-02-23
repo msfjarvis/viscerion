@@ -140,8 +140,8 @@ class SettingsActivity : ThemeChangeAwareActivity() {
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
             if (excludedApps.asString() == ApplicationPreferences.exclusions) return
-            if (excludedApps.isNotEmpty()) {
-                Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+            Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+                if (excludedApps.isNotEmpty()) {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
                         oldConfig?.let {
@@ -154,17 +154,15 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                             tunnel.setConfig(it)
                         }
                     }
-                }
-                ApplicationPreferences.exclusions = excludedApps.asString()
-            } else {
-                Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+                    ApplicationPreferences.exclusions = excludedApps.asString()
+                } else {
                     tunnels.forEach { tunnel ->
                         ApplicationPreferences.exclusionsArray.forEach { exclusion ->
                             tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
                         }
                     }
+                    ApplicationPreferences.exclusions = ""
                 }
-                ApplicationPreferences.exclusions = ""
             }
             Application.tunnelManager.restartActiveTunnels()
         }
