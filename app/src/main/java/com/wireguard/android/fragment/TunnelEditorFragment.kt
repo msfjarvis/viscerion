@@ -75,7 +75,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.config_editor, menu)
     }
 
@@ -138,8 +138,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menu_action_save -> {
                 val newConfig: Config?
                 try {

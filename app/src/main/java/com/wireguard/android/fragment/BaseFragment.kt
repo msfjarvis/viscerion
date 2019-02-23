@@ -43,7 +43,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             activity?.selectedTunnel = tunnel
         }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
             activity = context

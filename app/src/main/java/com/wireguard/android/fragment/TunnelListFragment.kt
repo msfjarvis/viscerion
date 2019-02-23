@@ -61,7 +61,7 @@ class TunnelListFragment : BaseFragment() {
 
             // Config text is valid, now create the tunnel…
             fragmentManager?.let {
-                ConfigNamingDialogFragment.newInstance(configText).show(fragmentManager, null)
+                ConfigNamingDialogFragment.newInstance(configText).show(it, null)
             }
         } catch (exception: Exception) {
             onTunnelImportFinished(emptyList(), listOf<Throwable>(exception))

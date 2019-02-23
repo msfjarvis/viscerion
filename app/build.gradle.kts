@@ -101,7 +101,7 @@ dependencies {
     implementation("androidx.databinding:databinding-adapters:3.3.1")
     implementation("androidx.databinding:databinding-runtime:3.3.1")
     implementation("androidx.fragment:fragment-ktx:1.0.0")
-    implementation("androidx.preference:preference:1.0.0")
+    implementation("androidx.preference:preference:1.1.0-alpha03")
     implementation("com.google.android.material:material:1.0.0")
     implementation("com.google.zxing:core:3.3.3")
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.2")

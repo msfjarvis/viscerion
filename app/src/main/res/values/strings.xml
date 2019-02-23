@@ -181,4 +181,9 @@
     <string name="preference_category_config">Tunnel configurations</string>
     <string name="preference_category_debugging">Debugging</string>
     <string name="preference_category_theme">Theming</string>
+    <string name="tasker_integration_title">Enable tasker integration</string>
+    <string name="tasker_integration_summary">WARNING: This is a potential security risk! Avoid using this on rooted devices, malicious apps can very easily circumvent the protection put in place by Viscerion!</string>
+    <string name="tasker_integration_secret_title">External intent secret</string>
+    <string name="tasker_integration_secret_summary">Secured secret to ensure only trusted clients can control tunnels. This cannot be empty!</string>
+    <string name="tasker_integration_summary_empty_secret">Setting a secret here is mandatory!</string>
 </resources>

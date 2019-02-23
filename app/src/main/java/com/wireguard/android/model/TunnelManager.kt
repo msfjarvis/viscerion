@@ -13,10 +13,12 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.Application
 import com.wireguard.android.BR
+import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.model.Tunnel.Statistics
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
@@ -25,6 +27,7 @@ import com.wireguard.config.Config
 import java9.util.Comparators
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import timber.log.Timber
 import java.util.ArrayList
 
 class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
@@ -246,10 +249,43 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     class IntentReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val manager = Application.tunnelManager
+            var tunnelName: String? = null
+            var integrationSecret: String? = null
+            var state: Tunnel.State? = null
             if (intent == null || intent.action == null)
                 return
-            if ("com.wireguard.android.action.REFRESH_TUNNEL_STATES" == intent.action) {
-                manager.refreshTunnelStates()
+            when (intent.action) {
+                "com.wireguard.android.action.REFRESH_TUNNEL_STATES" -> {
+                    manager.refreshTunnelStates()
+                    return
+                }
+                "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_UP" -> {
+                    tunnelName = intent.getStringExtra(TUNNEL_NAME_INTENT_EXTRA)
+                    integrationSecret = intent.getStringExtra(INTENT_INTEGRATION_SECRET_EXTRA)
+                    state = Tunnel.State.UP
+                }
+                "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_DOWN" -> {
+                    tunnelName = intent.getStringExtra(TUNNEL_NAME_INTENT_EXTRA)
+                    integrationSecret = intent.getStringExtra(INTENT_INTEGRATION_SECRET_EXTRA)
+                    state = Tunnel.State.DOWN
+                }
+                else -> Timber.tag("IntentReceiver").d("Invalid intent action: ${intent.action}")
+            }
+            if (!ApplicationPreferences.allowTaskerIntegration || ApplicationPreferences.taskerIntegrationSecret.isEmpty()) {
+                Timber.tag("IntentReceiver").e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
+            }
+            if (tunnelName != null && state != null && integrationSecret != ApplicationPreferences.taskerIntegrationSecret) {
+                Timber.tag("IntentReceiver").d("Setting $tunnelName's state to $state")
+                manager.getTunnels().thenAccept { tunnels ->
+                    val tunnel = tunnels[tunnelName]
+                    tunnel?.let {
+                        manager.setTunnelState(it, state)
+                    }
+                }
+            } else if (tunnelName == null) {
+                Timber.tag("IntentReceiver").d("Intent parameter tunnel_name not set!")
+            } else {
+                Timber.tag("IntentReceiver").e("Intent integration secret mis-match! Exiting...")
             }
         }
     }
@@ -263,6 +299,8 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         private const val KEY_LAST_USED_TUNNEL = "last_used_tunnel"
         private const val KEY_RESTORE_ON_BOOT = "restore_on_boot"
         private const val KEY_RUNNING_TUNNELS = "enabled_configs"
+        private const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
+        private const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
 
         internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
             return Application.asyncWorker.supplyAsync { Application.backend.getState(tunnel) }

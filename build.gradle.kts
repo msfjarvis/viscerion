@@ -30,7 +30,7 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
                 val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview")
                     .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
                     .any { it.matches(candidate.version) }
-                if (rejected) {
+                if (rejected && !(candidate.group == "androidx.preference")) {
                     reject("Release candidate")
                 }
             }

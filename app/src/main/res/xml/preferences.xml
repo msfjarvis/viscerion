@@ -10,15 +10,6 @@
             android:title="@string/theme_title"
             android:summary="@string/theme_summary"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preference_category_debugging">
-        <com.wireguard.android.preference.ZipExporterPreference />
-        <com.wireguard.android.preference.LogExporterPreference />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="force_userspace_backend"
-            android:title="@string/force_userspace_backend_title"
-            android:summary="@string/force_userspace_backend_summary" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_config">
         <CheckBoxPreference
             android:defaultValue="false"
@@ -34,6 +25,26 @@
             android:key="global_exclusions"
             android:title="@string/global_exclusions_title"
             android:summary="@string/global_exclusions_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="allow_tasker_integration"
+            android:title="@string/tasker_integration_title"
+            android:summary="@string/tasker_integration_summary" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:dependency="allow_tasker_integration"
+            android:key="intent_integration_secret"
+            android:title="@string/tasker_integration_secret_title"
+            android:summary="@string/tasker_integration_secret_summary" />
         <com.wireguard.android.preference.ToolsInstallerPreference android:key="tools_installer" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_debugging">
+        <com.wireguard.android.preference.ZipExporterPreference />
+        <com.wireguard.android.preference.LogExporterPreference />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="force_userspace_backend"
+            android:title="@string/force_userspace_backend_title"
+            android:summary="@string/force_userspace_backend_summary" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
