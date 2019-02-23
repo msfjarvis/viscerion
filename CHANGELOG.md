@@ -1,5 +1,11 @@
 # Release Notes
 
+### v3.2.0 (Tentative)
+
+- Remove Magisk 17 support
+- Fix lingering theming issue with bottom sheets
+- Add support for Tasker
+
 ### [v3.1.1](https://github.com/MSF-Jarvis/viscerion/releases/3.1.1)
 
 - Update userspace backend to latest upstream, should bring significant
