@@ -14,7 +14,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -58,7 +57,7 @@ fun Context.restartApplication() {
 
 inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     return try {
-        ((context as ContextThemeWrapper).baseContext as T)
+        context as T
     } catch (ignored: ClassCastException) {
         null
     }
