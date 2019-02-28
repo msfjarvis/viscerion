@@ -21,7 +21,7 @@ val kotlinLicenseHeader = """/*
 fun Project.configureSpotless() {
     apply<SpotlessPlugin>()
 
-    configure<SpotlessExtension>() {
+    configure<SpotlessExtension> {
         format("misc") {
             target(
                 fileTree(

@@ -22,10 +22,9 @@ object ApplicationPreferences {
             Application.sharedPreferences.edit {
                 putString(globalExclusionsKey, value)
             }
-            exclusionsArray = value.toArrayList().toCollection(ArrayList())
         }
-    var exclusionsArray: ArrayList<String> = exclusions.toArrayList()
-        private set
+    val exclusionsArray: ArrayList<String>
+        get() = exclusions.toArrayList()
 
     val useDarkTheme: Boolean
         get() = Application.sharedPreferences.getBoolean(appThemeKey, false)
