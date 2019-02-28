@@ -273,6 +273,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             }
             if (!ApplicationPreferences.allowTaskerIntegration || ApplicationPreferences.taskerIntegrationSecret.isEmpty()) {
                 Timber.tag("IntentReceiver").e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
+                return
             }
             if (tunnelName != null && state != null && integrationSecret == ApplicationPreferences.taskerIntegrationSecret) {
                 Timber.tag("IntentReceiver").d("Setting $tunnelName's state to $state")
