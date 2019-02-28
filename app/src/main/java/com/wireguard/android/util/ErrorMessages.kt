@@ -30,6 +30,7 @@ object ErrorMessages {
         Reason.UNKNOWN_ATTRIBUTE to R.string.bad_config_reason_unknown_attribute,
         Reason.UNKNOWN_SECTION to R.string.bad_config_reason_unknown_section
     )
+
     private val KFE_FORMAT_MAP = mapOf(
         Format.BASE64 to R.string.key_length_explanation_base64,
         Format.BINARY to R.string.key_length_explanation_binary,

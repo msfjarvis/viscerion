@@ -76,7 +76,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.config_editor, menu)
+        inflater.inflate(R.menu.config_editor, menu)
     }
 
     override fun onCreateView(

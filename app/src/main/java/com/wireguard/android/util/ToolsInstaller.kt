@@ -192,7 +192,7 @@ class ToolsInstaller(val context: Context) {
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR = getInstallDir()
-        private val magiskDir: String = "/sbin/.magisk"
+        private const val magiskDir: String = "/sbin/.magisk"
 
         private fun getInstallDir(): File? {
             val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
