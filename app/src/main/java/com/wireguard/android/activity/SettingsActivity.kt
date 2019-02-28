@@ -12,7 +12,11 @@ import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
+import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
@@ -92,19 +96,19 @@ class SettingsActivity : ThemeChangeAwareActivity() {
             addPreferencesFromResource(R.xml.preferences)
             val screen = preferenceScreen
             val wgQuickOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference("tools_installer"),
-                preferenceScreen.findPreference("restore_on_boot")
+                preferenceScreen.findPreference<Preference>("tools_installer"),
+                preferenceScreen.findPreference<CheckBoxPreference>("restore_on_boot")
             )
             val debugOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
+                preferenceScreen.findPreference<SwitchPreferenceCompat>(ApplicationPreferences.forceUserspaceBackendkey)
             )
             val wgOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference(ApplicationPreferences.whitelistAppsKey)
+                preferenceScreen.findPreference<CheckBoxPreference>(ApplicationPreferences.whitelistAppsKey)
             )
-            val exclusionsPref = preferenceManager.findPreference(ApplicationPreferences.globalExclusionsKey)
-            val whitelistAppsPref = preferenceManager.findPreference(ApplicationPreferences.whitelistAppsKey)
-            val forceUserspaceBackendPref = preferenceManager.findPreference(ApplicationPreferences.forceUserspaceBackendkey)
-            val integrationSecretPref = preferenceManager.findPreference(ApplicationPreferences.taskerIntegrationSecretKey)
+            val exclusionsPref = preferenceManager.findPreference<Preference>(ApplicationPreferences.globalExclusionsKey)
+            val whitelistAppsPref = preferenceManager.findPreference<CheckBoxPreference>(ApplicationPreferences.whitelistAppsKey)
+            val forceUserspaceBackendPref = preferenceManager.findPreference<SwitchPreferenceCompat>(ApplicationPreferences.forceUserspaceBackendkey)
+            val integrationSecretPref = preferenceManager.findPreference<EditTextPreference>(ApplicationPreferences.taskerIntegrationSecretKey)
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref.isVisible = false
 
