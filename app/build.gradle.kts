@@ -89,7 +89,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
-    implementation("androidx.annotation:annotation:1.0.1")
+    implementation("androidx.annotation:annotation:1.0.2")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
