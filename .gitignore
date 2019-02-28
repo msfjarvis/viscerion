@@ -1,4 +1,4 @@
-/.gradle/
+.gradle/
 /.idea/*.xml
 /.idea/caches/
 /.idea/dictionaries/
@@ -9,6 +9,7 @@
 .externalNativeBuild/
 Thumbs.db
 build/
+!buildSrc/src/main/kotlin/me/msfjarvis/viscerion/build/
 *.apk
 *.class
 *.dex

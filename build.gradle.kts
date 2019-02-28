@@ -1,4 +1,10 @@
+/*
+ * Copyright © 2017-2018 WireGuard LLC.
+ * Copyright © 2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import me.msfjarvis.viscerion.build.configureSpotless
 
 buildscript {
     repositories {
@@ -42,8 +48,4 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
     reportfileName = "report"
 }
 
-tasks {
-    register("clean", Delete::class) {
-        delete(rootProject.buildDir)
-    }
-}
+configureSpotless()
