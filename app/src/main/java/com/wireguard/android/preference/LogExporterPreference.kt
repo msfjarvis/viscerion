@@ -29,7 +29,6 @@ import java.io.InputStreamReader
  * Preference implementing a button that asynchronously exports logs.
  */
 
-@Suppress("Unused")
 class LogExporterPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
 
     private var exportedFilePath: String? = null

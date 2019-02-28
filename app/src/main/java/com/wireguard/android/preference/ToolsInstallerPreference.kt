@@ -17,7 +17,6 @@ import com.wireguard.android.util.ToolsInstaller
  * result as the preference summary.
  */
 
-@Suppress("Unused")
 class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var state = State.INITIAL
 
