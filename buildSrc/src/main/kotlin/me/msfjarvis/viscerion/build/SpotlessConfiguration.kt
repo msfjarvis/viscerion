@@ -38,8 +38,16 @@ fun Project.configureSpotless() {
         }
 
         java {
-            target("**/*.java")
+            target(
+                "app/src/main/java/com/wireguard/crypto/Key.java",
+                "app/src/main/java/com/wireguard/android/widget/KeyInputFilter.java",
+                "app/src/main/java/com/wireguard/android/util/ObservableSortedKeyedArrayList.java",
+                "app/src/main/java/com/wireguard/android/util/ObservableKeyedArrayList.java",
+                "app/src/main/java/com/wireguard/android/util/KotlinCompanions.java"
+            )
             trimTrailingWhitespace()
+            @Suppress("INACCESSIBLE_TYPE")
+            licenseHeader(kotlinLicenseHeader)
             removeUnusedImports()
             googleJavaFormat().aosp()
             endWithNewline()
@@ -56,7 +64,7 @@ fun Project.configureSpotless() {
         }
 
         kotlin {
-            target("src/**/*.kt", "buildSrc/**/*.kt")
+            target("**/src/**/*.kt", "buildSrc/**/*.kt")
             ktlint("0.29.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
             @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenseHeader)
