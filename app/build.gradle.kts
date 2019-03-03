@@ -1,3 +1,4 @@
+import me.msfjarvis.viscerion.build.VersionConfiguration
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
@@ -30,8 +31,8 @@ android {
         applicationId = "me.msfjarvis.viscerion"
         minSdkVersion(21)
         targetSdkVersion(28)
-        versionCode = 3110
-        versionName = "3.1.1"
+        versionCode = VersionConfiguration.versionCode
+        versionName = VersionConfiguration.versionName
         buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
         setProperty("archivesBaseName", "viscerion_${gitHash()}")
     }
