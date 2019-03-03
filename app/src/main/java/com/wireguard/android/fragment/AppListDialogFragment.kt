@@ -54,7 +54,7 @@ class AppListDialogFragment : DialogFragment() {
         loadData()
 
         val dialog = alertDialogBuilder.create()
-        dialog?.setOnShowListener {
+        dialog.setOnShowListener {
             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
                 appData.forEach { app ->
                     app.isExcludedFromTunnel = false
