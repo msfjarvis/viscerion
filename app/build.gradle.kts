@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.io.IOException
 import java.util.Properties
+import me.msfjarvis.viscerion.build.DependencyStore as deps
 
 plugins {
     id("com.android.application")
@@ -90,21 +91,21 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
-    implementation("androidx.annotation:annotation:1.0.2")
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation("androidx.core:core-ktx:1.0.1")
-    implementation("androidx.databinding:databinding-adapters:3.3.1")
-    implementation("androidx.databinding:databinding-runtime:3.3.1")
-    implementation("androidx.fragment:fragment-ktx:1.0.0")
-    implementation("androidx.preference:preference:1.1.0-alpha03")
-    implementation("com.google.android.material:material:1.0.0")
-    implementation("com.google.zxing:core:3.3.3")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.2")
-    implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("net.sourceforge.streamsupport:android-retrofuture:1.7.0")
-    implementation("net.sourceforge.streamsupport:android-retrostreams:1.7.0")
+    implementation(deps.AndroidX.annotations)
+    implementation(deps.AndroidX.appcompat)
+    implementation(deps.AndroidX.cardview)
+    implementation(deps.AndroidX.constraintlayout)
+    implementation(deps.AndroidX.coreKtx)
+    implementation(deps.AndroidX.databindingAdapters)
+    implementation(deps.AndroidX.databindingRuntime)
+    implementation(deps.AndroidX.fragmentKtx)
+    implementation(deps.AndroidX.preference)
+    implementation(deps.Material.material)
+    implementation(deps.ThirdParty.zxing)
+    implementation(deps.ThirdParty.threetenabp)
+    implementation(deps.ThirdParty.timber)
+    implementation(deps.ThirdParty.retrofuture)
+    implementation(deps.ThirdParty.retrostreams)
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
 }
 
