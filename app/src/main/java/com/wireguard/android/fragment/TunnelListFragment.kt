@@ -213,8 +213,7 @@ class TunnelListFragment : BaseFragment() {
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.let {
             it.createFab.setOnClickListener { bottomSheet.show() }
-            @Suppress("DEPRECATION")
-            it.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
+            it.tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
             it.executePendingBindings()
         }
         return binding?.root
