@@ -52,7 +52,6 @@ class TunnelListFragment : BaseFragment() {
     private val actionModeListener = ActionModeListener()
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
-    lateinit var dialog: BottomSheetDialog
 
     private fun importTunnel(configText: String) {
         try {
@@ -194,26 +193,26 @@ class TunnelListFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        context?.let {
-            dialog = BottomSheetDialog(it, R.style.BottomSheetDialogTheme)
-            dialog.setContentView(R.layout.add_tunnels_bottom_sheet)
-            dialog.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
-                dialog.dismiss()
+        val bottomSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        bottomSheet.apply {
+            setContentView(R.layout.add_tunnels_bottom_sheet)
+            findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
+                dismiss()
                 onRequestCreateConfig()
             }
-            dialog.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
-                dialog.dismiss()
+            findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
+                dismiss()
                 onRequestImportConfig()
             }
-            dialog.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
-                dialog.dismiss()
+            findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
+                dismiss()
                 onRequestScanQRCode()
             }
         }
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.let {
-            it.createFab.setOnClickListener { dialog.show() }
+            it.createFab.setOnClickListener { bottomSheet.show() }
             @Suppress("DEPRECATION")
             it.tunnelList.setOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
             it.executePendingBindings()
