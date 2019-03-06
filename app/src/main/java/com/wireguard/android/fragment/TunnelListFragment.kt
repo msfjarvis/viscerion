@@ -116,11 +116,11 @@ class TunnelListFragment : BaseFragment() {
                             name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
                         else
                             continue
-                        var config: Config? = null
-                        try {
-                            config = Config.parse(reader)
+                        val config: Config? = try {
+                            Config.parse(reader)
                         } catch (e: Exception) {
                             throwables.add(e)
+                            null
                         }
 
                         if (config != null)
@@ -151,11 +151,11 @@ class TunnelListFragment : BaseFragment() {
                 future.whenComplete { _, _ ->
                     val tunnels = ArrayList<Tunnel>(futureTunnels.size)
                     for (futureTunnel in futureTunnels) {
-                        var tunnel: Tunnel? = null
-                        try {
-                            tunnel = futureTunnel.getNow(null)
+                        val tunnel: Tunnel? = try {
+                            futureTunnel.getNow(null)
                         } catch (e: Exception) {
                             throwables.add(e)
+                            null
                         }
 
                         tunnel?.let {

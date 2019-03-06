@@ -41,13 +41,12 @@ class QuickTileService : TileService() {
 
     /* This works around an annoying unsolved frameworks bug some people are hitting. */
     override fun onBind(intent: Intent): IBinder? {
-        var ret: IBinder? = null
-        try {
-            ret = super.onBind(intent)
+        return try {
+            super.onBind(intent)
         } catch (e: Exception) {
             Timber.d(e, "Failed to bind to TileService")
+            null
         }
-        return ret
     }
 
     override fun onCreate() {
