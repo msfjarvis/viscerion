@@ -8,7 +8,6 @@ package com.wireguard.android.model
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.edit
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.Application
@@ -18,7 +17,6 @@ import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.model.Tunnel.Statistics
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
@@ -92,12 +90,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             return
         lastUsedTunnel = tunnel
         notifyPropertyChanged(BR.lastUsedTunnel)
-        Application.sharedPreferences.edit {
-            when {
-                tunnel != null -> putString(KEY_LAST_USED_TUNNEL, tunnel.name)
-                else -> remove(KEY_LAST_USED_TUNNEL)
-            }
-        }
+        Application.appPrefs.lastUsedTunnel = tunnel?.name ?: ""
     }
 
     internal fun getTunnelConfig(tunnel: Tunnel): CompletionStage<Config> {
@@ -120,8 +113,8 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     private fun onTunnelsLoaded(present: Iterable<String>, running: Collection<String>) {
         for (name in present)
             addToList(name, null, if (running.contains(name)) Tunnel.State.UP else Tunnel.State.DOWN)
-        val lastUsedName = Application.sharedPreferences.getString(KEY_LAST_USED_TUNNEL, null)
-        if (lastUsedName != null)
+        val lastUsedName = Application.appPrefs.lastUsedTunnel
+        if (lastUsedName.isNotEmpty())
             setLastUsedTunnel(tunnels[lastUsedName])
         var toComplete: Array<CompletableFuture<Void>>?
         synchronized(delayedLoadRestoreTunnels) {
@@ -157,7 +150,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     fun restoreState(force: Boolean): CompletionStage<Void> {
-        if (!force && !Application.sharedPreferences.getBoolean(KEY_RESTORE_ON_BOOT, false))
+        if (!force && !Application.appPrefs.restoreOnBoot)
             return CompletableFuture.completedFuture(null)
         synchronized(delayedLoadRestoreTunnels) {
             if (!haveLoaded) {
@@ -166,18 +159,13 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                 return f
             }
         }
-        val previouslyRunning = Application.sharedPreferences.getStringSet(KEY_RUNNING_TUNNELS, null)
-            ?: return CompletableFuture.completedFuture(null)
+        val previouslyRunning = Application.appPrefs.runningTunnels
         return KotlinCompanions.streamForStateChange(tunnels, previouslyRunning, this)
     }
 
     fun saveState() {
-        Application.sharedPreferences.edit {
-            putStringSet(
-                KEY_RUNNING_TUNNELS,
-                tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
-            )
-        }
+        Application.appPrefs.runningTunnels =
+            tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
     }
 
     fun restartActiveTunnels() {
@@ -271,11 +259,12 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                 }
                 else -> Timber.tag("IntentReceiver").d("Invalid intent action: ${intent.action}")
             }
-            if (!ApplicationPreferences.allowTaskerIntegration || ApplicationPreferences.taskerIntegrationSecret.isEmpty()) {
-                Timber.tag("IntentReceiver").e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
+            if (!Application.appPrefs.allowTaskerIntegration || Application.appPrefs.taskerIntegrationSecret.isEmpty()) {
+                Timber.tag("IntentReceiver")
+                    .e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
                 return
             }
-            if (tunnelName != null && state != null && integrationSecret == ApplicationPreferences.taskerIntegrationSecret) {
+            if (tunnelName != null && state != null && integrationSecret == Application.appPrefs.taskerIntegrationSecret) {
                 Timber.tag("IntentReceiver").d("Setting $tunnelName's state to $state")
                 manager.getTunnels().thenAccept { tunnels ->
                     val tunnel = tunnels[tunnelName]
@@ -297,9 +286,6 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
         )
         private var lastUsedTunnel: Tunnel? = null
-        private const val KEY_LAST_USED_TUNNEL = "last_used_tunnel"
-        private const val KEY_RESTORE_ON_BOOT = "restore_on_boot"
-        private const val KEY_RUNNING_TUNNELS = "enabled_configs"
         private const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
         private const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
 

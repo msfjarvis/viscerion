@@ -50,7 +50,10 @@ class ToolsInstaller(val context: Context) {
         val script = StringBuilder()
         for (names in EXECUTABLES) {
             script.append(
-                "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(INSTALL_DIR, names[1])}' && "
+                "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(
+                    INSTALL_DIR,
+                    names[1]
+                )}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
@@ -115,7 +118,10 @@ class ToolsInstaller(val context: Context) {
         for (names in EXECUTABLES) {
             val destination = File(INSTALL_DIR, names[1])
             script.append(
-                "cp '${File(nativeLibraryDir, names[0])}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
+                "cp '${File(
+                    nativeLibraryDir,
+                    names[0]
+                )}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
             )
         }
         return try {
@@ -141,7 +147,10 @@ class ToolsInstaller(val context: Context) {
         for (names in EXECUTABLES) {
             val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
             script.append(
-                "cp '${File(nativeLibraryDir, names[0])}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
+                "cp '${File(
+                    nativeLibraryDir,
+                    names[0]
+                )}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
             )
         }
         script.append("trap - INT TERM EXIT;")

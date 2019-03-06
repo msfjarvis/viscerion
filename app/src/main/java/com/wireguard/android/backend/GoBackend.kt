@@ -13,7 +13,6 @@ import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
 import com.wireguard.config.Config
@@ -132,7 +131,7 @@ class GoBackend(private var context: Context) : Backend {
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
-            if (ApplicationPreferences.whitelistApps) {
+            if (Application.appPrefs.whitelistApps) {
                 config.`interface`.excludedApplications.forEach { excludedApplication ->
                     builder.addAllowedApplication(excludedApplication)
                 }

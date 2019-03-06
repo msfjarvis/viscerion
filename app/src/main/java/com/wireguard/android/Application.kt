@@ -8,14 +8,12 @@ package com.wireguard.android
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceManager
 import com.wireguard.android.backend.Backend
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
@@ -33,8 +31,8 @@ import java.lang.ref.WeakReference
 class Application : android.app.Application() {
     private lateinit var asyncWorker: AsyncWorker
     private lateinit var rootShell: RootShell
-    private val sharedPreferences: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(this)
+    private val appPrefs: ApplicationPreferences by lazy {
+        ApplicationPreferences(this)
     }
     private lateinit var toolsInstaller: ToolsInstaller
     private lateinit var tunnelManager: TunnelManager
@@ -72,7 +70,7 @@ class Application : android.app.Application() {
         toolsInstaller = ToolsInstaller(applicationContext)
 
         AppCompatDelegate.setDefaultNightMode(
-            if (ApplicationPreferences.useDarkTheme)
+            if (appPrefs.useDarkTheme)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
                 AppCompatDelegate.MODE_NIGHT_NO
@@ -95,7 +93,7 @@ class Application : android.app.Application() {
         val asyncWorker by lazy { get().asyncWorker }
         val backendAsync by lazy { get().futureBackend }
         val rootShell by lazy { get().rootShell }
-        val sharedPreferences by lazy { get().sharedPreferences }
+        val appPrefs by lazy { get().appPrefs }
         val toolsInstaller by lazy { get().toolsInstaller }
         val tunnelManager by lazy { get().tunnelManager }
         var supportsKernelModule = false
@@ -114,7 +112,7 @@ class Application : android.app.Application() {
                         if (File("/sys/module/wireguard").exists()) {
                             supportsKernelModule = true
                             try {
-                                if (ApplicationPreferences.forceUserspaceBackend)
+                                if (appPrefs.forceUserspaceBackend)
                                     throw Exception("Forcing userspace backend on user request.")
                                 app.rootShell.start()
                                 backend = WgQuickBackend(app.applicationContext)

@@ -25,6 +25,9 @@ public final class KotlinCompanions {
             final ObservableSortedKeyedArrayList<String, Tunnel> tunnels,
             final Set<String> previouslyRunning,
             final TunnelManager tunnelManager) {
+        if (tunnels.size() == 0) {
+            return CompletableFuture.completedFuture(null);
+        }
         return CompletableFuture.allOf(
                 StreamSupport.stream(tunnels)
                         .filter(tunnel -> previouslyRunning.contains(tunnel.getName()))

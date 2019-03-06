@@ -5,7 +5,7 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.Application
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
@@ -132,7 +132,7 @@ class Interface private constructor(builder: Builder) {
         if (!excludedApplications.isEmpty())
             sb.append("ExcludedApplications = ").append(
                 Attribute.join(
-                    excludedApplications + ApplicationPreferences.exclusionsArray
+                    excludedApplications + Application.appPrefs.exclusionsArray
                 )
             ).append('\n')
         listenPort?.let { lp -> sb.append("ListenPort = ").append(lp).append('\n') }
@@ -205,7 +205,7 @@ class Interface private constructor(builder: Builder) {
 
         fun excludeApplications(applications: Collection<String>): Builder {
             excludedApplications.addAll(applications)
-            ApplicationPreferences.exclusionsArray.forEach { exclusion ->
+            Application.appPrefs.exclusionsArray.forEach { exclusion ->
                 if (exclusion !in excludedApplications)
                     excludedApplications.add(exclusion)
             }
@@ -237,7 +237,7 @@ class Interface private constructor(builder: Builder) {
         fun parseExcludedApplications(apps: CharSequence): Builder {
             return excludeApplications(
                 Attribute.split(apps)
-                    .filter { it !in ApplicationPreferences.exclusionsArray }
+                    .filter { it !in Application.appPrefs.exclusionsArray }
                     .toList()
             )
         }

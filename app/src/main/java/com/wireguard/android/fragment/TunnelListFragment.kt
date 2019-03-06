@@ -30,7 +30,6 @@ import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
@@ -303,8 +302,8 @@ class TunnelListFragment : BaseFragment() {
                 tunnels.size, tunnels.size + throwables.size
             )/* Use the exception message from above. */
 
-        if (ApplicationPreferences.exclusions.isNotEmpty()) {
-            val excludedApps = ApplicationPreferences.exclusionsArray
+        if (Application.appPrefs.exclusions.isNotEmpty()) {
+            val excludedApps = Application.appPrefs.exclusionsArray
             tunnels.forEach { tunnel ->
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {

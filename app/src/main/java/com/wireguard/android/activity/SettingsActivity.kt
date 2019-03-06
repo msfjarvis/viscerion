@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
@@ -23,9 +24,7 @@ import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.asString
-import com.wireguard.android.util.restartApplication
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -33,7 +32,7 @@ import java.util.Arrays
  * Interface for changing application-global persistent settings.
  */
 
-class SettingsActivity : ThemeChangeAwareActivity() {
+class SettingsActivity : AppCompatActivity() {
     private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
     private var permissionRequestCounter: Int = 0
 
@@ -100,15 +99,14 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 preferenceScreen.findPreference<CheckBoxPreference>("restore_on_boot")
             )
             val debugOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference<SwitchPreferenceCompat>(ApplicationPreferences.forceUserspaceBackendkey)
+                preferenceScreen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
             )
             val wgOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference<CheckBoxPreference>(ApplicationPreferences.whitelistAppsKey)
+                preferenceScreen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
-            val exclusionsPref = preferenceManager.findPreference<Preference>(ApplicationPreferences.globalExclusionsKey)
-            val whitelistAppsPref = preferenceManager.findPreference<CheckBoxPreference>(ApplicationPreferences.whitelistAppsKey)
-            val forceUserspaceBackendPref = preferenceManager.findPreference<SwitchPreferenceCompat>(ApplicationPreferences.forceUserspaceBackendkey)
-            val integrationSecretPref = preferenceManager.findPreference<EditTextPreference>(ApplicationPreferences.taskerIntegrationSecretKey)
+            val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
+            val integrationSecretPref =
+                preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref.isVisible = false
 
@@ -131,23 +129,16 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                 }
             }
             exclusionsPref.setOnPreferenceClickListener {
-                val excludedApps = ArrayList<String>(ApplicationPreferences.exclusionsArray)
+                val excludedApps = ArrayList<String>(Application.appPrefs.exclusionsArray)
                 val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
-            whitelistAppsPref?.setOnPreferenceClickListener {
-                Application.tunnelManager.restartActiveTunnels()
-                true
-            }
-            forceUserspaceBackendPref?.setOnPreferenceClickListener {
-                context?.restartApplication()
-                true
-            }
             integrationSecretPref.setSummaryProvider { preference ->
-                if (ApplicationPreferences.allowTaskerIntegration &&
+                if (Application.appPrefs.allowTaskerIntegration &&
                     preference.isEnabled &&
-                    ApplicationPreferences.taskerIntegrationSecret.isEmpty())
+                    Application.appPrefs.taskerIntegrationSecret.isEmpty()
+                )
                     getString(R.string.tasker_integration_summary_empty_secret)
                 else
                     getString(R.string.tasker_integration_secret_summary)
@@ -155,13 +146,13 @@ class SettingsActivity : ThemeChangeAwareActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            if (excludedApps.asString() == ApplicationPreferences.exclusions) return
+            if (excludedApps.asString() == Application.appPrefs.exclusions) return
             Application.tunnelManager.getTunnels().thenAccept { tunnels ->
                 if (excludedApps.isNotEmpty()) {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
                         oldConfig?.let {
-                            ApplicationPreferences.exclusionsArray.forEach { exclusion ->
+                            Application.appPrefs.exclusionsArray.forEach { exclusion ->
                                 it.`interface`.excludedApplications.remove(
                                     exclusion
                                 )
@@ -170,17 +161,16 @@ class SettingsActivity : ThemeChangeAwareActivity() {
                             tunnel.setConfig(it)
                         }
                     }
-                    ApplicationPreferences.exclusions = excludedApps.asString()
+                    Application.appPrefs.exclusions = excludedApps.asString()
                 } else {
                     tunnels.forEach { tunnel ->
-                        ApplicationPreferences.exclusionsArray.forEach { exclusion ->
+                        Application.appPrefs.exclusionsArray.forEach { exclusion ->
                             tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
                         }
                     }
-                    ApplicationPreferences.exclusions = ""
+                    Application.appPrefs.exclusions = ""
                 }
             }
-            Application.tunnelManager.restartActiveTunnels()
         }
     }
 }
