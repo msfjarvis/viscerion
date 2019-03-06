@@ -18,11 +18,11 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 val buildTypeRelease = "release"
 
 fun gitHash(): String {
-    try {
-        return Runtime.getRuntime().exec("git describe --tags").inputStream.reader().use { it.readText() }.trim()
+    return try {
+        Runtime.getRuntime().exec("git describe --tags").inputStream.reader().use { it.readText() }.trim()
     } catch (ignored: IOException) {
+        ""
     }
-    return ""
 }
 
 android {
