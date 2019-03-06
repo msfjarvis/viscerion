@@ -14,3 +14,4 @@ build/
 *.jks
 keystore.properties
 package-info.java
+crowdin.yml
