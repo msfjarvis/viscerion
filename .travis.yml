@@ -22,9 +22,7 @@ branches:
     - master
 
 script:
-  - |
-      ./gradlew spotlessCheck && \
-      ./gradlew assemble$BUILD_TYPE check$BUILD_TYPE
+  - ./gradlew assemble$BUILD_TYPE check$BUILD_TYPE
 
 notifications:
   email: false

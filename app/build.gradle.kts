@@ -15,7 +15,6 @@ plugins {
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
 val keystorePropertiesFile = rootProject.file("keystore.properties")
-val buildTypeRelease = "release"
 
 fun gitHash(): String {
     return try {
@@ -50,7 +49,7 @@ android {
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
         signingConfigs {
-            create(buildTypeRelease) {
+            create("release") {
                 keyAlias = keystoreProperties["keyAlias"].toString()
                 keyPassword = keystoreProperties["keyPassword"].toString()
                 storeFile = rootProject.file(keystoreProperties["storeFile"].toString())
@@ -59,7 +58,7 @@ android {
         }
     }
     buildTypes {
-        getByName(buildTypeRelease) {
+        getByName("release") {
             if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("release")
             externalNativeBuild {
                 cmake {
@@ -124,4 +123,14 @@ tasks.withType<KotlinCompile> {
 
 kapt {
     useBuildCache = true
+}
+
+afterEvaluate {
+    val assembleTask = tasks.findByName("assembleDebug") ?: tasks.findByName("assembleRelease")
+    val dependencies = mutableListOf()
+    dependencies += rootProject.tasks.getByName("spotlessCheck")
+    if (dependencies.isNotEmpty()) {
+        assembleTask?.dependsOn?.forEach { dependencies += it }
+        assembleTask?.setDependsOn(dependencies)
+    }
 }
