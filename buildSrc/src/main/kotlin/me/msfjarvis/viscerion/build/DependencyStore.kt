@@ -36,7 +36,7 @@ class DependencyStore {
 
     object ThirdParty {
         private const val streamsupportVersion = "1.7.0"
-        private const val threetenabpVersion = "1.1.2"
+        private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
         private const val zxingVersion = "3.3.3"
 
