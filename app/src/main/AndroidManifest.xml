@@ -52,7 +52,7 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 
-        <receiver android:name=".BootShutdownReceiver">
+        <receiver android:name=".services.BootShutdownReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

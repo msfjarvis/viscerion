@@ -3,11 +3,12 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.android
+package com.wireguard.android.services
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.wireguard.android.Application
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.util.ExceptionLoggers
 import timber.log.Timber
