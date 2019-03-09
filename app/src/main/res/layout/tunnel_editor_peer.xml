@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/public_key_label_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/TextInputLayoutBase"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -66,7 +66,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pre_shared_key_label_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/TextInputLayoutBase"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -86,7 +86,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/allowed_ips_label_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/TextInputLayoutBase"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -114,7 +114,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/endpoint_label_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/TextInputLayoutBase"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
@@ -134,7 +134,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/persistent_keepalive_label_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    style="@style/TextInputLayoutBase"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -170,6 +170,8 @@
                     android:onClick="@{() -> item.toggleExcludePrivateIPs()}"
                     android:text="@{item.excludingPrivateIps ? R.string.exclude_private_ips_on : R.string.exclude_private_ips_off}"
                     android:visibility="@{item.ableToExcludePrivateIps ? View.VISIBLE : View.GONE}"
+                    android:textColor="@color/accent"
+                    app:rippleColor="@color/accent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/peer_action_delete"
@@ -183,6 +185,8 @@
                     android:contentDescription="@string/delete"
                     android:text="@string/delete"
                     android:onClick="@{() -> item.unbind()}"
+                    android:textColor="@color/accent"
+                    app:rippleColor="@color/accent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/exclude_private_ips"
                     app:layout_constraintTop_toTopOf="parent"

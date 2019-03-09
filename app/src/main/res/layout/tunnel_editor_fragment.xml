@@ -64,7 +64,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/interface_name_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            style="@style/TextInputLayoutBase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -83,7 +83,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/private_key_text_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            style="@style/TextInputLayoutBase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -102,7 +102,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/public_key_label_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            style="@style/TextInputLayoutBase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -125,7 +125,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/addresses_label_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            style="@style/TextInputLayoutBase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -144,7 +144,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/dns_servers_label_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            style="@style/TextInputLayoutBase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
@@ -173,7 +173,7 @@
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/listen_port_label_layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                style="@style/TextInputLayoutBase"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="4dp"
@@ -192,7 +192,7 @@
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/mtu_label_layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                style="@style/TextInputLayoutBase"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
@@ -228,6 +228,8 @@
                                 android:layout_margin="4dp"
                                 android:onClick="@{fragment::onRequestSetExcludedApplications}"
                                 android:text="@{@plurals/set_excluded_applications(config.interface.excludedApplications.size, config.interface.excludedApplications.size)}"
+                                android:textColor="@color/accent"
+                                app:rippleColor="@color/accent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/generate_private_key_button"
@@ -240,6 +242,8 @@
                                 android:layout_height="wrap_content"
                                 android:onClick="@{() -> config.interface.generateKeyPair()}"
                                 android:text="@string/generate"
+                                android:textColor="@color/accent"
+                                app:rippleColor="@color/accent"
                                 app:layout_constraintStart_toEndOf="@+id/set_excluded_applications"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"

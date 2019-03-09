@@ -392,10 +392,7 @@ class TunnelListFragment : BaseFragment() {
                                 onTunnelDeletionFinished(count, throwable)
                             }
                     }
-                    binding?.let {
-                        if (it.createFab.isOrWillBeHidden)
-                            it.createFab.show()
-                    }
+                    binding?.createFab?.extend()
                     checkedItems.clear()
                     mode.finish()
                     return true

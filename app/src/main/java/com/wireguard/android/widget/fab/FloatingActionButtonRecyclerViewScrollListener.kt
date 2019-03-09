@@ -6,17 +6,17 @@
 package com.wireguard.android.widget.fab
 
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class FloatingActionButtonRecyclerViewScrollListener(private val fab: FloatingActionButton) :
+class FloatingActionButtonRecyclerViewScrollListener(private val fab: ExtendedFloatingActionButton) :
     RecyclerView.OnScrollListener() {
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        if (dy > 0 && fab.isOrWillBeShown) {
-            fab.hide()
-        } else if (dy < 0 && fab.isOrWillBeHidden) {
-            fab.show()
+        if (dy > 0) {
+            fab.shrink()
+        } else if (dy < 0) {
+            fab.extend()
         }
     }
 }

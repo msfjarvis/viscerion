@@ -57,14 +57,19 @@
                 android:text="@string/tunnel_list_placeholder" />
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
             android:id="@+id/create_fab"
             android:clipChildren="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/ic_baseline_add_24px"
+            android:textColor="@color/white"
+            android:text="@string/create"
+            app:backgroundTint="@color/accent"
+            app:icon="@drawable/ic_baseline_add_24px"
+            app:iconTint="@color/white"
             app:layout_behavior="com.wireguard.android.widget.fab.FloatingActionButtonBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

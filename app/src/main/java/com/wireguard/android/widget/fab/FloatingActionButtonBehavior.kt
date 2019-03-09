@@ -11,17 +11,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 class FloatingActionButtonBehavior(
     context: Context,
     attrs: AttributeSet
-) : CoordinatorLayout.Behavior<FloatingActionButton>(context, attrs) {
+) : CoordinatorLayout.Behavior<ExtendedFloatingActionButton>(context, attrs) {
 
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
-        child: FloatingActionButton,
+        child: ExtendedFloatingActionButton,
         dependency: View
     ): Boolean {
         return dependency is Snackbar.SnackbarLayout
@@ -29,7 +29,7 @@ class FloatingActionButtonBehavior(
 
     override fun onDependentViewChanged(
         parent: CoordinatorLayout,
-        child: FloatingActionButton,
+        child: ExtendedFloatingActionButton,
         dependency: View
     ): Boolean {
         child.translationY = Math.min(0f, dependency.translationY - dependency.measuredHeight)
@@ -38,7 +38,7 @@ class FloatingActionButtonBehavior(
 
     override fun onDependentViewRemoved(
         parent: CoordinatorLayout,
-        child: FloatingActionButton,
+        child: ExtendedFloatingActionButton,
         dependency: View
     ) {
         child.translationY = 0f

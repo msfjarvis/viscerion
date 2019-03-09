@@ -77,10 +77,6 @@ class TunnelDetailFragment : BaseFragment() {
                     // Restore window flags
                     decorView.systemUiVisibility =
                         View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        it.theme.resolveAttribute(android.R.attr.navigationBarDividerColor, typedValue, true)
-                        navigationBarDividerColor = typedValue.data
-                    }
                 }
             }
         }

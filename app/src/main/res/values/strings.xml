@@ -186,4 +186,5 @@
     <string name="tasker_integration_secret_title">External intent secret</string>
     <string name="tasker_integration_secret_summary">Secured secret to ensure only trusted clients can control tunnels. This cannot be empty!</string>
     <string name="tasker_integration_summary_empty_secret">Setting a secret here is mandatory!</string>
+    <string name="create">Create</string>
 </resources>

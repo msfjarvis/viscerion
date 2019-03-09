@@ -129,9 +129,6 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !Application.appPrefs.useDarkTheme) {
                         // Clear window flags to let navigation bar be dark
                         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            navigationBarDividerColor = ContextCompat.getColor(it, android.R.color.transparent)
-                        }
                     }
                 }
             }

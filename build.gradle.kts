@@ -33,10 +33,11 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
     resolutionStrategy {
         componentSelection {
             all {
+                val whitelistedGroups = listOf("androidx.preference", "com.google.android.material")
                 val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview")
                     .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
                     .any { it.matches(candidate.version) }
-                if (rejected && candidate.group != "androidx.preference") {
+                if (rejected && !whitelistedGroups.contains(candidate.group)) {
                     reject("Release candidate")
                 }
             }
