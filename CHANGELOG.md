@@ -5,6 +5,8 @@
 - Remove Magisk 17 support
 - Fix lingering theming issue with bottom sheets
 - Add support for Tasker
+- Automatically export configurations to external storage when upgrading
+- Use a Google Messages style FAB in tunnel list
 
 ### [v3.1.1](https://github.com/MSF-Jarvis/viscerion/releases/3.1.1)
 
