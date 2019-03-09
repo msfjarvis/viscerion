@@ -36,8 +36,8 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
                 val whitelistedGroups = listOf("androidx.preference", "com.google.android.material")
                 val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview")
                     .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
-                    .any { it.matches(candidate.version) }
-                if (rejected && !whitelistedGroups.contains(candidate.group)) {
+                    .any { it.matches(candidate.version) && !whitelistedGroups.contains(candidate.group) }
+                if (rejected) {
                     reject("Release candidate")
                 }
             }
