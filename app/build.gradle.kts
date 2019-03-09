@@ -112,25 +112,32 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<JavaCompile> {
-    options.compilerArgs.add("-Xlint:unchecked")
-    options.isDeprecation = true
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
 kapt {
     useBuildCache = true
 }
 
+tasks {
+    withType<JavaCompile> {
+        options.compilerArgs.add("-Xlint:unchecked")
+        options.isDeprecation = true
+    }
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+}
+
 afterEvaluate {
-    val assembleTask = tasks.findByName("assembleDebug") ?: tasks.findByName("assembleRelease")
+    val kotlinCompileTask = tasks.findByName("compileDebugKotlin") ?: tasks.findByName("compileReleaseKotlin")
     val dependencies = mutableListOf()
     dependencies += rootProject.tasks.getByName("spotlessCheck")
     if (dependencies.isNotEmpty()) {
-        assembleTask?.dependsOn?.forEach { dependencies += it }
-        assembleTask?.setDependsOn(dependencies)
+        kotlinCompileTask?.let { task ->
+            task.dependsOn.forEach { dependencies += it }
+            task.setDependsOn(dependencies)
+            task.doFirst {
+                println("Removing: ${buildDir.absolutePath + "/outputs/apk/debug/"}")
+                delete(buildDir.absolutePath + "/outputs/apk/debug")
+            }
+        }
     }
 }
