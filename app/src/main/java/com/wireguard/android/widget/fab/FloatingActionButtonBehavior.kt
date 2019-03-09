@@ -3,8 +3,6 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-@file:Suppress("Unused")
-
 package com.wireguard.android.widget.fab
 
 import android.content.Context
