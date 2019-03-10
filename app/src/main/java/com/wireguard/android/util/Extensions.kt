@@ -26,7 +26,7 @@ fun String.toArrayList(): ArrayList<String> {
     return if (TextUtils.isEmpty(this))
         ArrayList()
     else
-        LIST_SEPARATOR.split(this.trim()).toCollection(ArrayList())
+        LIST_SEPARATOR.split(trim()).toCollection(ArrayList())
 }
 
 fun <T> List<T>.asString(): String {
@@ -44,13 +44,13 @@ inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
 fun Context.restartApplication() {
     val homeIntent = Intent(Intent.ACTION_MAIN)
         .addCategory(Intent.CATEGORY_HOME)
-        .setPackage(this.packageName)
+        .setPackage(packageName)
         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     val pi = PendingIntent.getActivity(
         this, 42, // The answer to everything
         homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
     )
-    (this.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
+    (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
         .setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
 }
