@@ -28,7 +28,9 @@ class ToolsInstaller(val context: Context) {
     private var installAsMagiskModule: Boolean? = null
 
     init {
-        nativeLibraryDir = if (!context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+        nativeLibraryDir = if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            File(context.applicationInfo.nativeLibraryDir)
+        } else {
             // App bundles, unpack executables from the split config APK.
             EXECUTABLES.forEach {
                 extractNativeLibrary(
@@ -38,8 +40,6 @@ class ToolsInstaller(val context: Context) {
                 )
             }
             context.cacheDir
-        } else {
-            File(context.applicationInfo.nativeLibraryDir)
         }
     }
 

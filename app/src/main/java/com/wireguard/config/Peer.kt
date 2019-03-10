@@ -105,8 +105,7 @@ class Peer private constructor(builder: Builder) {
      */
     fun toWgQuickString(): String {
         val sb = StringBuilder()
-        if (!allowedIps.isEmpty())
-            sb.append("AllowedIPs = ").append(Attribute.join(allowedIps)).append('\n')
+        if (allowedIps.isNotEmpty()) sb.append("AllowedIPs = ").append(Attribute.join(allowedIps)).append('\n')
         endpoint?.let { ep -> sb.append("Endpoint = ").append(ep).append('\n') }
         persistentKeepalive?.let { pk -> sb.append("PersistentKeepalive = ").append(pk).append('\n') }
         preSharedKey?.let { psk -> sb.append("PreSharedKey = ").append(psk.toBase64()).append('\n') }
