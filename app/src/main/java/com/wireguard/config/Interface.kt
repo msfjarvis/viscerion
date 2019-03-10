@@ -13,7 +13,6 @@ import com.wireguard.config.BadConfigException.Section
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
-import timber.log.Timber
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
@@ -325,9 +324,6 @@ class Interface private constructor(builder: Builder) {
                     "listenport" -> builder.parseListenPort(attribute.value)
                     "mtu" -> builder.parseMtu(attribute.value)
                     "privatekey" -> builder.parsePrivateKey(attribute.value)
-                    "postup", "postdown", "preup", "predown" -> {
-                        Timber.tag("Interface").d("Kill-switch attribute encountered, ignoring...")
-                    }
                     else -> throw BadConfigException(
                         Section.INTERFACE, Location.TOP_LEVEL,
                         Reason.UNKNOWN_ATTRIBUTE, attribute.key
