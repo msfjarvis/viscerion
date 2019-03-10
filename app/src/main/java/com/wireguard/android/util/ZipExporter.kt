@@ -47,7 +47,6 @@ object ZipExporter {
                             zip.closeEntry()
                         }
                     } catch (e: Exception) {
-
                         file.delete()
                         throw e
                     }

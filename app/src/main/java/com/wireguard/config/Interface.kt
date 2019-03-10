@@ -123,13 +123,13 @@ class Interface private constructor(builder: Builder) {
      */
     fun toWgQuickString(): String {
         val sb = StringBuilder()
-        if (!addresses.isEmpty())
+        if (addresses.isNotEmpty())
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
-        if (!dnsServers.isEmpty()) {
+        if (dnsServers.isNotEmpty()) {
             val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
-        if (!excludedApplications.isEmpty())
+        if (excludedApplications.isNotEmpty())
             sb.append("ExcludedApplications = ").append(
                 Attribute.join(
                     excludedApplications + Application.appPrefs.exclusionsArray
