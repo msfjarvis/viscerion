@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorSecondary">@color/accent</item>
         <item name="colorBackground">@color/white</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_dark</item>
         <item name="android:fontFamily">@font/lato</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
-    <style name="AppTheme.Dialog" parent="Base.Theme.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/accent</item>
+    <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorSecondary">@color/accent</item>
         <item name="android:windowBackground">?attr/colorBackground</item>
     </style>
 
@@ -47,7 +50,8 @@
     </style>
 
     <style name="TextInputLayoutBase" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="android:titleTextColor" tools:targetApi="m">?android:attr/textColorPrimary</item>
+        <item name="android:titleTextColor" tools:targetApi="m">?android:attr/textColorPrimary
+        </item>
         <item name="boxStrokeColor">@color/accent</item>
     </style>
 </resources>

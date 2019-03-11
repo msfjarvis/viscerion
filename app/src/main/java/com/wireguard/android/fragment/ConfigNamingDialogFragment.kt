@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
@@ -50,15 +51,13 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val activity = activity
-
         imm = context?.getSystemService<InputMethodManager>()
 
         // Allow throwing with a null activity, there's not much to do anyway
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
         alertDialogBuilder.setTitle(R.string.import_from_qr_code)
 
-        binding = ConfigNamingDialogFragmentBinding.inflate(activity.layoutInflater, null, false)
+        binding = ConfigNamingDialogFragmentBinding.inflate(requireActivity().layoutInflater, null, false)
         binding?.executePendingBindings()
         alertDialogBuilder.setView(binding?.root)
         binding?.tunnelNameText?.requestFocus()

@@ -12,9 +12,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
@@ -37,7 +37,7 @@ class AppListDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
         alertDialogBuilder.setTitle(R.string.excluded_applications)
 
         val binding = activity?.layoutInflater?.let { AppListDialogFragmentBinding.inflate(it, null, false) }

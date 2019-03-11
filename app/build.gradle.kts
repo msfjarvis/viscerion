@@ -1,5 +1,4 @@
 import me.msfjarvis.viscerion.build.VersionConfiguration
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.io.IOException
@@ -8,8 +7,8 @@ import me.msfjarvis.viscerion.build.DependencyStore as deps
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
@@ -105,7 +104,7 @@ dependencies {
     implementation(deps.ThirdParty.timber)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.retrostreams)
-    implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
+    implementation(embeddedKotlin("stdlib-jdk8"))
 }
 
 repositories {

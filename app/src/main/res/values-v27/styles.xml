@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorSecondary">@color/accent</item>
         <item name="colorBackground">@color/white</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_dark</item>
         <item name="android:navigationBarColor">@color/white</item>
@@ -11,6 +12,7 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:fontFamily">@font/lato</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">

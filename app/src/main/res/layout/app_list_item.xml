@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="com.wireguard.android.model.ApplicationData" />
@@ -19,8 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_background"
-        android:padding="12dp"
         android:gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:onClick="@{(view) -> item.setExcludedFromTunnel(!item.excludedFromTunnel)}"
         android:clickable="@{!item.globallyExcluded}">
 
@@ -28,7 +30,10 @@
             android:id="@+id/app_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toStartOf="@id/app_name"
             android:src="@{item.icon}"
+            tools:src="@color/accent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -36,13 +41,15 @@
         <TextView
             android:id="@+id/app_name"
             style="@style/Medium.CustomFont"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@{key}"
+            tools:text="@string/app_name"
+            app:layout_constraintEnd_toStartOf="@id/excluded_checkbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/app_icon"/>
@@ -51,6 +58,7 @@
             android:id="@+id/excluded_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/app_name"
             android:checked="@={item.excludedFromTunnel}"
             android:enabled="@{!item.globallyExcluded}"
             app:layout_constraintVertical_bias="0.5"

@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.wireguard.android.model.Tunnel" />
+
         <variable
             name="fragment"
             type="com.wireguard.android.fragment.TunnelListFragment" />
+
         <variable
             name="rowConfigurationHandler"
             type="com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler" />
+
         <variable
             name="tunnels"
             type="com.wireguard.android.util.ObservableKeyedList&lt;String, Tunnel&gt;" />
@@ -26,47 +30,49 @@
             android:id="@+id/tunnel_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@{@dimen/design_fab_size_normal * 1.1f}"
-            android:clipToPadding="false"
             android:choiceMode="multipleChoiceModal"
+            android:clipToPadding="false"
+            android:paddingBottom="@{@dimen/design_fab_size_normal * 1.1f}"
             android:visibility="@{tunnels.size() > 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
+            app:configurationHandler="@{rowConfigurationHandler}"
             app:items="@{tunnels}"
-            app:layout="@{@layout/tunnel_list_item}"
-            app:configurationHandler="@{rowConfigurationHandler}" />
+            app:layout="@{@layout/tunnel_list_item}" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical"
-            android:visibility="@{tunnels.size() == 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
-            android:layout_gravity="center">
+            android:visibility="@{tunnels.size() == 0 ? android.view.View.VISIBLE : android.view.View.GONE}">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/logo_placeholder"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_gravity="center"
-                android:alpha="0.3333333"
                 android:layout_marginTop="-70dp"
                 android:layout_marginBottom="20dp"
+                android:alpha="0.3333333"
                 android:src="@mipmap/ic_launcher" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16sp"
-                android:text="@string/tunnel_list_placeholder" />
+                android:text="@string/tunnel_list_placeholder"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
             android:id="@+id/create_fab"
-            android:clipChildren="false"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:textColor="@color/white"
+            android:clipChildren="false"
             android:text="@string/create"
+            android:textColor="@color/white"
             app:backgroundTint="@color/accent"
             app:icon="@drawable/ic_baseline_add_24px"
             app:iconTint="@color/white"
