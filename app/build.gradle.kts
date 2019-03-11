@@ -99,11 +99,11 @@ dependencies {
     implementation(deps.AndroidX.fragmentKtx)
     implementation(deps.AndroidX.preference)
     implementation(deps.Material.material)
-    implementation(deps.ThirdParty.zxing)
-    implementation(deps.ThirdParty.threetenabp)
-    implementation(deps.ThirdParty.timber)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.retrostreams)
+    implementation(deps.ThirdParty.threetenabp)
+    implementation(deps.ThirdParty.timber)
+    implementation(deps.ThirdParty.zxing)
     implementation(embeddedKotlin("stdlib-jdk8"))
 }
 
