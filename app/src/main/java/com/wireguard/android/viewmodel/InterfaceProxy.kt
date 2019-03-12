@@ -11,6 +11,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
+import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
@@ -22,6 +23,7 @@ import com.wireguard.crypto.KeyPair
 class InterfaceProxy : BaseObservable, Parcelable {
 
     private val excludedApplications: ObservableList<String> = ObservableArrayList()
+    private val totalExclusionsCount = (excludedApplications + Application.appPrefs.exclusionsArray).size
     private var addresses: String? = null
     private var dnsServers: String? = null
     private var listenPort: String? = null
@@ -100,6 +102,11 @@ class InterfaceProxy : BaseObservable, Parcelable {
     @Bindable
     fun getPrivateKey(): String? {
         return privateKey
+    }
+
+    @Bindable
+    fun getTotalExclusionsCount(): Int {
+        return totalExclusionsCount
     }
 
     @Throws(BadConfigException::class)
