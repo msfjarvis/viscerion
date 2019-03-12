@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorSecondary">@color/accent</item>
         <item name="colorBackground">@color/white</item>
+        <item name="colorControlNormal">@color/color_control_normal</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_dark</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>

@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/primary_color_black</item>
         <item name="colorSecondary">@color/accent</item>
         <item name="colorBackground">@color/primary_color_black</item>
+        <item name="colorControlNormal">@color/color_control_normal</item>
         <item name="colorBottomsheetText">@color/bottomsheet_text_white</item>
         <item name="android:colorBackground">@color/primary_color_black</item>
         <!-- Note to self, colorBackgroundFloating handles _floating_ items like CardViews -->

@@ -17,9 +17,11 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.wireguard.android.Application
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 
 fun String.toArrayList(): ArrayList<String> {
@@ -61,6 +63,15 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     } catch (ignored: ClassCastException) {
         null
     }
+}
+
+fun Context.updateAppTheme() {
+    AppCompatDelegate.setDefaultNightMode(
+            if (Application.appPrefs.useDarkTheme)
+                AppCompatDelegate.MODE_NIGHT_YES
+            else
+                AppCompatDelegate.MODE_NIGHT_NO
+    )
 }
 
 fun copyTextView(view: View) {

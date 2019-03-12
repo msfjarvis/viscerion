@@ -4,12 +4,6 @@
         <com.wireguard.android.preference.VersionPreference
             android:icon="@mipmap/ic_launcher" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preference_category_theme">
-        <SwitchPreferenceCompat
-            android:key="dark_theme"
-            android:title="@string/theme_title"
-            android:summary="@string/theme_summary"/>
-    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_config">
         <CheckBoxPreference
             android:defaultValue="false"
