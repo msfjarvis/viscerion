@@ -7,6 +7,8 @@
 - Add support for Tasker
 - Automatically export configurations to external storage when upgrading
 - Use a Google Messages style FAB in tunnel list
+- Tweak dialog UI
+- Add translations for pt-BR (Portuguese, Brazilian)
 
 ### [v3.1.1](https://github.com/MSF-Jarvis/viscerion/releases/3.1.1)
 
