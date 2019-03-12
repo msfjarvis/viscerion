@@ -12,7 +12,6 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.Application
 import com.wireguard.android.BR
-import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.configStore.ConfigStore
@@ -237,9 +236,6 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     class IntentReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val manager = Application.tunnelManager
-            var tunnelName: String? = null
-            var integrationSecret: String? = null
-            var state: Tunnel.State? = null
             if (intent == null || intent.action == null)
                 return
             when (intent.action) {
@@ -247,47 +243,19 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                     manager.refreshTunnelStates()
                     return
                 }
-                "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_UP" -> {
-                    tunnelName = intent.getStringExtra(TUNNEL_NAME_INTENT_EXTRA)
-                    integrationSecret = intent.getStringExtra(INTENT_INTEGRATION_SECRET_EXTRA)
-                    state = Tunnel.State.UP
-                }
-                "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_DOWN" -> {
-                    tunnelName = intent.getStringExtra(TUNNEL_NAME_INTENT_EXTRA)
-                    integrationSecret = intent.getStringExtra(INTENT_INTEGRATION_SECRET_EXTRA)
-                    state = Tunnel.State.DOWN
-                }
-                else -> Timber.tag("IntentReceiver").d("Invalid intent action: ${intent.action}")
-            }
-            if (!Application.appPrefs.allowTaskerIntegration || Application.appPrefs.taskerIntegrationSecret.isEmpty()) {
-                Timber.tag("IntentReceiver")
-                    .e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
-                return
-            }
-            if (tunnelName != null && state != null && integrationSecret == Application.appPrefs.taskerIntegrationSecret) {
-                Timber.tag("IntentReceiver").d("Setting $tunnelName's state to $state")
-                manager.getTunnels().thenAccept { tunnels ->
-                    val tunnel = tunnels[tunnelName]
-                    tunnel?.let {
-                        manager.setTunnelState(it, state)
-                    }
-                }
-            } else if (tunnelName == null) {
-                Timber.tag("IntentReceiver").d("Intent parameter tunnel_name not set!")
-            } else {
-                Timber.tag("IntentReceiver").e("Intent integration secret mis-match! Exiting...")
+                else -> Timber.tag("TunnelManager").d("Invalid intent action: ${intent.action}")
             }
         }
     }
 
     companion object {
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
+        const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
+        const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
         private val COMPARATOR = Comparators.thenComparing(
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
         )
         private var lastUsedTunnel: Tunnel? = null
-        private const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
-        private const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
 
         internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
             return Application.asyncWorker.supplyAsync { Application.backend.getState(tunnel) }

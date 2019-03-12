@@ -68,6 +68,11 @@
         <receiver android:name=".model.TunnelManager$IntentReceiver">
             <intent-filter>
                 <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".services.TaskerIntegrationReceiver">
+            <intent-filter>
                 <action android:name="${applicationId}.SET_TUNNEL_UP" />
                 <action android:name="${applicationId}.SET_TUNNEL_DOWN" />
             </intent-filter>
