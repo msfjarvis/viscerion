@@ -9,6 +9,7 @@
 - Use a Google Messages style FAB in tunnel list
 - Tweak dialog UI
 - Add translations for pt-BR (Portuguese, Brazilian)
+- Move theme toggle to overflow menu for easier access
 
 ### [v3.1.1](https://github.com/MSF-Jarvis/viscerion/releases/3.1.1)
 
