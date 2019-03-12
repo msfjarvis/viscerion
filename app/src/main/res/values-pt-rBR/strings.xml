@@ -60,10 +60,6 @@
     <string name="create_from_qr_code">Criar a partir do código QR</string>
     <string name="create_output_dir_error">Não é possível criar o diretório de saída</string>
     <string name="create_temp_dir_error">Não é possível criar o diretório temporário local</string>
-    <string name="theme_title">Usar tema escuro</string>
-    <string name="theme_summary">Aplicar um tema escuro na interface</string>
-    <string name="light_theme_entry">Tema claro</string>
-    <string name="dark_theme_entry">Tema escuro</string>
     <string name="create_tunnel">Criar túnel</string>
     <string name="delete">Excluir</string>
     <string name="deselect_all">Desmarcar tudo</string>
@@ -178,7 +174,6 @@
     <string name="preference_category_about">Sobre</string>
     <string name="preference_category_config">Configurações do túnel</string>
     <string name="preference_category_debugging">Depuração</string>
-    <string name="preference_category_theme">Temas</string>
     <string name="tasker_integration_title">Habilitar integração do tasker</string>
     <string name="tasker_integration_summary">AVISO: Este é um potencial risco de segurança! Evite usar isto em dispositivos com root, apps maliciosos podem facilmente contornar a proteção posta em prática pelo Viscerion!</string>
     <string name="tasker_integration_secret_title">Segredo de intenção externo</string>

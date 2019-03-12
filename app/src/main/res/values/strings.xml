@@ -62,10 +62,6 @@
     <string name="create_temp_dir_error">Cannot create local temporary directory</string>
     <string name="dark_mode_enable">Enable dark mode</string>
     <string name="dark_mode_disable">Disable dark mode</string>
-    <string name="light_theme_entry">Light theme</string>
-    <string name="dark_theme_entry">Dark theme</string>
-    <string name="light_theme_value" translatable="false">light</string>
-    <string name="dark_theme_value" translatable="false">dark</string>
     <string name="create_tunnel">Create Tunnel</string>
     <string name="delete">Delete</string>
     <string name="deselect_all">Deselect All</string>
@@ -180,7 +176,6 @@
     <string name="preference_category_about">About</string>
     <string name="preference_category_config">Tunnel configurations</string>
     <string name="preference_category_debugging">Debugging</string>
-    <string name="preference_category_theme">Theming</string>
     <string name="tasker_integration_title">Enable tasker integration</string>
     <string name="tasker_integration_summary">WARNING: This is a potential security risk! Avoid using this on rooted devices, malicious apps can very easily circumvent the protection put in place by Viscerion!</string>
     <string name="tasker_integration_secret_title">External intent secret</string>
