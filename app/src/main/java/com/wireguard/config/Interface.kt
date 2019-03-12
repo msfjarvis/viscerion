@@ -129,7 +129,7 @@ class Interface private constructor(builder: Builder) {
             val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
-        if (excludedApplications.isNotEmpty())
+        if ((excludedApplications + Application.appPrefs.exclusionsArray).isNotEmpty())
             sb.append("ExcludedApplications = ").append(
                 Attribute.join(
                     excludedApplications + Application.appPrefs.exclusionsArray
