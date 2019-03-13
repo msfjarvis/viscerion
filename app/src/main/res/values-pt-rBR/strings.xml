@@ -60,6 +60,8 @@
     <string name="create_from_qr_code">Criar a partir do código QR</string>
     <string name="create_output_dir_error">Não é possível criar o diretório de saída</string>
     <string name="create_temp_dir_error">Não é possível criar o diretório temporário local</string>
+    <string name="dark_mode_enable">Ativar o modo escuro</string>
+    <string name="dark_mode_disable">Desativar o modo escuro</string>
     <string name="create_tunnel">Criar túnel</string>
     <string name="delete">Excluir</string>
     <string name="deselect_all">Desmarcar tudo</string>
@@ -179,4 +181,5 @@
     <string name="tasker_integration_secret_title">Segredo de intenção externo</string>
     <string name="tasker_integration_secret_summary">Segredo protegido para garantir que somente os clientes confiáveis possam controlar túneis. Isto não pode estar vazio!</string>
     <string name="tasker_integration_summary_empty_secret">Definir um segredo aqui é obrigatório!</string>
+    <string name="create">Criar</string>
 </resources>
