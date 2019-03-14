@@ -128,7 +128,7 @@ tasks {
 afterEvaluate {
     val kotlinCompileTask = tasks.findByName("compileDebugKotlin") ?: tasks.findByName("compileReleaseKotlin")
     val dependencies = mutableListOf()
-    dependencies += rootProject.tasks.getByName("spotlessCheck")
+    dependencies += rootProject.tasks.getByName(if (System.getenv("TRAVIS") == "true") "spotlessCheck" else "spotlessApply")
     if (dependencies.isNotEmpty()) {
         kotlinCompileTask?.let { task ->
             task.dependsOn.forEach { dependencies += it }
