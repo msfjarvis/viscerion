@@ -100,7 +100,7 @@ class ToolsInstaller(val context: Context) {
             installAsMagiskModule = try {
                 Application.rootShell.run(
                     null,
-                    "[ -d $magiskDir/img -a ! -f /cache/.disable_magisk ]"
+                    "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
             } catch (ignored: Exception) {
                 false
@@ -134,7 +134,7 @@ class ToolsInstaller(val context: Context) {
     @Throws(NoRootException::class)
     private fun installMagisk(): Int {
         val script = StringBuilder("set -ex; ")
-        val magiskDirectory = "$magiskDir/img/wireguard"
+        val magiskDirectory = "$magiskDir/wireguard"
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
@@ -201,7 +201,18 @@ class ToolsInstaller(val context: Context) {
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR = getInstallDir()
-        private const val magiskDir: String = "/sbin/.magisk"
+        private val magiskDir by lazy { getMagiskDirectory() }
+
+        private fun getMagiskDirectory(): String {
+            val output = ArrayList<String>()
+            Application.rootShell.run(output, "su --version | cut -d ':' -f 1 -d '-' -f 1")
+            val magiskVer = output[0].toDoubleOrNull()
+            return when (magiskVer) {
+                18.0, 18.1 -> "/sbin/.magisk/img"
+                18.2 -> "/data/adb/modules"
+                else -> "/sbin/.core/img"
+            }
+        }
 
         private fun getInstallDir(): File? {
             val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
