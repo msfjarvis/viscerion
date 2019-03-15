@@ -22,7 +22,7 @@ branches:
     - master
 
 script:
-  - ./gradlew assemble$BUILD_TYPE check$BUILD_TYPE
+  - ./gradlew assemble$BUILD_TYPE lint
 
 notifications:
   email: false
