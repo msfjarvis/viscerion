@@ -6,7 +6,7 @@
 package com.wireguard.android.activity
 
 import android.os.Bundle
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.model.Tunnel
 
@@ -18,7 +18,7 @@ class TunnelCreatorActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
-            supportFragmentManager.transaction {
+            supportFragmentManager.commit {
                 add(android.R.id.content, TunnelEditorFragment())
             }
         }

@@ -15,7 +15,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.core.app.ActivityOptionsCompat.makeCustomAnimation
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.fragment.TunnelDetailFragment
@@ -93,7 +93,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 return true
             }
             R.id.menu_action_edit -> {
-                supportFragmentManager.transaction {
+                supportFragmentManager.commit {
                     replace(R.id.detail_container, TunnelEditorFragment())
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     addToBackStack(null)
@@ -138,7 +138,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             fragmentManager.popBackStackImmediate()
         } else if (backStackEntries == 0) {
             // Create and show a new detail fragment.
-            fragmentManager.transaction {
+            fragmentManager.commit {
                 add(R.id.detail_container, TunnelDetailFragment())
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 addToBackStack(null)
