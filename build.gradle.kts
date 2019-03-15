@@ -30,19 +30,6 @@ allprojects {
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
-    resolutionStrategy {
-        componentSelection {
-            all {
-                val whitelistedGroups = listOf("androidx.preference", "com.google.android.material")
-                val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview")
-                    .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
-                    .any { it.matches(candidate.version) && !whitelistedGroups.contains(candidate.group) }
-                if (rejected) {
-                    reject("Release candidate")
-                }
-            }
-        }
-    }
     checkForGradleUpdate = true
     outputFormatter = "json"
     outputDir = "build/dependencyUpdates"
