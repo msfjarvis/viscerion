@@ -1,8 +1,8 @@
 # Release Notes
 
-### v3.2.0 (Tentative)
+### v4.0.0 (Tentative)
 
-- Remove Magisk 17 support
+- Add support for Magisk 18.2
 - Fix lingering theming issue with bottom sheets
 - Add support for Tasker
 - Automatically export configurations to external storage when upgrading
