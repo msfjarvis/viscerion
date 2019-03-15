@@ -122,21 +122,10 @@ tasks {
     }
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
-    }
-}
-
-afterEvaluate {
-    val kotlinCompileTask = tasks.findByName("compileDebugKotlin") ?: tasks.findByName("compileReleaseKotlin")
-    val dependencies = mutableListOf()
-    dependencies += rootProject.tasks.getByName(if (System.getenv("TRAVIS") == "true") "spotlessCheck" else "spotlessApply")
-    if (dependencies.isNotEmpty()) {
-        kotlinCompileTask?.let { task ->
-            task.dependsOn.forEach { dependencies += it }
-            task.setDependsOn(dependencies)
-            task.doFirst {
-                println("Removing: ${buildDir.absolutePath + "/outputs/apk/debug/"}")
-                delete(buildDir.absolutePath + "/outputs/apk/debug")
-            }
+        dependsOn(rootProject.tasks.getByName(if (System.getenv("TRAVIS") == "true") "spotlessCheck" else "spotlessApply"))
+        doFirst {
+            println("Removing: ${buildDir.absolutePath + "/outputs/apk/debug/"}")
+            delete(buildDir.absolutePath + "/outputs/apk/debug")
         }
     }
 }
