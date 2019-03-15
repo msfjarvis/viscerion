@@ -129,8 +129,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             exclusionsPref.setOnPreferenceClickListener {
-                val excludedApps = ArrayList<String>(Application.appPrefs.exclusionsArray)
-                val fragment = AppListDialogFragment.newInstance(excludedApps, true, this)
+                val fragment = AppListDialogFragment.newInstance(Application.appPrefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
