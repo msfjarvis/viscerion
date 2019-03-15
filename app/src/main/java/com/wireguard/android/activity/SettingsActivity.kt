@@ -108,32 +108,36 @@ class SettingsActivity : AppCompatActivity() {
             val integrationSecretPref =
                 preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
-                pref.isVisible = false
+                pref?.isVisible = false
 
             if (BuildConfig.DEBUG && Application.supportsKernelModule)
                 for (pref in debugOnlyPrefs)
-                    pref.isVisible = true
+                    pref?.isVisible = true
 
             Application.backendAsync.thenAccept { backend ->
                 for (pref in wgQuickOnlyPrefs) {
-                    if (backend is WgQuickBackend)
-                        pref.isVisible = true
-                    else
-                        screen.removePreference(pref)
+                    pref?.let {
+                        if (backend is WgQuickBackend)
+                            it.isVisible = true
+                        else
+                            screen.removePreference(it)
+                    }
                 }
                 for (pref in wgOnlyPrefs) {
-                    if (backend is GoBackend)
-                        pref.isVisible = true
-                    else
-                        screen.removePreference(pref)
+                    pref?.let {
+                        if (backend is GoBackend)
+                            it.isVisible = true
+                        else
+                            screen.removePreference(it)
+                    }
                 }
             }
-            exclusionsPref.setOnPreferenceClickListener {
+            exclusionsPref?.setOnPreferenceClickListener {
                 val fragment = AppListDialogFragment.newInstance(Application.appPrefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
-            integrationSecretPref.setSummaryProvider { preference ->
+            integrationSecretPref?.setSummaryProvider { preference ->
                 if (Application.appPrefs.allowTaskerIntegration &&
                     preference.isEnabled &&
                     Application.appPrefs.taskerIntegrationSecret.isEmpty()
