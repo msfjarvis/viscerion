@@ -15,16 +15,15 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     private val onChangeMap: MutableMap<String, () -> Unit> = HashMap()
     private val onChangeListeners: MutableMap<String, MutableSet<OnPreferenceChangeListener>> = HashMap()
     private var onChangeCallback: ApplicationPreferencesChangeCallback? = null
-    val sharedPrefs: SharedPreferences by lazy {
-        PreferenceManager.getDefaultSharedPreferences(context)
-    }
+    val sharedPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val doNothing = { }
     private val restart = { restart() }
     private val restartActiveTunnels = { restartActiveTunnels() }
 
     var exclusions by StringPref("global_exclusions", "", restartActiveTunnels)
-    val exclusionsArray: ArrayList<String> by lazy { exclusions.toArrayList() }
+    val exclusionsArray: ArrayList<String>
+        get() = exclusions.toArrayList()
     var useDarkTheme by BooleanPref("dark_theme", false, doNothing)
     val forceUserspaceBackend by BooleanPref("force_userspace_backend", false, restart)
     val whitelistApps by BooleanPref("whitelist_exclusions", false, restartActiveTunnels)
