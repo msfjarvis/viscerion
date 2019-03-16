@@ -8,7 +8,7 @@
 - Automatically export configurations to external storage when upgrading
 - Use a Google Messages style FAB in tunnel list
 - Tweak dialog UI
-- Add translations for pt-BR (Portuguese, Brazilian)
+- Add translations for Portuguese Brazilian and Russian
 - Move theme toggle to overflow menu for easier access
 - Improved speeds for ARM devices on userspace backend
 
