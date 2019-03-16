@@ -3,8 +3,6 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package me.msfjarvis.viscerion.build
-
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import org.gradle.api.Project
@@ -67,7 +65,7 @@ fun Project.configureSpotless() {
             target("**/src/**/*.kt", "buildSrc/**/*.kt")
             ktlint("0.29.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
             @Suppress("INACCESSIBLE_TYPE")
-            licenseHeader(kotlinLicenseHeader)
+            licenseHeader(kotlinLicenseHeader, "import|package|class|object")
             trimTrailingWhitespace()
             indentWithSpaces()
             endWithNewline()

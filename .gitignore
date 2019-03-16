@@ -6,7 +6,6 @@
 .externalNativeBuild/
 Thumbs.db
 build/
-!buildSrc/src/main/kotlin/me/msfjarvis/viscerion/build/
 *.apk
 *.class
 *.dex

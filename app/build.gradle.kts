@@ -1,9 +1,8 @@
-import me.msfjarvis.viscerion.build.VersionConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.io.IOException
 import java.util.Properties
-import me.msfjarvis.viscerion.build.DependencyStore as deps
+import DependencyStore as deps
 
 plugins {
     id("com.android.application")
