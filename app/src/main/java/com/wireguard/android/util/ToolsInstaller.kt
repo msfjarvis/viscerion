@@ -205,7 +205,8 @@ class ToolsInstaller(val context: Context) {
 
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()
-            Application.rootShell.run(output, "su --version | cut -d ':' -f 1 -d '-' -f 1")
+            Application.rootShell.run(output,
+                    "su --version | cut -d ':' -f 1 | cut -d '-' -f 1")
             val magiskVer = output[0].toDoubleOrNull()
             return when (magiskVer) {
                 18.0, 18.1 -> "/sbin/.magisk/img"
