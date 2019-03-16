@@ -6,7 +6,7 @@
 package tun
 
 import (
-	"git.zx2c4.com/wireguard-go/rwcancel"
+	"golang.zx2c4.com/wireguard/rwcancel"
 	"os"
 )
 
