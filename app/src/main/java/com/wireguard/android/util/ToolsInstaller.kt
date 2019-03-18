@@ -28,6 +28,7 @@ class ToolsInstaller(val context: Context) {
     private var installAsMagiskModule: Boolean? = null
 
     init {
+        Timber.tag("ToolsInstaller").d("SU version: $magiskDir")
         nativeLibraryDir = if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
             File(context.applicationInfo.nativeLibraryDir)
         } else {
@@ -206,11 +207,11 @@ class ToolsInstaller(val context: Context) {
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()
             Application.rootShell.run(output,
-                    "su --version | cut -d ':' -f 1 | cut -d '-' -f 1")
-            val magiskVer = output[0].toDoubleOrNull()
+                    "su -V")
+            val magiskVer = output[0].toInt()
             return when (magiskVer) {
-                18.0, 18.1 -> "/sbin/.magisk/img"
-                18.2 -> "/data/adb/modules"
+                in(18000..18100) -> "/sbin/.magisk/img"
+                in(18101..18200) -> "/data/adb/modules"
                 else -> "/sbin/.core/img"
             }
         }
