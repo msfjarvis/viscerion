@@ -22,7 +22,7 @@ class TaskerIntegrationReceiver : BroadcastReceiver() {
         val manager = Application.tunnelManager
         val tunnelName: String? = intent.getStringExtra(TunnelManager.TUNNEL_NAME_INTENT_EXTRA)
         val integrationSecret: String? = intent.getStringExtra(TunnelManager.INTENT_INTEGRATION_SECRET_EXTRA)
-        val callingPackage = intent.`package`
+
         var state: Tunnel.State? = null
         Timber.tag("IntentReceiver")
         when (intent.action) {
