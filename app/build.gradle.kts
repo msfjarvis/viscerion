@@ -54,10 +54,10 @@ android {
                 storePassword = keystoreProperties["storePassword"].toString()
             }
         }
+        buildTypes.getByName("release").signingConfig = signingConfigs.getByName("release")
     }
     buildTypes {
         getByName("release") {
-            if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("release")
             externalNativeBuild {
                 cmake {
                     arguments.add("-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}")
