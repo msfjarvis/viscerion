@@ -11,7 +11,7 @@ import "C"
 
 import (
 	"bufio"
-	"golang.zx2c4.com/wireguard/tun"
+	"git.zx2c4.com/wireguard-go/tun"
 	"golang.org/x/sys/unix"
 	"log"
 	"math"
@@ -52,7 +52,7 @@ func init() {
 			case <-signals:
 				n := runtime.Stack(buf, true)
 				buf[n] = 0
-				C.__android_log_write(C.ANDROID_LOG_ERROR, C.CString("WireGuard/GoBackend/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
+				C.__android_log_write(C.ANDROID_LOG_ERROR, C.CString("WireGuard/GoBackend/Stacktrace"), (*_Ctype_char)(unsafe.Pointer(&buf[0])))
 			}
 		}
 	}()
