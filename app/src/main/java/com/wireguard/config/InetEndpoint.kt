@@ -74,7 +74,7 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
     }
 
     companion object {
-        private val BARE_IPV6 = Pattern.compile("^[^\\[]*:")
+        private val BARE_IPV6 = Pattern.compile("^[^\\[\\]]*:[^\\[\\]]*")
         private val FORBIDDEN_CHARACTERS = Pattern.compile("[/?#]")
 
         @Throws(ParseException::class)
