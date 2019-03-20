@@ -23,25 +23,9 @@ import java.io.IOException
 class ToolsInstaller(val context: Context) {
 
     private val localBinaryDir: File = File(context.cacheDir, "bin")
-    private val nativeLibraryDir: File
+    private val nativeLibraryDir: File by lazy { getNativeLibraryDir(context) }
     private var areToolsAvailable: Boolean? = null
     private var installAsMagiskModule: Boolean? = null
-
-    init {
-        nativeLibraryDir = if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-            File(context.applicationInfo.nativeLibraryDir)
-        } else {
-            // App bundles, unpack executables from the split config APK.
-            EXECUTABLES.forEach {
-                extractNativeLibrary(
-                    context,
-                    it[0],
-                    useActualName = true, skipDeletion = true
-                )
-            }
-            context.cacheDir
-        }
-    }
 
     @Throws(NoRootException::class)
     fun areInstalled(): Int {
@@ -229,6 +213,22 @@ class ToolsInstaller(val context: Context) {
             val output = ArrayList<String>()
             Application.rootShell.run(output, "su --version")
             return output[0].contains("MAGISKSU")
+        }
+
+        private fun getNativeLibraryDir(context: Context): File {
+            return if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                File(context.applicationInfo.nativeLibraryDir)
+            } else {
+                // App bundles, unpack executables from the split config APK.
+                EXECUTABLES.forEach {
+                    extractNativeLibrary(
+                            context,
+                            it[0],
+                            useActualName = true, skipDeletion = true
+                    )
+                }
+                context.cacheDir
+            }
         }
     }
 }
