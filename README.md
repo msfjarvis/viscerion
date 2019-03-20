@@ -1,6 +1,6 @@
 # Viscerion, Unofficial Android client for [WireGuard](https://www.wireguard.com/)™️
 
-[![Build Status](https://travis-ci.com/MSF-Jarvis/viscerion.svg?branch=master)](https://travis-ci.com/MSF-Jarvis/viscerion) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion)
+[![Build Status](https://cloud.drone.io/api/badges/MSF-Jarvis/viscerion/status.svg)](https://cloud.drone.io/MSF-Jarvis/viscerion) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion)
 
 Refreshed take at the official Android client with a nicer UI and additional features. Built with the best of [Android Jetpack](https://developer.android.com/jetpack/).
 

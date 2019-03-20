@@ -1,0 +1,20 @@
+matrix:
+  BUILD_TYPE:
+    - Debug
+    - Release
+
+trigger:
+  branch:
+  - master
+
+pipeline:
+  build:
+    image: runmymind/docker-android-sdk:ubuntu-standalone
+    environment:
+      - ENDPOINT_OVERRIDE=true
+      - TRAVIS=true
+    commands:
+      - mkdir -p $ANDROID_HOME/licenses
+      - curl "https://download.msfjarvis.website/.viscerion/sdk-licenses.tar.xz" | tar -C "$ANDROID_HOME/licenses/" --strip-components=1 -xvf -
+      - git submodule update --init --recursive
+      - ./gradlew assemble$BUILD_TYPE check$BUILD_TYPE
