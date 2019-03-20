@@ -28,7 +28,6 @@ class ToolsInstaller(val context: Context) {
     private var installAsMagiskModule: Boolean? = null
 
     init {
-        Timber.tag("ToolsInstaller").d("SU version: $magiskDir")
         nativeLibraryDir = if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
             File(context.applicationInfo.nativeLibraryDir)
         } else {
