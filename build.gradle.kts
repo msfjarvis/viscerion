@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 
 buildscript {
     repositories {
@@ -28,11 +29,17 @@ allprojects {
     }
 }
 
-tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
-    checkForGradleUpdate = true
-    outputFormatter = "json"
-    outputDir = "build/dependencyUpdates"
-    reportfileName = "report"
+tasks {
+    named<DependencyUpdatesTask>("dependencyUpdates") {
+        checkForGradleUpdate = true
+        outputFormatter = "json"
+        outputDir = "build/dependencyUpdates"
+        reportfileName = "report"
+    }
+    wrapper {
+        gradleVersion = "5.3"
+        distributionType = DistributionType.ALL
+    }
 }
 
 configureSpotless()
