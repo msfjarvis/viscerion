@@ -34,7 +34,6 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_debugging">
         <com.wireguard.android.preference.ZipExporterPreference />
-        <com.wireguard.android.preference.LogExporterPreference />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="force_userspace_backend"

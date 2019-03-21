@@ -33,11 +33,13 @@ class DependencyStore {
     }
 
     object ThirdParty {
+        private const val libsuperuserVersion = "1.0.0.+"
         private const val streamsupportVersion = "1.7.0"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
         private const val zxingVersion = "3.3.3"
 
+        const val libsuperuser = "eu.chainfire:libsuperuser:$libsuperuserVersion"
         const val retrofuture = "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
         const val retrostreams = "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
         const val threetenabp = "com.jakewharton.threetenabp:threetenabp:$threetenabpVersion"

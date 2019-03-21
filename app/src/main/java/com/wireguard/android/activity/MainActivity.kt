@@ -92,6 +92,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 onBackPressed()
                 return true
             }
+            R.id.menu_logviewer -> {
+                startActivity(Intent(this, LiveLogViewerActivity::class.java))
+                return true
+            }
             R.id.menu_action_edit -> {
                 supportFragmentManager.commit {
                     replace(R.id.detail_container, TunnelEditorFragment())
