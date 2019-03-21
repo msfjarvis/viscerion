@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 object VersionConfiguration {
-    const val versionCode = 3110
-    const val versionName = "3.1.1"
+    const val versionCode = 4000
+    const val versionName = "4.0.0"
 }

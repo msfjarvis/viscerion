@@ -1,6 +1,6 @@
 # Release Notes
 
-### v4.0.0 (Tentative)
+### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
 - Add support for Magisk 18.2
 - Fix lingering theming issue with bottom sheets
