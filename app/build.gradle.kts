@@ -82,7 +82,7 @@ android {
     }
     lintOptions {
         isAbortOnError = true
-        disable("UnusedResources")
+        disable("UnusedResources", "MissingTranslation")
     }
 }
 
