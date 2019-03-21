@@ -35,6 +35,13 @@ fun Project.configureSpotless() {
             endWithNewline()
         }
 
+        format("xml") {
+            target("**/res/**/*.xml")
+            indentWithSpaces(4)
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
         java {
             target(
                 "app/src/main/java/com/wireguard/crypto/Key.java",
