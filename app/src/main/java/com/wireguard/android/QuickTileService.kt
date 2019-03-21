@@ -51,13 +51,13 @@ class QuickTileService : TileService() {
 
     override fun onCreate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            iconOn = Icon.createWithResource(this, R.mipmap.ic_launcher)
+            iconOn = Icon.createWithResource(this, R.drawable.ic_qs_tile)
             iconOff = iconOn
             return
         }
         val icon = SlashDrawable(
             resources.getDrawable(
-                R.mipmap.ic_launcher,
+                R.drawable.ic_qs_tile,
                 Application.get().theme
             )
         )
