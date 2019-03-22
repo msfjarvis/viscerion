@@ -5,5 +5,6 @@
         android:id="@+id/menu_action_save"
         android:alphabeticShortcut="s"
         android:title="@string/save"
-        app:showAsAction="always|withText" />
+        android:icon="@drawable/ic_action_save"
+        app:showAsAction="always" />
 </menu>

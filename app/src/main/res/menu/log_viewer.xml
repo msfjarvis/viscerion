@@ -4,6 +4,7 @@
     <item
         android:id="@+id/export_log"
         android:title="@string/log_export_title"
+        android:icon="@drawable/ic_action_save"
         android:alphabeticShortcut="l"
         app:showAsAction="always" />
 </menu>
