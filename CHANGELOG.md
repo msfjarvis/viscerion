@@ -1,5 +1,9 @@
 # Release Notes
 
+### Unreleased
+- Add an adaptive icon
+- Add live log viewer
+
 ### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
 - Add support for Magisk 18.2
