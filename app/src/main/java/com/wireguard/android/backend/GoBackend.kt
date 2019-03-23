@@ -94,6 +94,10 @@ class GoBackend(private var context: Context) : Backend {
         return context.getString(R.string.type_name_go_userspace)
     }
 
+    override fun postNotification(state: Tunnel.State, tunnel: Tunnel) {
+        // Android handles user-facing context for VpnBuilder based interfaces
+    }
+
     @Throws(Exception::class)
     private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: Tunnel.State?) {
         if (state == Tunnel.State.UP) {

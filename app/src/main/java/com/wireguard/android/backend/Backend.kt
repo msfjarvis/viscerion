@@ -80,4 +80,9 @@ interface Backend {
      * @return Type name
      */
     fun getTypePrettyName(): String
+
+    /**
+     * Post a notification to notify the user of an active tunnel in case the system can/does not do it itself
+     */
+    fun postNotification(state: State, tunnel: Tunnel)
 }

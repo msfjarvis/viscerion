@@ -104,30 +104,7 @@ class WgQuickBackend(private var context: Context) : Backend {
         return getState(tunnel)
     }
 
-    @Throws(Exception::class)
-    private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: State?) {
-        config.requireNonNull<Config>("Trying to set state with a null config")
-
-        val tempFile = File(localTemporaryDir, tunnel?.name + CONFIGURATION_FILE_SUFFIX)
-        FileOutputStream(
-            tempFile,
-            false
-        ).use { stream -> stream.write(config?.toWgQuickString()?.toByteArray(StandardCharsets.UTF_8)) }
-        var command = "wg-quick $state '${tempFile.absolutePath}'"
-        if (state == State.UP)
-            command = "cat /sys/module/wireguard/version && $command"
-        val result = Application.rootShell.run(null, command)
-
-        tempFile.delete()
-        when (result) {
-            0 -> postNotification(state, tunnel)
-            else -> throw Exception(context.getString(R.string.tunnel_config_error, result))
-        }
-    }
-
-    fun postNotification(state: State?, tunnel: Tunnel?) {
-        if (tunnel == null || state == null)
-            return
+    override fun postNotification(state: State, tunnel: Tunnel) {
         if (state == State.UP) {
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -145,6 +122,27 @@ class WgQuickBackend(private var context: Context) : Backend {
             notificationManager.notify(tunnel.name.hashCode(), builder.build())
         } else if (state == State.DOWN) {
             notificationManager.cancel(tunnel.name.hashCode())
+        }
+    }
+
+    @Throws(Exception::class)
+    private fun setStateInternal(tunnel: Tunnel, config: Config?, state: State) {
+        config.requireNonNull<Config>("Trying to set state with a null config")
+
+        val tempFile = File(localTemporaryDir, tunnel.name + CONFIGURATION_FILE_SUFFIX)
+        FileOutputStream(
+            tempFile,
+            false
+        ).use { stream -> stream.write(config?.toWgQuickString()?.toByteArray(StandardCharsets.UTF_8)) }
+        var command = "wg-quick $state '${tempFile.absolutePath}'"
+        if (state == State.UP)
+            command = "cat /sys/module/wireguard/version && $command"
+        val result = Application.rootShell.run(null, command)
+
+        tempFile.delete()
+        when (result) {
+            0 -> postNotification(state, tunnel)
+            else -> throw Exception(context.getString(R.string.tunnel_config_error, result))
         }
     }
 }

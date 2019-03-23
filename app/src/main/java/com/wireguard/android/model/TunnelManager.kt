@@ -13,7 +13,6 @@ import androidx.databinding.Bindable
 import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
-import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.util.ExceptionLoggers
@@ -140,10 +139,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
                 tunnels.forEach { tunnel ->
                     val state = if (running?.contains(tunnel.name) == true) Tunnel.State.UP else Tunnel.State.DOWN
                     tunnel.onStateChanged(state)
-                    Application.backendAsync.thenAccept { backend ->
-                        if (backend is WgQuickBackend)
-                            backend.postNotification(state, tunnel)
-                    }
+                    Application.backend.postNotification(state, tunnel)
                 }
             }.whenComplete(ExceptionLoggers.E)
     }
