@@ -141,7 +141,7 @@ class WgQuickBackend(private var context: Context) : Backend {
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .setPriority(Notification.FLAG_ONGOING_EVENT)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_qs_tile)
             notificationManager.notify(tunnel.name.hashCode(), builder.build())
         } else if (state == State.DOWN) {
             notificationManager.cancel(tunnel.name.hashCode())
