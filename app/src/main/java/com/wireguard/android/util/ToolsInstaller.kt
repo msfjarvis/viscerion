@@ -189,12 +189,14 @@ class ToolsInstaller(val context: Context) {
 
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()
-            Application.rootShell.run(output,
-                    "su -V")
+            Application.rootShell.run(
+                output,
+                "su -V"
+            )
             val magiskVer = output[0].toInt()
             return when (magiskVer) {
-                in(18000..18100) -> "/sbin/.magisk/img"
-                in(18101..18200) -> "/data/adb/modules"
+                in (18000..18100) -> "/sbin/.magisk/img"
+                in (18101..18200) -> "/data/adb/modules"
                 else -> "/sbin/.core/img"
             }
         }
@@ -222,9 +224,9 @@ class ToolsInstaller(val context: Context) {
                 // App bundles, unpack executables from the split config APK.
                 EXECUTABLES.forEach {
                     extractNativeLibrary(
-                            context,
-                            it[0],
-                            useActualName = true, skipDeletion = true
+                        context,
+                        it[0],
+                        useActualName = true, skipDeletion = true
                     )
                 }
                 context.cacheDir

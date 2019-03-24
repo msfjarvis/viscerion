@@ -12,10 +12,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import timber.log.Timber
-import java.io.File
-import java.io.IOException
-import java.io.FileOutputStream
 import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStreamReader
 
 object LogExporter {
@@ -33,7 +33,7 @@ object LogExporter {
             FileOutputStream(file).close()
             try {
                 val process = Runtime.getRuntime()
-                        .exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
+                    .exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
                 if (process.waitFor() != 0) {
                     BufferedReader(InputStreamReader(process.errorStream)).use { reader ->
                         val errors = StringBuilder()

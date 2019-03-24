@@ -20,7 +20,11 @@ class ViscerionUpdateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || intent.action == null || BuildConfig.DEBUG) return
         if (context != null &&
-            ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        )
             return
         Application.asyncWorker.runAsync {
             Application.tunnelManager.getTunnels().thenAccept {

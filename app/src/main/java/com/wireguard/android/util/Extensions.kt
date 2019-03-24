@@ -67,10 +67,10 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
 
 fun Context.updateAppTheme() {
     AppCompatDelegate.setDefaultNightMode(
-            if (Application.appPrefs.useDarkTheme)
-                AppCompatDelegate.MODE_NIGHT_YES
-            else
-                AppCompatDelegate.MODE_NIGHT_NO
+        if (Application.appPrefs.useDarkTheme)
+            AppCompatDelegate.MODE_NIGHT_YES
+        else
+            AppCompatDelegate.MODE_NIGHT_NO
     )
 }
 
