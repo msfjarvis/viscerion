@@ -54,12 +54,12 @@ class WgQuickBackend(private var context: Context) : Backend {
     override fun applyConfig(tunnel: Tunnel, config: Config): Config {
         if (tunnel.state == State.UP) {
             // Restart the tunnel to apply the new config.
-            setStateInternal(tunnel, tunnel.getConfig(), State.DOWN)
+            setStateInternal(tunnel, State.DOWN, tunnel.getConfig())
             try {
-                setStateInternal(tunnel, config, State.UP)
+                setStateInternal(tunnel, State.UP, config)
             } catch (e: Exception) {
                 // The new configuration didn't work, so try to go back to the old one.
-                setStateInternal(tunnel, tunnel.getConfig(), State.UP)
+                setStateInternal(tunnel, State.UP, tunnel.getConfig())
                 throw e
             }
         }
@@ -100,7 +100,7 @@ class WgQuickBackend(private var context: Context) : Backend {
             return originalState
         Timber.d("Changing tunnel %s to state %s", tunnel.name, stateToSet)
         Application.toolsInstaller.ensureToolsAvailable()
-        setStateInternal(tunnel, tunnel.getConfig(), stateToSet)
+        setStateInternal(tunnel, stateToSet, tunnel.getConfig())
         return getState(tunnel)
     }
 
@@ -126,7 +126,11 @@ class WgQuickBackend(private var context: Context) : Backend {
     }
 
     @Throws(Exception::class)
-    private fun setStateInternal(tunnel: Tunnel, config: Config?, state: State) {
+    private fun setStateInternal(
+        tunnel: Tunnel,
+        state: State,
+        config: Config?
+    ) {
         config.requireNonNull<Config>("Trying to set state with a null config")
 
         val tempFile = File(localTemporaryDir, tunnel.name + CONFIGURATION_FILE_SUFFIX)
