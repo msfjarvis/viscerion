@@ -123,18 +123,15 @@ class Interface private constructor(builder: Builder) {
      */
     fun toWgQuickString(): String {
         val sb = StringBuilder()
+        val localExclusions = excludedApplications - Application.appPrefs.exclusionsArray
         if (addresses.isNotEmpty())
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
         if (dnsServers.isNotEmpty()) {
             val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
-        if (excludedApplications.isNotEmpty())
-            sb.append("ExcludedApplications = ").append(
-                Attribute.join(
-                    excludedApplications + Application.appPrefs.exclusionsArray
-                )
-            ).append('\n')
+        if (localExclusions.isNotEmpty())
+            sb.append("ExcludedApplications = ").append(Attribute.join(localExclusions)).append('\n')
         listenPort?.let { lp -> sb.append("ListenPort = ").append(lp).append('\n') }
         mtu?.let { m -> sb.append("MTU = ").append(m).append('\n') }
         sb.append("PrivateKey = ").append(keyPair.privateKey.toBase64()).append('\n')
