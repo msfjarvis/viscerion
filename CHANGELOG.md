@@ -3,6 +3,7 @@
 ### Unreleased
 - Add an adaptive icon
 - Add live log viewer
+- Ensure global exclusions are not exported with configs to prevent import bugs
 
 ### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
