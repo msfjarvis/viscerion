@@ -113,7 +113,7 @@ class PeerProxy : BaseObservable, Parcelable {
         if (interfaceDnsListener == null)
             interfaceDnsListener = InterfaceDnsListener(this)
         interfaze.addOnPropertyChangedCallback(interfaceDnsListener!!)
-        setInterfaceDns(interfaze.getDnsServers())
+        setInterfaceDns(interfaze.dnsServers.get())
         if (peerListListener == null)
             peerListListener = PeerListListener(this)
         peers.addOnListChangedCallback(peerListListener)
@@ -287,9 +287,7 @@ class PeerProxy : BaseObservable, Parcelable {
             // This shouldn't be possible, but try to avoid a ClassCastException anyway.
             if (sender !is InterfaceProxy)
                 return
-            if (!(propertyId == BR._all || propertyId == BR.dnsServers))
-                return
-            peerProxy.setInterfaceDns(sender.getDnsServers())
+            peerProxy.setInterfaceDns(sender.dnsServers.get())
         }
     }
 

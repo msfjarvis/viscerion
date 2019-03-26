@@ -8,59 +8,56 @@ package com.wireguard.android.viewmodel
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
 import androidx.databinding.ObservableList
 import com.wireguard.android.Application
-import com.wireguard.android.BR
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Interface
-import com.wireguard.crypto.Key
-import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
 
 class InterfaceProxy : BaseObservable, Parcelable {
 
-    private val excludedApplications: ObservableList<String> = ObservableArrayList()
-    private val totalExclusionsCount = (excludedApplications + Application.appPrefs.exclusionsArray).size
-    private var addresses: String? = null
-    private var dnsServers: String? = null
-    private var listenPort: String? = null
-    private var mtu: String? = null
-    private var privateKey: String? = null
-    var publicKey: String? = null
+    val excludedApplications: ObservableList<String> = ObservableArrayList()
+    val totalExclusionsCount = (excludedApplications + Application.appPrefs.exclusionsArray).size
+    var addresses: ObservableField<String> = ObservableField("")
+    var dnsServers: ObservableField<String> = ObservableField("")
+    var listenPort: ObservableField<String> = ObservableField("")
+    var mtu: ObservableField<String> = ObservableField("")
+    var privateKey: ObservableField<String> = ObservableField("")
+    var publicKey: ObservableField<String> = ObservableField("")
         private set
 
     private constructor(`in`: Parcel) {
-        addresses = `in`.readString()
-        dnsServers = `in`.readString()
+        addresses.set(`in`.readString())
+        dnsServers.set(`in`.readString())
         `in`.readStringList(excludedApplications)
-        listenPort = `in`.readString()
-        mtu = `in`.readString()
-        privateKey = `in`.readString()
-        publicKey = `in`.readString()
+        listenPort.set(`in`.readString())
+        mtu.set(`in`.readString())
+        privateKey.set(`in`.readString())
+        publicKey.set(`in`.readString())
     }
 
     constructor(other: Interface) {
-        addresses = Attribute.join(other.addresses)
+        addresses.set(Attribute.join(other.addresses))
         val dnsServerStrings = other.dnsServers.map { dnsServer -> dnsServer.hostAddress }
-        dnsServers = Attribute.join(dnsServerStrings)
+        dnsServers.set(Attribute.join(dnsServerStrings))
         excludedApplications.addAll(other.excludedApplications)
-        listenPort = other.listenPort?.toString() ?: ""
-        mtu = other.mtu?.toString() ?: ""
+        listenPort.set(other.listenPort?.toString() ?: "")
+        mtu.set(other.mtu?.toString() ?: "")
         val keyPair = other.keyPair
-        privateKey = keyPair.privateKey.toBase64()
-        publicKey = keyPair.publicKey.toBase64()
+        privateKey.set(keyPair.privateKey.toBase64())
+        publicKey.set(keyPair.publicKey.toBase64())
     }
 
     constructor() {
-        addresses = ""
-        dnsServers = ""
-        listenPort = ""
-        mtu = ""
-        privateKey = ""
-        publicKey = ""
+        addresses.set("")
+        dnsServers.set("")
+        listenPort.set("")
+        mtu.set("")
+        privateKey.set("")
+        publicKey.set("")
     }
 
     override fun describeContents(): Int {
@@ -69,98 +66,30 @@ class InterfaceProxy : BaseObservable, Parcelable {
 
     fun generateKeyPair() {
         val keyPair = KeyPair()
-        privateKey = keyPair.privateKey.toBase64()
-        publicKey = keyPair.publicKey.toBase64()
-        notifyPropertyChanged(BR.privateKey)
-        notifyPropertyChanged(BR.publicKey)
-    }
-
-    @Bindable
-    fun getAddresses(): String? {
-        return addresses
-    }
-
-    @Bindable
-    fun getDnsServers(): String? {
-        return dnsServers
-    }
-
-    fun getExcludedApplications(): ObservableList<String> {
-        return excludedApplications
-    }
-
-    @Bindable
-    fun getListenPort(): String? {
-        return listenPort
-    }
-
-    @Bindable
-    fun getMtu(): String? {
-        return mtu
-    }
-
-    @Bindable
-    fun getPrivateKey(): String? {
-        return privateKey
-    }
-
-    @Bindable
-    fun getTotalExclusionsCount(): Int {
-        return totalExclusionsCount
+        privateKey.set(keyPair.privateKey.toBase64())
+        publicKey.set(keyPair.publicKey.toBase64())
     }
 
     @Throws(BadConfigException::class)
     fun resolve(): Interface {
         val builder = Interface.Builder()
-        addresses?.let { if (it.isNotEmpty()) builder.parseAddresses(it) }
-        dnsServers?.let { if (it.isNotEmpty()) builder.parseDnsServers(it) }
+        addresses.get()?.let { if (it.isNotEmpty()) builder.parseAddresses(it) }
+        dnsServers.get()?.let { if (it.isNotEmpty()) builder.parseDnsServers(it) }
         excludedApplications.let { if (it.isNotEmpty()) builder.excludeApplications(it) }
-        listenPort?.let { if (it.isNotEmpty()) builder.parseListenPort(it) }
-        mtu?.let { if (it.isNotEmpty()) builder.parseMtu(it) }
-        privateKey?.let { if (it.isNotEmpty()) builder.parsePrivateKey(it) }
+        listenPort.get()?.let { if (it.isNotEmpty()) builder.parseListenPort(it) }
+        mtu.get()?.let { if (it.isNotEmpty()) builder.parseMtu(it) }
+        privateKey.get()?.let { if (it.isNotEmpty()) builder.parsePrivateKey(it) }
         return builder.build()
     }
 
-    fun setAddresses(addresses: String) {
-        this.addresses = addresses
-        notifyPropertyChanged(BR.addresses)
-    }
-
-    fun setDnsServers(dnsServers: String) {
-        this.dnsServers = dnsServers
-        notifyPropertyChanged(BR.dnsServers)
-    }
-
-    fun setListenPort(listenPort: String) {
-        this.listenPort = listenPort
-        notifyPropertyChanged(BR.listenPort)
-    }
-
-    fun setMtu(mtu: String) {
-        this.mtu = mtu
-        notifyPropertyChanged(BR.mtu)
-    }
-
-    fun setPrivateKey(privateKey: String) {
-        this.privateKey = privateKey
-        publicKey = try {
-            KeyPair(Key.fromBase64(privateKey)).publicKey.toBase64()
-        } catch (ignored: KeyFormatException) {
-            ""
-        }
-
-        notifyPropertyChanged(BR.privateKey)
-        notifyPropertyChanged(BR.publicKey)
-    }
-
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(addresses)
-        dest.writeString(dnsServers)
+        dest.writeString(addresses.get())
+        dest.writeString(dnsServers.get())
         dest.writeStringList(excludedApplications)
-        dest.writeString(listenPort)
-        dest.writeString(mtu)
-        dest.writeString(privateKey)
-        dest.writeString(publicKey)
+        dest.writeString(listenPort.get())
+        dest.writeString(mtu.get())
+        dest.writeString(privateKey.get())
+        dest.writeString(publicKey.get())
     }
 
     private class InterfaceProxyCreator : Parcelable.Creator<InterfaceProxy> {
