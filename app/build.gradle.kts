@@ -107,10 +107,6 @@ dependencies {
     implementation(embeddedKotlin("stdlib-jdk8"))
 }
 
-repositories {
-    mavenCentral()
-}
-
 kapt {
     useBuildCache = true
 }
