@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
 import com.wireguard.android.util.LogExporter
@@ -86,6 +87,11 @@ class LiveLogViewerActivity : AppCompatActivity() {
                 }
                 return true
             }
+            R.id.expand_log_entries -> {
+                Application.appPrefs.apply {
+                    expandLogEntries = !expandLogEntries
+                }
+            }
         }
         return false
     }
@@ -125,7 +131,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.textView.apply {
-                setSingleLine()
+                setSingleLine(!Application.appPrefs.expandLogEntries)
                 text = dataset[position].entry
                 setOnClickListener {
                     setSingleLine(!holder.isSingleLine)

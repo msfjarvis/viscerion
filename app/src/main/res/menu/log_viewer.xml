@@ -6,5 +6,9 @@
         android:title="@string/log_export_title"
         android:icon="@drawable/ic_action_save"
         android:alphabeticShortcut="l"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/expand_log_entries"
+        android:title="@string/menu_expand_log_lines"
+        app:showAsAction="never"/>
 </menu>
