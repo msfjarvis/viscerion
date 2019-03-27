@@ -66,6 +66,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.log_viewer, menu)
+        setExpandMenuTitle(menu.findItem(R.id.expand_log_entries))
         return true
     }
 
@@ -90,10 +91,20 @@ class LiveLogViewerActivity : AppCompatActivity() {
             R.id.expand_log_entries -> {
                 Application.appPrefs.apply {
                     expandLogEntries = !expandLogEntries
+                    setExpandMenuTitle(item)
                 }
             }
         }
         return false
+    }
+
+    private fun setExpandMenuTitle(item: MenuItem) {
+        item.title = getString(
+            if (Application.appPrefs.expandLogEntries)
+                R.string.menu_collapse_log_lines
+            else
+                R.string.menu_expand_log_lines
+        )
     }
 
     override fun onRequestPermissionsResult(

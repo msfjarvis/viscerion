@@ -184,4 +184,5 @@
     <string name="create">Create</string>
     <string name="log_viewer">Log viewer</string>
     <string name="menu_expand_log_lines">Expand log entries</string>
+    <string name="menu_collapse_log_lines">Collapse log entries</string>
 </resources>
