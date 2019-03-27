@@ -117,8 +117,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
     class LogEntryAdapter(private val dataset: ArrayList<LogEntry>) :
         RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
 
-        class ViewHolder(val textView: TextView, var isSingleLine: Boolean = true) :
-            RecyclerView.ViewHolder(textView)
+        class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -134,8 +133,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
                 setSingleLine(!Application.appPrefs.expandLogEntries)
                 text = dataset[position].entry
                 setOnClickListener {
-                    setSingleLine(!holder.isSingleLine)
-                    holder.isSingleLine = !holder.isSingleLine
+                    setSingleLine(lineCount > 1)
                 }
             }
         }
