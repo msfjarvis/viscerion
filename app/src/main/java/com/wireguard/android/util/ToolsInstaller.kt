@@ -196,7 +196,7 @@ class ToolsInstaller(val context: Context) {
             val magiskVer = output[0].toInt()
             return when (magiskVer) {
                 in (18000..18100) -> "/sbin/.magisk/img"
-                in (18101..18200) -> "/data/adb/modules"
+                in (18101..19001) -> "/data/adb/modules"
                 else -> "/sbin/.core/img"
             }
         }
