@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0-alpha07")
+        classpath("com.android.tools.build:gradle:3.5.0-alpha08")
         classpath(kotlin("gradle-plugin", "1.3.21"))
         classpath("com.diffplug.spotless:spotless-plugin-gradle:3.18.0")
     }
