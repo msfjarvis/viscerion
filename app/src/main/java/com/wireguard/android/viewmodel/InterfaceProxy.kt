@@ -21,12 +21,12 @@ class InterfaceProxy : BaseObservable, Parcelable {
 
     val excludedApplications: ObservableList<String> = ObservableArrayList()
     val totalExclusionsCount = (excludedApplications + Application.appPrefs.exclusionsArray).size
-    var addresses: ObservableField<String> = ObservableField("")
-    var dnsServers: ObservableField<String> = ObservableField("")
-    var listenPort: ObservableField<String> = ObservableField("")
-    var mtu: ObservableField<String> = ObservableField("")
-    var privateKey: ObservableField<String> = ObservableField("")
-    var publicKey: ObservableField<String> = ObservableField("")
+    var addresses: ObservableField<String> = ObservableField()
+    var dnsServers: ObservableField<String> = ObservableField()
+    var listenPort: ObservableField<String> = ObservableField()
+    var mtu: ObservableField<String> = ObservableField()
+    var privateKey: ObservableField<String> = ObservableField()
+    var publicKey: ObservableField<String> = ObservableField()
         private set
 
     private constructor(`in`: Parcel) {
