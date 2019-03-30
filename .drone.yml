@@ -10,4 +10,4 @@ steps:
       - export TRAVIS=true
       - git submodule update --init --recursive
       - git fetch --tags
-      - ./gradlew :app:assembleDebug :app:lintDebug
+      - ./gradlew assembleDebug checkDebug
