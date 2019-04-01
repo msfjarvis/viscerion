@@ -8,8 +8,7 @@ package com.wireguard.android.fragment
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -21,8 +20,6 @@ import com.wireguard.android.databinding.AppListDialogFragmentBinding
 import com.wireguard.android.model.ApplicationData
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
-import java.util.ArrayList
-import java.util.Comparator
 
 class AppListDialogFragment : DialogFragment() {
 
@@ -63,44 +60,35 @@ class AppListDialogFragment : DialogFragment() {
         return dialog
     }
 
-    @Suppress("InlinedApi") // Handled in the code
     private fun loadData() {
-        val activity = activity ?: return
-        val seenPackages: ArrayList<String> = ArrayList()
-
+        val activity = requireActivity()
         val pm = activity.packageManager
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
             val launcherIntent = Intent(Intent.ACTION_MAIN, null)
             launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val resolveInfos = pm.queryIntentActivities(
-                launcherIntent, when {
-                    Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP -> PackageManager.MATCH_DISABLED_COMPONENTS
-                    else -> 0
-                }
-            )
-            val appData = ArrayList<ApplicationData>()
-            for (resolveInfo in resolveInfos) {
-                val packageName = resolveInfo.activityInfo.packageName
-                if (packageName in seenPackages) {
+            val packageInfos = pm.getInstalledPackages(0)
+            val appData = HashSet<ApplicationData>()
+            for (pkgInfo in packageInfos) {
+                val ai = pm.getApplicationInfo(pkgInfo.packageName, 0)
+                if ((ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
+                        ai.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP == 0)
                     continue
-                } else {
-                    seenPackages.add(packageName)
-                }
                 appData.add(
                     ApplicationData(
-                        resolveInfo.loadIcon(pm),
-                        resolveInfo.loadLabel(pm).toString(),
-                        packageName,
-                        currentlyExcludedApps?.contains(packageName) ?: false,
-                        if (isGlobalExclusionsDialog) false else Application.appPrefs.exclusionsArray.contains(
-                            packageName
-                        )
+                        pkgInfo.applicationInfo.loadIcon(pm),
+                        pkgInfo.applicationInfo.loadLabel(pm).toString(),
+                        pkgInfo.packageName,
+                        currentlyExcludedApps?.contains(pkgInfo.packageName) ?: false,
+                        if (isGlobalExclusionsDialog)
+                            false
+                        else
+                            Application.appPrefs.exclusionsArray.contains(pkgInfo.packageName)
                     )
                 )
             }
-
-            appData.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
-            appData
+            ArrayList<ApplicationData>(appData).also {
+                it.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
+            }
         }.whenComplete { data, throwable ->
             if (data != null) {
                 appData.clear()
