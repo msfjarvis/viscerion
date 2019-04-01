@@ -6,6 +6,7 @@
 - Ensure global exclusions are not exported with configs to prevent import bugs
 - Support Magisk 19.0
 - Default app theme to follow battery saver
+- Improve and speed up exclusion picker
 
 ### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
