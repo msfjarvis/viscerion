@@ -22,7 +22,7 @@ import java.io.IOException
 
 class ToolsInstaller(val context: Context) {
 
-    private val localBinaryDir: File = File(context.cacheDir, "bin")
+    private val localBinaryDir: File by lazy { File(context.cacheDir, "bin") }
     private val nativeLibraryDir: File by lazy { getNativeLibraryDir(context) }
     private var areToolsAvailable: Boolean? = null
     private var installAsMagiskModule: Boolean? = null
@@ -184,7 +184,7 @@ class ToolsInstaller(val context: Context) {
 
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
-        private val INSTALL_DIR = getInstallDir()
+        private val INSTALL_DIR by lazy { getInstallDir() }
         private val magiskDir by lazy { getMagiskDirectory() }
 
         private fun getMagiskDirectory(): String {
