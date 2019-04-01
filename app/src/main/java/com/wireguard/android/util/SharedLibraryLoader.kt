@@ -20,7 +20,7 @@ object SharedLibraryLoader {
         libName: String,
         useActualName: Boolean = false,
         skipDeletion: Boolean = false
-    ): String {
+    ): String? {
         val apkPath = getApkPath(context)
         Timber.d("apkPath: $apkPath")
         val zipFile: ZipFile
@@ -54,7 +54,7 @@ object SharedLibraryLoader {
                 if (!skipDeletion) f?.delete()
             }
         }
-        return ""
+        return null
     }
 
     @Suppress("UnsafeDynamicallyLoadedCode")
@@ -68,13 +68,14 @@ object SharedLibraryLoader {
             noAbiException = e
         }
 
-        val libPath = extractNativeLibrary(context, libName)
-        if (libPath.isNotEmpty()) {
-            try {
-                System.load(libPath)
-            } catch (e: Exception) {
-                Timber.d(e, "Failed to load library apk:/$libPath")
-                noAbiException = e
+        extractNativeLibrary(context, libName)?.let { libPath ->
+            if (libPath.isNotEmpty()) {
+                try {
+                    System.load(libPath)
+                } catch (e: Exception) {
+                    Timber.d(e, "Failed to load library apk:/$libPath")
+                    noAbiException = e
+                }
             }
         }
 

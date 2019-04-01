@@ -226,7 +226,8 @@ class ToolsInstaller(val context: Context) {
                     extractNativeLibrary(
                         context,
                         it[0],
-                        useActualName = true, skipDeletion = true
+                        useActualName = true,
+                        skipDeletion = true
                     )
                 }
                 context.cacheDir
