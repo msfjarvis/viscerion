@@ -73,7 +73,7 @@ class Application : android.app.Application() {
             if (appPrefs.useDarkTheme)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
-                AppCompatDelegate.MODE_NIGHT_NO
+                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
         )
 
         tunnelManager = TunnelManager(FileConfigStore(applicationContext))
