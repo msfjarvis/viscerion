@@ -20,7 +20,7 @@ import java.util.UUID
 
 class RootShell(val context: Context) {
 
-    private val deviceNotRootedMessage: String = context.getString(R.string.error_root)
+    private val deviceNotRootedMessage: String by lazy { context.getString(R.string.error_root) }
     private val localBinaryDir: File
     private val localTemporaryDir: File
     private val preamble: String

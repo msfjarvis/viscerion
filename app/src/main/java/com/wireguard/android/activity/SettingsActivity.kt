@@ -37,7 +37,7 @@ import java.util.Arrays
  */
 
 class SettingsActivity : AppCompatActivity() {
-    private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
+    private val permissionRequestCallbacks by lazy { SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>() }
     private var permissionRequestCounter: Int = 0
 
     fun ensurePermissions(

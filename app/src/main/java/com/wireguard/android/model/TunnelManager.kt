@@ -27,7 +27,7 @@ import timber.log.Timber
 import java.util.ArrayList
 
 class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
-    private val context = Application.get()
+    private val context by lazy { Application.get() }
     private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
     private val delayedLoadRestoreTunnels = ArrayList<CompletableFuture<Void>>()
