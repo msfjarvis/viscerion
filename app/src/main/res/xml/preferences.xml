@@ -39,5 +39,9 @@
             android:key="force_userspace_backend"
             android:title="@string/force_userspace_backend_title"
             android:summary="@string/force_userspace_backend_summary" />
+        <CheckBoxPreference
+            android:key="use_alt_icon"
+            android:title="@string/pref_alt_icon_title"
+            android:summary="@string/pref_alt_icon_summary" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

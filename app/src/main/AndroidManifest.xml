@@ -20,17 +20,32 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <activity android:name=".activity.MainActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
+
+        <activity-alias
+            android:name="${applicationId}.LauncherActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:targetActivity=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="${applicationId}.AltIconLauncherActivity"
+            android:icon="@drawable/alt_launcher_icon"
+            android:enabled="false"
+            android:targetActivity=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name=".activity.SettingsActivity"

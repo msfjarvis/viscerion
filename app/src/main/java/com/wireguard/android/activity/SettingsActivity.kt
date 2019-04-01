@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.activity
 
+import android.content.ComponentName
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.SparseArray
@@ -145,6 +146,39 @@ class SettingsActivity : AppCompatActivity() {
                     getString(R.string.tasker_integration_summary_empty_secret)
                 else
                     getString(R.string.tasker_integration_secret_summary)
+            }
+            preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")?.setOnPreferenceClickListener {
+                val pref = it as CheckBoxPreference
+                val ctx = requireContext()
+                val pm = ctx.packageManager
+                if (pref.isChecked) {
+                    pm.apply {
+                        setComponentEnabledSetting(
+                            ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                        setComponentEnabledSetting(
+                            ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                    }
+                } else {
+                    pm.apply {
+                        setComponentEnabledSetting(
+                            ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                        setComponentEnabledSetting(
+                            ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP
+                        )
+                    }
+                }
+                true
             }
         }
 

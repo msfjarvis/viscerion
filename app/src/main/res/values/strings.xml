@@ -185,4 +185,6 @@
     <string name="log_viewer">Log viewer</string>
     <string name="menu_expand_log_lines">Expand log entries</string>
     <string name="menu_collapse_log_lines">Collapse log entries</string>
+    <string name="pref_alt_icon_title">Use alternate icon</string>
+    <string name="pref_alt_icon_summary">Might take several seconds to take effect in your launcher.</string>
 </resources>
