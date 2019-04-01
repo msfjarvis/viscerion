@@ -12,7 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
-import androidx.core.app.ActivityOptionsCompat.makeCustomAnimation
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
@@ -23,7 +22,6 @@ import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
-import com.wireguard.android.util.updateAppTheme
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -78,10 +76,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity, menu)
-        menu.findItem(R.id.menu_theme_switch).title = if (Application.appPrefs.useDarkTheme)
-            getString(R.string.dark_mode_disable)
-        else
-            getString(R.string.dark_mode_enable)
         return true
     }
 
@@ -102,16 +96,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     addToBackStack(null)
                 }
-                return true
-            }
-            R.id.menu_theme_switch -> {
-                Application.appPrefs.apply {
-                    useDarkTheme = !useDarkTheme
-                }
-                updateAppTheme()
-                val bundle = makeCustomAnimation(this, R.anim.fade_in, R.anim.fade_out).toBundle()
-                finish()
-                startActivity(intent, bundle)
                 return true
             }
             R.id.menu_action_save ->

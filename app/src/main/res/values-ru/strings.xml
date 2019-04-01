@@ -72,8 +72,6 @@
     <string name="create_from_qr_code">Создать из QR кода</string>
     <string name="create_output_dir_error">Невозможно создать выходной каталог</string>
     <string name="create_temp_dir_error">Невозможно создать локальный временный каталог</string>
-    <string name="dark_mode_enable">Включить темный режим</string>
-    <string name="dark_mode_disable">Отключить тёмный режим</string>
     <string name="create_tunnel">Создать туннель</string>
     <string name="delete">Удалить</string>
     <string name="deselect_all">Отменить все</string>

@@ -60,8 +60,6 @@
     <string name="create_from_qr_code">Create from QR code</string>
     <string name="create_output_dir_error">Cannot create output directory</string>
     <string name="create_temp_dir_error">Cannot create local temporary directory</string>
-    <string name="dark_mode_enable">Enable dark mode</string>
-    <string name="dark_mode_disable">Disable dark mode</string>
     <string name="create_tunnel">Create Tunnel</string>
     <string name="delete">Delete</string>
     <string name="deselect_all">Deselect All</string>
@@ -176,6 +174,7 @@
     <string name="preference_category_about">About</string>
     <string name="preference_category_config">Tunnel configurations</string>
     <string name="preference_category_debugging">Debugging</string>
+    <string name="preference_category_theming">Theming</string>
     <string name="tasker_integration_title">Enable tasker integration</string>
     <string name="tasker_integration_summary">WARNING: This is a potential security risk! Avoid using this on rooted devices, malicious apps can very easily circumvent the protection put in place by Viscerion!</string>
     <string name="tasker_integration_secret_title">External intent secret</string>
@@ -186,5 +185,8 @@
     <string name="menu_expand_log_lines">Expand log entries</string>
     <string name="menu_collapse_log_lines">Collapse log entries</string>
     <string name="pref_alt_icon_title">Use alternate icon</string>
-    <string name="pref_alt_icon_summary">Might take several seconds to take effect in your launcher.</string>
+    <string name="pref_alt_icon_summary">Switch to the new work-in-progress refresh of the Viscerion icon</string>
+    <string name="pref_alt_icon_apply_message">The icon has been switched successfully. This may take a few moments to reflect in your launcher.</string>
+    <string name="pref_dark_theme_title">Enable dark theme</string>
+    <string name="pref_dark_theme_summary">Switch to a darker theme that can help save some power on AMOLED displays</string>
 </resources>

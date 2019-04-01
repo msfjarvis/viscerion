@@ -12,6 +12,7 @@ import android.util.SparseArray
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat.makeCustomAnimation
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.preference.CheckBoxPreference
@@ -19,6 +20,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
@@ -26,6 +28,7 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.asString
+import com.wireguard.android.util.updateAppTheme
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -108,6 +111,8 @@ class SettingsActivity : AppCompatActivity() {
             val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
             val integrationSecretPref =
                 preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
+            val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
+            val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
@@ -147,12 +152,11 @@ class SettingsActivity : AppCompatActivity() {
                 else
                     getString(R.string.tasker_integration_secret_summary)
             }
-            preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")?.setOnPreferenceClickListener {
+            altIconPref?.setOnPreferenceClickListener {
                 val pref = it as CheckBoxPreference
                 val ctx = requireContext()
-                val pm = ctx.packageManager
-                if (pref.isChecked) {
-                    pm.apply {
+                ctx.packageManager.apply {
+                    if (pref.isChecked) {
                         setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
@@ -163,9 +167,7 @@ class SettingsActivity : AppCompatActivity() {
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
                         )
-                    }
-                } else {
-                    pm.apply {
+                    } else {
                         setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -177,7 +179,21 @@ class SettingsActivity : AppCompatActivity() {
                             PackageManager.DONT_KILL_APP
                         )
                     }
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.pref_alt_icon_apply_message),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
+                true
+            }
+            darkThemePref?.setOnPreferenceClickListener {
+                val ctx = requireContext()
+                val activity = requireActivity()
+                ctx.updateAppTheme()
+                val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
+                activity.finish()
+                startActivity(activity.intent, bundle)
                 true
             }
         }

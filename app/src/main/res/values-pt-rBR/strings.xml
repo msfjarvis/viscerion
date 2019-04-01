@@ -60,8 +60,6 @@
     <string name="create_from_qr_code">Criar a partir do código QR</string>
     <string name="create_output_dir_error">Não é possível criar o diretório de saída</string>
     <string name="create_temp_dir_error">Não é possível criar o diretório temporário local</string>
-    <string name="dark_mode_enable">Ativar o modo escuro</string>
-    <string name="dark_mode_disable">Desativar o modo escuro</string>
     <string name="create_tunnel">Criar túnel</string>
     <string name="delete">Excluir</string>
     <string name="deselect_all">Desmarcar tudo</string>

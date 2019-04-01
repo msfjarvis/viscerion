@@ -11,9 +11,4 @@
         android:title="@string/log_viewer"
         android:alphabeticShortcut="l"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_theme_switch"
-        android:alphabeticShortcut="t"
-        android:title="@string/dark_mode_enable"
-        app:showAsAction="never" />
 </menu>
