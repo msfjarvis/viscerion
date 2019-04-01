@@ -7,7 +7,6 @@ package com.wireguard.android.fragment
 
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.widget.Toast
@@ -64,8 +63,6 @@ class AppListDialogFragment : DialogFragment() {
         val activity = requireActivity()
         val pm = activity.packageManager
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
-            val launcherIntent = Intent(Intent.ACTION_MAIN, null)
-            launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER)
             val packageInfos = pm.getInstalledPackages(0)
             val appData = HashSet<ApplicationData>()
             for (pkgInfo in packageInfos) {
