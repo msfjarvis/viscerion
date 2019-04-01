@@ -64,7 +64,7 @@ class AppListDialogFragment : DialogFragment() {
         val pm = activity.packageManager
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
             val packageInfos = pm.getInstalledPackages(0)
-            val appData = HashSet<ApplicationData>()
+            val appData = ArrayList<ApplicationData>()
             for (pkgInfo in packageInfos) {
                 val ai = pm.getApplicationInfo(pkgInfo.packageName, 0)
                 if ((ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
@@ -83,7 +83,7 @@ class AppListDialogFragment : DialogFragment() {
                     )
                 )
             }
-            ArrayList<ApplicationData>(appData).also {
+            appData.also {
                 it.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
             }
         }.whenComplete { data, throwable ->
