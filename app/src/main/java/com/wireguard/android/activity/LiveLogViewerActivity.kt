@@ -29,7 +29,7 @@ import eu.chainfire.libsuperuser.Shell
 class LiveLogViewerActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: RecyclerView.Adapter<LogEntryAdapter.ViewHolder>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var rootSession: Shell.Interactive
     private val logcatDataset: ArrayList<LogEntry> = arrayListOf()
