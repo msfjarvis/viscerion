@@ -61,8 +61,8 @@ class AppListDialogFragment : DialogFragment() {
 
     private fun loadData() {
         val activity = requireActivity()
-        val pm = activity.packageManager
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
+            val pm = activity.packageManager
             val packageInfos = pm.getInstalledPackages(0)
             val appData = ArrayList<ApplicationData>()
             for (pkgInfo in packageInfos) {
