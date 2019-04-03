@@ -11,6 +11,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
@@ -18,6 +19,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -57,6 +59,10 @@ fun Context.restartApplication() {
     Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
 }
 
+fun Context.isPermissionGranted(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+}
+
 inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     return try {
         context as T
@@ -65,7 +71,7 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     }
 }
 
-fun Context.updateAppTheme() {
+fun updateAppTheme() {
     AppCompatDelegate.setDefaultNightMode(
         if (Application.appPrefs.useDarkTheme)
             AppCompatDelegate.MODE_NIGHT_YES

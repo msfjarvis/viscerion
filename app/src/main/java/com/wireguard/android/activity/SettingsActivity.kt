@@ -13,7 +13,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat.makeCustomAnimation
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -28,6 +27,7 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.asString
+import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.updateAppTheme
 import java.util.ArrayList
 import java.util.Arrays
@@ -46,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
     ) {
         val needPermissions = ArrayList<String>(permissions.size)
         for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED)
+            if (!this.isPermissionGranted(permission))
                 needPermissions.add(permission)
         }
         if (needPermissions.isEmpty()) {
@@ -190,7 +190,7 @@ class SettingsActivity : AppCompatActivity() {
             darkThemePref?.setOnPreferenceClickListener {
                 val ctx = requireContext()
                 val activity = requireActivity()
-                ctx.updateAppTheme()
+                updateAppTheme()
                 val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
                 activity.finish()
                 startActivity(activity.intent, bundle)

@@ -9,23 +9,16 @@ import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
 import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.ZipExporter
+import com.wireguard.android.util.isPermissionGranted
 import timber.log.Timber
 
 class ViscerionUpdateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || intent.action == null || BuildConfig.DEBUG) return
-        if (context != null &&
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        )
-            return
+        if (context != null && context.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) return
         Application.asyncWorker.runAsync {
             Application.tunnelManager.getTunnels().thenAccept {
                 ZipExporter.exportZip(it) { filePath, throwable ->
