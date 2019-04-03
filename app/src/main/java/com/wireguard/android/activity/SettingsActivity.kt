@@ -29,6 +29,7 @@ import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.updateAppTheme
+import java.io.File
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -116,7 +117,7 @@ class SettingsActivity : AppCompatActivity() {
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
-            if (BuildConfig.DEBUG && Application.supportsKernelModule)
+            if (BuildConfig.DEBUG && File("/sys/module/wireguard").exists())
                 for (pref in debugOnlyPrefs)
                     pref?.isVisible = true
 

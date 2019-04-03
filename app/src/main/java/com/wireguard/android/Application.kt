@@ -96,8 +96,6 @@ class Application : android.app.Application() {
         val appPrefs by lazy { get().appPrefs }
         val toolsInstaller by lazy { get().toolsInstaller }
         val tunnelManager by lazy { get().tunnelManager }
-        var supportsKernelModule = false
-            private set
 
         fun get(): Application {
             return weakSelf.get() as Application
@@ -110,15 +108,12 @@ class Application : android.app.Application() {
                     if (app.backend == null) {
                         var backend: Backend? = null
                         if (File("/sys/module/wireguard").exists()) {
-                            supportsKernelModule = true
                             try {
                                 if (appPrefs.forceUserspaceBackend)
                                     throw Exception("Forcing userspace backend on user request.")
                                 app.rootShell.start()
                                 backend = WgQuickBackend(app.applicationContext)
-                            } catch (exc: Exception) {
-                                if (exc is RootShell.NoRootException)
-                                    supportsKernelModule = false
+                            } catch (ignored: Exception) {
                             }
                         }
                         if (backend == null)
