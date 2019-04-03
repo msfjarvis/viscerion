@@ -63,7 +63,7 @@ class RootShell(val context: Context) {
         start()
         val marker = UUID.randomUUID().toString()
         val script = "echo $marker; echo $marker >&2; ($command); ret=$?; echo $marker \$ret; echo $marker \$ret >&2\n"
-        if (DEBUG) Timber.v("executing: %s", command)
+        Timber.d("executing: %s", command)
         stdin.write(script)
         stdin.flush()
         var line: String?
@@ -82,7 +82,7 @@ class RootShell(val context: Context) {
                 }
             } else if (markersSeen > 0) {
                 output?.add(line)
-                if (DEBUG) Timber.v("stdout: %s", line)
+                Timber.d("stdout: %s", line)
             }
         }
         while (true) {
@@ -96,14 +96,14 @@ class RootShell(val context: Context) {
                     break
                 }
             } else if (markersSeen > 2) {
-                if (DEBUG) Timber.v("stdout: %s", line)
+                Timber.d("stdout: %s", line)
             }
         }
         if (markersSeen != 4)
             throw IOException(context.getString(R.string.shell_marker_count_error, markersSeen))
         if (errnoStdout != errnoStderr)
             throw IOException("Unable to read exit status")
-        if (DEBUG) Timber.v("exit: %s", errnoStdout)
+        Timber.d("exit: %s", errnoStdout)
         return errnoStdout
     }
 
@@ -186,6 +186,5 @@ class RootShell(val context: Context) {
 
     companion object {
         private const val SU = "su"
-        private val DEBUG = BuildConfig.DEBUG
     }
 }
