@@ -139,11 +139,13 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
             }
+
             exclusionsPref?.setOnPreferenceClickListener {
                 val fragment = AppListDialogFragment.newInstance(Application.appPrefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
+
             integrationSecretPref?.setSummaryProvider { preference ->
                 if (Application.appPrefs.allowTaskerIntegration &&
                     preference.isEnabled &&
@@ -153,41 +155,36 @@ class SettingsActivity : AppCompatActivity() {
                 else
                     getString(R.string.tasker_integration_secret_summary)
             }
+
             altIconPref?.setOnPreferenceClickListener {
                 val pref = it as CheckBoxPreference
                 val ctx = requireContext()
                 ctx.packageManager.apply {
-                    if (pref.isChecked) {
-                        setComponentEnabledSetting(
+                    setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            if (pref.isChecked)
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                            else
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP
-                        )
-                        setComponentEnabledSetting(
+                    )
+                    setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            if (pref.isChecked)
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                            else
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP
-                        )
-                    } else {
-                        setComponentEnabledSetting(
-                            ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                            PackageManager.DONT_KILL_APP
-                        )
-                        setComponentEnabledSetting(
-                            ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP
-                        )
-                    }
-                    Snackbar.make(
+                    )
+                }
+                Snackbar.make(
                         requireView(),
                         getString(R.string.pref_alt_icon_apply_message),
                         Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+                ).show()
                 true
             }
+
             darkThemePref?.setOnPreferenceClickListener {
                 val ctx = requireContext()
                 val activity = requireActivity()
