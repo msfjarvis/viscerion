@@ -31,7 +31,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<LogEntryAdapter.ViewHolder>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var rootSession: Shell.Interactive
+    private lateinit var shellSession: Shell.Interactive
     private val logcatDataset: ArrayList<LogEntry> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        rootSession = Shell.Builder().useSH().open().apply {
+        shellSession = Shell.Builder().useSH().open().apply {
             addCommand(
                 arrayOf("logcat", "-b", "all", "-v", "threadtime", "*:V"),
                 0, object : Shell.OnCommandLineListener {
@@ -120,8 +120,8 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (rootSession.isRunning) {
-            rootSession.kill()
+        if (shellSession.isRunning) {
+            shellSession.kill()
         }
     }
 
