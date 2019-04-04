@@ -6,13 +6,13 @@
 class DependencyStore {
 
     object AndroidX {
-        private const val annotationVersion = "1.1.0-alpha02"
-        private const val appcompatVersion = "1.1.0-alpha03"
+        private const val annotationVersion = "1.1.0-beta01"
+        private const val appcompatVersion = "1.1.0-alpha04"
         private const val cardviewVersion = "1.0.0"
         private const val constraintlayoutVersion = "2.0.0-alpha3"
         private const val coreKtxVersion = "1.1.0-alpha05"
-        private const val databindingVersion = "3.5.0-alpha07"
-        private const val fragmentKtxVersion = "1.1.0-alpha05"
+        private const val databindingVersion = "3.3.2"
+        private const val fragmentKtxVersion = "1.1.0-alpha06"
         private const val preferenceVersion = "1.1.0-alpha04"
 
         const val annotations = "androidx.annotation:annotation:$annotationVersion"
