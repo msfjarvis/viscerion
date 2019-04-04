@@ -5,9 +5,9 @@
  */
 package com.wireguard.android.fragment
 
+import android.Manifest
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -62,16 +62,12 @@ class AppListDialogFragment : DialogFragment() {
     private fun loadData() {
         val activity = requireActivity()
         Application.asyncWorker.supplyAsync<List<ApplicationData>> {
-            val pm = activity.packageManager
-            val packageInfos = pm.getInstalledPackages(0)
             val appData = ArrayList<ApplicationData>()
-            for (pkgInfo in packageInfos) {
-                val ai = pm.getApplicationInfo(pkgInfo.packageName, 0)
-                if ((ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
-                        ai.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP == 0)
-                    continue
-                appData.add(
-                    ApplicationData(
+            val pm = activity.packageManager
+            pm.getPackagesHoldingPermissions(
+                    arrayOf(Manifest.permission.INTERNET), 0
+            ).forEach { pkgInfo ->
+                appData.add(ApplicationData(
                         pkgInfo.applicationInfo.loadIcon(pm),
                         pkgInfo.applicationInfo.loadLabel(pm).toString(),
                         pkgInfo.packageName,
@@ -80,8 +76,7 @@ class AppListDialogFragment : DialogFragment() {
                             false
                         else
                             Application.appPrefs.exclusionsArray.contains(pkgInfo.packageName)
-                    )
-                )
+                ))
             }
             appData.also {
                 it.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
