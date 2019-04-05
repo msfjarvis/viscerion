@@ -227,10 +227,11 @@ class TunnelListFragment : BaseFragment() {
     }
 
     private fun onRequestImportConfig() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "*/*"
-        startActivityForResult(intent, REQUEST_IMPORT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
+        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), REQUEST_IMPORT)
     }
 
     private fun onRequestScanQRCode() {
