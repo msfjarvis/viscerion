@@ -192,8 +192,7 @@ class TunnelListFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val bottomSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-        bottomSheet.apply {
+        val bottomSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme).apply {
             setContentView(R.layout.add_tunnels_bottom_sheet)
             findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
                 dismiss()
