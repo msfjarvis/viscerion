@@ -170,14 +170,16 @@ class TunnelListFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_IMPORT -> {
-                if (resultCode == Activity.RESULT_OK && data != null)
-                    importTunnel(data.data)
+                if (resultCode == Activity.RESULT_OK)
+                    data?.data?.also { uri ->
+                        Timber.tag("TunnelImport").i("Import uri: $uri")
+                        importTunnel(uri)
+                    }
                 return
             }
             IntentIntegrator.REQUEST_CODE -> {
-                val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                if (result != null && result.contents != null) {
-                    importTunnel(result.contents)
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)?.contents?.let {
+                    importTunnel(it)
                 }
                 return
             }
@@ -209,10 +211,10 @@ class TunnelListFragment : BaseFragment() {
         }
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
-        binding?.let {
-            it.createFab.setOnClickListener { bottomSheet.show() }
-            it.tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(it.createFab))
-            it.executePendingBindings()
+        binding?.apply {
+            createFab.setOnClickListener { bottomSheet.show() }
+            tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
+            executePendingBindings()
         }
         return binding?.root
     }
@@ -235,10 +237,11 @@ class TunnelListFragment : BaseFragment() {
     }
 
     private fun onRequestScanQRCode() {
-        val intentIntegrator = IntentIntegrator.forSupportFragment(this)
-        intentIntegrator.setOrientationLocked(false)
-        intentIntegrator.setBeepEnabled(false)
-        intentIntegrator.setPrompt(getString(R.string.qr_code_hint))
+        val intentIntegrator = IntentIntegrator.forSupportFragment(this).apply {
+            setOrientationLocked(false)
+            setBeepEnabled(false)
+            setPrompt(getString(R.string.qr_code_hint))
+        }
         intentIntegrator.initiateScan(listOf(IntentIntegrator.QR_CODE))
     }
 
