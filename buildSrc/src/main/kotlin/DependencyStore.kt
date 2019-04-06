@@ -33,7 +33,7 @@ class DependencyStore {
     }
 
     object ThirdParty {
-        private const val libsuperuserVersion = "1.0.0.+"
+        private const val libsuperuserVersion = "1.0.0.201811281328"
         private const val streamsupportVersion = "1.7.0"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
