@@ -9,7 +9,7 @@ class DependencyStore {
         private const val annotationVersion = "1.1.0-beta01"
         private const val appcompatVersion = "1.1.0-alpha04"
         private const val cardviewVersion = "1.0.0"
-        private const val constraintlayoutVersion = "2.0.0-alpha3"
+        private const val constraintlayoutVersion = "2.0.0-alpha4"
         private const val coreKtxVersion = "1.1.0-alpha05"
         private const val databindingVersion = "3.3.2"
         private const val fragmentKtxVersion = "1.1.0-alpha06"
