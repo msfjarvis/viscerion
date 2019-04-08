@@ -27,8 +27,8 @@ GOBUILDOS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 GOBUILDVERSION := 1.12
 GOBUILDTARBALL := https://dl.google.com/go/go$(GOBUILDVERSION).$(GOBUILDOS)-$(GOBUILDARCH).tar.gz
 GOBUILDVERSION_NEEDED := go version go$(GOBUILDVERSION) $(GOBUILDOS)/$(GOBUILDARCH)
-export GOROOT := $(BUILDDIR)/goroot
-export GOPATH := $(BUILDDIR)/gopath
+export GOROOT := $(CURDIR)/build/goroot
+export GOPATH := $(CURDIR)/build/gopath
 export PATH := $(GOROOT)/bin:$(PATH)
 GOBUILDVERSION_CURRENT := $(shell $(GOROOT)/bin/go version 2>/dev/null)
 ifneq ($(GOBUILDVERSION_NEEDED),$(GOBUILDVERSION_CURRENT))
@@ -40,10 +40,10 @@ $(GOROOT)/bin/go:
 	curl "$(GOBUILDTARBALL)" | tar -C "$(GOROOT)" --strip-components=1 -xzf - || { rm -rf "$(GOROOT)"; exit 1; }
 	patch -p1 -f -N -r- -d "$(GOROOT)" < goruntime-boottime-over-monotonic.diff || { rm -rf "$(GOROOT)"; exit 1; }
 
-$(shell test "$$(cat $(BUILDDIR)/.gobuildversion 2>/dev/null)" = "$(GOBUILDVERSION_CURRENT)" || rm -f "$(DESTDIR)/libwg-go.so")
+$(shell test "$$(cat $(GOROOT)/.gobuildversion 2>/dev/null)" = "$(GOBUILDVERSION_CURRENT)" || rm -f "$(DESTDIR)/libwg-go.so")
 
 $(DESTDIR)/libwg-go.so: $(GOROOT)/bin/go
 	go get -tags linux || { chmod -fR +w "$(GOPATH)/pkg/mod"; rm -rf "$(GOPATH)/pkg/mod"; exit 1; }
 	chmod -fR +w "$(GOPATH)/pkg/mod"
 	go build -tags linux -ldflags="-X main.socketDirectory=/data/data/$(ANDROID_PACKAGE_NAME)/cache/wireguard" -v -o "$@" -buildmode c-shared
-	go version > $(BUILDDIR)/.gobuildversion
+	go version > $(GOROOT)/.gobuildversion
