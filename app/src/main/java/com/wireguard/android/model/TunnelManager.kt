@@ -24,7 +24,6 @@ import java9.util.Comparators
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
 import timber.log.Timber
-import java.util.ArrayList
 
 class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     private val context by lazy { Application.get() }

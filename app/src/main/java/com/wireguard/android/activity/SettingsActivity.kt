@@ -30,7 +30,6 @@ import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.updateAppTheme
 import java.io.File
-import java.util.ArrayList
 import java.util.Arrays
 
 /**

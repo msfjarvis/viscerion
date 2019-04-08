@@ -25,7 +25,6 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 
 /**
  * WireGuard backend that uses `wg-quick` to implement tunnel configuration.

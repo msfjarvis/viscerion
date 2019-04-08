@@ -16,7 +16,6 @@ import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Peer
 import java.lang.ref.WeakReference
-import java.util.ArrayList
 import java.util.LinkedHashSet
 
 class PeerProxy : BaseObservable, Parcelable {
