@@ -98,7 +98,6 @@ dependencies {
     implementation(deps.AndroidX.fragmentKtx)
     implementation(deps.AndroidX.preference)
     implementation(deps.Material.material)
-    implementation(deps.ThirdParty.libsuperuser)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.retrostreams)
     implementation(deps.ThirdParty.threetenabp)

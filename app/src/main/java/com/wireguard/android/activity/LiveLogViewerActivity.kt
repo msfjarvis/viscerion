@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,14 +24,17 @@ import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
 import com.wireguard.android.util.LogExporter
 import com.wireguard.android.util.isPermissionGranted
-import eu.chainfire.libsuperuser.Shell
+import com.wireguard.android.util.runShellCommand
+import timber.log.Timber
+import java.util.Timer
+import java.util.TimerTask
 
 class LiveLogViewerActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<LogEntryAdapter.ViewHolder>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var shellSession: Shell.Interactive
+    private lateinit var timer: Timer
     private val logcatDataset: ArrayList<LogEntry> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,22 +49,18 @@ class LiveLogViewerActivity : AppCompatActivity() {
             adapter = viewAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
+        timer = Timer()
+        timer.scheduleAtFixedRate(LogUpdateTask { logEntries ->
+            if (logEntries.isEmpty()) return@LogUpdateTask
+            Timber.tag("LogViewer").d("Refreshing log entries")
+            val diffResult = DiffUtil.calculateDiff(DiffUtilCallback(logEntries, logcatDataset))
+            diffResult.dispatchUpdatesTo(viewAdapter)
+            logcatDataset.apply {
+                clear()
+                addAll(logEntries)
+            }
+        }, 0, 5000)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        shellSession = Shell.Builder().useSH().open().apply {
-            addCommand(
-                arrayOf("logcat", "-b", "all", "-v", "threadtime", "*:V"),
-                0, object : Shell.OnCommandLineListener {
-                    override fun onLine(line: String?) {
-                        line?.let {
-                            logcatDataset.add(LogEntry(it))
-                            runOnUiThread { viewAdapter.notifyDataSetChanged() }
-                        }
-                    }
-
-                    override fun onCommandResult(commandCode: Int, exitCode: Int) {}
-                }
-            )
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -115,8 +115,40 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (shellSession.isRunning) {
-            shellSession.kill()
+        if (::timer.isInitialized) {
+            timer.cancel()
+        }
+    }
+
+    class LogUpdateTask(val onUpdateCallback: (ArrayList<LogEntry>) -> Unit) : TimerTask() {
+        override fun run() {
+            val ret = ArrayList<LogEntry>()
+            "logcat -b all -d -v threadtime *:V".runShellCommand().forEach { line ->
+                ret.add(LogEntry(line))
+            }
+            onUpdateCallback(ret)
+        }
+    }
+
+    class DiffUtilCallback(
+        private var newList: ArrayList<LogEntry>,
+        private var oldList: ArrayList<LogEntry>
+    ) : DiffUtil.Callback() {
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return newList[newItemPosition] == oldList[oldItemPosition]
+        }
+
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return newList[newItemPosition].entry == oldList[oldItemPosition].entry
         }
     }
 

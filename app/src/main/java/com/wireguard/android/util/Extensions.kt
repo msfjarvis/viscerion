@@ -25,12 +25,31 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.Application
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 fun String.toArrayList(): ArrayList<String> {
     return if (TextUtils.isEmpty(this))
         ArrayList()
     else
         LIST_SEPARATOR.split(trim()).toCollection(ArrayList())
+}
+
+fun String.runShellCommand(): ArrayList<String> {
+    val ret = ArrayList<String>()
+    try {
+        val shell = Runtime.getRuntime().exec(this)
+        val reader = BufferedReader(InputStreamReader(shell.inputStream))
+        var line: String?
+        while (true) {
+            line = reader.readLine()
+            if (line == null)
+                break
+            ret.add(line)
+        }
+    } catch (ignored: Exception) {
+    }
+    return ret
 }
 
 fun <T> List<T>.asString(): String {
