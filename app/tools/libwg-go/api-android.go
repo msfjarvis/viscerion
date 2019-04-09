@@ -31,7 +31,7 @@ type AndroidLogger struct {
 }
 
 func (l AndroidLogger) Write(p []byte) (int, error) {
-	C.__android_log_write(l.level, C.CString("WireGuard/GoBackend/"+l.interfaceName), C.CString(string(p)))
+	C.__android_log_write(l.level, C.CString("GoBackend/"+l.interfaceName), C.CString(string(p)))
 	return len(p), nil
 }
 
@@ -54,7 +54,7 @@ func init() {
 			case <-signals:
 				n := runtime.Stack(buf, true)
 				buf[n] = 0
-				C.__android_log_write(C.ANDROID_LOG_ERROR, C.CString("WireGuard/GoBackend/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
+				C.__android_log_write(C.ANDROID_LOG_ERROR, C.CString("GoBackend/Stacktrace"), (*C.char)(unsafe.Pointer(&buf[0])))
 			}
 		}
 	}()
