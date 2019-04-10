@@ -12,6 +12,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
@@ -27,6 +28,14 @@ import com.wireguard.android.Application
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 import java.io.BufferedReader
 import java.io.InputStreamReader
+
+/* TODO: Remove when Q drops */
+val ATLEAST_Q: Boolean
+    get() {
+        return Build.VERSION.CODENAME.length == 1 &&
+                Build.VERSION.CODENAME[0] >= 'Q' &&
+                Build.VERSION.CODENAME[0] <= 'Z'
+    }
 
 fun String.toArrayList(): ArrayList<String> {
     return if (TextUtils.isEmpty(this))

@@ -23,7 +23,7 @@ fun gitHash(): String {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion("android-Q")
     dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "me.msfjarvis.viscerion"

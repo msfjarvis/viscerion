@@ -5,6 +5,7 @@
  */
 package com.wireguard.config
 
+import com.wireguard.android.util.ATLEAST_Q
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.net.Inet4Address
@@ -15,15 +16,8 @@ import java.net.InetAddress
  * Utility methods for creating instances of [InetAddress].
  */
 object InetAddresses {
-    private val PARSER_METHOD: Method
-
-    init {
-        try {
-            // This method is only present on Android.
-            PARSER_METHOD = InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
-        } catch (e: NoSuchMethodException) {
-            throw RuntimeException(e)
-        }
+    private val PARSER_METHOD: Method by lazy {
+        InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
     }
 
     /**
@@ -37,7 +31,10 @@ object InetAddresses {
         if (address.isEmpty())
             throw ParseException(InetAddress::class.java, address, "Empty address")
         try {
-            return PARSER_METHOD.invoke(null, address) as InetAddress
+            return if (ATLEAST_Q)
+                android.net.InetAddresses.parseNumericAddress(address)
+            else
+                PARSER_METHOD.invoke(null, address) as InetAddress
         } catch (e: IllegalAccessException) {
             val cause = e.cause
             // Re-throw parsing exceptions with the original type, as callers might try to catch
@@ -52,4 +49,4 @@ object InetAddresses {
             throw RuntimeException(e)
         }
     }
-} // Prevent instantiation.
+}

@@ -20,6 +20,7 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
+import com.wireguard.android.util.ATLEAST_Q
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
@@ -61,7 +62,7 @@ class QuickTileService : TileService() {
                 Application.get().theme
             )
         )
-        /* Unfortunately we can't have animations, since Icons are marshaled. */
+        /* Unfortunately we can't have animations, since icons are marshaled. */
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)
         var b = Bitmap.createBitmap(
@@ -140,6 +141,9 @@ class QuickTileService : TileService() {
         if (tile == null)
             return
         tile.label = label
+        if (ATLEAST_Q && newTunnel != null) {
+            tile.subtitle = getString(R.string.app_name)
+        }
         if (tile.state != state) {
             tile.icon = if (state == Tile.STATE_ACTIVE) iconOn else iconOff
             tile.state = state
