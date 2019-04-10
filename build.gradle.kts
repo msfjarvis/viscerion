@@ -39,7 +39,7 @@ tasks {
         reportfileName = "report"
     }
     wrapper {
-        gradleVersion = "5.3.1"
+        gradleVersion = "5.4-rc-1"
         distributionType = DistributionType.ALL
     }
 }
