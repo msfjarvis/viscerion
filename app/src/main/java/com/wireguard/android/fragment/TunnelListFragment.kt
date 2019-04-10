@@ -18,18 +18,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.Application
 import com.wireguard.android.R
-import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.ui.AddTunnelsSheet
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
@@ -190,25 +188,11 @@ class TunnelListFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val bottomSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme).apply {
-            setContentView(R.layout.add_tunnels_bottom_sheet)
-            findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
-                dismiss()
-                onRequestCreateConfig()
-            }
-            findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
-                dismiss()
-                onRequestImportConfig()
-            }
-            findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
-                dismiss()
-                onRequestScanQRCode()
-            }
-        }
+        val bottomSheet = AddTunnelsSheet()
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
-            createFab.setOnClickListener { bottomSheet.show() }
+            createFab.setOnClickListener { bottomSheet.show(requireFragmentManager(), "BOTTOM_SHEET") }
             tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
             executePendingBindings()
         }
@@ -218,27 +202,6 @@ class TunnelListFragment : BaseFragment() {
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
-    }
-
-    private fun onRequestCreateConfig() {
-        startActivity(Intent(activity, TunnelCreatorActivity::class.java))
-    }
-
-    private fun onRequestImportConfig() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-        }
-        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), REQUEST_IMPORT)
-    }
-
-    private fun onRequestScanQRCode() {
-        val intentIntegrator = IntentIntegrator.forSupportFragment(this).apply {
-            setOrientationLocked(false)
-            setBeepEnabled(false)
-            setPrompt(getString(R.string.qr_code_hint))
-        }
-        intentIntegrator.initiateScan(listOf(IntentIntegrator.QR_CODE))
     }
 
     private fun viewForTunnel(tunnel: Tunnel, tunnels: List<Tunnel>): MultiselectableRelativeLayout? {
@@ -473,6 +436,6 @@ class TunnelListFragment : BaseFragment() {
     }
 
     companion object {
-        private const val REQUEST_IMPORT = 1
+        const val REQUEST_IMPORT = 1
     }
 }
