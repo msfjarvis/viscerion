@@ -38,16 +38,16 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val dialog = dialog as BottomSheetDialog?
                 dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
-                    dismiss()
                     onRequestCreateConfig()
+                    dismiss()
                 }
                 dialog?.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
-                    dismiss()
                     onRequestImportConfig()
+                    dismiss()
                 }
                 dialog?.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
-                    dismiss()
                     onRequestScanQRCode()
+                    dismiss()
                 }
             }
         })
