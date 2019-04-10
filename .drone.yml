@@ -11,3 +11,6 @@ steps:
       - git submodule update --init --recursive
       - git fetch --tags
       - ./gradlew assembleDebug checkDebug
+    when:
+      branch:
+        - master
