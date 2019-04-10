@@ -14,6 +14,8 @@ class DependencyStore {
         private const val databindingVersion = "3.3.2"
         private const val fragmentKtxVersion = "1.1.0-alpha06"
         private const val preferenceVersion = "1.1.0-alpha04"
+        private const val slicesVersion = "1.0.0"
+        private const val slicesKtxVersion = "1.0.0-alpha6"
 
         const val annotations = "androidx.annotation:annotation:$annotationVersion"
         const val appcompat = "androidx.appcompat:appcompat:$appcompatVersion"
@@ -24,6 +26,9 @@ class DependencyStore {
         const val databindingRuntime = "androidx.databinding:databinding-runtime:$databindingVersion"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
         const val preference = "androidx.preference:preference:$preferenceVersion"
+        const val sliceBuilders = "androidx.slice:slice-builders:$slicesVersion"
+        const val sliceCore = "androidx.slice:slice-core:$slicesVersion"
+        const val sliceKtx = "androidx.slice:slice-builders-ktx:$slicesKtxVersion"
     }
 
     object Material {

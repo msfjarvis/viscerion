@@ -8,10 +8,12 @@ package com.wireguard.android.model
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.Application
 import com.wireguard.android.BR
+import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.model.Tunnel.Statistics
@@ -158,6 +160,10 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
     }
 
     fun saveState() {
+        context.contentResolver.notifyChange(
+                Uri.parse("content://${BuildConfig.APPLICATION_ID}/vpn"),
+                null
+        )
         Application.appPrefs.runningTunnels =
             tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
     }
@@ -247,6 +253,7 @@ class TunnelManager(private var configStore: ConfigStore) : BaseObservable() {
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
         const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
         const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
+
         private val COMPARATOR = Comparators.thenComparing(
             String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
         )

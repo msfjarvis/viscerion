@@ -121,5 +121,10 @@
                 android:name="android.service.quicksettings.ACTIVE_TILE"
                 android:value="false" />
         </service>
+
+        <provider
+            android:authorities="${applicationId}"
+            android:name=".providers.ViscerionSliceProvider"
+            android:exported="true"/>
     </application>
 </manifest>

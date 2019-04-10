@@ -20,6 +20,8 @@ class TaskerIntegrationReceiver : BroadcastReceiver() {
             return
 
         val manager = Application.tunnelManager
+        val isSelfPackage = intent.`package` == BuildConfig.APPLICATION_ID
+        val taskerEnabled = !Application.appPrefs.allowTaskerIntegration || Application.appPrefs.taskerIntegrationSecret.isEmpty()
         val tunnelName: String? = intent.getStringExtra(TunnelManager.TUNNEL_NAME_INTENT_EXTRA)
         val integrationSecret: String? = intent.getStringExtra(TunnelManager.INTENT_INTEGRATION_SECRET_EXTRA)
 
@@ -34,22 +36,33 @@ class TaskerIntegrationReceiver : BroadcastReceiver() {
             }
             else -> Timber.d("Invalid intent action: ${intent.action}")
         }
-        if (!Application.appPrefs.allowTaskerIntegration || Application.appPrefs.taskerIntegrationSecret.isEmpty()) {
+
+        if (taskerEnabled && !isSelfPackage) {
             Timber.e("Tasker integration is disabled! Not allowing tunnel state change to pass through.")
             return
         }
-        if (tunnelName != null && state != null && integrationSecret == Application.appPrefs.taskerIntegrationSecret) {
-            Timber.d("Setting $tunnelName's state to $state")
-            manager.getTunnels().thenAccept { tunnels ->
-                val tunnel = tunnels[tunnelName]
-                tunnel?.let {
-                    manager.setTunnelState(it, state)
-                }
+
+        if (tunnelName != null && state != null) {
+            if (isSelfPackage) {
+                toggleTunnelState(tunnelName, state, manager)
+                return
+            }
+            when (integrationSecret) {
+                Application.appPrefs.taskerIntegrationSecret -> toggleTunnelState(tunnelName, state, manager)
+                else -> Timber.e("Intent integration secret mis-match! Exiting...")
             }
         } else if (tunnelName == null) {
             Timber.d("Intent parameter ${TunnelManager.TUNNEL_NAME_INTENT_EXTRA} not set!")
-        } else {
-            Timber.e("Intent integration secret mis-match! Exiting...")
+        }
+    }
+
+    private fun toggleTunnelState(tunnelName: String, state: Tunnel.State, manager: TunnelManager) {
+        Timber.d("Setting $tunnelName's state to $state")
+        manager.getTunnels().thenAccept { tunnels ->
+            val tunnel = tunnels[tunnelName]
+            tunnel?.let {
+                manager.setTunnelState(it, state)
+            }
         }
     }
 }
