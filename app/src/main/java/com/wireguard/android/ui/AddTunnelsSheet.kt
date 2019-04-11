@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,7 +23,7 @@ import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.fragment.TunnelListFragment
 import com.google.android.material.R as materialR
 
-class AddTunnelsSheet : BottomSheetDialogFragment() {
+class AddTunnelsSheet(val fragment: Fragment) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
@@ -79,7 +80,7 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), TunnelListFragment.REQUEST_IMPORT)
+        fragment.startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), TunnelListFragment.REQUEST_IMPORT)
     }
 
     private fun onRequestScanQRCode() {

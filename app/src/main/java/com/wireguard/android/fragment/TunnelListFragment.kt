@@ -188,7 +188,7 @@ class TunnelListFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val bottomSheet = AddTunnelsSheet()
+        val bottomSheet = AddTunnelsSheet(this)
 
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
