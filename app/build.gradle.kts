@@ -90,7 +90,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(deps.AndroidX.annotations)
     implementation(deps.AndroidX.appcompat)
-    implementation(deps.AndroidX.cardview)
     implementation(deps.AndroidX.constraintlayout)
     implementation(deps.AndroidX.coreKtx)
     implementation(deps.AndroidX.databindingAdapters)
