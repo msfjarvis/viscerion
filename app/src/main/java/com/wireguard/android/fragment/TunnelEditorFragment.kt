@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -122,7 +123,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onResume() {
         super.onResume()
-        if (!MainActivity.isTwoPaneLayout)
+        if (!MainActivity.isTwoPaneLayout &&
+                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
             context?.let {
                 activity?.window?.apply {
                     navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
