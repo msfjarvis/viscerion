@@ -261,7 +261,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     fun onRequestSetExcludedApplications(view: View) {
         val fragmentManager = requireFragmentManager()
         binding?.let {
-            val excludedApps = ArrayList(HashSet(it.config?.`interface`?.excludedApplications))
+            val excludedApps = ArrayList(it.config?.`interface`?.excludedApplications)
             val fragment = AppListDialogFragment.newInstance(excludedApps, target = this)
             fragment.show(fragmentManager, null)
         }
