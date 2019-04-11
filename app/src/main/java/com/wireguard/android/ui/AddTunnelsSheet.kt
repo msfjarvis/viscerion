@@ -54,20 +54,20 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
                         }
                     }
                 })
-                dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
-                    onRequestCreateConfig()
-                    dismiss()
-                }
-                dialog?.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
-                    onRequestImportConfig()
-                    dismiss()
-                }
-                dialog?.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
-                    onRequestScanQRCode()
-                    dismiss()
-                }
             }
         })
+        dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
+            onRequestCreateConfig()
+            dismiss()
+        }
+        dialog?.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
+            onRequestImportConfig()
+            dismiss()
+        }
+        dialog?.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
+            onRequestScanQRCode()
+            dismiss()
+        }
     }
 
     private fun onRequestCreateConfig() {
