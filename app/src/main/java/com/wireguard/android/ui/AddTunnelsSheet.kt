@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.FrameLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
@@ -18,6 +20,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.fragment.TunnelListFragment
+import com.google.android.material.R as materialR
 
 class AddTunnelsSheet : BottomSheetDialogFragment() {
 
@@ -37,6 +40,20 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val dialog = dialog as BottomSheetDialog?
+                val bottomSheet = dialog?.findViewById<FrameLayout>(materialR.id.design_bottom_sheet)
+                val behavior = BottomSheetBehavior.from(bottomSheet)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.peekHeight = 0
+                behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    }
+
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                            dismiss()
+                        }
+                    }
+                })
                 dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
                     onRequestCreateConfig()
                     dismiss()
