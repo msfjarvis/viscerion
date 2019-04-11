@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/bottom_sheet_top_padding">
+    android:paddingTop="@dimen/bottom_sheet_top_padding">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/create_empty"
@@ -14,7 +14,6 @@
         android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="4dp"
         android:text="@string/create_empty"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
@@ -36,7 +35,6 @@
         android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="4dp"
         android:text="@string/create_from_file"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
@@ -58,7 +56,6 @@
         android:layout_marginRight="@dimen/normal_margin"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginBottom="4dp"
         android:text="@string/create_from_qr_code"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorBottomsheetText"
@@ -71,5 +68,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/accent"
         style="@style/TextButton.Icon.CustomFont"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="-1dp"
+        android:background="#1F000000"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
