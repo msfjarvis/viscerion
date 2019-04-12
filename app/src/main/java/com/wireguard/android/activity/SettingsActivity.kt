@@ -109,6 +109,7 @@ class SettingsActivity : AppCompatActivity() {
                 preferenceScreen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
             val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
+            val taskerPref = preferenceManager.findPreference<SwitchPreferenceCompat>("allow_tasker_integration")
             val integrationSecretPref =
                 preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
@@ -139,9 +140,16 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
+            integrationSecretPref?.isVisible = Application.appPrefs.allowTaskerIntegration
+
             exclusionsPref?.setOnPreferenceClickListener {
                 val fragment = AppListDialogFragment.newInstance(Application.appPrefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
+                true
+            }
+
+            taskerPref?.setOnPreferenceChangeListener { _, newValue ->
+                integrationSecretPref?.isVisible = (newValue as Boolean)
                 true
             }
 

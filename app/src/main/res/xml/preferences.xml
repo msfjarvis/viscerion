@@ -36,7 +36,6 @@
             android:summary="@string/tasker_integration_summary" />
         <EditTextPreference
             android:defaultValue=""
-            android:dependency="allow_tasker_integration"
             android:key="intent_integration_secret"
             android:title="@string/tasker_integration_secret_title"
             android:summary="@string/tasker_integration_secret_summary" />
