@@ -8,8 +8,6 @@ package com.wireguard.android.viewmodel
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
-
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Config
 import com.wireguard.config.Peer
@@ -17,7 +15,7 @@ import com.wireguard.config.Peer
 class ConfigProxy : Parcelable {
 
     val `interface`: InterfaceProxy
-    val peers: ObservableList<PeerProxy> = ObservableArrayList()
+    val peers = ObservableArrayList<PeerProxy>()
 
     private constructor(`in`: Parcel) {
         `interface` = `in`.readParcelable<InterfaceProxy>(InterfaceProxy::class.java.classLoader) as InterfaceProxy

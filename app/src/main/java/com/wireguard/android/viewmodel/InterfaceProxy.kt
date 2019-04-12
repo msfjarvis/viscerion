@@ -10,7 +10,7 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableList
+import androidx.databinding.ObservableInt
 import com.wireguard.android.Application
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
@@ -19,14 +19,16 @@ import com.wireguard.crypto.KeyPair
 
 class InterfaceProxy : BaseObservable, Parcelable {
 
-    val excludedApplications: ObservableList<String> = ObservableArrayList()
-    val totalExclusionsCount = (excludedApplications + Application.appPrefs.exclusionsArray).size
-    var addresses: ObservableField<String> = ObservableField()
-    var dnsServers: ObservableField<String> = ObservableField()
-    var listenPort: ObservableField<String> = ObservableField()
-    var mtu: ObservableField<String> = ObservableField()
-    var privateKey: ObservableField<String> = ObservableField()
-    var publicKey: ObservableField<String> = ObservableField()
+    val excludedApplications = ObservableArrayList<String>()
+    val totalExclusionsCount = ObservableInt(excludedApplications.size).apply {
+        set(get() + Application.appPrefs.exclusionsArray.size)
+    }
+    var addresses = ObservableField<String>()
+    var dnsServers = ObservableField<String>()
+    var listenPort = ObservableField<String>()
+    var mtu = ObservableField<String>()
+    var privateKey = ObservableField<String>()
+    var publicKey = ObservableField<String>()
         private set
 
     private constructor(`in`: Parcel) {
