@@ -7,9 +7,6 @@ package me.msfjarvis.viscerion
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
@@ -24,7 +21,6 @@ import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ErrorMessages
-import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
 
 /**
@@ -39,8 +35,6 @@ class QuickTileService : TileService() {
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
     private var tunnel: Tunnel? = null
-    private var iconOn: Icon? = null
-    private var iconOff: Icon? = null
 
     /* This works around an annoying unsolved frameworks bug some people are hitting. */
     override fun onBind(intent: Intent): IBinder? {
@@ -52,41 +46,10 @@ class QuickTileService : TileService() {
         }
     }
 
-    override fun onCreate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            iconOn = Icon.createWithResource(this, R.drawable.ic_qs_tile)
-            iconOff = iconOn
-            return
-        }
-        val icon = SlashDrawable(
-                resources.getDrawable(
-                        R.drawable.ic_qs_tile,
-                        Application.get().theme
-                )
-        )
-        /* Unfortunately we can't have animations, since icons are marshaled. */
-        icon.setAnimationEnabled(false)
-        icon.setSlashed(false)
-        var b = Bitmap.createBitmap(
-                icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
-        )
-        var c = Canvas(b)
-        icon.setBounds(0, 0, c.width, c.height)
-        icon.draw(c)
-        iconOn = Icon.createWithBitmap(b)
-        icon.setSlashed(true)
-        b = Bitmap.createBitmap(icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        c = Canvas(b)
-        icon.setBounds(0, 0, c.width, c.height)
-        icon.draw(c)
-        iconOff = Icon.createWithBitmap(b)
-    }
-
     override fun onClick() {
         if (tunnel != null) {
             val tile = qsTile
             if (tile != null) {
-                tile.icon = if (tile.icon == iconOn) iconOff else iconOn
                 tile.updateTile()
             }
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
@@ -145,7 +108,6 @@ class QuickTileService : TileService() {
         tile.label = label
         tile.subtitle = getString(R.string.app_name)
         if (tile.state != state) {
-            tile.icon = if (state == Tile.STATE_ACTIVE) iconOn else iconOff
             tile.state = state
         }
         tile.updateTile()
