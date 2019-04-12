@@ -20,7 +20,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.AlarmManagerCompat.setExact
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -82,9 +84,10 @@ fun Context.restartApplication() {
         this, 42, // The answer to everything
         homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
     )
-    (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-        .setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
-    Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
+    getSystemService<AlarmManager>()?.let {
+        setExact(it, AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
+        Handler().postDelayed({ android.os.Process.killProcess(android.os.Process.myPid()) }, 500L)
+    }
 }
 
 fun Context.isPermissionGranted(permission: String): Boolean {
