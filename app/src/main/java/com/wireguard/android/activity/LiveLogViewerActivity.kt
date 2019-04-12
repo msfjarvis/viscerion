@@ -19,10 +19,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.LogExporter
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.runShellCommand
@@ -30,7 +28,7 @@ import timber.log.Timber
 import java.util.Timer
 import java.util.TimerTask
 
-class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPreferenceChangeListener {
+class LiveLogViewerActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<LogEntryAdapter.ViewHolder>
@@ -62,12 +60,10 @@ class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPref
             }
         }, 0, 5000)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        Application.appPrefs.addOnPreferenceChangeListener("expand_log_entries", this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.log_viewer, menu)
-        setExpandMenuTitle(menu.findItem(R.id.expand_log_entries))
         return true
     }
 
@@ -85,23 +81,8 @@ class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPref
                 }
                 return true
             }
-            R.id.expand_log_entries -> {
-                Application.appPrefs.apply {
-                    expandLogEntries = !expandLogEntries
-                    setExpandMenuTitle(item)
-                }
-            }
         }
         return false
-    }
-
-    private fun setExpandMenuTitle(item: MenuItem) {
-        item.title = getString(
-            if (Application.appPrefs.expandLogEntries)
-                R.string.menu_collapse_log_lines
-            else
-                R.string.menu_expand_log_lines
-        )
     }
 
     override fun onRequestPermissionsResult(
@@ -119,13 +100,6 @@ class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPref
         super.onDestroy()
         if (::timer.isInitialized) {
             timer.cancel()
-        }
-        Application.appPrefs.removeOnPreferenceChangeListener("expand_log_entries", this)
-    }
-
-    override fun onValueChanged(key: String, prefs: ApplicationPreferences, force: Boolean) {
-        if (key == "expand_log_entries") {
-            viewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -177,11 +151,7 @@ class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPref
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.textView.apply {
-                isSingleLine = !Application.appPrefs.expandLogEntries
                 text = dataset[position].entry
-                setOnClickListener {
-                    isSingleLine = lineCount > 1
-                }
             }
         }
 

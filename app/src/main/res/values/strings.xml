@@ -182,8 +182,6 @@
     <string name="tasker_integration_summary_empty_secret">Setting a secret here is mandatory!</string>
     <string name="create">Create</string>
     <string name="log_viewer">Log viewer</string>
-    <string name="menu_expand_log_lines">Expand log entries</string>
-    <string name="menu_collapse_log_lines">Collapse log entries</string>
     <string name="pref_alt_icon_title">Use alternate icon</string>
     <string name="pref_alt_icon_summary">Switch to the new work-in-progress refresh of the Viscerion icon</string>
     <string name="pref_alt_icon_apply_message">The icon has been switched successfully. This may take a few moments to reflect in your launcher.</string>
