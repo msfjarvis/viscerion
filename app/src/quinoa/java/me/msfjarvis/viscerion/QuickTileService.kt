@@ -3,7 +3,7 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.android
+package me.msfjarvis.viscerion
 
 import android.annotation.TargetApi
 import android.content.Intent
@@ -17,10 +17,12 @@ import android.service.quicksettings.TileService
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
+import com.wireguard.android.Application
+import com.wireguard.android.BR
+import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
-import com.wireguard.android.util.ATLEAST_Q
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
@@ -57,16 +59,16 @@ class QuickTileService : TileService() {
             return
         }
         val icon = SlashDrawable(
-            resources.getDrawable(
-                R.drawable.ic_qs_tile,
-                Application.get().theme
-            )
+                resources.getDrawable(
+                        R.drawable.ic_qs_tile,
+                        Application.get().theme
+                )
         )
         /* Unfortunately we can't have animations, since icons are marshaled. */
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)
         var b = Bitmap.createBitmap(
-            icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
+                icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
         )
         var c = Canvas(b)
         icon.setBounds(0, 0, c.width, c.height)
@@ -130,7 +132,7 @@ class QuickTileService : TileService() {
         val tile = qsTile
         if (tunnel != null) {
             label = tunnel?.name ?: ""
-            state = if (tunnel?.state == Tunnel.State.UP)
+            state = if (tunnel?.state == State.UP)
                 Tile.STATE_ACTIVE
             else
                 Tile.STATE_INACTIVE
@@ -141,9 +143,7 @@ class QuickTileService : TileService() {
         if (tile == null)
             return
         tile.label = label
-        if (ATLEAST_Q && newTunnel != null) {
-            tile.subtitle = getString(R.string.app_name)
-        }
+        tile.subtitle = getString(R.string.app_name)
         if (tile.state != state) {
             tile.icon = if (state == Tile.STATE_ACTIVE) iconOn else iconOff
             tile.state = state

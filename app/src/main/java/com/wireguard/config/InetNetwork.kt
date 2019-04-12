@@ -5,6 +5,7 @@
  */
 package com.wireguard.config
 
+import me.msfjarvis.viscerion.InetAddressUtils
 import java.net.Inet4Address
 import java.net.InetAddress
 
@@ -52,7 +53,7 @@ class InetNetwork private constructor(val address: InetAddress, val mask: Int) {
                 rawMask = -1
                 rawAddress = network
             }
-            val address = InetAddresses.parse(rawAddress)
+            val address = InetAddressUtils.parse(rawAddress)
             val maxMask = if (address is Inet4Address) 32 else 128
             if (rawMask > maxMask)
                 throw ParseException(InetNetwork::class.java, maskString, "Invalid network mask")

@@ -13,6 +13,7 @@ import com.wireguard.config.BadConfigException.Section
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
+import me.msfjarvis.viscerion.InetAddressUtils
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
@@ -224,7 +225,7 @@ class Interface private constructor(builder: Builder) {
         fun parseDnsServers(dnsServers: CharSequence): Builder {
             try {
                 for (dnsServer in Attribute.split(dnsServers))
-                    addDnsServer(InetAddresses.parse(dnsServer))
+                    addDnsServer(InetAddressUtils.parse(dnsServer))
                 return this
             } catch (e: ParseException) {
                 throw BadConfigException(Section.INTERFACE, Location.DNS, e)

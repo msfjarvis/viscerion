@@ -23,7 +23,7 @@ fun gitHash(): String {
 }
 
 android {
-    compileSdkVersion("android-Q")
+    compileSdkVersion(28)
     dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "me.msfjarvis.viscerion"
@@ -75,6 +75,17 @@ android {
                 }
             }
             isMinifyEnabled = false
+        }
+        flavorDimensions("default")
+        productFlavors {
+            create("quinoa") {
+                setDimension("default")
+                compileSdkVersion("android-Q")
+                targetSdkVersion("Q")
+            }
+            create("pie") {
+                setDimension("default")
+            }
         }
     }
     externalNativeBuild.cmake {

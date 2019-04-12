@@ -5,6 +5,7 @@
  */
 package com.wireguard.config
 
+import me.msfjarvis.viscerion.InetAddressUtils
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import java.net.Inet4Address
@@ -91,7 +92,7 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
             if (uri.port < 0 || uri.port > 65535)
                 throw ParseException(InetEndpoint::class.java, endpoint, "Missing/invalid port number")
             return try {
-                InetAddresses.parse(uri.host)
+                InetAddressUtils.parse(uri.host)
                 // Parsing ths host as a numeric address worked, so we don't need to do DNS lookups.
                 InetEndpoint(uri.host, true, uri.port)
             } catch (ignored: ParseException) {
