@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.LogExporter
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.runShellCommand
@@ -29,7 +30,7 @@ import timber.log.Timber
 import java.util.Timer
 import java.util.TimerTask
 
-class LiveLogViewerActivity : AppCompatActivity() {
+class LiveLogViewerActivity : AppCompatActivity(), ApplicationPreferences.OnPreferenceChangeListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<LogEntryAdapter.ViewHolder>
@@ -61,6 +62,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
             }
         }, 0, 5000)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        Application.appPrefs.addOnPreferenceChangeListener("expand_log_entries", this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -117,6 +119,13 @@ class LiveLogViewerActivity : AppCompatActivity() {
         super.onDestroy()
         if (::timer.isInitialized) {
             timer.cancel()
+        }
+        Application.appPrefs.removeOnPreferenceChangeListener("expand_log_entries", this)
+    }
+
+    override fun onValueChanged(key: String, prefs: ApplicationPreferences, force: Boolean) {
+        if (key == "expand_log_entries") {
+            viewAdapter.notifyDataSetChanged()
         }
     }
 
