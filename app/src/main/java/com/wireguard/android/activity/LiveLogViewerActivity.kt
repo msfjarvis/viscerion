@@ -168,10 +168,10 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.textView.apply {
-                setSingleLine(!Application.appPrefs.expandLogEntries)
+                isSingleLine = !Application.appPrefs.expandLogEntries
                 text = dataset[position].entry
                 setOnClickListener {
-                    setSingleLine(lineCount > 1)
+                    isSingleLine = lineCount > 1
                 }
             }
         }
