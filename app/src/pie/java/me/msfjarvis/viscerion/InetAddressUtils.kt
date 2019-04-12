@@ -3,7 +3,6 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package me.msfjarvis.viscerion
 
 import com.wireguard.config.ParseException
