@@ -32,7 +32,7 @@ android {
         versionCode = VersionConfiguration.versionCode
         versionName = VersionConfiguration.versionName
         buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
-        if (System.getenv("TRAVIS") != "true") setProperty("archivesBaseName", "viscerion_${gitHash()}")
+        if (System.getenv("DRONE") != "true") setProperty("archivesBaseName", "viscerion_${gitHash()}")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

@@ -7,10 +7,8 @@ steps:
     commands:
       - mkdir -p $ANDROID_HOME/licenses
       - curl "https://download.msfjarvis.website/.viscerion/sdk-licenses.tar.xz" | tar -C "$ANDROID_HOME/licenses/" --strip-components=1 -xvf -
-      - export TRAVIS=true
       - git submodule update --init --recursive
-      - git fetch --tags
-      - ./gradlew assembleDebug checkDebug
+      - ./gradlew assemblePieDebug checkPieDebug assembleQuinoaDebug checkQuinoaDebug
     when:
       branch:
         - master
