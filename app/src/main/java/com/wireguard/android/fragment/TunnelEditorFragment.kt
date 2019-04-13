@@ -155,7 +155,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                     tunnel == null -> {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
                         val manager = Application.tunnelManager
-                        manager.create(binding?.name ?: "", newConfig)
+                        manager.create(binding?.name.requireNonNull("Tunnel name cannot be empty!"), newConfig)
                                 .whenComplete { newTunnel, throwable ->
                                     this.onTunnelCreated(
                                             newTunnel,
