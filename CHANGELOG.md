@@ -7,6 +7,7 @@
 - Support Magisk 19.0
 - Improve and speed up exclusion picker
 - Improve landscape layout (Fixes Android TV not seeing all create options)
+- Fix bug which caused excluded applications count to be incorrect
 
 ### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
