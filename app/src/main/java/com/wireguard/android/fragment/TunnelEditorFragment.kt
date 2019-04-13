@@ -271,9 +271,11 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onExcludedAppsSelected(excludedApps: List<String>) {
         binding.requireNonNull<TunnelEditorFragmentBinding>("Tried to set excluded apps while no view was loaded")
-        val excludedApplications = binding?.config?.`interface`?.excludedApplications
-        excludedApplications?.clear()
-        excludedApplications?.addAll(excludedApps)
+        binding?.config?.`interface`?.excludedApplications?.apply {
+            clear()
+            addAll(excludedApps)
+            binding?.config?.`interface`?.totalExclusionsCount?.set(size)
+        }
     }
 
     companion object {

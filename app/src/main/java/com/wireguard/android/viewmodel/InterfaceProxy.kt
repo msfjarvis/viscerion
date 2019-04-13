@@ -11,7 +11,6 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
-import com.wireguard.android.Application
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Interface
@@ -20,9 +19,7 @@ import com.wireguard.crypto.KeyPair
 class InterfaceProxy : BaseObservable, Parcelable {
 
     val excludedApplications = ObservableArrayList<String>()
-    val totalExclusionsCount = ObservableInt(excludedApplications.size).apply {
-        set(get() + Application.appPrefs.exclusionsArray.size)
-    }
+    val totalExclusionsCount = ObservableInt(0)
     var addresses = ObservableField<String>()
     var dnsServers = ObservableField<String>()
     var listenPort = ObservableField<String>()
@@ -39,6 +36,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         mtu.set(`in`.readString())
         privateKey.set(`in`.readString())
         publicKey.set(`in`.readString())
+        totalExclusionsCount.set(excludedApplications.size)
     }
 
     constructor(other: Interface) {
@@ -51,6 +49,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         val keyPair = other.keyPair
         privateKey.set(keyPair.privateKey.toBase64())
         publicKey.set(keyPair.publicKey.toBase64())
+        totalExclusionsCount.set(excludedApplications.size)
     }
 
     constructor() {
