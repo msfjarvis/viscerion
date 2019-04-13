@@ -34,7 +34,7 @@ class RootShell(val context: Context) {
         localBinaryDir = File(cacheDir, "bin")
         localTemporaryDir = File(cacheDir, "tmp")
         preamble =
-            "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
+                "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
     }
 
     private fun isExecutableInPath(name: String): Boolean {
@@ -130,16 +130,16 @@ class RootShell(val context: Context) {
 
             stdin = OutputStreamWriter(process!!.outputStream, StandardCharsets.UTF_8)
             stdout = BufferedReader(
-                InputStreamReader(
-                    process!!.inputStream,
-                    StandardCharsets.UTF_8
-                )
+                    InputStreamReader(
+                            process!!.inputStream,
+                            StandardCharsets.UTF_8
+                    )
             )
             stderr = BufferedReader(
-                InputStreamReader(
-                    process!!.errorStream,
-                    StandardCharsets.UTF_8
-                )
+                    InputStreamReader(
+                            process!!.errorStream,
+                            StandardCharsets.UTF_8
+                    )
             )
             stdin.write(preamble)
             stdin.flush()

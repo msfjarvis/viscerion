@@ -40,7 +40,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: LogViewerActivityBinding =
-            DataBindingUtil.setContentView(this, R.layout.log_viewer_activity)
+                DataBindingUtil.setContentView(this, R.layout.log_viewer_activity)
         viewManager = LinearLayoutManager(this)
         viewAdapter = LogEntryAdapter(logcatDataset)
         recyclerView = binding.logviewer.apply {
@@ -73,8 +73,8 @@ class LiveLogViewerActivity : AppCompatActivity() {
             R.id.export_log -> {
                 if (!this.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1000
+                            this,
+                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1000
                     )
                 } else {
                     LogExporter.exportLog(this)
@@ -141,7 +141,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
     }
 
     class LogEntryAdapter(private val dataset: ArrayList<LogEntry>) :
-        RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
+            RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
 
         class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
@@ -150,7 +150,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
             viewType: Int
         ): ViewHolder {
             val textView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.log_viewer_entry, parent, false) as TextView
+                    .inflate(R.layout.log_viewer_entry, parent, false) as TextView
             return ViewHolder(textView)
         }
 

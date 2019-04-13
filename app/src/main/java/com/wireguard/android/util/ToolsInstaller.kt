@@ -34,10 +34,10 @@ class ToolsInstaller(val context: Context) {
         val script = StringBuilder()
         for (names in EXECUTABLES) {
             script.append(
-                "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(
-                    INSTALL_DIR,
-                    names[1]
-                )}' && "
+                    "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(
+                            INSTALL_DIR,
+                            names[1]
+                    )}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
@@ -83,8 +83,8 @@ class ToolsInstaller(val context: Context) {
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
                 Application.rootShell.run(
-                    null,
-                    "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
+                        null,
+                        "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
             } catch (ignored: Exception) {
                 false
@@ -102,10 +102,10 @@ class ToolsInstaller(val context: Context) {
         for (names in EXECUTABLES) {
             val destination = File(INSTALL_DIR, names[1])
             script.append(
-                "cp '${File(
-                    nativeLibraryDir,
-                    names[0]
-                )}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
+                    "cp '${File(
+                            nativeLibraryDir,
+                            names[0]
+                    )}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
             )
         }
         return try {
@@ -122,19 +122,19 @@ class ToolsInstaller(val context: Context) {
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
-            "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
+                "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
         )
         script.append(
-            "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
+                "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
         )
         script.append("touch $magiskDirectory/auto_mount; ")
         for (names in EXECUTABLES) {
             val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
             script.append(
-                "cp '${File(
-                    nativeLibraryDir,
-                    names[0]
-                )}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
+                    "cp '${File(
+                            nativeLibraryDir,
+                            names[0]
+                    )}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
             )
         }
         script.append("trap - INT TERM EXIT;")
@@ -156,14 +156,14 @@ class ToolsInstaller(val context: Context) {
         val script = StringBuilder("set -x; ")
         for (names in EXECUTABLES) {
             script.append(
-                "test '${File(nativeLibraryDir, names[0])}' -ef '${File(localBinaryDir, names[1])}' && "
+                    "test '${File(nativeLibraryDir, names[0])}' -ef '${File(localBinaryDir, names[1])}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append("; set -e; ")
 
         for (names in EXECUTABLES) {
             script.append(
-                "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(localBinaryDir, names[1])}'; "
+                    "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(localBinaryDir, names[1])}'; "
             )
         }
         script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';')
@@ -190,8 +190,8 @@ class ToolsInstaller(val context: Context) {
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()
             Application.rootShell.run(
-                output,
-                "su -V"
+                    output,
+                    "su -V"
             )
             val magiskVer = output[0].toInt()
             return when {
@@ -224,10 +224,10 @@ class ToolsInstaller(val context: Context) {
                 // App bundles, unpack executables from the split config APK.
                 EXECUTABLES.forEach {
                     extractNativeLibrary(
-                        context,
-                        it[0],
-                        useActualName = true,
-                        skipDeletion = true
+                            context,
+                            it[0],
+                            useActualName = true,
+                            skipDeletion = true
                     )
                 }
                 context.cacheDir

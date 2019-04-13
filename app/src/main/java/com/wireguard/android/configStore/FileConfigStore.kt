@@ -30,8 +30,8 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         if (!file.createNewFile())
             throw IOException(context.getString(R.string.config_file_exists_error, file.name))
         FileOutputStream(
-            file,
-            false
+                file,
+                false
         ).use { stream -> stream.write(config.toWgQuickString().toByteArray(StandardCharsets.UTF_8)) }
         return config
     }
@@ -46,9 +46,9 @@ class FileConfigStore(private val context: Context) : ConfigStore {
 
     override fun enumerate(): Set<String> {
         return context.fileList()
-            .filter { it.endsWith(CONFIGURATION_FILE_SUFFIX) }
-            .map { it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
-            .toSet()
+                .filter { it.endsWith(CONFIGURATION_FILE_SUFFIX) }
+                .map { it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
+                .toSet()
     }
 
     private fun fileFor(name: String): File {
@@ -81,8 +81,8 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         if (!file.isFile)
             throw FileNotFoundException(context.getString(R.string.config_not_found_error, file.name))
         FileOutputStream(
-            file,
-            false
+                file,
+                false
         ).use { stream -> stream.write(config.toWgQuickString().toByteArray(StandardCharsets.UTF_8)) }
         return config
     }

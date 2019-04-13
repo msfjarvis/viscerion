@@ -64,7 +64,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
 
     override fun onClick() {
         getParentActivity<SettingsActivity>()?.ensurePermissions(
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         ) { _, granted ->
             if (granted.isNotEmpty() && granted[0] == PackageManager.PERMISSION_GRANTED) {
                 isEnabled = false

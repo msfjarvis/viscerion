@@ -33,7 +33,7 @@ object LogExporter {
             FileOutputStream(file).close()
             try {
                 val process = Runtime.getRuntime()
-                    .exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
+                        .exec(arrayOf("logcat", "-b", "all", "-d", "-v", "threadtime", "-f", file.absolutePath, "*:V"))
                 if (process.waitFor() != 0) {
                     BufferedReader(InputStreamReader(process.errorStream)).use { reader ->
                         val errors = StringBuilder()

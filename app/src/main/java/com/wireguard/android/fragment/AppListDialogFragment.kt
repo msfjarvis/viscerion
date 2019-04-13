@@ -120,7 +120,7 @@ class AppListDialogFragment : DialogFragment() {
             excludedApps: ArrayList<String>,
             isGlobalExclusions: Boolean = false,
             target: T
-        ): AppListDialogFragment where T : Fragment, T : AppListDialogFragment.AppExclusionListener {
+        ): AppListDialogFragment where T : Fragment, T : AppExclusionListener {
             val extras = Bundle()
             extras.putStringArrayList(KEY_EXCLUDED_APPS, excludedApps)
             extras.putBoolean(KEY_GLOBAL_EXCLUSIONS, isGlobalExclusions)

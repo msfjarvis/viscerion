@@ -76,8 +76,9 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     }
 
     open inner class StringSetPref(key: String, defaultValue: Set<String>, onChange: () -> Unit = doNothing) :
-        PrefDelegate<Set<String>>(key, defaultValue, onChange) {
-        override fun onGetValue(): Set<String> = sharedPrefs.getStringSet(getKey(), defaultValue) ?: defaultValue
+            PrefDelegate<Set<String>>(key, defaultValue, onChange) {
+        override fun onGetValue(): Set<String> = sharedPrefs.getStringSet(getKey(), defaultValue)
+                ?: defaultValue
 
         override fun onSetValue(value: Set<String>) {
             edit { putStringSet(getKey(), value) }
@@ -85,8 +86,9 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     }
 
     open inner class StringPref(key: String, defaultValue: String = "", onChange: () -> Unit = doNothing) :
-        PrefDelegate<String>(key, defaultValue, onChange) {
-        override fun onGetValue(): String = sharedPrefs.getString(getKey(), defaultValue) ?: defaultValue
+            PrefDelegate<String>(key, defaultValue, onChange) {
+        override fun onGetValue(): String = sharedPrefs.getString(getKey(), defaultValue)
+                ?: defaultValue
 
         override fun onSetValue(value: String) {
             edit { putString(getKey(), value) }
@@ -94,7 +96,7 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     }
 
     open inner class BooleanPref(key: String, defaultValue: Boolean = false, onChange: () -> Unit = doNothing) :
-        PrefDelegate<Boolean>(key, defaultValue, onChange) {
+            PrefDelegate<Boolean>(key, defaultValue, onChange) {
         override fun onGetValue(): Boolean = sharedPrefs.getBoolean(getKey(), defaultValue)
 
         override fun onSetValue(value: Boolean) {

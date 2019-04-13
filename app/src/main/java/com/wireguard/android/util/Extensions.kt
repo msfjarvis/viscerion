@@ -68,12 +68,12 @@ inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
 
 fun Context.restartApplication() {
     val homeIntent = Intent(Intent.ACTION_MAIN)
-        .addCategory(Intent.CATEGORY_HOME)
-        .setPackage(packageName)
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .addCategory(Intent.CATEGORY_HOME)
+            .setPackage(packageName)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     val pi = PendingIntent.getActivity(
-        this, 42, // The answer to everything
-        homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
+            this, 42, // The answer to everything
+            homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
     )
     getSystemService<AlarmManager>()?.let {
         setExact(it, AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
@@ -95,10 +95,10 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
 
 fun updateAppTheme() {
     AppCompatDelegate.setDefaultNightMode(
-        if (Application.appPrefs.useDarkTheme)
-            AppCompatDelegate.MODE_NIGHT_YES
-        else
-            AppCompatDelegate.MODE_NIGHT_NO
+            if (Application.appPrefs.useDarkTheme)
+                AppCompatDelegate.MODE_NIGHT_YES
+            else
+                AppCompatDelegate.MODE_NIGHT_NO
     )
 }
 
@@ -111,7 +111,8 @@ fun copyTextView(view: View) {
     val text = if (isTextInput) (view as TextInputEditText).editableText else (view as TextView).text
     if (text == null || text.isEmpty())
         return
-    val service = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
+    val service = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            ?: return
     val description = if (isTextInput) (view as TextInputEditText).hint else view.contentDescription
     service.setPrimaryClip(ClipData.newPlainText(description, text))
     Snackbar.make(view, "$description copied to clipboard", Snackbar.LENGTH_LONG).show()

@@ -122,10 +122,10 @@ class TunnelListFragment : BaseFragment() {
                 }
             } else {
                 futureTunnels.add(
-                    Application.tunnelManager.create(
-                        name,
-                        Config.parse(contentResolver.openInputStream(uri))
-                    ).toCompletableFuture()
+                        Application.tunnelManager.create(
+                                name,
+                                Config.parse(contentResolver.openInputStream(uri))
+                        ).toCompletableFuture()
                 )
             }
 
@@ -208,7 +208,7 @@ class TunnelListFragment : BaseFragment() {
         var view: MultiselectableRelativeLayout? = null
         binding?.let {
             view =
-                it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
+                    it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
         }
         return view
     }
@@ -254,14 +254,14 @@ class TunnelListFragment : BaseFragment() {
         else if (tunnels.isEmpty() && throwables.size == 1)
         else if (throwables.isEmpty())
             message = resources.getQuantityString(
-                R.plurals.import_total_success,
-                tunnels.size, tunnels.size
+                    R.plurals.import_total_success,
+                    tunnels.size, tunnels.size
             )
         else if (!throwables.isEmpty())
             message = resources.getQuantityString(
-                R.plurals.import_partial_success,
-                tunnels.size + throwables.size,
-                tunnels.size, tunnels.size + throwables.size
+                    R.plurals.import_partial_success,
+                    tunnels.size + throwables.size,
+                    tunnels.size, tunnels.size + throwables.size
             )/* Use the exception message from above. */
 
         if (Application.appPrefs.exclusions.isNotEmpty()) {
@@ -308,29 +308,29 @@ class TunnelListFragment : BaseFragment() {
         binding?.fragment = this
         Application.tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
         binding?.rowConfigurationHandler =
-            object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
-                override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
-                    binding.fragment = this@TunnelListFragment
-                    binding.root.setOnClickListener {
-                        if (actionMode == null) {
-                            selectedTunnel = tunnel
-                        } else {
-                            actionModeListener.toggleItemChecked(position)
+                object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
+                    override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
+                        binding.fragment = this@TunnelListFragment
+                        binding.root.setOnClickListener {
+                            if (actionMode == null) {
+                                selectedTunnel = tunnel
+                            } else {
+                                actionModeListener.toggleItemChecked(position)
+                            }
                         }
-                    }
-                    binding.root.setOnLongClickListener {
-                        actionModeListener.toggleItemChecked(position)
-                        true
-                    }
+                        binding.root.setOnLongClickListener {
+                            actionModeListener.toggleItemChecked(position)
+                            true
+                        }
 
-                    if (actionMode != null)
-                        (binding.root as MultiselectableRelativeLayout).setMultiSelected(
-                            actionModeListener.checkedItems.contains(position)
-                        )
-                    else
-                        (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+                        if (actionMode != null)
+                            (binding.root as MultiselectableRelativeLayout).setMultiSelected(
+                                    actionModeListener.checkedItems.contains(position)
+                            )
+                        else
+                            (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+                    }
                 }
-            }
     }
 
     private inner class ActionModeListener : ActionMode.Callback {
@@ -349,10 +349,10 @@ class TunnelListFragment : BaseFragment() {
 
                         val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                         CompletableFuture.allOf(*futures)
-                            .thenApply { futures.size }
-                            .whenComplete { count, throwable ->
-                                onTunnelDeletionFinished(count, throwable)
-                            }
+                                .thenApply { futures.size }
+                                .whenComplete { count, throwable ->
+                                    onTunnelDeletionFinished(count, throwable)
+                                }
                     }
                     binding?.createFab?.extend()
                     checkedItems.clear()

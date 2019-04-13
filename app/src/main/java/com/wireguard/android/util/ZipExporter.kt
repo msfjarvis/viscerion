@@ -29,31 +29,31 @@ object ZipExporter {
             return
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
-            .whenComplete { _, exception ->
-                Application.asyncWorker.supplyAsync {
-                    if (exception != null)
-                        throw exception
-                    val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    val file = File(path, "viscerion-export.zip")
-                    if (!path.isDirectory && !path.mkdirs())
-                        throw IOException("Cannot create output directory")
-                    try {
-                        ZipOutputStream(FileOutputStream(file)).use { zip ->
-                            for (i in futureConfigs.indices) {
-                                zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
-                                zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
+                .whenComplete { _, exception ->
+                    Application.asyncWorker.supplyAsync {
+                        if (exception != null)
+                            throw exception
+                        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                        val file = File(path, "viscerion-export.zip")
+                        if (!path.isDirectory && !path.mkdirs())
+                            throw IOException("Cannot create output directory")
+                        try {
+                            ZipOutputStream(FileOutputStream(file)).use { zip ->
+                                for (i in futureConfigs.indices) {
+                                    zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
+                                    zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
+                                }
+                                zip.closeEntry()
                             }
-                            zip.closeEntry()
+                        } catch (e: Exception) {
+                            file.delete()
+                            throw e
                         }
-                    } catch (e: Exception) {
-                        file.delete()
-                        throw e
-                    }
 
-                    file.absolutePath
-                }.whenComplete { path, throwable ->
-                    onExportCompleteCallback(path, throwable)
+                        file.absolutePath
+                    }.whenComplete { path, throwable ->
+                        onExportCompleteCallback(path, throwable)
+                    }
                 }
-            }
     }
 }

@@ -40,17 +40,17 @@ class Application : android.app.Application() {
     private val futureBackend = CompletableFuture<Backend>()
 
     init {
-        Application.weakSelf = WeakReference(this)
+        weakSelf = WeakReference(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationChannel = NotificationChannel(
-            TunnelManager.NOTIFICATION_CHANNEL_ID,
-            getString(R.string.notification_channel_wgquick_title),
-            NotificationManager.IMPORTANCE_DEFAULT
+                TunnelManager.NOTIFICATION_CHANNEL_ID,
+                getString(R.string.notification_channel_wgquick_title),
+                NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationChannel.description = getString(R.string.notification_channel_wgquick_desc)
         notificationChannel.setShowBadge(false)

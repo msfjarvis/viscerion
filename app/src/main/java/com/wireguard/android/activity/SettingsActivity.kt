@@ -58,8 +58,8 @@ class SettingsActivity : AppCompatActivity() {
         val idx = permissionRequestCounter++
         permissionRequestCallbacks.put(idx, function)
         ActivityCompat.requestPermissions(
-            this,
-            needPermissions.toTypedArray(), idx
+                this,
+                needPermissions.toTypedArray(), idx
         )
     }
 
@@ -99,19 +99,19 @@ class SettingsActivity : AppCompatActivity() {
             addPreferencesFromResource(R.xml.preferences)
             val screen = preferenceScreen
             val wgQuickOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference<Preference>("tools_installer"),
-                preferenceScreen.findPreference<CheckBoxPreference>("restore_on_boot")
+                    preferenceScreen.findPreference<Preference>("tools_installer"),
+                    preferenceScreen.findPreference<CheckBoxPreference>("restore_on_boot")
             )
             val debugOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
+                    preferenceScreen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
             )
             val wgOnlyPrefs = arrayOf(
-                preferenceScreen.findPreference<CheckBoxPreference>("whitelist_exclusions")
+                    preferenceScreen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
             val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
             val taskerPref = preferenceManager.findPreference<SwitchPreferenceCompat>("allow_tasker_integration")
             val integrationSecretPref =
-                preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
+                    preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
@@ -155,8 +155,8 @@ class SettingsActivity : AppCompatActivity() {
 
             integrationSecretPref?.setSummaryProvider { preference ->
                 if (Application.appPrefs.allowTaskerIntegration &&
-                    preference.isEnabled &&
-                    Application.appPrefs.taskerIntegrationSecret.isEmpty()
+                        preference.isEnabled &&
+                        Application.appPrefs.taskerIntegrationSecret.isEmpty()
                 )
                     getString(R.string.tasker_integration_summary_empty_secret)
                 else
@@ -212,7 +212,7 @@ class SettingsActivity : AppCompatActivity() {
                         oldConfig?.let {
                             Application.appPrefs.exclusionsArray.forEach { exclusion ->
                                 it.`interface`.excludedApplications.remove(
-                                    exclusion
+                                        exclusion
                                 )
                             }
                             it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))

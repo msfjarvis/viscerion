@@ -104,8 +104,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         focusedView?.let {
             val inputManager = context?.getSystemService<InputMethodManager>()
             inputManager?.hideSoftInputFromWindow(
-                it.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
+                    it.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
         if (informActivity) {
@@ -156,18 +156,18 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
                         val manager = Application.tunnelManager
                         manager.create(binding?.name ?: "", newConfig)
-                            .whenComplete { newTunnel, throwable ->
-                                this.onTunnelCreated(
-                                    newTunnel,
-                                    throwable
-                                )
-                            }
+                                .whenComplete { newTunnel, throwable ->
+                                    this.onTunnelCreated(
+                                            newTunnel,
+                                            throwable
+                                    )
+                                }
                     }
                     tunnel?.name != binding?.name -> {
                         tunnel?.let {
                             Timber.d("Attempting to rename tunnel to %s", binding?.name)
                             it.setName(binding?.name ?: "")
-                                .whenComplete { _, b -> onTunnelRenamed(it, newConfig!!, b) }
+                                    .whenComplete { _, b -> onTunnelRenamed(it, newConfig!!, b) }
                         }
                     }
                     else -> {
@@ -263,7 +263,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     fun onRequestSetExcludedApplications(view: View) {
         val fragmentManager = requireFragmentManager()
         binding?.let {
-            val excludedApps = ArrayList(it.config?.`interface`?.excludedApplications?.toMutableSet() ?: mutableSetOf())
+            val excludedApps = ArrayList(it.config?.`interface`?.excludedApplications?.toMutableSet()
+                    ?: mutableSetOf())
             val fragment = AppListDialogFragment.newInstance(excludedApps, target = this)
             fragment.show(fragmentManager, null)
         }

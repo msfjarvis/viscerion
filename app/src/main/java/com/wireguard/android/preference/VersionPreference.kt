@@ -21,18 +21,18 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
     init {
         Application.backendAsync.thenAccept { backend ->
             versionSummary =
-                getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase())
+                    getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase())
             Application.asyncWorker.supplyAsync { backend.getVersion() }
-                .whenComplete { version, exception ->
-                    versionSummary = if (exception == null)
-                        getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
-                    else
-                        getContext().getString(
-                            R.string.version_summary_unknown,
-                            backend.getTypePrettyName().toLowerCase()
-                        )
-                    notifyChanged()
-                }
+                    .whenComplete { version, exception ->
+                        versionSummary = if (exception == null)
+                            getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
+                        else
+                            getContext().getString(
+                                    R.string.version_summary_unknown,
+                                    backend.getTypePrettyName().toLowerCase()
+                            )
+                        notifyChanged()
+                    }
         }
     }
 
@@ -42,8 +42,8 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
 
     override fun getTitle(): CharSequence {
         return context.getString(
-            R.string.version_title,
-            if (BuildConfig.DEBUG) BuildConfig.GIT_HASH else BuildConfig.VERSION_NAME
+                R.string.version_title,
+                if (BuildConfig.DEBUG) BuildConfig.GIT_HASH else BuildConfig.VERSION_NAME
         )
     }
 

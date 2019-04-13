@@ -32,7 +32,7 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
         super.onAttached()
         Application.asyncWorker.supplyAsync<Int>
         { Application.toolsInstaller.areInstalled() }
-            .whenComplete(this::onCheckResult)
+                .whenComplete(this::onCheckResult)
     }
 
     private fun onCheckResult(state: Int, throwable: Throwable?) {
@@ -52,17 +52,17 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
         setState(State.WORKING)
         Application.asyncWorker.supplyAsync<Int>
         { Application.toolsInstaller.install() }
-            .whenComplete(this::onInstallResult)
+                .whenComplete(this::onInstallResult)
     }
 
     private fun onInstallResult(result: Int, throwable: Throwable?) {
         when {
             throwable != null -> setState(State.FAILURE)
             result and ((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == (ToolsInstaller.YES or ToolsInstaller.MAGISK) -> setState(
-                State.SUCCESS_MAGISK
+                    State.SUCCESS_MAGISK
             )
             result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == (ToolsInstaller.YES or ToolsInstaller.SYSTEM) -> setState(
-                State.SUCCESS_SYSTEM
+                    State.SUCCESS_SYSTEM
             )
             else -> setState(State.FAILURE)
         }

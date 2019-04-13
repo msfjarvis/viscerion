@@ -70,7 +70,7 @@ fun Project.configureSpotless() {
 
         kotlin {
             target("**/src/**/*.kt", "buildSrc/**/*.kt")
-            ktlint("0.31.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
+            ktlint("0.31.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "8"))
             @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenseHeader, "import|package|class|object|@file")
             trimTrailingWhitespace()

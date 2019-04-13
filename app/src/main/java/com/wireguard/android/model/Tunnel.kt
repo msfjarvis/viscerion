@@ -44,7 +44,7 @@ class Tunnel internal constructor(
     // FIXME: Check age of statistics.
     val statisticsAsync: CompletionStage<Statistics>
         get() = if (statistics == null) TunnelManager.getTunnelStatistics(this) else CompletableFuture.completedFuture(
-            statistics
+                statistics
         )
 
     fun delete(): CompletionStage<Void> {
@@ -94,21 +94,21 @@ class Tunnel internal constructor(
 
     fun setConfig(config: Config): CompletionStage<Config> {
         return if (config != this.config) manager.setTunnelConfig(this, config) else CompletableFuture.completedFuture(
-            this.config
+                this.config
         )
     }
 
     fun setName(name: String): CompletionStage<String> {
         return if (name != this.name) manager.setTunnelName(
-            this,
-            name
+                this,
+                name
         ) else CompletableFuture.completedFuture(this.name)
     }
 
     fun setState(state: State): CompletionStage<State> {
         return if (state != this.state) manager.setTunnelState(
-            this,
-            state
+                this,
+                state
         ) else CompletableFuture.completedFuture(this.state)
     }
 

@@ -76,7 +76,7 @@ class TunnelDetailFragment : BaseFragment() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !Application.appPrefs.useDarkTheme) {
                     // Restore window flags
                     decorView.systemUiVisibility =
-                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
             }
         }
