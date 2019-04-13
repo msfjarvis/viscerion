@@ -24,7 +24,6 @@ import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ErrorMessages
-import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
 
 /**
