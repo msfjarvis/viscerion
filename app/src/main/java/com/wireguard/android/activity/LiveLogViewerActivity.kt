@@ -24,7 +24,6 @@ import com.wireguard.android.databinding.LogViewerActivityBinding
 import com.wireguard.android.util.LogExporter
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.runShellCommand
-import timber.log.Timber
 import java.util.Timer
 import java.util.TimerTask
 
@@ -51,7 +50,6 @@ class LiveLogViewerActivity : AppCompatActivity() {
         timer = Timer()
         timer.scheduleAtFixedRate(LogUpdateTask { logEntries ->
             if (logEntries.isEmpty()) return@LogUpdateTask
-            Timber.tag("LogViewer").d("Refreshing log entries")
             val diffResult = DiffUtil.calculateDiff(DiffUtilCallback(logEntries, logcatDataset))
             diffResult.dispatchUpdatesTo(viewAdapter)
             logcatDataset.apply {
@@ -143,16 +141,14 @@ class LiveLogViewerActivity : AppCompatActivity() {
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): LogEntryAdapter.ViewHolder {
+        ): ViewHolder {
             val textView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.log_viewer_entry, parent, false) as TextView
             return ViewHolder(textView)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.textView.apply {
-                text = dataset[position].entry
-            }
+            holder.textView.text = dataset[position].entry
         }
 
         override fun getItemCount() = dataset.size
