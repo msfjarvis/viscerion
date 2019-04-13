@@ -17,7 +17,6 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
-import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ErrorMessages
@@ -55,10 +54,6 @@ class QuickTileService : TileService() {
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
                 this.onToggleFinished(throwable)
             }
-        } else {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivityAndCollapse(intent)
         }
     }
 
