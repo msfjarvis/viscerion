@@ -20,12 +20,12 @@ class InterfaceProxy : BaseObservable, Parcelable {
 
     val excludedApplications = ObservableArrayList<String>()
     val totalExclusionsCount = ObservableInt(0)
-    var addresses = ObservableField<String>()
-    var dnsServers = ObservableField<String>()
-    var listenPort = ObservableField<String>()
-    var mtu = ObservableField<String>()
-    var privateKey = ObservableField<String>()
-    var publicKey = ObservableField<String>()
+    var addresses = ObservableField<String>("")
+    var dnsServers = ObservableField<String>("")
+    var listenPort = ObservableField<String>("")
+    var mtu = ObservableField<String>("")
+    var privateKey = ObservableField<String>("")
+    var publicKey = ObservableField<String>("")
         private set
 
     private constructor(`in`: Parcel) {
@@ -52,14 +52,7 @@ class InterfaceProxy : BaseObservable, Parcelable {
         totalExclusionsCount.set(excludedApplications.size)
     }
 
-    constructor() {
-        addresses.set("")
-        dnsServers.set("")
-        listenPort.set("")
-        mtu.set("")
-        privateKey.set("")
-        publicKey.set("")
-    }
+    constructor()
 
     override fun describeContents(): Int {
         return 0
