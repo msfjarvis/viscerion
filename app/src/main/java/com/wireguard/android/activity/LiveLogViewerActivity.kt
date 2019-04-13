@@ -6,6 +6,7 @@
 package com.wireguard.android.activity
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
 import com.wireguard.android.util.LogExporter
@@ -89,7 +91,12 @@ class LiveLogViewerActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            1000 -> LogExporter.exportLog(this)
+            1000 -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    LogExporter.exportLog(this)
+                else
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.storage_permissions_denied), Snackbar.LENGTH_LONG).show()
+            }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
