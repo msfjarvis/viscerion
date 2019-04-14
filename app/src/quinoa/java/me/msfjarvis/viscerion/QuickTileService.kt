@@ -47,10 +47,7 @@ class QuickTileService : TileService() {
 
     override fun onClick() {
         if (tunnel != null) {
-            val tile = qsTile
-            if (tile != null) {
-                tile.updateTile()
-            }
+            qsTile?.updateTile()
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
                 this.onToggleFinished(throwable)
             }
@@ -85,25 +82,17 @@ class QuickTileService : TileService() {
             tunnel?.addOnPropertyChangedCallback(onStateChangedCallback)
         }
         // Update the tile contents.
-        val label: String
-        val state: Int
-        val tile = qsTile
-        if (tunnel != null) {
-            label = tunnel?.name ?: ""
-            state = if (tunnel?.state == State.UP)
+        val tile = qsTile ?: return
+        if (tunnel == null) {
+            tile.label = getString(R.string.app_name)
+            tile.state = Tile.STATE_UNAVAILABLE
+        } else {
+            tile.label = tunnel?.name
+            tile.state = if (tunnel?.state == State.UP)
                 Tile.STATE_ACTIVE
             else
                 Tile.STATE_INACTIVE
-        } else {
-            label = getString(R.string.app_name)
-            state = Tile.STATE_INACTIVE
-        }
-        if (tile == null)
-            return
-        tile.label = label
-        tile.subtitle = getString(R.string.app_name)
-        if (tile.state != state) {
-            tile.state = state
+            tile.subtitle = getString(R.string.app_name)
         }
         tile.updateTile()
     }
