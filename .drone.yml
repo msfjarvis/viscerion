@@ -2,6 +2,16 @@ kind: pipeline
 name: debug-test
 
 steps:
+  - name: unpack-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./gradle
+    volumes:
+      - name: cache
+        path: /tmp/cache
+
   - name: build
     image: runmymind/docker-android-sdk:ubuntu-standalone
     commands:
@@ -12,3 +22,13 @@ steps:
     when:
       branch:
         - master
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./gradle
+    volumes:
+      - name: cache
+        path: /tmp/cache
