@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="primary_color">#212121</color>
+    <color name="primary_color">@color/white</color>
     <color name="primary_color_lighter">#32323232</color>
+    <color name="color_background">@color/white</color>
     <color name="color_control_normal">#ff000000</color>
     <color name="accent">#FF3D00</color>
     <color name="accent_darker">#DD2C00</color>
+    <color name="system_bars_color">@color/white</color>
+    <color name="bottomsheet_text">#212121</color>
     <color name="list_multiselect_background">#EEEEEE</color>
-    <color name="primary_color_black">#000000</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/accent</color>
-    <color name="bottomsheet_text_white">@color/white</color>
-    <color name="bottomsheet_text_dark">#212121</color>
     <color name="white">#FFFFFF</color>
 </resources>

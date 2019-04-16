@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_color">#FF000000</color>
+    <color name="color_background">@color/primary_color</color>
+    <color name="system_bars_color">@color/primary_color</color>
     <color name="list_multiselect_background">#1AEEEEEE</color>
     <color name="color_control_normal">#ffffffff</color>
+    <color name="bottomsheet_text">@color/white</color>
 </resources>

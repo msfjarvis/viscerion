@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_color</item>
         <item name="colorSecondary">@color/accent</item>
-        <item name="colorBackground">@color/white</item>
+        <item name="colorBackground">@color/color_background</item>
         <item name="colorControlNormal">@color/color_control_normal</item>
-        <item name="colorBottomsheetText">@color/bottomsheet_text_dark</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorBottomsheetText">@color/bottomsheet_text</item>
+        <item name="android:colorBackground">@color/primary_color</item>
+        <item name="android:colorBackgroundFloating">@color/primary_color</item>
+        <item name="android:navigationBarColor">@color/system_bars_color</item>
+        <item name="android:statusBarColor">@color/system_bars_color</item>
+        <item name="android:windowLightNavigationBar">@bool/light_navigation_bar</item>
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
+        <item name="android:windowBackground">@color/color_background</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
@@ -24,5 +26,4 @@
         <item name="android:windowIsTranslucent">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
     </style>
-
 </resources>
