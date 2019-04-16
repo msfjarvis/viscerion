@@ -19,3 +19,7 @@ As I've made abundantly clear on my Play Store listing, this is *not* an officia
 
 <br />
 <a href='https://play.google.com/store/apps/details?id=me.msfjarvis.viscerion&utm_source=GitHub&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200px"/></a>
+
+Hosting provided by
+
+<a href='https://www.packet.net'><img alt='Packet' src='.github/Packet_logo_color.png' width='200px'/></a>
