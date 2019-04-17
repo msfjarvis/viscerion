@@ -14,7 +14,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.BaseActivity
 import com.wireguard.android.activity.BaseActivity.OnSelectedTunnelChangedListener
@@ -23,7 +22,9 @@ import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
+import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.ErrorMessages
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 /**
@@ -84,7 +85,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         if (tunnel == null)
             return
 
-        Application.backendAsync.thenAccept { backend ->
+        inject<BackendAsync>().value.thenAccept { backend ->
             if (backend is GoBackend) {
                 val intent = GoBackend.VpnService.prepare(view.context)
                 intent?.let {

@@ -15,13 +15,14 @@ import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
+import org.koin.android.ext.android.inject
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -33,9 +34,10 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     private var actionBar: ActionBar? = null
     private var listFragment: TunnelListFragment? = null
     private val prefCallback = ApplicationPreferencesChangeCallback(this)
+    private val prefs by inject<ApplicationPreferences>()
 
     override fun onDestroy() {
-        Application.appPrefs.unregisterCallback()
+        prefs.unregisterCallback()
         super.onDestroy()
     }
 
@@ -71,7 +73,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
-        Application.appPrefs.registerCallback(prefCallback)
+        prefs.registerCallback(prefCallback)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

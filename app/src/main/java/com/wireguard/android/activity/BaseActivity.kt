@@ -9,8 +9,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.CallbackRegistry
 import androidx.databinding.CallbackRegistry.NotifierCallback
-import com.wireguard.android.Application
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
+import org.koin.android.ext.android.inject
 
 /**
  * Base class for activities that need to remember the currently-selected tunnel.
@@ -42,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         savedTunnelName?.let {
-            Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+            inject<TunnelManager>().value.getTunnels().thenAccept { tunnels ->
                 selectedTunnel = tunnels[it]
             }
         }

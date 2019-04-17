@@ -25,10 +25,13 @@ import androidx.core.content.getSystemService
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.wireguard.android.Application
+import com.wireguard.android.backend.Backend
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
+import java9.util.concurrent.CompletableFuture
 import java.io.BufferedReader
 import java.io.InputStreamReader
+
+typealias BackendAsync = CompletableFuture<Backend>
 
 fun String.toArrayList(): ArrayList<String> {
     return if (TextUtils.isEmpty(this))
@@ -93,9 +96,9 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     }
 }
 
-fun updateAppTheme() {
+fun updateAppTheme(prefs: ApplicationPreferences) {
     AppCompatDelegate.setDefaultNightMode(
-            if (Application.appPrefs.useDarkTheme)
+            if (prefs.useDarkTheme)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
                 AppCompatDelegate.MODE_NIGHT_NO

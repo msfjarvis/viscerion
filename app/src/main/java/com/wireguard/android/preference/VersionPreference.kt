@@ -11,28 +11,32 @@ import android.content.Intent
 import android.net.Uri
 import android.util.AttributeSet
 import androidx.preference.Preference
-import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
+import com.wireguard.android.util.AsyncWorker
+import com.wireguard.android.util.BackendAsync
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
+class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var versionSummary: String? = null
 
     init {
-        Application.backendAsync.thenAccept { backend ->
+        inject<BackendAsync>().value.thenAccept { backend ->
             versionSummary =
                     getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase())
-            Application.asyncWorker.supplyAsync { backend.getVersion() }
-                    .whenComplete { version, exception ->
-                        versionSummary = if (exception == null)
-                            getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
-                        else
-                            getContext().getString(
+            inject<AsyncWorker>().value.supplyAsync {
+                backend.getVersion()
+            }.whenComplete { version, exception ->
+                versionSummary = if (exception == null)
+                    getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
+                else
+                    getContext().getString(
                                     R.string.version_summary_unknown,
                                     backend.getTypePrettyName().toLowerCase()
                             )
-                        notifyChanged()
-                    }
+                notifyChanged()
+            }
         }
     }
 

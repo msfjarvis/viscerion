@@ -20,20 +20,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.integration.android.IntentIntegrator
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.ui.AddTunnelsSheet
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -45,6 +48,8 @@ import java.util.zip.ZipInputStream
 class TunnelListFragment : BaseFragment() {
 
     private val actionModeListener = ActionModeListener()
+    private val tunnelManager by inject<TunnelManager>()
+    private val prefs by inject<ApplicationPreferences>()
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
 
@@ -68,7 +73,7 @@ class TunnelListFragment : BaseFragment() {
 
         val futureTunnels = ArrayList<CompletableFuture<Tunnel>>()
         val throwables = ArrayList<Throwable>()
-        Application.asyncWorker.supplyAsync {
+        inject<AsyncWorker>().value.supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name = ""
             @Suppress("Recycle")
@@ -117,12 +122,12 @@ class TunnelListFragment : BaseFragment() {
                         }
 
                         if (config != null)
-                            futureTunnels.add(Application.tunnelManager.create(name, config).toCompletableFuture())
+                            futureTunnels.add(tunnelManager.create(name, config).toCompletableFuture())
                     }
                 }
             } else {
                 futureTunnels.add(
-                        Application.tunnelManager.create(
+                        tunnelManager.create(
                                 name,
                                 Config.parse(contentResolver.openInputStream(uri))
                         ).toCompletableFuture()
@@ -216,7 +221,7 @@ class TunnelListFragment : BaseFragment() {
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
         if (binding == null)
             return
-        Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+        tunnelManager.getTunnels().thenAccept { tunnels ->
             newTunnel?.let {
                 viewForTunnel(it, tunnels)?.setSingleSelected(true)
             }
@@ -264,8 +269,8 @@ class TunnelListFragment : BaseFragment() {
                     tunnels.size, tunnels.size + throwables.size
             )/* Use the exception message from above. */
 
-        if (Application.appPrefs.exclusions.isNotEmpty()) {
-            val excludedApps = Application.appPrefs.exclusionsArray
+        if (prefs.exclusions.isNotEmpty()) {
+            val excludedApps = prefs.exclusionsArray
             tunnels.forEach { tunnel ->
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {
@@ -306,7 +311,7 @@ class TunnelListFragment : BaseFragment() {
         if (binding == null)
             return
         binding?.fragment = this
-        Application.tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
+        tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
         binding?.rowConfigurationHandler =
                 object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
                     override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
@@ -342,7 +347,7 @@ class TunnelListFragment : BaseFragment() {
             when (item.itemId) {
                 R.id.menu_action_delete -> {
                     val copyCheckedItems = HashSet(checkedItems)
-                    Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+                    tunnelManager.getTunnels().thenAccept { tunnels ->
                         val tunnelsToDelete = ArrayList<Tunnel>()
                         for (position in copyCheckedItems)
                             tunnelsToDelete.add(tunnels[position])
@@ -360,7 +365,7 @@ class TunnelListFragment : BaseFragment() {
                     return true
                 }
                 R.id.menu_action_select_all -> {
-                    Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+                    tunnelManager.getTunnels().thenAccept { tunnels ->
                         for (i in tunnels.indices) {
                             setItemChecked(i, true)
                         }
@@ -409,7 +414,7 @@ class TunnelListFragment : BaseFragment() {
 
             val adapter = binding?.tunnelList?.adapter
 
-            if (actionMode == null && !checkedItems.isEmpty()) {
+            if (actionMode == null && checkedItems.isNotEmpty()) {
                 (activity as AppCompatActivity).startSupportActionMode(this)
             } else if (checkedItems.isEmpty()) {
                 actionMode?.finish()

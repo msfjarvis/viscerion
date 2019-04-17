@@ -9,8 +9,9 @@ import android.os.Environment
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.wireguard.android.Application
 import com.wireguard.android.R
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.File
@@ -18,10 +19,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 
-object LogExporter {
+object LogExporter : KoinComponent {
 
     fun exportLog(activity: AppCompatActivity) {
-        Application.asyncWorker.supplyAsync {
+        inject<AsyncWorker>().value.supplyAsync {
             val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val file = File(path, "viscerion-log.txt")
             if (!path.isDirectory && !path.mkdirs())

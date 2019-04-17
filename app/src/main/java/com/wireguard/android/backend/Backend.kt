@@ -9,12 +9,13 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.config.Config
+import org.koin.core.KoinComponent
 
 /**
  * Interface for implementations of the WireGuard secure network tunnel.
  */
 
-interface Backend {
+interface Backend : KoinComponent {
 
     /**
      * Update the volatile configuration of a running tunnel and return the resulting configuration.

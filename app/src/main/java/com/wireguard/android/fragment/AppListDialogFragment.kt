@@ -13,12 +13,14 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
 import com.wireguard.android.model.ApplicationData
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
+import org.koin.android.ext.android.inject
 
 class AppListDialogFragment : DialogFragment() {
 
@@ -61,7 +63,7 @@ class AppListDialogFragment : DialogFragment() {
 
     private fun loadData() {
         val activity = requireActivity()
-        Application.asyncWorker.supplyAsync<List<ApplicationData>> {
+        inject<AsyncWorker>().value.supplyAsync<List<ApplicationData>> {
             val appData = ArrayList<ApplicationData>()
             val pm = activity.packageManager
             pm.getPackagesHoldingPermissions(
@@ -75,7 +77,7 @@ class AppListDialogFragment : DialogFragment() {
                         if (isGlobalExclusionsDialog)
                             false
                         else
-                            Application.appPrefs.exclusionsArray.contains(pkgInfo.packageName)
+                            inject<ApplicationPreferences>().value.exclusionsArray.contains(pkgInfo.packageName)
                 ))
             }
             appData.also {

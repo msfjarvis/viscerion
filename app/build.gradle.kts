@@ -12,7 +12,7 @@ plugins {
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 fun gitHash(): String {
     return try {
@@ -111,6 +111,8 @@ dependencies {
     implementation(deps.AndroidX.sliceCore)
     implementation(deps.AndroidX.sliceKtx)
     implementation(deps.Material.material)
+    implementation(deps.ThirdParty.koinAndroid)
+    implementation(deps.ThirdParty.koinCore)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.retrostreams)
     implementation(deps.ThirdParty.threetenabp)

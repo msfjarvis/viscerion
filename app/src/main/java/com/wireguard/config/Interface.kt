@@ -5,7 +5,7 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.Application
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
@@ -14,6 +14,8 @@ import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
 import me.msfjarvis.viscerion.InetAddressUtils
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
@@ -27,7 +29,9 @@ import java.util.Locale
  *
  * Instances of this class are immutable.
  */
-class Interface private constructor(builder: Builder) {
+class Interface private constructor(builder: Builder) : KoinComponent {
+
+    private val prefs by inject<ApplicationPreferences>()
 
     /**
      * Returns the set of IP addresses assigned to the interface.
@@ -124,7 +128,7 @@ class Interface private constructor(builder: Builder) {
      */
     fun toWgQuickString(): String {
         val sb = StringBuilder()
-        val localExclusions = excludedApplications - Application.appPrefs.exclusionsArray
+        val localExclusions = excludedApplications - prefs.exclusionsArray
         if (addresses.isNotEmpty())
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
         if (dnsServers.isNotEmpty()) {
@@ -152,7 +156,9 @@ class Interface private constructor(builder: Builder) {
         return sb.toString()
     }
 
-    class Builder {
+    class Builder : KoinComponent {
+        private val prefs by inject<ApplicationPreferences>()
+
         // Defaults to an empty set.
         val addresses = LinkedHashSet<InetNetwork>()
         // Defaults to an empty set.
@@ -203,7 +209,7 @@ class Interface private constructor(builder: Builder) {
 
         fun excludeApplications(applications: Collection<String>): Builder {
             excludedApplications.addAll(applications)
-            Application.appPrefs.exclusionsArray.forEach { exclusion ->
+            prefs.exclusionsArray.forEach { exclusion ->
                 if (exclusion !in excludedApplications)
                     excludedApplications.add(exclusion)
             }
@@ -235,7 +241,7 @@ class Interface private constructor(builder: Builder) {
         fun parseExcludedApplications(apps: CharSequence): Builder {
             return excludeApplications(
                 Attribute.split(apps)
-                    .filter { it !in Application.appPrefs.exclusionsArray }
+                    .filter { it !in prefs.exclusionsArray }
                     .toList()
             )
         }

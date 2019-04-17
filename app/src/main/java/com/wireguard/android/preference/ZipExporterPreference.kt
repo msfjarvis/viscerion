@@ -12,24 +12,25 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.SettingsActivity
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.getParentActivity
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 
 /**
  * Preference implementing a button that asynchronously exports config zips.
  */
 
-class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
-
+class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var exportedFilePath: String? = null
 
     private fun exportZip() {
-        Application.tunnelManager.getTunnels().thenAccept {
+        inject<TunnelManager>().value.getTunnels().thenAccept {
             ZipExporter.exportZip(it) { filePath, throwable ->
                 exportZipComplete(filePath, throwable)
             }

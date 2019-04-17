@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.wireguard.android.Application
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
@@ -19,8 +18,11 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.RootShell
+import com.wireguard.android.util.ToolsInstaller
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.Config
+import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -33,14 +35,14 @@ import java.nio.charset.StandardCharsets
 class WgQuickBackend(private var context: Context) : Backend {
 
     private val localTemporaryDir: File = File(context.cacheDir, "tmp")
+    private val toolsInstaller by inject<ToolsInstaller>()
+    private val rootShell by inject<RootShell>()
     private var notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
 
     @Throws(Exception::class)
     override fun getVersion(): String {
         val output = ArrayList<String>()
-        if (Application.rootShell
-                        .run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty()
-        )
+        if (rootShell.run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty())
             throw Exception(context.getString(R.string.module_version_error))
         return output[0]
     }
@@ -69,8 +71,8 @@ class WgQuickBackend(private var context: Context) : Backend {
         val output = ArrayList<String>()
         // Don't throw an exception here or nothing will show up in the UI.
         try {
-            Application.toolsInstaller.ensureToolsAvailable()
-            if (Application.rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
+            toolsInstaller.ensureToolsAvailable()
+            if (rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
                 return emptySet()
         } catch (e: Exception) {
             Timber.w(e, "Unable to enumerate running tunnels")
@@ -98,7 +100,7 @@ class WgQuickBackend(private var context: Context) : Backend {
         if (stateToSet == originalState)
             return originalState
         Timber.d("Changing tunnel %s to state %s", tunnel.name, stateToSet)
-        Application.toolsInstaller.ensureToolsAvailable()
+        toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, stateToSet, tunnel.getConfig())
         return getState(tunnel)
     }
@@ -140,7 +142,7 @@ class WgQuickBackend(private var context: Context) : Backend {
         var command = "wg-quick $state '${tempFile.absolutePath}'"
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"
-        val result = Application.rootShell.run(null, command)
+        val result = rootShell.run(null, command)
 
         tempFile.delete()
         when (result) {

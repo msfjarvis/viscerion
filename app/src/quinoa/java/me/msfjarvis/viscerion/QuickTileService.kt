@@ -14,12 +14,13 @@ import android.service.quicksettings.TileService
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
-import com.wireguard.android.Application
 import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ErrorMessages
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 /**
@@ -33,6 +34,7 @@ class QuickTileService : TileService() {
 
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
+    private val tunnelManager by inject<TunnelManager>()
     private var tunnel: Tunnel? = null
 
     /* This works around an annoying unsolved frameworks bug some people are hitting. */
@@ -55,14 +57,14 @@ class QuickTileService : TileService() {
     }
 
     override fun onStartListening() {
-        Application.tunnelManager.addOnPropertyChangedCallback(onTunnelChangedCallback)
+        tunnelManager.addOnPropertyChangedCallback(onTunnelChangedCallback)
         tunnel?.addOnPropertyChangedCallback(onStateChangedCallback)
         updateTile()
     }
 
     override fun onStopListening() {
         tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
-        Application.tunnelManager.removeOnPropertyChangedCallback(onTunnelChangedCallback)
+        tunnelManager.removeOnPropertyChangedCallback(onTunnelChangedCallback)
     }
 
     private fun onToggleFinished(throwable: Throwable?) {
@@ -75,7 +77,7 @@ class QuickTileService : TileService() {
 
     private fun updateTile() {
         // Update the tunnel.
-        val newTunnel = Application.tunnelManager.getLastUsedTunnel()
+        val newTunnel = tunnelManager.getLastUsedTunnel()
         if (newTunnel != tunnel) {
             tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
             tunnel = newTunnel

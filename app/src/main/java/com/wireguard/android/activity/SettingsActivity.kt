@@ -20,15 +20,18 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
-import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.fragment.AppListDialogFragment
+import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.updateAppTheme
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
 
@@ -95,6 +98,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
+        private val prefs by inject<ApplicationPreferences>()
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
             val screen = preferenceScreen
@@ -121,7 +126,7 @@ class SettingsActivity : AppCompatActivity() {
                 for (pref in debugOnlyPrefs)
                     pref?.isVisible = true
 
-            Application.backendAsync.thenAccept { backend ->
+            inject<BackendAsync>().value.thenAccept { backend ->
                 for (pref in wgQuickOnlyPrefs) {
                     pref?.let {
                         if (backend is WgQuickBackend)
@@ -140,10 +145,10 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            integrationSecretPref?.isVisible = Application.appPrefs.allowTaskerIntegration
+            integrationSecretPref?.isVisible = prefs.allowTaskerIntegration
 
             exclusionsPref?.setOnPreferenceClickListener {
-                val fragment = AppListDialogFragment.newInstance(Application.appPrefs.exclusionsArray, true, this)
+                val fragment = AppListDialogFragment.newInstance(prefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
@@ -154,9 +159,9 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             integrationSecretPref?.setSummaryProvider { preference ->
-                if (Application.appPrefs.allowTaskerIntegration &&
+                if (prefs.allowTaskerIntegration &&
                         preference.isEnabled &&
-                        Application.appPrefs.taskerIntegrationSecret.isEmpty()
+                        prefs.taskerIntegrationSecret.isEmpty()
                 )
                     getString(R.string.tasker_integration_summary_empty_secret)
                 else
@@ -195,7 +200,7 @@ class SettingsActivity : AppCompatActivity() {
             darkThemePref?.setOnPreferenceClickListener {
                 val ctx = requireContext()
                 val activity = requireActivity()
-                updateAppTheme()
+                updateAppTheme(prefs)
                 val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
                 activity.finish()
                 startActivity(activity.intent, bundle)
@@ -204,13 +209,13 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            if (excludedApps.asString() == Application.appPrefs.exclusions) return
-            Application.tunnelManager.getTunnels().thenAccept { tunnels ->
+            if (excludedApps.asString() == prefs.exclusions) return
+            inject<TunnelManager>().value.getTunnels().thenAccept { tunnels ->
                 if (excludedApps.isNotEmpty()) {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
                         oldConfig?.let {
-                            Application.appPrefs.exclusionsArray.forEach { exclusion ->
+                            prefs.exclusionsArray.forEach { exclusion ->
                                 it.`interface`.excludedApplications.remove(
                                         exclusion
                                 )
@@ -219,14 +224,14 @@ class SettingsActivity : AppCompatActivity() {
                             tunnel.setConfig(it)
                         }
                     }
-                    Application.appPrefs.exclusions = excludedApps.asString()
+                    prefs.exclusions = excludedApps.asString()
                 } else {
                     tunnels.forEach { tunnel ->
-                        Application.appPrefs.exclusionsArray.forEach { exclusion ->
+                        prefs.exclusionsArray.forEach { exclusion ->
                             tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
                         }
                     }
-                    Application.appPrefs.exclusions = ""
+                    prefs.exclusions = ""
                 }
             }
         }

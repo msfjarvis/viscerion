@@ -8,17 +8,21 @@ package com.wireguard.android.preference
 import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.Preference
-import com.wireguard.android.Application
 import com.wireguard.android.R
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ToolsInstaller
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 /**
  * Preference implementing a button that asynchronously runs `ToolsInstaller` and displays the
  * result as the preference summary.
  */
 
-class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
+class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var state = State.INITIAL
+    private val asyncWorker by inject<AsyncWorker>()
+    private val toolsInstaller by inject<ToolsInstaller>()
 
     override fun getSummary(): CharSequence {
         return context.getString(state.messageResourceId)
@@ -30,9 +34,9 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     override fun onAttached() {
         super.onAttached()
-        Application.asyncWorker.supplyAsync<Int>
-        { Application.toolsInstaller.areInstalled() }
-                .whenComplete(this::onCheckResult)
+        asyncWorker.supplyAsync<Int> {
+            toolsInstaller.areInstalled()
+        }.whenComplete(this::onCheckResult)
     }
 
     private fun onCheckResult(state: Int, throwable: Throwable?) {
@@ -50,9 +54,9 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     override fun onClick() {
         setState(State.WORKING)
-        Application.asyncWorker.supplyAsync<Int>
-        { Application.toolsInstaller.install() }
-                .whenComplete(this::onInstallResult)
+        asyncWorker.supplyAsync<Int> {
+            toolsInstaller.install()
+        }.whenComplete(this::onInstallResult)
     }
 
     private fun onInstallResult(result: Int, throwable: Throwable?) {

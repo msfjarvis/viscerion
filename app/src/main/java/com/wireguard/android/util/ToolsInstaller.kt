@@ -7,10 +7,11 @@ package com.wireguard.android.util
 
 import android.content.Context
 import android.system.OsConstants
-import com.wireguard.android.Application
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.RootShell.NoRootException
 import com.wireguard.android.util.SharedLibraryLoader.extractNativeLibrary
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
@@ -42,7 +43,7 @@ class ToolsInstaller(val context: Context) {
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
         return try {
-            val ret = Application.rootShell.run(null, script.toString())
+            val ret = rootShell.run(null, script.toString())
             if (ret == OsConstants.EALREADY) {
                 if (willInstallAsMagiskModule()) YES or MAGISK else YES or SYSTEM
             } else {
@@ -82,7 +83,7 @@ class ToolsInstaller(val context: Context) {
         if (!isMagiskSu()) return false
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
-                Application.rootShell.run(
+                rootShell.run(
                         null,
                         "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
@@ -109,7 +110,7 @@ class ToolsInstaller(val context: Context) {
             )
         }
         return try {
-            if (Application.rootShell.run(null, script.toString()) == 0) YES or SYSTEM else ERROR
+            if (rootShell.run(null, script.toString()) == 0) YES or SYSTEM else ERROR
         } catch (ignored: IOException) {
             ERROR
         }
@@ -140,7 +141,7 @@ class ToolsInstaller(val context: Context) {
         script.append("trap - INT TERM EXIT;")
 
         return try {
-            if (Application.rootShell.run(null, script.toString()) == 0) YES or MAGISK else ERROR
+            if (rootShell.run(null, script.toString()) == 0) YES or MAGISK else ERROR
         } catch (ignored: IOException) {
             ERROR
         }
@@ -169,13 +170,13 @@ class ToolsInstaller(val context: Context) {
         script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';')
 
         return try {
-            Application.rootShell.run(null, script.toString())
+            rootShell.run(null, script.toString())
         } catch (ignored: IOException) {
             OsConstants.EXIT_FAILURE
         }
     }
 
-    companion object {
+    companion object : KoinComponent {
         const val ERROR = 0x0
         const val YES = 0x1
         const val NO = 0x2
@@ -186,10 +187,11 @@ class ToolsInstaller(val context: Context) {
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR by lazy { getInstallDir() }
         private val magiskDir by lazy { getMagiskDirectory() }
+        private val rootShell by inject<RootShell>()
 
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()
-            Application.rootShell.run(
+            rootShell.run(
                     output,
                     "su -V"
             )
@@ -213,7 +215,7 @@ class ToolsInstaller(val context: Context) {
 
         private fun isMagiskSu(): Boolean {
             val output = ArrayList<String>()
-            Application.rootShell.run(output, "su --version")
+            rootShell.run(output, "su --version")
             return output[0].contains("MAGISKSU")
         }
 

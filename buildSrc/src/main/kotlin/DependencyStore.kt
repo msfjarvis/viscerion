@@ -38,11 +38,14 @@ class DependencyStore {
     }
 
     object ThirdParty {
+        private const val koinVersion = "2.0.0-rc-2"
         private const val streamsupportVersion = "1.7.0"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
         private const val zxingVersion = "3.3.3"
 
+        const val koinCore = "org.koin:koin-core:$koinVersion"
+        const val koinAndroid = "org.koin:koin-android:$koinVersion"
         const val retrofuture = "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
         const val retrostreams = "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
         const val threetenabp = "com.jakewharton.threetenabp:threetenabp:$threetenabpVersion"
