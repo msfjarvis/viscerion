@@ -99,14 +99,14 @@ class SettingsActivity : AppCompatActivity() {
             addPreferencesFromResource(R.xml.preferences)
             val screen = preferenceScreen
             val wgQuickOnlyPrefs = arrayOf(
-                    preferenceScreen.findPreference<Preference>("tools_installer"),
-                    preferenceScreen.findPreference<CheckBoxPreference>("restore_on_boot")
+                    screen.findPreference<Preference>("tools_installer"),
+                    screen.findPreference<CheckBoxPreference>("restore_on_boot")
             )
             val debugOnlyPrefs = arrayOf(
-                    preferenceScreen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
+                    screen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
             )
             val wgOnlyPrefs = arrayOf(
-                    preferenceScreen.findPreference<CheckBoxPreference>("whitelist_exclusions")
+                    screen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
             val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
             val taskerPref = preferenceManager.findPreference<SwitchPreferenceCompat>("allow_tasker_integration")
