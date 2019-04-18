@@ -12,7 +12,7 @@ buildscript {
         maven(url = "https://storage.googleapis.com/r8-releases/raw")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.3.2")
+        classpath("com.android.tools.build:gradle:3.4.0")
         classpath(kotlin("gradle-plugin", "1.3.30"))
         classpath("com.diffplug.spotless:spotless-plugin-gradle:3.21.1")
         classpath("com.android.tools:r8:1.4.79")
@@ -38,7 +38,7 @@ tasks {
         reportfileName = "report"
     }
     named<Wrapper>("wrapper") {
-        gradleVersion = "5.4-rc-1"
+        gradleVersion = "5.4"
         distributionType = Wrapper.DistributionType.ALL
     }
 }

@@ -12,7 +12,7 @@ class DependencyStore {
         private const val appcompatVersion = "1.1.0-alpha04"
         private const val constraintlayoutVersion = "2.0.0-alpha4"
         private const val coreKtxVersion = "1.1.0-alpha05"
-        private const val databindingVersion = "3.3.2"
+        private const val databindingVersion = "3.4.0"
         private const val fragmentKtxVersion = "1.1.0-alpha06"
         private const val preferenceVersion = "1.1.0-alpha04"
         private const val slicesVersion = "1.0.0"
@@ -38,7 +38,7 @@ class DependencyStore {
     }
 
     object ThirdParty {
-        private const val koinVersion = "2.0.0-rc-2"
+        private const val koinVersion = "2.0.0-rc-3"
         private const val streamsupportVersion = "1.7.0"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
