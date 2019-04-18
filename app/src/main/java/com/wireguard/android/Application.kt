@@ -13,11 +13,10 @@ import androidx.annotation.RequiresApi
 import com.wireguard.android.di.backendAsyncModule
 import com.wireguard.android.di.backendModule
 import com.wireguard.android.di.earlyInitModules
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.toolsInstallerModule
 import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.updateAppTheme
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -59,7 +58,7 @@ class Application : android.app.Application() {
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
 
-        updateAppTheme(inject<ApplicationPreferences>().value)
+        updateAppTheme(getPrefs())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()

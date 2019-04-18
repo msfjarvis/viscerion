@@ -9,10 +9,9 @@ import android.content.Context
 import com.wireguard.android.backend.Backend
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
-import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.RootShell
+import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.ext.getRootShell
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.io.File
 
 class BackendFactory(context: Context) : KoinComponent {
@@ -22,9 +21,9 @@ class BackendFactory(context: Context) : KoinComponent {
         var ret: Backend? = null
         if (File("/sys/module/wireguard").exists()) {
             try {
-                if (inject<ApplicationPreferences>().value.forceUserspaceBackend)
+                if (getPrefs().forceUserspaceBackend)
                     throw Exception("Forcing userspace backend on user request.")
-                inject<RootShell>().value.start()
+                getRootShell().start()
                 ret = WgQuickBackend(context)
             } catch (ignored: Exception) {
             }

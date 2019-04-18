@@ -24,14 +24,13 @@ import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
+import com.wireguard.android.di.ext.getBackendAsync
+import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.fragment.AppListDialogFragment
-import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.updateAppTheme
-import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
 
@@ -98,7 +97,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
-        private val prefs by inject<ApplicationPreferences>()
+        private val prefs by injectPrefs()
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
@@ -126,7 +125,7 @@ class SettingsActivity : AppCompatActivity() {
                 for (pref in debugOnlyPrefs)
                     pref?.isVisible = true
 
-            inject<BackendAsync>().value.thenAccept { backend ->
+            getBackendAsync().thenAccept { backend ->
                 for (pref in wgQuickOnlyPrefs) {
                     pref?.let {
                         if (backend is WgQuickBackend)
@@ -210,7 +209,7 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
             if (excludedApps.asString() == prefs.exclusions) return
-            inject<TunnelManager>().value.getTunnels().thenAccept { tunnels ->
+            getTunnelManager().getTunnels().thenAccept { tunnels ->
                 if (excludedApps.isNotEmpty()) {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()

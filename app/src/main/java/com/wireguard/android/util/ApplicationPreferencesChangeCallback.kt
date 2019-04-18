@@ -6,9 +6,8 @@
 package com.wireguard.android.util
 
 import android.content.Context
-import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.di.ext.getTunnelManager
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 
 class ApplicationPreferencesChangeCallback(val context: Context) : KoinComponent {
 
@@ -17,6 +16,6 @@ class ApplicationPreferencesChangeCallback(val context: Context) : KoinComponent
     }
 
     fun restartActiveTunnels() {
-        inject<TunnelManager>().value.restartActiveTunnels()
+        getTunnelManager().restartActiveTunnels()
     }
 }

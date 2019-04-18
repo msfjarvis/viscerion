@@ -22,17 +22,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.databinding.TunnelEditorFragmentBinding
+import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.android.viewmodel.ConfigProxy
 import com.wireguard.android.widget.KeyInputFilter
 import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.Config
-import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 /**
@@ -130,8 +129,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
             context?.let {
                 activity?.window?.apply {
                     navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
-                            !inject<ApplicationPreferences>().value.useDarkTheme) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !getPrefs().useDarkTheme) {
                         // Clear window flags to let navigation bar be dark
                         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                     }
@@ -157,8 +155,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 when {
                     tunnel == null -> {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
-                        inject<TunnelManager>().value
-                                .create(binding?.name.requireNonNull("Tunnel name cannot be empty!"), newConfig)
+                        getTunnelManager().create(binding?.name.requireNonNull("Tunnel name cannot be empty!"), newConfig)
                                 .whenComplete { newTunnel, throwable ->
                                     this.onTunnelCreated(
                                             newTunnel,

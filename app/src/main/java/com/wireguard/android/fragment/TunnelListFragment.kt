@@ -25,18 +25,17 @@ import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
+import com.wireguard.android.di.ext.getAsyncWorker
+import com.wireguard.android.di.ext.injectPrefs
+import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.ui.AddTunnelsSheet
-import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
-import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -48,8 +47,8 @@ import java.util.zip.ZipInputStream
 class TunnelListFragment : BaseFragment() {
 
     private val actionModeListener = ActionModeListener()
-    private val tunnelManager by inject<TunnelManager>()
-    private val prefs by inject<ApplicationPreferences>()
+    private val tunnelManager by injectTunnelManager()
+    private val prefs by injectPrefs()
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
 
@@ -73,7 +72,7 @@ class TunnelListFragment : BaseFragment() {
 
         val futureTunnels = ArrayList<CompletableFuture<Tunnel>>()
         val throwables = ArrayList<Throwable>()
-        inject<AsyncWorker>().value.supplyAsync {
+        getAsyncWorker().supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name = ""
             @Suppress("Recycle")

@@ -6,11 +6,11 @@
 package com.wireguard.android.util
 
 import android.os.Environment
+import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.model.Tunnel
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -31,7 +31,7 @@ object ZipExporter : KoinComponent {
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
                 .whenComplete { _, exception ->
-                    inject<AsyncWorker>().value.supplyAsync {
+                    getAsyncWorker().supplyAsync {
                         if (exception != null)
                             throw exception
                         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)

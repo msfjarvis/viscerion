@@ -14,11 +14,12 @@ import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
-import com.wireguard.android.backend.Backend
-import com.wireguard.android.configStore.ConfigStore
+import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.ext.injectAsyncWorker
+import com.wireguard.android.di.ext.injectBackend
+import com.wireguard.android.di.ext.injectConfigStore
+import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.model.Tunnel.Statistics
-import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
@@ -28,7 +29,6 @@ import java9.util.Comparators
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
 class TunnelManager(private val context: Context) : BaseObservable(), KoinComponent {
@@ -36,8 +36,8 @@ class TunnelManager(private val context: Context) : BaseObservable(), KoinCompon
     private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
     private val delayedLoadRestoreTunnels = ArrayList<CompletableFuture<Void>>()
-    private val configStore by inject<ConfigStore>()
-    private val prefs by inject<ApplicationPreferences>()
+    private val configStore by injectConfigStore()
+    private val prefs by injectPrefs()
     private var haveLoaded: Boolean = false
 
     init {
@@ -249,7 +249,7 @@ class TunnelManager(private val context: Context) : BaseObservable(), KoinCompon
                 return
             when (intent.action) {
                 "com.wireguard.android.action.REFRESH_TUNNEL_STATES" -> {
-                    inject<TunnelManager>().value.refreshTunnelStates()
+                    getTunnelManager().refreshTunnelStates()
                     return
                 }
                 else -> Timber.tag("TunnelManager").d("Invalid intent action: ${intent.action}")
@@ -261,8 +261,8 @@ class TunnelManager(private val context: Context) : BaseObservable(), KoinCompon
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
         const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
         const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
-        private val asyncWorker by inject<AsyncWorker>()
-        private val backend by inject<Backend>()
+        private val asyncWorker by injectAsyncWorker()
+        private val backend by injectBackend()
 
         private val COMPARATOR = Comparators.thenComparing(
                 String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()

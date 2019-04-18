@@ -11,15 +11,13 @@ import android.content.Intent
 import androidx.collection.ArraySet
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
+import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
-import org.koin.android.ext.android.inject
-import org.koin.core.inject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -138,7 +136,7 @@ class GoBackend(private var context: Context) : Backend {
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
-            if (inject<ApplicationPreferences>().value.whitelistApps) {
+            if (getPrefs().whitelistApps) {
                 config.`interface`.excludedApplications.forEach { excludedApplication ->
                     builder.addAllowedApplication(excludedApplication)
                 }
@@ -202,7 +200,7 @@ class GoBackend(private var context: Context) : Backend {
 
     class VpnService : android.net.VpnService() {
 
-        private val tunnelManager by inject<TunnelManager>()
+        private val tunnelManager by injectTunnelManager()
 
         fun getBuilder(): android.net.VpnService.Builder {
             return Builder()

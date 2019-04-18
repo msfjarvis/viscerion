@@ -5,7 +5,7 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
@@ -15,7 +15,6 @@ import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
 import me.msfjarvis.viscerion.InetAddressUtils
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
@@ -31,7 +30,7 @@ import java.util.Locale
  */
 class Interface private constructor(builder: Builder) : KoinComponent {
 
-    private val prefs by inject<ApplicationPreferences>()
+    private val prefs by injectPrefs()
 
     /**
      * Returns the set of IP addresses assigned to the interface.
@@ -157,7 +156,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
     }
 
     class Builder : KoinComponent {
-        private val prefs by inject<ApplicationPreferences>()
+        private val prefs by injectPrefs()
 
         // Defaults to an empty set.
         val addresses = LinkedHashSet<InetNetwork>()

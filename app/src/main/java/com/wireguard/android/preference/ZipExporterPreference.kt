@@ -14,12 +14,11 @@ import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.activity.SettingsActivity
-import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.getParentActivity
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
 /**
@@ -30,7 +29,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
     private var exportedFilePath: String? = null
 
     private fun exportZip() {
-        inject<TunnelManager>().value.getTunnels().thenAccept {
+        getTunnelManager().getTunnels().thenAccept {
             ZipExporter.exportZip(it) { filePath, throwable ->
                 exportZipComplete(filePath, throwable)
             }

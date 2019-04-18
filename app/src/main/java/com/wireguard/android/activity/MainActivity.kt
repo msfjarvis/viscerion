@@ -16,13 +16,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.wireguard.android.R
+import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
-import org.koin.android.ext.android.inject
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -34,7 +33,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     private var actionBar: ActionBar? = null
     private var listFragment: TunnelListFragment? = null
     private val prefCallback = ApplicationPreferencesChangeCallback(this)
-    private val prefs by inject<ApplicationPreferences>()
+    private val prefs by injectPrefs()
 
     override fun onDestroy() {
         prefs.unregisterCallback()

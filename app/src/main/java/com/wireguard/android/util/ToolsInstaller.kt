@@ -8,10 +8,10 @@ package com.wireguard.android.util
 import android.content.Context
 import android.system.OsConstants
 import com.wireguard.android.BuildConfig
+import com.wireguard.android.di.ext.injectRootShell
 import com.wireguard.android.util.RootShell.NoRootException
 import com.wireguard.android.util.SharedLibraryLoader.extractNativeLibrary
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
@@ -187,7 +187,7 @@ class ToolsInstaller(val context: Context) {
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR by lazy { getInstallDir() }
         private val magiskDir by lazy { getMagiskDirectory() }
-        private val rootShell by inject<RootShell>()
+        private val rootShell by injectRootShell()
 
         private fun getMagiskDirectory(): String {
             val output = ArrayList<String>()

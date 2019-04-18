@@ -9,10 +9,10 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.Preference
 import com.wireguard.android.R
-import com.wireguard.android.util.AsyncWorker
+import com.wireguard.android.di.ext.injectAsyncWorker
+import com.wireguard.android.di.ext.injectToolsInstaller
 import com.wireguard.android.util.ToolsInstaller
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 
 /**
  * Preference implementing a button that asynchronously runs `ToolsInstaller` and displays the
@@ -21,8 +21,8 @@ import org.koin.core.inject
 
 class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var state = State.INITIAL
-    private val asyncWorker by inject<AsyncWorker>()
-    private val toolsInstaller by inject<ToolsInstaller>()
+    private val asyncWorker by injectAsyncWorker()
+    private val toolsInstaller by injectToolsInstaller()
 
     override fun getSummary(): CharSequence {
         return context.getString(state.messageResourceId)

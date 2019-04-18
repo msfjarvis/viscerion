@@ -14,15 +14,14 @@ import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
+import com.wireguard.android.di.ext.injectRootShell
+import com.wireguard.android.di.ext.injectToolsInstaller
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.RootShell
-import com.wireguard.android.util.ToolsInstaller
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.Config
-import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -35,8 +34,8 @@ import java.nio.charset.StandardCharsets
 class WgQuickBackend(private var context: Context) : Backend {
 
     private val localTemporaryDir: File = File(context.cacheDir, "tmp")
-    private val toolsInstaller by inject<ToolsInstaller>()
-    private val rootShell by inject<RootShell>()
+    private val toolsInstaller by injectToolsInstaller()
+    private val rootShell by injectRootShell()
     private var notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
 
     @Throws(Exception::class)
