@@ -5,7 +5,6 @@
  */
 package com.wireguard.config
 
-import me.msfjarvis.viscerion.InetAddressUtils
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
 import java.net.Inet4Address

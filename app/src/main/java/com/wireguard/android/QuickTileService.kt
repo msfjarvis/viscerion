@@ -3,7 +3,7 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package me.msfjarvis.viscerion
+package com.wireguard.android
 
 import android.annotation.TargetApi
 import android.content.Intent
@@ -17,15 +17,12 @@ import android.service.quicksettings.TileService
 import android.widget.Toast
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
-import com.wireguard.android.Application
-import com.wireguard.android.BR
-import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
+import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
-import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ErrorMessages
-import org.koin.android.ext.android.inject
+import com.wireguard.android.widget.SlashDrawable
 import timber.log.Timber
 
 /**
@@ -39,7 +36,7 @@ class QuickTileService : TileService() {
 
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
-    private val tunnelManager by inject<TunnelManager>()
+    private val tunnelManager by injectTunnelManager()
     private var tunnel: Tunnel? = null
     private var iconOn: Icon? = null
     private var iconOff: Icon? = null

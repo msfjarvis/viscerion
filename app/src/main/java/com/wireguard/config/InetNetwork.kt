@@ -5,7 +5,6 @@
  */
 package com.wireguard.config
 
-import me.msfjarvis.viscerion.InetAddressUtils
 import java.net.Inet4Address
 import java.net.InetAddress
 

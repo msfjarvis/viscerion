@@ -18,7 +18,7 @@ steps:
       - mkdir -p $ANDROID_HOME/licenses
       - curl "https://download.msfjarvis.website/.viscerion/sdk-licenses.tar.xz" | tar -C "$ANDROID_HOME/licenses/" --strip-components=1 -xvf -
       - git submodule update --init --recursive
-      - ./gradlew assemblePieDebug checkPieDebug assembleQuinoaDebug checkQuinoaDebug
+      - ./gradlew assembleDebug lintDebug
     when:
       branch:
         - master
