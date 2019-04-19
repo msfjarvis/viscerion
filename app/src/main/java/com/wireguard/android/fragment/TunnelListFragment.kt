@@ -374,8 +374,9 @@ class TunnelListFragment : BaseFragment() {
                 }
                 R.id.menu_action_select_all -> {
                     tunnelManager.getTunnels().thenAccept { tunnels ->
+                        val checkedState = checkedItems.size != tunnels.size
                         for (i in tunnels.indices) {
-                            setItemChecked(i, true)
+                            setItemChecked(i, checkedState)
                         }
                     }
                     return true
