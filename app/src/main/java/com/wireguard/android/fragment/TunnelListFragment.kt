@@ -156,9 +156,8 @@ class TunnelListFragment : BaseFragment() {
                             null
                         }
 
-                        tunnel?.let {
-                            tunnels.add(it)
-                        }
+                        if (tunnel != null)
+                            tunnels.add(tunnel)
                     }
                     onTunnelImportFinished(tunnels, throwables)
                 }
@@ -211,9 +210,10 @@ class TunnelListFragment : BaseFragment() {
 
     private fun viewForTunnel(tunnel: Tunnel, tunnels: List<Tunnel>): MultiselectableRelativeLayout? {
         var view: MultiselectableRelativeLayout? = null
-        binding?.let {
-            view =
-                    it.tunnelList.findViewHolderForAdapterPosition(tunnels.indexOf(tunnel))?.itemView as? MultiselectableRelativeLayout
+        if (binding != null) {
+            view = binding!!.tunnelList.findViewHolderForAdapterPosition(
+                    tunnels.indexOf(tunnel)
+            )?.itemView as? MultiselectableRelativeLayout
         }
         return view
     }
@@ -240,8 +240,8 @@ class TunnelListFragment : BaseFragment() {
             message = resources.getQuantityString(R.plurals.delete_error, count, count, error)
             Timber.e(throwable)
         }
-        binding?.let {
-            Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
+        if (binding != null) {
+            Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -280,9 +280,8 @@ class TunnelListFragment : BaseFragment() {
             }
         }
 
-        binding?.let {
-            if (message.isNotEmpty())
-                Snackbar.make(it.mainContainer, message, Snackbar.LENGTH_LONG).show()
+        if (binding != null && message.isNotEmpty()) {
+            Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -387,13 +386,9 @@ class TunnelListFragment : BaseFragment() {
 
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
             actionMode = mode
-            activity?.let {
-                resources = it.resources
-            }
+            resources = requireActivity().resources
             mode.menuInflater.inflate(R.menu.tunnel_list_action_mode, menu)
-            binding?.let {
-                it.tunnelList.adapter?.notifyDataSetChanged()
-            }
+            binding?.tunnelList?.adapter?.notifyDataSetChanged()
             return true
         }
 
@@ -401,9 +396,7 @@ class TunnelListFragment : BaseFragment() {
             actionMode = null
             resources = null
             checkedItems.clear()
-            binding?.let {
-                it.tunnelList.adapter?.notifyDataSetChanged()
-            }
+            binding?.tunnelList?.adapter?.notifyDataSetChanged()
         }
 
         internal fun toggleItemChecked(position: Int) {
