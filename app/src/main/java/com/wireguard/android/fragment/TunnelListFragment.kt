@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
@@ -345,22 +346,30 @@ class TunnelListFragment : BaseFragment() {
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             when (item.itemId) {
                 R.id.menu_action_delete -> {
+                    val tunnelsToDelete = ArrayList<Tunnel>()
                     val copyCheckedItems = HashSet(checkedItems)
                     tunnelManager.getTunnels().thenAccept { tunnels ->
-                        val tunnelsToDelete = ArrayList<Tunnel>()
                         for (position in copyCheckedItems)
                             tunnelsToDelete.add(tunnels[position])
-
-                        val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
-                        CompletableFuture.allOf(*futures)
-                                .thenApply { futures.size }
-                                .whenComplete { count, throwable ->
-                                    onTunnelDeletionFinished(count, throwable)
-                                }
                     }
-                    binding?.createFab?.extend()
-                    checkedItems.clear()
-                    mode.finish()
+                    MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(getString(R.string.confirm_tunnel_deletion))
+                            .setPositiveButton(android.R.string.ok) { _, _ ->
+                                val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
+                                CompletableFuture.allOf(*futures)
+                                        .thenApply { futures.size }
+                                        .whenComplete { count, throwable ->
+                                            onTunnelDeletionFinished(count, throwable)
+                                        }
+                                binding?.createFab?.extend()
+                                checkedItems.clear()
+                                mode.finish()
+                            }
+                            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                                checkedItems.clear()
+                                mode.finish()
+                            }
+                            .show()
                     return true
                 }
                 R.id.menu_action_select_all -> {
