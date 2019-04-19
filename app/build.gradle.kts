@@ -121,10 +121,6 @@ tasks {
     }
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
-        dependsOn(rootProject.tasks.getByName(if (System.getenv("TRAVIS") == "true") "spotlessCheck" else "spotlessApply"))
-        doFirst {
-            println("Removing: ${buildDir.absolutePath + "/outputs/apk/debug/"}")
-            delete(buildDir.absolutePath + "/outputs/apk/debug")
-        }
+        dependsOn(rootProject.tasks.getByName(if (System.getenv("DRONE") == "true") "spotlessCheck" else "spotlessApply"))
     }
 }
