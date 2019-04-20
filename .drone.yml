@@ -2,31 +2,22 @@ kind: pipeline
 name: debug-test
 
 steps:
-  - name: unpack-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./gradle
-    volumes:
-      - name: cache
-        path: /tmp/cache
+  - name: submodules
+    image: docker:git
+    commands:
+      - git submodule update --init --recursive
 
   - name: build
     image: msfjarvis/docker-android-sdk:latest
     commands:
-      - git submodule update --init --recursive
       - ./gradlew assembleDebug lintDebug
-    when:
-      branch:
-        - master
 
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
+  - name: telegram-deploy
+    image: msfjarvis/drone-telegram:local
     settings:
-      rebuild: true
-      mount:
-        - ./gradle
-    volumes:
-      - name: cache
-        path: /tmp/cache
+      channel_id: -1001427908832
+      artifact_path: app/build/outputs/apk/debug/app-debug.apk
+      major_minor: ci
+      filename: Viscerion
+      bot_token:
+        from_secret: bot_token
