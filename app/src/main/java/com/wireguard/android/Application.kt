@@ -12,6 +12,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.wireguard.android.di.backendAsyncModule
 import com.wireguard.android.di.backendModule
+import com.wireguard.android.di.configStoreModule
 import com.wireguard.android.di.earlyInitModules
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.toolsInstallerModule
@@ -52,7 +53,7 @@ class Application : android.app.Application() {
         startKoin {
             androidLogger(level = Level.DEBUG)
             androidContext(this@Application)
-            modules(listOf(earlyInitModules, backendModule, backendAsyncModule, toolsInstallerModule))
+            modules(listOf(configStoreModule, earlyInitModules, backendModule, backendAsyncModule, toolsInstallerModule))
         }
 
         if (BuildConfig.DEBUG)

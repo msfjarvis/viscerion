@@ -20,11 +20,14 @@ import com.wireguard.android.util.ToolsInstaller
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
+val configStoreModule = module {
+    single<ConfigStore> { FileConfigStore(androidContext()) }
+}
+
 val earlyInitModules = module {
     single { AsyncWorker(AsyncTask.SERIAL_EXECUTOR, Handler(Looper.getMainLooper())) }
     single { RootShell(androidContext()) }
     single { ApplicationPreferences(androidContext()) }
-    single<ConfigStore> { FileConfigStore(androidContext()) }
     single { TunnelManager(androidContext()) }
 }
 
