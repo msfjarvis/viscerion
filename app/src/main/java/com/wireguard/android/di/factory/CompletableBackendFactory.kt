@@ -5,13 +5,13 @@
  */
 package com.wireguard.android.di.factory
 
-import android.content.Context
+import com.wireguard.android.backend.Backend
 import com.wireguard.android.util.BackendAsync
 
-class CompletableBackendFactory(context: Context) {
-    val backendAsync = BackendAsync()
-
-    init {
-        backendAsync.complete(BackendFactory(context).backend)
+object CompletableBackendFactory {
+    fun getBackendAsync(backend: Backend): BackendAsync {
+        val backendAsync = BackendAsync()
+        backendAsync.complete(backend)
+        return backendAsync
     }
 }

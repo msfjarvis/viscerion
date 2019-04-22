@@ -32,11 +32,11 @@ val earlyInitModules = module {
 }
 
 val backendModule = module {
-    single { BackendFactory(androidContext()).backend }
+    single { BackendFactory.getBackend(androidContext(), get(), get()) }
 }
 
 val backendAsyncModule = module {
-    single { CompletableBackendFactory(androidContext()).backendAsync }
+    single { CompletableBackendFactory.getBackendAsync(get()) }
 }
 
 val toolsInstallerModule = module {

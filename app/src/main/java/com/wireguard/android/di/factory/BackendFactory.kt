@@ -9,27 +9,28 @@ import android.content.Context
 import com.wireguard.android.backend.Backend
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
-import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.di.ext.getRootShell
-import org.koin.core.KoinComponent
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.RootShell
 import java.io.File
 
-class BackendFactory(context: Context) : KoinComponent {
-    val backend: Backend
-
-    init {
+object BackendFactory {
+    fun getBackend(
+        context: Context,
+        prefs: ApplicationPreferences,
+        rootShell: RootShell
+    ): Backend {
         var ret: Backend? = null
         if (File("/sys/module/wireguard").exists()) {
             try {
-                if (getPrefs().forceUserspaceBackend)
+                if (prefs.forceUserspaceBackend)
                     throw Exception("Forcing userspace backend on user request.")
-                getRootShell().start()
+                rootShell.start()
                 ret = WgQuickBackend(context)
             } catch (ignored: Exception) {
             }
         }
         if (ret == null)
             ret = GoBackend(context)
-        backend = ret
+        return ret
     }
 }
