@@ -24,6 +24,10 @@
         <item quantity="one">%d Excluded Application</item>
         <item quantity="other">%d Excluded Applications</item>
     </plurals>
+    <plurals name="confirm_tunnel_deletion">
+        <item quantity="one">Delete selected tunnel?</item>
+        <item quantity="other">Delete selected tunnels?</item>
+    </plurals>
     <string name="add_peer">Add peer</string>
     <string name="addresses">Addresses</string>
     <string name="allowed_ips">Allowed IPs</string>
@@ -188,5 +192,4 @@
     <string name="pref_dark_theme_title">Enable dark theme</string>
     <string name="pref_dark_theme_summary">Switch to a darker theme that can help save some power on AMOLED displays</string>
     <string name="storage_permissions_denied">Storage permissions denied</string>
-    <string name="confirm_tunnel_deletion">Confirm deletion</string>
 </resources>

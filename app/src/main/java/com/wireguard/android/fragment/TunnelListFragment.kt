@@ -351,8 +351,9 @@ class TunnelListFragment : BaseFragment() {
                         for (position in copyCheckedItems)
                             tunnelsToDelete.add(tunnels[position])
                     }
-                    MaterialAlertDialogBuilder(requireContext())
-                            .setTitle(getString(R.string.confirm_tunnel_deletion))
+                    val ctx = requireContext()
+                    MaterialAlertDialogBuilder(ctx)
+                            .setTitle(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelsToDelete.size, tunnelsToDelete.size))
                             .setPositiveButton(android.R.string.ok) { _, _ ->
                                 val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                                 CompletableFuture.allOf(*futures)
