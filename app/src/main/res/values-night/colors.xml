@@ -5,5 +5,4 @@
     <color name="system_bars_color">@color/primary_color</color>
     <color name="list_multiselect_background">#1AEEEEEE</color>
     <color name="color_control_normal">#ffffffff</color>
-    <color name="bottomsheet_text">@color/white</color>
 </resources>

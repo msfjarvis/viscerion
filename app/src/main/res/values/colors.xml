@@ -7,7 +7,6 @@
     <color name="accent">#FF3D00</color>
     <color name="accent_darker">#DD2C00</color>
     <color name="system_bars_color">@color/white</color>
-    <color name="bottomsheet_text">#212121</color>
     <color name="list_multiselect_background">#EEEEEE</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/accent</color>
     <color name="white">#FFFFFF</color>
