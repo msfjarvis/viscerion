@@ -17,5 +17,5 @@ kotlinDslPluginOptions {
 }
 
 dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:3.21.1")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:3.23.0")
 }
