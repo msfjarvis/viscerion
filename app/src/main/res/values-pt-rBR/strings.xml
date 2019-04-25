@@ -25,6 +25,10 @@
         <item quantity="one">Aplicação %d Excluída</item>
         <item quantity="other">Aplicações %d Excluídas</item>
     </plurals>
+    <plurals name="confirm_tunnel_deletion">
+        <item quantity="one">Excluir o túnel selecionado?</item>
+        <item quantity="other">Excluir os túneis selecionados?</item>
+    </plurals>
     <string name="add_peer">Adicionar ponto</string>
     <string name="addresses">Endereços</string>
     <string name="allowed_ips">IPs Permitidos</string>
@@ -174,10 +178,18 @@
     <string name="preference_category_about">Sobre</string>
     <string name="preference_category_config">Configurações do túnel</string>
     <string name="preference_category_debugging">Depuração</string>
+    <string name="preference_category_theming">Temas</string>
     <string name="tasker_integration_title">Habilitar integração do tasker</string>
     <string name="tasker_integration_summary">AVISO: Este é um potencial risco de segurança! Evite usar isto em dispositivos com root, apps maliciosos podem facilmente contornar a proteção posta em prática pelo Viscerion!</string>
     <string name="tasker_integration_secret_title">Segredo de intenção externo</string>
     <string name="tasker_integration_secret_summary">Segredo protegido para garantir que somente os clientes confiáveis possam controlar túneis. Isto não pode estar vazio!</string>
     <string name="tasker_integration_summary_empty_secret">Definir um segredo aqui é obrigatório!</string>
     <string name="create">Criar</string>
+    <string name="log_viewer">Visualizador de log</string>
+    <string name="pref_alt_icon_title">Usar ícone alternativo</string>
+    <string name="pref_alt_icon_summary">Mudar para o novo ícone do Viscerion que ainda está sendo finalizado</string>
+    <string name="pref_alt_icon_apply_message">O ícone foi alterado com sucesso. Pode levar alguns instantes para mudar em seu launcher.</string>
+    <string name="pref_dark_theme_title">Usar tema escuro</string>
+    <string name="pref_dark_theme_summary">Mudar para um tema escuro em telas AMOLED pode ajudar a economizar um pouco de bateria</string>
+    <string name="storage_permissions_denied">Permissão de armazenamento recusada</string>
 </resources>
