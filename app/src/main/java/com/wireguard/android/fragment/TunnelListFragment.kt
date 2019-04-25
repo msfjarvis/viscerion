@@ -352,8 +352,9 @@ class TunnelListFragment : BaseFragment() {
                             tunnelsToDelete.add(tunnels[position])
                     }
                     val ctx = requireContext()
+                    val tunnelCount = tunnelsToDelete.size
                     MaterialAlertDialogBuilder(ctx)
-                            .setTitle(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelsToDelete.size, tunnelsToDelete.size))
+                            .setMessage(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelCount, tunnelCount))
                             .setPositiveButton(android.R.string.ok) { _, _ ->
                                 val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                                 CompletableFuture.allOf(*futures)
