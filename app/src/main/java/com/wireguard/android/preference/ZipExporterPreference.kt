@@ -30,9 +30,7 @@ class ZipExporterPreference(context: Context, attrs: AttributeSet) : Preference(
 
     private fun exportZip() {
         getTunnelManager().getTunnels().thenAccept {
-            ZipExporter.exportZip(it) { filePath, throwable ->
-                exportZipComplete(filePath, throwable)
-            }
+            ZipExporter.exportZip(it, this::exportZipComplete)
         }
     }
 
