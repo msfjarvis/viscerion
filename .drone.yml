@@ -9,7 +9,7 @@ steps:
     when:
       branch:
         exclude:
-        - l10n_master
+          - l10n_master
 
   - name: build
     image: msfjarvis/docker-android-sdk:latest
@@ -18,7 +18,7 @@ steps:
     when:
       branch:
         exclude:
-        - l10n_master
+          - l10n_master
 
   - name: telegram-deploy
     image: msfjarvis/drone-telegram:local
@@ -32,4 +32,7 @@ steps:
     when:
       branch:
         exclude:
-        - l10n_master
+          - l10n_master
+      event:
+        exclude:
+          - pull_request
