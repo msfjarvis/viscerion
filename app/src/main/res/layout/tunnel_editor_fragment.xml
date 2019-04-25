@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingBottom="?attr/actionBarSize"
-            android:scrollbarTrackVertical="@color/accent">
+            android:scrollbarTrackVertical="?attr/colorSecondary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,8 +228,8 @@
                                 android:layout_margin="4dp"
                                 android:onClick="@{fragment::onRequestSetExcludedApplications}"
                                 android:text="@{@plurals/set_excluded_applications(config.interface.totalExclusionsCount, config.interface.totalExclusionsCount)}"
-                                android:textColor="@color/accent"
-                                app:rippleColor="@color/accent"
+                                android:textColor="?attr/colorSecondary"
+                                app:rippleColor="?attr/colorSecondary"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/generate_private_key_button"
@@ -242,8 +242,8 @@
                                 android:layout_height="wrap_content"
                                 android:onClick="@{() -> config.interface.generateKeyPair()}"
                                 android:text="@string/generate"
-                                android:textColor="@color/accent"
-                                app:rippleColor="@color/accent"
+                                android:textColor="?attr/colorSecondary"
+                                app:rippleColor="?attr/colorSecondary"
                                 app:layout_constraintStart_toEndOf="@+id/set_excluded_applications"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -269,7 +269,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
-            android:background="@color/accent"
+            android:background="?attr/colorSecondary"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:onClick="@{() -> config.addPeer()}"

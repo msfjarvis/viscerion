@@ -73,7 +73,7 @@
             android:clipChildren="false"
             android:text="@string/create"
             android:textColor="@color/white"
-            app:backgroundTint="@color/accent"
+            app:backgroundTint="?attr/colorSecondary"
             app:icon="@drawable/ic_baseline_add_24px"
             app:iconTint="@color/white"
             app:layout_behavior="com.wireguard.android.widget.fab.FloatingActionButtonBehavior" />

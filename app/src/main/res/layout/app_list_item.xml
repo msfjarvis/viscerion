@@ -33,7 +33,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toStartOf="@id/app_name"
             android:src="@{item.icon}"
-            tools:src="@color/accent"
+            tools:src="@drawable/alt_launcher_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
