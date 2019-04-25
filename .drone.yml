@@ -6,11 +6,19 @@ steps:
     image: docker:git
     commands:
       - git submodule update --init --recursive
+    when:
+      branch:
+        exclude:
+        - l10n_master
 
   - name: build
     image: msfjarvis/docker-android-sdk:latest
     commands:
       - ./gradlew assembleDebug lintDebug
+    when:
+      branch:
+        exclude:
+        - l10n_master
 
   - name: telegram-deploy
     image: msfjarvis/drone-telegram:local
@@ -21,3 +29,7 @@ steps:
       filename: Viscerion
       bot_token:
         from_secret: bot_token
+    when:
+      branch:
+        exclude:
+        - l10n_master
