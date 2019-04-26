@@ -24,7 +24,7 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     var exclusions by StringPref("global_exclusions", "", restartActiveTunnels)
     val exclusionsArray: ArrayList<String>
         get() = exclusions.toArrayList()
-    var useDarkTheme by BooleanPref("dark_theme", false, doNothing)
+    var useDarkTheme by BooleanPref("dark_theme", false)
     val forceUserspaceBackend by BooleanPref("force_userspace_backend", false, restart)
     val whitelistApps by BooleanPref("whitelist_exclusions", false, restartActiveTunnels)
     val allowTaskerIntegration by BooleanPref("allow_tasker_integration", false)

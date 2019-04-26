@@ -16,12 +16,10 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_config">
         <CheckBoxPreference
-            android:defaultValue="false"
             android:key="restore_on_boot"
             android:title="@string/restore_on_boot_title"
             android:summary="@string/restore_on_boot_summary" />
         <CheckBoxPreference
-            android:defaultValue="false"
             android:key="whitelist_exclusions"
             android:title="@string/whitelist_exclusions_title"
             android:summary="@string/whitelist_exclusions_summary"/>
@@ -30,7 +28,6 @@
             android:title="@string/global_exclusions_title"
             android:summary="@string/global_exclusions_summary" />
         <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:key="allow_tasker_integration"
             android:title="@string/tasker_integration_title"
             android:summary="@string/tasker_integration_summary" />
@@ -44,7 +41,6 @@
     <PreferenceCategory android:title="@string/preference_category_debugging">
         <com.wireguard.android.preference.ZipExporterPreference />
         <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:key="force_userspace_backend"
             android:title="@string/force_userspace_backend_title"
             android:summary="@string/force_userspace_backend_summary" />
