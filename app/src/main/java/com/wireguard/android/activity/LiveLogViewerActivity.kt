@@ -5,31 +5,27 @@
  */
 package com.wireguard.android.activity
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
-import com.wireguard.android.util.LogExporter
-import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.runShellCommand
+import timber.log.Timber
+import java.io.FileOutputStream
 import java.util.Timer
 import java.util.TimerTask
 
@@ -75,38 +71,20 @@ class LiveLogViewerActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.export_log -> {
-                if (!this.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1000
-                    )
-                } else {
-                    LogExporter.exportLog(this)
-                }
+                createFile("text/plain", "viscerion-log.txt")
                 return true
             }
         }
         return false
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         when (requestCode) {
-            1000 -> {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    LogExporter.exportLog(this)
-                else
-                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.storage_permissions_denied), Snackbar.LENGTH_LONG)
-                            .setAction("Show") {
-                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                intent.data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-                                startActivity(intent)
-                            }.show()
+            WRITE_REQUEST_CODE -> resultData?.data?.also { uri ->
+                Timber.d("Exporting logcat stream to ${uri.path}")
+                exportLog(uri)
             }
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            else -> super.onActivityResult(requestCode, resultCode, resultData)
         }
     }
 
@@ -114,6 +92,34 @@ class LiveLogViewerActivity : AppCompatActivity() {
         super.onDestroy()
         if (::timer.isInitialized) {
             timer.cancel()
+        }
+    }
+
+    private fun createFile(mimeType: String, fileName: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            // Filter to only show results that can be "opened", such as
+            // a file (as opposed to a list of contacts or timezones).
+            addCategory(Intent.CATEGORY_OPENABLE)
+
+            // Create a file with the requested MIME type.
+            type = mimeType
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+
+        startActivityForResult(intent, WRITE_REQUEST_CODE)
+    }
+
+    private fun exportLog(fileUri: Uri) {
+        contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
+            FileOutputStream(pfd.fileDescriptor).use { outputStream ->
+                logcatDataset.forEach { entry ->
+                    outputStream.write((entry.line + "\n").toByteArray())
+                }
+            }
+            val message = getString(R.string.log_export_success, fileUri.path)
+            findViewById<View>(android.R.id.content)?.let { view ->
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -145,7 +151,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return newList[newItemPosition].entry == oldList[oldItemPosition].entry
+            return newList[newItemPosition].line == oldList[oldItemPosition].line
         }
     }
 
@@ -164,11 +170,14 @@ class LiveLogViewerActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.textView.text = dataset[position].entry
+            holder.textView.text = dataset[position].line
         }
 
         override fun getItemCount() = dataset.size
     }
 
-    data class LogEntry(val entry: String)
+    data class LogEntry(val line: String)
+    companion object {
+        private const val WRITE_REQUEST_CODE = 43
+    }
 }
