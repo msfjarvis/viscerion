@@ -81,12 +81,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".services.ViscerionUpdateReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".model.TunnelManager$IntentReceiver">
             <intent-filter>
                 <action android:name="com.wireguard.android.action.REFRESH_TUNNEL_STATES" />
