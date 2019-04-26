@@ -13,7 +13,7 @@ class DependencyStore {
         private const val constraintlayoutVersion = "2.0.0-alpha4"
         private const val coreKtxVersion = "1.1.0-alpha05"
         private const val databindingVersion = "3.4.0"
-        private const val fragmentKtxVersion = "1.1.0-alpha06"
+        private const val fragmentKtxVersion = "1.1.0-alpha07"
         private const val preferenceVersion = "1.1.0-alpha04"
         private const val slicesVersion = "1.0.0"
         private const val slicesKtxVersion = "1.0.0-alpha6"
