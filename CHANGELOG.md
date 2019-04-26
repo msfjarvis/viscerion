@@ -8,6 +8,7 @@
 - Improve and speed up exclusion picker
 - Improve landscape layout (Fixes Android TV not seeing all create options)
 - Fix bug which caused excluded applications count to be incorrect
+- Fix bug which caused settings to crash on first run
 
 ### [v4.0.0](https://github.com/MSF-Jarvis/viscerion/releases/4.0.0)
 
