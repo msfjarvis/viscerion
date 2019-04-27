@@ -90,7 +90,7 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
     }
 
     private fun onRequestScanQRCode() {
-        val intentIntegrator = IntentIntegrator.forSupportFragment(this).apply {
+        val intentIntegrator = IntentIntegrator.forSupportFragment(fragment).apply {
             setOrientationLocked(false)
             setBeepEnabled(false)
             setPrompt(getString(R.string.qr_code_hint))

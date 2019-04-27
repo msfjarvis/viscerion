@@ -51,20 +51,20 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        imm = context?.getSystemService<InputMethodManager>()
+        imm = requireContext().getSystemService<InputMethodManager>()
 
-        // Allow throwing with a null activity, there's not much to do anyway
         val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
         alertDialogBuilder.setTitle(R.string.import_from_qr_code)
-
-        binding = ConfigNamingDialogFragmentBinding.inflate(requireActivity().layoutInflater, null, false)
-        binding?.executePendingBindings()
-        alertDialogBuilder.setView(binding?.root)
-        binding?.tunnelNameText?.requestFocus()
-        binding?.tunnelNameText?.filters = arrayOf(NameInputFilter())
-
         alertDialogBuilder.setPositiveButton(R.string.create_tunnel, null)
         alertDialogBuilder.setNegativeButton(R.string.cancel) { _, _ -> dismiss() }
+
+        binding = ConfigNamingDialogFragmentBinding.inflate(requireActivity().layoutInflater, null, false)
+        binding?.apply {
+            executePendingBindings()
+            alertDialogBuilder.setView(root)
+            tunnelNameText.requestFocus()
+            tunnelNameText.filters = arrayOf(NameInputFilter())
+        }
 
         return alertDialogBuilder.create()
     }
@@ -75,24 +75,26 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     private fun createTunnelAndDismiss() {
-        binding?.let {
-            val name = it.tunnelNameText.text.toString()
+        binding?.apply {
+            val name = tunnelNameText.text.toString()
 
             getTunnelManager().create(name, config).whenComplete { tunnel, throwable ->
-                if (tunnel != null) {
-                    dismiss()
+                if (tunnel == null) {
+                    tunnelNameTextLayout.error = throwable.message
                 } else {
-                    it.tunnelNameTextLayout.error = throwable.message
+                    dismiss()
                 }
             }
         }
     }
 
     private fun setKeyboardVisible(visible: Boolean) {
-        if (visible) {
-            imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        } else if (binding != null) {
-            imm?.hideSoftInputFromWindow(binding?.tunnelNameText?.windowToken, 0)
+        imm?.apply {
+            if (visible) {
+                toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            } else if (binding != null) {
+                hideSoftInputFromWindow(binding?.tunnelNameText?.windowToken, 0)
+            }
         }
     }
 
