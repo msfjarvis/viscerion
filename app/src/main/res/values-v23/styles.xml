@@ -13,9 +13,4 @@
         <item name="android:fontFamily">@font/lato</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
-
-    <style name="TextInputLayoutBase" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="android:titleTextColor">?android:attr/textColorPrimary</item>
-        <item name="boxStrokeColor">@color/accent</item>
-    </style>
 </resources>
