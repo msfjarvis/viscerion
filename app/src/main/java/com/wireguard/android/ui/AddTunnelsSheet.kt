@@ -81,7 +81,7 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf")) { result, data ->
+        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf")) { _, data ->
             data.data?.also { uri ->
                 Timber.tag("TunnelImport").i("Import uri: $uri")
                 fragment.importTunnel(uri)
@@ -90,11 +90,15 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
     }
 
     private fun onRequestScanQRCode() {
-        val intentIntegrator = IntentIntegrator.forSupportFragment(fragment).apply {
+        val intentIntegrator = IntentIntegrator.forSupportFragment(this).apply {
             setOrientationLocked(false)
             setBeepEnabled(false)
             setPrompt(getString(R.string.qr_code_hint))
         }
-        intentIntegrator.initiateScan(listOf(IntentIntegrator.QR_CODE))
+        startActivityForResult(intentIntegrator.createScanIntent()) { _, data ->
+            IntentIntegrator.parseActivityResult(data)?.contents?.let {
+                fragment.importTunnel(it)
+            }
+        }
     }
 }

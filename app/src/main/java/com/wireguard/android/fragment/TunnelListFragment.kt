@@ -5,7 +5,6 @@
  */
 package com.wireguard.android.fragment
 
-import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
@@ -52,7 +50,7 @@ class TunnelListFragment : BaseFragment() {
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
 
-    private fun importTunnel(configText: String) {
+    internal fun importTunnel(configText: String) {
         try {
             // Ensure the config text is parseable before proceeding…
             Config.parse(ByteArrayInputStream(configText.toByteArray(StandardCharsets.UTF_8)))
@@ -64,7 +62,7 @@ class TunnelListFragment : BaseFragment() {
         }
     }
 
-    fun importTunnel(uri: Uri?) {
+    internal fun importTunnel(uri: Uri?) {
         val activity = activity
         if (activity == null || uri == null)
             return
@@ -161,18 +159,6 @@ class TunnelListFragment : BaseFragment() {
                     onTunnelImportFinished(tunnels, throwables)
                 }
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            IntentIntegrator.REQUEST_CODE -> {
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)?.contents?.let {
-                    importTunnel(it)
-                }
-                return
-            }
-            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
