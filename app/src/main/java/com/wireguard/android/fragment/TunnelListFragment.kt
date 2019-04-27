@@ -5,7 +5,6 @@
  */
 package com.wireguard.android.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
@@ -65,7 +64,7 @@ class TunnelListFragment : BaseFragment() {
         }
     }
 
-    private fun importTunnel(uri: Uri?) {
+    fun importTunnel(uri: Uri?) {
         val activity = activity
         if (activity == null || uri == null)
             return
@@ -167,14 +166,6 @@ class TunnelListFragment : BaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            REQUEST_IMPORT -> {
-                if (resultCode == Activity.RESULT_OK)
-                    data?.data?.also { uri ->
-                        Timber.tag("TunnelImport").i("Import uri: $uri")
-                        importTunnel(uri)
-                    }
-                return
-            }
             IntentIntegrator.REQUEST_CODE -> {
                 IntentIntegrator.parseActivityResult(requestCode, resultCode, data)?.contents?.let {
                     importTunnel(it)
@@ -442,9 +433,5 @@ class TunnelListFragment : BaseFragment() {
             val count = checkedItems.size
             mode.title = if (count == 0) "" else resources?.getQuantityString(R.plurals.delete_title, count, count)
         }
-    }
-
-    companion object {
-        const val REQUEST_IMPORT = 1
     }
 }

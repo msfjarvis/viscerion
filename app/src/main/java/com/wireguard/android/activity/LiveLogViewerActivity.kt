@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
@@ -78,16 +79,6 @@ class LiveLogViewerActivity : AppCompatActivity() {
         return false
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        when (requestCode) {
-            WRITE_REQUEST_CODE -> resultData?.data?.also { uri ->
-                Timber.d("Exporting logcat stream to ${uri.path}")
-                exportLog(uri)
-            }
-            else -> super.onActivityResult(requestCode, resultCode, resultData)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (::timer.isInitialized) {
@@ -97,16 +88,19 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
     private fun createFile(mimeType: String, fileName: String) {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            // Filter to only show results that can be "opened", such as
-            // a file (as opposed to a list of contacts or timezones).
             addCategory(Intent.CATEGORY_OPENABLE)
-
-            // Create a file with the requested MIME type.
             type = mimeType
             putExtra(Intent.EXTRA_TITLE, fileName)
         }
 
-        startActivityForResult(intent, WRITE_REQUEST_CODE)
+        startActivityForResult(intent) { result, data ->
+            if (result) {
+                data.data?.also { uri ->
+                    Timber.d("Exporting logcat stream to ${uri.path}")
+                    exportLog(uri)
+                }
+            }
+        }
     }
 
     private fun exportLog(fileUri: Uri) {
@@ -177,7 +171,4 @@ class LiveLogViewerActivity : AppCompatActivity() {
     }
 
     data class LogEntry(val line: String)
-    companion object {
-        private const val WRITE_REQUEST_CODE = 43
-    }
 }

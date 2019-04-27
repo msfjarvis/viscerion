@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
-import androidx.fragment.app.Fragment
+import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,9 +21,10 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.fragment.TunnelListFragment
+import timber.log.Timber
 import com.google.android.material.R as materialR
 
-class AddTunnelsSheet(val fragment: Fragment) : BottomSheetDialogFragment() {
+class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
@@ -80,7 +81,12 @@ class AddTunnelsSheet(val fragment: Fragment) : BottomSheetDialogFragment() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        fragment.startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), TunnelListFragment.REQUEST_IMPORT)
+        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf")) { result, data ->
+            data.data?.also { uri ->
+                Timber.tag("TunnelImport").i("Import uri: $uri")
+                fragment.importTunnel(uri)
+            }
+        }
     }
 
     private fun onRequestScanQRCode() {
