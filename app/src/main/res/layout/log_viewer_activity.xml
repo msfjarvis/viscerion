@@ -2,6 +2,7 @@
 <layout>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -10,7 +11,9 @@
             android:id="@+id/logviewer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            tools:listitem="@layout/log_viewer_entry"
+            tools:itemCount="15"/>
 
     </LinearLayout>
 </layout>
