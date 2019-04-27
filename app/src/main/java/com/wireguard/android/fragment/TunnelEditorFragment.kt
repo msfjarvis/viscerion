@@ -29,8 +29,6 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.android.viewmodel.ConfigProxy
-import com.wireguard.android.widget.KeyInputFilter
-import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.Config
 import timber.log.Timber
 
@@ -88,8 +86,6 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = TunnelEditorFragmentBinding.inflate(inflater, container, false)
         binding?.executePendingBindings()
-        binding?.interfaceNameText?.filters = arrayOf(NameInputFilter())
-        binding?.privateKeyText?.filters = arrayOf(KeyInputFilter())
         return binding?.root
     }
 

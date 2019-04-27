@@ -8,35 +8,33 @@ package com.wireguard.android.widget
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import com.wireguard.android.model.Tunnel
+import com.wireguard.crypto.Key
 
-/**
- * InputFilter for entering WireGuard configuration names (Linux interface names).
- */
-
-class NameInputFilter : InputFilter {
-
+class KeyInputFilter : InputFilter {
     override fun filter(
-        source: CharSequence,
-        sStart: Int,
-        sEnd: Int,
-        dest: Spanned,
-        dStart: Int,
-        dEnd: Int
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
     ): CharSequence? {
         var replacement: SpannableStringBuilder? = null
         var rIndex = 0
-        val dLength = dest.length
-        for (sIndex in sStart until sEnd) {
-            val c = source[sIndex]
-            val dIndex = dStart + (sIndex - sStart)
-            // Restrict characters to those valid in interfaces.
+        val dLength = dest!!.length
+        for (sIndex in start until end) {
+            val c = source!![sIndex]
+            val dIndex = dstart + (sIndex - start)
+            // Restrict characters to the base64 character set.
             // Ensure adding this character does not push the length over the limit.
-            if (dIndex < Tunnel.NAME_MAX_LENGTH && isAllowed(c) && dLength + (sIndex - sStart) < Tunnel.NAME_MAX_LENGTH) {
+            if ((dIndex + 1 < Key.Format.BASE64.length &&
+                            isAllowed(c) ||
+                            dIndex + 1 == Key.Format.BASE64.length && c == '=') &&
+                    dLength + (sIndex - start) < Key.Format.BASE64.length) {
                 ++rIndex
             } else {
                 if (replacement == null)
-                    replacement = SpannableStringBuilder(source, sStart, sEnd)
+                    replacement = SpannableStringBuilder(source, start, end)
                 replacement.delete(rIndex, rIndex + 1)
             }
         }
@@ -45,12 +43,12 @@ class NameInputFilter : InputFilter {
 
     companion object {
         private fun isAllowed(c: Char): Boolean {
-            return Character.isLetterOrDigit(c) || "_=+.-".indexOf(c) >= 0
+            return Character.isLetterOrDigit(c) || c == '+' || c == '/'
         }
 
         @JvmStatic
         fun newInstance(): InputFilter {
-            return NameInputFilter()
+            return KeyInputFilter()
         }
     }
 }

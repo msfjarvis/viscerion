@@ -5,6 +5,8 @@
 
     <data>
         <import type="com.wireguard.android.util.ExtensionsKt" />
+        <import type="com.wireguard.android.widget.NameInputFilter" />
+        <import type="com.wireguard.android.widget.KeyInputFilter" />
         <variable
             name="fragment"
             type="com.wireguard.android.fragment.TunnelEditorFragment" />
@@ -78,7 +80,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/name"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={name}"/>
+                                android:text="@={name}"
+                                app:filter="@{NameInputFilter.newInstance()}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -97,7 +100,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/private_key"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.privateKey}"/>
+                                android:text="@={config.interface.privateKey}"
+                                app:filter="@{KeyInputFilter.newInstance()}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout

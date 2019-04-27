@@ -16,7 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
 import com.wireguard.android.di.ext.getTunnelManager
-import com.wireguard.android.widget.NameInputFilter
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Config
 import java.io.ByteArrayInputStream
@@ -63,7 +62,6 @@ class ConfigNamingDialogFragment : DialogFragment() {
             executePendingBindings()
             alertDialogBuilder.setView(root)
             tunnelNameText.requestFocus()
-            tunnelNameText.filters = arrayOf(NameInputFilter())
         }
 
         return alertDialogBuilder.create()
