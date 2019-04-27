@@ -4,3 +4,4 @@
   public <init>(...);
 }
 -keepattributes SourceFile,LineNumberTable
+-dontobfuscate
