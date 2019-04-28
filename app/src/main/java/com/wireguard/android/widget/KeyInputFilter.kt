@@ -12,18 +12,18 @@ import com.wireguard.crypto.Key
 
 class KeyInputFilter : InputFilter {
     override fun filter(
-        source: CharSequence?,
+        source: CharSequence,
         start: Int,
         end: Int,
-        dest: Spanned?,
+        dest: Spanned,
         dstart: Int,
         dend: Int
     ): CharSequence? {
         var replacement: SpannableStringBuilder? = null
         var rIndex = 0
-        val dLength = dest!!.length
+        val dLength = dest.length
         for (sIndex in start until end) {
-            val c = source!![sIndex]
+            val c = source[sIndex]
             val dIndex = dstart + (sIndex - start)
             // Restrict characters to the base64 character set.
             // Ensure adding this character does not push the length over the limit.
