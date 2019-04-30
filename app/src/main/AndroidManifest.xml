@@ -102,7 +102,7 @@
         </service>
 
         <service
-            android:name=".QuickTileService"
+            android:name="me.msfjarvis.viscerion.QuickTileService"
             android:icon="@drawable/ic_qs_tile"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
 

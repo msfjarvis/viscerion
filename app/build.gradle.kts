@@ -77,6 +77,17 @@ android {
             }
             isMinifyEnabled = false
         }
+        flavorDimensions("default")
+        productFlavors {
+            create("quinoa") {
+                setDimension("default")
+                compileSdkVersion("android-Q")
+                targetSdkVersion("Q")
+            }
+            create("pie") {
+                setDimension("default")
+            }
+        }
     }
     externalNativeBuild.cmake {
         setPath(file("tools/CMakeLists.txt"))

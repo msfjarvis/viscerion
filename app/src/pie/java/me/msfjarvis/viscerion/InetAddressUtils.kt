@@ -3,8 +3,9 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion
 
+import com.wireguard.config.ParseException
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.net.Inet4Address

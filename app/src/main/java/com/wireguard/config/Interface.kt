@@ -13,6 +13,7 @@ import com.wireguard.config.BadConfigException.Section
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyFormatException
 import com.wireguard.crypto.KeyPair
+import me.msfjarvis.viscerion.InetAddressUtils
 import org.koin.core.KoinComponent
 import java.net.InetAddress
 import java.util.Collections
