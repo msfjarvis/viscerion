@@ -97,7 +97,8 @@ android {
         disable(
             "UnusedResources", // Databinding-only layouts are misinterpreted by Android lint as unused
             "MissingTranslation", // I personally resolve these issues before releases
-            "ImpliedQuantity" // Some languages differ between 0 and 1 quantities but I don't use %d in the confirm_tunnel_deletion plural so lint trips
+            "ImpliedQuantity", // Some languages differ between 0 and 1 quantities but I don't use %d in the confirm_tunnel_deletion plural so lint trips
+            "NewApi" // Q APIs
         )
     }
 }
