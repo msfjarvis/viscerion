@@ -199,7 +199,7 @@ class SettingsActivity : AppCompatActivity() {
             darkThemePref?.setOnPreferenceClickListener {
                 val ctx = requireContext()
                 val activity = requireActivity()
-                updateAppTheme(prefs)
+                updateAppTheme(prefs.useDarkTheme)
                 val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
                 activity.finish()
                 startActivity(activity.intent, bundle)

@@ -96,9 +96,9 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     }
 }
 
-fun updateAppTheme(prefs: ApplicationPreferences) {
+fun updateAppTheme(dark: Boolean) {
     AppCompatDelegate.setDefaultNightMode(
-            if (prefs.useDarkTheme)
+            if (dark)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM

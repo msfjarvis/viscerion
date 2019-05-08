@@ -59,7 +59,7 @@ class Application : android.app.Application() {
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
 
-        updateAppTheme(getPrefs())
+        updateAppTheme(getPrefs().useDarkTheme)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
