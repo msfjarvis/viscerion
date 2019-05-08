@@ -19,9 +19,13 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.app.AlarmManagerCompat.setExact
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import androidx.core.os.BuildCompat
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -98,10 +102,15 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
 
 fun updateAppTheme(dark: Boolean) {
     AppCompatDelegate.setDefaultNightMode(
-            if (dark)
-                AppCompatDelegate.MODE_NIGHT_YES
-            else
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        if (dark) {
+            MODE_NIGHT_YES
+        } else {
+            if (BuildCompat.isAtLeastQ()) {
+                MODE_NIGHT_FOLLOW_SYSTEM
+            } else {
+                MODE_NIGHT_AUTO_BATTERY
+            }
+        }
     )
 }
 
