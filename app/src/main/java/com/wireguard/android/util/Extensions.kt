@@ -101,7 +101,7 @@ fun updateAppTheme(prefs: ApplicationPreferences) {
             if (prefs.useDarkTheme)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
-                AppCompatDelegate.MODE_NIGHT_NO
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     )
 }
 
