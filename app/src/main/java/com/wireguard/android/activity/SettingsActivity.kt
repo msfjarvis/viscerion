@@ -168,12 +168,12 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             altIconPref?.setOnPreferenceClickListener {
-                val pref = it as CheckBoxPreference
+                val checked = (it as CheckBoxPreference).isChecked
                 val ctx = requireContext()
                 ctx.packageManager.apply {
                     setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
-                            if (pref.isChecked)
+                            if (checked)
                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED
                             else
                                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -181,7 +181,7 @@ class SettingsActivity : AppCompatActivity() {
                     )
                     setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
-                            if (pref.isChecked)
+                            if (checked)
                                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                             else
                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
