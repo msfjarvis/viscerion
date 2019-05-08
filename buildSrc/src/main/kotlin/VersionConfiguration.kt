@@ -6,6 +6,6 @@
 @file:Suppress("Unused")
 
 object VersionConfiguration {
-    const val versionCode = 4000
-    const val versionName = "4.0.0"
+    const val versionCode = 5000
+    const val versionName = "5.0.0"
 }

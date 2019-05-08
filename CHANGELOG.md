@@ -1,6 +1,6 @@
 # Release Notes
 
-### Unreleased
+### [v5.0.0](https://github.com/MSF-Jarvis/viscerion/releases/5.0.0)
 - Add an adaptive icon and an alternative concept icon
 - Add live log viewer
 - Ensure global exclusions are not exported with configs to prevent import bugs
