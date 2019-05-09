@@ -54,5 +54,4 @@
     <style name="TextInputLayoutBase" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/accent</item>
     </style>
-
 </resources>
