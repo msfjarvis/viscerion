@@ -15,6 +15,9 @@
         <item name="android:windowBackground">@color/color_background</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
+        <item name="colorSurface">@color/primary_color</item>
+        <item name="colorOnSurface">@color/color_control_normal</item>
+        <item name="actionBarPopupTheme">@style/Widget.MaterialComponents.ActionBar.Solid</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
