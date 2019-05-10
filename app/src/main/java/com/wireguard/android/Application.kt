@@ -19,9 +19,7 @@ import com.wireguard.android.di.toolsInstallerModule
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.updateAppTheme
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
@@ -51,7 +49,6 @@ class Application : android.app.Application() {
         super.onCreate()
 
         startKoin {
-            if (BuildConfig.DEBUG) androidLogger(level = Level.DEBUG)
             androidContext(this@Application)
             modules(listOf(configStoreModule, earlyInitModules, backendModule, backendAsyncModule, toolsInstallerModule))
         }
