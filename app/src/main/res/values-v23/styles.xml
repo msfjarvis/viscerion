@@ -14,6 +14,6 @@
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
         <item name="colorSurface">@color/primary_color</item>
         <item name="colorOnSurface">@color/color_control_normal</item>
-        <item name="actionBarPopupTheme">@style/Widget.MaterialComponents.ActionBar.Solid</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.ActionBar</item>
     </style>
 </resources>
