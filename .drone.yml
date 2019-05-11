@@ -6,6 +6,7 @@ steps:
     image: docker:git
     commands:
       - git submodule update --init --recursive
+      - git fetch --tags
     when:
       branch:
         exclude:
