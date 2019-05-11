@@ -56,6 +56,9 @@ android {
             }
         }
         buildTypes.getByName("release").signingConfig = signingConfigs.getByName("release")
+        if (System.getenv("DRONE") == "true") {
+            buildTypes.getByName("debug").signingConfig = signingConfigs.getByName("release")
+        }
     }
     buildTypes {
         getByName("release") {

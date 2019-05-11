@@ -11,6 +11,18 @@ steps:
         exclude:
           - l10n_master
 
+  - name: export-keys
+    image: msfjarvis/drone-decrypt-files:latest
+    settings:
+      file_to_path_mapping:
+        - 'ci/keystore.cipher:wireguard.jks|ci/props.cipher:keystore.properties'
+      decrypt_key:
+        from_secret: key
+    when:
+      event:
+        exclude:
+          - pull_request
+
   - name: build
     image: msfjarvis/docker-android-sdk:latest
     commands:
@@ -21,7 +33,7 @@ steps:
           - l10n_master
 
   - name: telegram-deploy-pie
-    image: msfjarvis/drone-telegram:local
+    image: msfjarvis/drone-telegram:latest
     settings:
       channel_id: -1001427908832
       artifact_path: ./app/build/outputs/apk/pie/debug/app-pie-debug.apk
@@ -38,7 +50,7 @@ steps:
           - pull_request
 
   - name: telegram-deploy-quinoa
-    image: msfjarvis/drone-telegram:local
+    image: msfjarvis/drone-telegram:latest
     settings:
       channel_id: -1001427908832
       artifact_path: ./app/build/outputs/apk/quinoa/debug/app-quinoa-debug.apk
