@@ -25,8 +25,8 @@ import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.di.ext.getBackendAsync
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
-import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
@@ -97,7 +97,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
-        private val prefs by injectPrefs()
+        private val prefs = getPrefs()
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)

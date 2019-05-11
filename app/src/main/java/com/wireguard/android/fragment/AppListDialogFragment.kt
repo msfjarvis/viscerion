@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
-import com.wireguard.android.di.ext.injectAsyncWorker
-import com.wireguard.android.di.ext.injectPrefs
+import com.wireguard.android.di.ext.getAsyncWorker
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.model.ApplicationData
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
@@ -62,10 +62,10 @@ class AppListDialogFragment : DialogFragment() {
 
     private fun loadData() {
         val activity = requireActivity()
-        injectAsyncWorker().value.supplyAsync<List<ApplicationData>> {
+        getAsyncWorker().supplyAsync<List<ApplicationData>> {
             val appData = ArrayList<ApplicationData>()
             val pm = activity.packageManager
-            val prefs by injectPrefs()
+            val prefs = getPrefs()
             pm.getPackagesHoldingPermissions(
                     arrayOf(Manifest.permission.INTERNET), 0
             ).forEach { pkgInfo ->

@@ -9,20 +9,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.wireguard.android.BuildConfig
-import com.wireguard.android.di.ext.injectPrefs
-import com.wireguard.android.di.ext.injectTunnelManager
+import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.TunnelManager
 import org.koin.core.KoinComponent
 import timber.log.Timber
 
 class TaskerIntegrationReceiver : BroadcastReceiver(), KoinComponent {
+    val manager = getTunnelManager()
+    val prefs = getPrefs()
+
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || intent.action == null)
             return
 
-        val manager by injectTunnelManager()
-        val prefs by injectPrefs()
         val isSelfPackage = intent.`package` == BuildConfig.APPLICATION_ID
         val taskerEnabled = !prefs.allowTaskerIntegration || prefs.taskerIntegrationSecret.isEmpty()
         val tunnelName: String? = intent.getStringExtra(TunnelManager.TUNNEL_NAME_INTENT_EXTRA)

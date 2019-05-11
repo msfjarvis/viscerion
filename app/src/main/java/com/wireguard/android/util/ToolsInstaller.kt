@@ -8,7 +8,7 @@ package com.wireguard.android.util
 import android.content.Context
 import android.system.OsConstants
 import com.wireguard.android.BuildConfig
-import com.wireguard.android.di.ext.injectRootShell
+import com.wireguard.android.di.ext.getRootShell
 import com.wireguard.android.util.RootShell.NoRootException
 import com.wireguard.android.util.SharedLibraryLoader.extractNativeLibrary
 import org.koin.core.KoinComponent
@@ -21,10 +21,12 @@ import java.io.IOException
  * Helper to install WireGuard tools to the system partition.
  */
 
-class ToolsInstaller(val context: Context) {
+class ToolsInstaller(val context: Context) : KoinComponent {
 
-    private val localBinaryDir: File by lazy { File(context.cacheDir, "bin") }
-    private val nativeLibraryDir: File by lazy { getNativeLibraryDir(context) }
+    private val localBinaryDir = File(context.cacheDir, "bin")
+    private val nativeLibraryDir = getNativeLibraryDir(context)
+    private val rootShell = getRootShell()
+    private val magiskDir by lazy { getMagiskDirectory() }
     private var areToolsAvailable: Boolean? = null
     private var installAsMagiskModule: Boolean? = null
 
@@ -176,7 +178,27 @@ class ToolsInstaller(val context: Context) {
         }
     }
 
-    companion object : KoinComponent {
+    private fun getMagiskDirectory(): String {
+        val output = ArrayList<String>()
+        rootShell.run(
+                output,
+                "su -V"
+        )
+        val magiskVer = output[0].toInt()
+        return when {
+            magiskVer in (18000..18100) -> "/sbin/.magisk/img"
+            magiskVer >= 18101 -> "/data/adb/modules"
+            else -> "/sbin/.core/img"
+        }
+    }
+
+    private fun isMagiskSu(): Boolean {
+        val output = ArrayList<String>()
+        rootShell.run(output, "su --version")
+        return output[0].contains("MAGISKSU")
+    }
+
+    companion object {
         const val ERROR = 0x0
         const val YES = 0x1
         const val NO = 0x2
@@ -186,22 +208,6 @@ class ToolsInstaller(val context: Context) {
         private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR by lazy { getInstallDir() }
-        private val magiskDir by lazy { getMagiskDirectory() }
-        private val rootShell by injectRootShell()
-
-        private fun getMagiskDirectory(): String {
-            val output = ArrayList<String>()
-            rootShell.run(
-                    output,
-                    "su -V"
-            )
-            val magiskVer = output[0].toInt()
-            return when {
-                magiskVer in (18000..18100) -> "/sbin/.magisk/img"
-                magiskVer >= 18101 -> "/data/adb/modules"
-                else -> "/sbin/.core/img"
-            }
-        }
 
         private fun getInstallDir(): File? {
             val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
@@ -211,12 +217,6 @@ class ToolsInstaller(val context: Context) {
                     return dir
             }
             return null
-        }
-
-        private fun isMagiskSu(): Boolean {
-            val output = ArrayList<String>()
-            rootShell.run(output, "su --version")
-            return output[0].contains("MAGISKSU")
         }
 
         private fun getNativeLibraryDir(context: Context): File {

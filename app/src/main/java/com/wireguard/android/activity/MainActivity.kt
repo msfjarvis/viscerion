@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.injectPrefs
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
@@ -33,7 +33,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     private var actionBar: ActionBar? = null
     private var listFragment: TunnelListFragment? = null
     private val prefCallback = ApplicationPreferencesChangeCallback(this)
-    private val prefs by injectPrefs()
+    private val prefs = getPrefs()
 
     override fun onDestroy() {
         prefs.unregisterCallback()

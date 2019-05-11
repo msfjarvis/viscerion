@@ -5,7 +5,7 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.di.ext.injectPrefs
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
@@ -30,7 +30,7 @@ import java.util.Locale
  */
 class Interface private constructor(builder: Builder) : KoinComponent {
 
-    private val prefs by injectPrefs()
+    private val prefs = getPrefs()
 
     /**
      * Returns the set of IP addresses assigned to the interface.
@@ -156,7 +156,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
     }
 
     class Builder : KoinComponent {
-        private val prefs by injectPrefs()
+        private val prefs = getPrefs()
 
         // Defaults to an empty set.
         val addresses = LinkedHashSet<InetNetwork>()

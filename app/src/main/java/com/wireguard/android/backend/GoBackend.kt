@@ -130,7 +130,7 @@ class GoBackend(private var context: Context) : Backend {
 
             // Create the vpn tunnel with android API
             val builder = service.getBuilder()
-            builder.setSession(tunnel?.name)
+            builder.setSession(tunnel!!.name)
 
             val configureIntent = Intent(context, MainActivity::class.java)
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -170,7 +170,7 @@ class GoBackend(private var context: Context) : Backend {
                 if (tun == null)
                     throw Exception(context.getString(R.string.tun_create_error))
                 Timber.d("Go backend v%s", wgVersion())
-                currentTunnelHandle = wgTurnOn(tunnel!!.name, tun.detachFd(), goConfig)
+                currentTunnelHandle = wgTurnOn(tunnel.name, tun.detachFd(), goConfig)
             }
             if (currentTunnelHandle < 0)
                 throw Exception(context.getString(R.string.tunnel_on_error, currentTunnelHandle))
@@ -202,7 +202,7 @@ class GoBackend(private var context: Context) : Backend {
 
         private val tunnelManager by injectTunnelManager()
 
-        fun getBuilder(): android.net.VpnService.Builder {
+        fun getBuilder(): Builder {
             return Builder()
         }
 

@@ -14,8 +14,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
-import com.wireguard.android.di.ext.injectRootShell
-import com.wireguard.android.di.ext.injectToolsInstaller
+import com.wireguard.android.di.ext.getRootShell
+import com.wireguard.android.di.ext.getToolsInstaller
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
@@ -34,9 +34,9 @@ import java.nio.charset.StandardCharsets
 class WgQuickBackend(private var context: Context) : Backend {
 
     private val localTemporaryDir: File = File(context.cacheDir, "tmp")
-    private val toolsInstaller by injectToolsInstaller()
-    private val rootShell by injectRootShell()
-    private var notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
+    private val toolsInstaller = getToolsInstaller()
+    private val rootShell = getRootShell()
+    private var notificationManager = NotificationManagerCompat.from(context)
 
     @Throws(Exception::class)
     override fun getVersion(): String {
