@@ -41,6 +41,7 @@ steps:
       major_minor: pie-ci
       filename: Viscerion
       skip_changelog: true
+      sticker: CAADBAAD8R8AAmSKPgABCOk3mg-Zvf0C
       bot_token:
         from_secret: bot_token
     when:
