@@ -30,6 +30,7 @@ import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
+import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
 import java.io.File
 import java.util.Arrays
@@ -102,6 +103,7 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
             val screen = preferenceScreen
+            val ctx = requireContext()
             val wgQuickOnlyPrefs = arrayOf(
                     screen.findPreference<Preference>("tools_installer"),
                     screen.findPreference<CheckBoxPreference>("restore_on_boot")
@@ -169,7 +171,6 @@ class SettingsActivity : AppCompatActivity() {
 
             altIconPref?.setOnPreferenceClickListener {
                 val checked = (it as CheckBoxPreference).isChecked
-                val ctx = requireContext()
                 ctx.packageManager.apply {
                     setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
@@ -196,14 +197,38 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            darkThemePref?.setOnPreferenceClickListener {
-                val ctx = requireContext()
-                val activity = requireActivity()
-                updateAppTheme(prefs.useDarkTheme)
-                val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
-                activity.finish()
-                startActivity(activity.intent, bundle)
-                true
+            darkThemePref?.apply {
+                val isSystemDark = ctx.isSystemDarkThemeEnabled()
+                val darkThemeOverride = prefs.useDarkTheme
+                setSummaryProvider {
+                    if (isSystemDark) {
+                        getString(R.string.dark_theme_summary_auto)
+                    } else {
+                        getString(R.string.pref_dark_theme_summary)
+                    }
+                }
+                setOnPreferenceClickListener {
+                    val activity = requireActivity()
+                    updateAppTheme(prefs.useDarkTheme)
+                    val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
+                    activity.finish()
+                    startActivity(activity.intent, bundle)
+                    true
+                }
+                if (isSystemDark && !darkThemeOverride) {
+                    isEnabled = false
+                    isChecked = true
+                    /*
+                    HACK ALERT: Open for better solutions
+                    Toggling checked state here causes the preference key's value to flip as well
+                    which causes a plethora of bugs later on. So as a "fix" we'll just restore the
+                    original value back to avoid the whole mess.
+                     */
+                    prefs.useDarkTheme = darkThemeOverride
+                } else {
+                    isEnabled = true
+                    isChecked = darkThemeOverride
+                }
             }
         }
 
