@@ -72,7 +72,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.export_log -> {
-                createFile("text/plain", "viscerion-log.txt")
+                createLogFile()
                 return true
             }
         }
@@ -86,11 +86,11 @@ class LiveLogViewerActivity : AppCompatActivity() {
         }
     }
 
-    private fun createFile(mimeType: String, fileName: String) {
+    private fun createLogFile() {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = mimeType
-            putExtra(Intent.EXTRA_TITLE, fileName)
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TITLE, "viscerion-log.txt")
         }
 
         startActivityForResult(intent) { result, data ->
