@@ -159,13 +159,13 @@
     <string name="global_exclusions_summary">Sélectionnez les applications à exclure de tous les tunnels WireGuard par défaut</string>
     <string name="applist_dialog_success">Sauvegarde réussie</string>
     <string name="force_userspace_backend_title">Forcer l\'utilisation du backend en espace utilisateur</string>
-    <string name="force_userspace_backend_summary">Utile pour déboguer les problèmes Go en espace utilisateur lorsque le périphérique a un module
-        noyau installé. L\'application redémarrera lors de l\'activation de cette option. DÉVELOPPEURS UNIQUEMENT !
-    </string>
+    <string name="force_userspace_backend_summary">"Utile pour déboguer les problèmes Go en espace utilisateur lorsque le périphérique a un module
+        noyau installé. L'application redémarrera lors de l'activation de cette option. DÉVELOPPEURS UNIQUEMENT !
+    "</string>
     <string name="whitelist_exclusions_title">Liste blanche des applications dans les tunnels</string>
-    <string name="whitelist_exclusions_summary">Plutôt que de permettre aux applications sélectionnées de contourner le tunnel, faites des exclusions
-        pour les forcer à passer par le tunnel à la place, laissant toutes les autres applications se comporter comme s\'il n\'y avait pas de connexion VPN active.
-    </string>
+    <string name="whitelist_exclusions_summary">"Plutôt que de permettre aux applications sélectionnées de contourner le tunnel, faites des exclusions
+        pour les forcer à passer par le tunnel à la place, laissant toutes les autres applications se comporter comme s'il n'y avait pas de connexion VPN active.
+    "</string>
     <string name="preference_category_about">À propos</string>
     <string name="preference_category_config">Configurations des tunnels</string>
     <string name="preference_category_debugging">Débogage</string>

@@ -178,9 +178,9 @@
     <string name="force_userspace_backend_title">Принудительная поддержка</string>
     <string name="force_userspace_backend_summary">Полезно для отладки Go юзерспейс проблем, когда девайс имеет установленный модуль в           ядре. Приложение перезапустится после включения этой опции. ТОЛЬКО ДЛЯ РАЗРАБОТЧИКОВ!    </string>
     <string name="whitelist_exclusions_title">Список приложений в белом списке в туннелях</string>
-    <string name="whitelist_exclusions_summary">Вместо того чтобы позволить выбранным приложениям обойти туннель, сделайте исключения
+    <string name="whitelist_exclusions_summary">"Вместо того чтобы позволить выбранным приложениям обойти туннель, сделайте исключения
         заставить их пройти через туннель, позволяя всем другим приложениям вести себя, как будто нет активного VPN соединения.
-    </string>
+    "</string>
     <string name="preference_category_about">О программе</string>
     <string name="preference_category_config">Настройка туннелей</string>
     <string name="preference_category_debugging">Отладка</string>
