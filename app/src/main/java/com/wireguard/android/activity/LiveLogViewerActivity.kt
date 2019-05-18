@@ -70,14 +70,17 @@ class LiveLogViewerActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
             R.id.export_log -> {
                 createLogFile()
-                return true
+                true
             }
+            else -> false
         }
-        return false
     }
 
     override fun onDestroy() {
@@ -150,8 +153,11 @@ class LiveLogViewerActivity : AppCompatActivity() {
         }
     }
 
-    class LogEntryAdapter(private val dataset: ArrayList<LogEntry>) :
-            RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
+    data class LogEntry(val line: String)
+
+    class LogEntryAdapter(
+        private val dataset: ArrayList<LogEntry>
+    ) : RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
 
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val binding = requireNotNull(DataBindingUtil.bind<LogViewerEntryBinding>(view))
@@ -172,6 +178,4 @@ class LiveLogViewerActivity : AppCompatActivity() {
 
         override fun getItemCount() = dataset.size
     }
-
-    data class LogEntry(val line: String)
 }
