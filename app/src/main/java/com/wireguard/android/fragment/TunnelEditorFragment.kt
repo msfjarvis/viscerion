@@ -27,6 +27,7 @@ import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ErrorMessages
+import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.requireNonNull
 import com.wireguard.android.viewmodel.ConfigProxy
 import com.wireguard.config.Config
@@ -122,13 +123,13 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onResume()
         if (!MainActivity.isTwoPaneLayout &&
                 resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
-            context?.let {
-                activity?.window?.apply {
-                    navigationBarColor = ContextCompat.getColor(it, R.color.accent_darker)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !getPrefs().useDarkTheme) {
-                        // Clear window flags to let navigation bar be dark
-                        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    }
+            requireActivity().window?.apply {
+                val ctx = requireContext()
+                navigationBarColor = ContextCompat.getColor(ctx, R.color.accent_darker)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
+                        (!getPrefs().useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
+                    // Clear window flags to let navigation bar be dark
+                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
             }
     }
