@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/row"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="6dp"
-    android:textColor="?android:attr/textColorPrimary"
-    android:textIsSelectable="false"
-    android:singleLine="false"
-    tools:text="04-12 10:43:51.222  2854  2854 E AndroidRuntime: Process: me.msfjarvis.viscerion.debug, PID: 2854"
-    style="@style/TextAppearance.MaterialComponents.Caption"/>
+<layout>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textIsSelectable="false"
+        android:singleLine="false"
+        tools:text="04-12 10:43:51.222  2854  2854 E AndroidRuntime: Process: me.msfjarvis.viscerion.debug, PID: 2854"
+        style="@style/TextAppearance.MaterialComponents.Caption"/>
+</layout>

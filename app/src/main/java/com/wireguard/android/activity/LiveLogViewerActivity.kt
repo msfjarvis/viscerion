@@ -24,6 +24,7 @@ import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
+import com.wireguard.android.databinding.LogViewerEntryBinding
 import com.wireguard.android.util.runShellCommand
 import timber.log.Timber
 import java.io.FileOutputStream
@@ -152,7 +153,9 @@ class LiveLogViewerActivity : AppCompatActivity() {
     class LogEntryAdapter(private val dataset: ArrayList<LogEntry>) :
             RecyclerView.Adapter<LogEntryAdapter.ViewHolder>() {
 
-        class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+            val binding = requireNotNull(DataBindingUtil.bind<LogViewerEntryBinding>(view))
+        }
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -164,7 +167,7 @@ class LiveLogViewerActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.textView.text = dataset[position].line
+            holder.binding.row.text = dataset[position].line
         }
 
         override fun getItemCount() = dataset.size
