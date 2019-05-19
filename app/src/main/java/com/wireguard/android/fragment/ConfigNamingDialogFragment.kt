@@ -50,7 +50,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        imm = requireContext().getSystemService<InputMethodManager>()
+        imm = requireContext().getSystemService()
 
         val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
         alertDialogBuilder.setTitle(R.string.import_from_qr_code)
