@@ -13,7 +13,7 @@ class DependencyStore {
         private const val constraintlayoutVersion = "2.0.0-beta1"
         private const val coreKtxVersion = "1.2.0-alpha01"
         private const val databindingVersion = "3.5.0-beta01"
-        private const val fragmentKtxVersion = "1.1.0-alpha08"
+        private const val fragmentKtxVersion = "1.1.0-alpha09"
         private const val preferenceVersion = "1.1.0-alpha05"
         private const val slicesVersion = "1.1.0-alpha01"
         private const val slicesKtxVersion = "1.0.0-alpha07"
@@ -43,7 +43,7 @@ class DependencyStore {
         private const val streamsupportVersion = "1.7.0"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
-        private const val zxingVersion = "3.3.3"
+        private const val zxingVersion = "3.4.0"
 
         const val inlineActivityResult = "com.afollestad:inline-activity-result:$inlineActivityResultVersion"
         const val koinCore = "org.koin:koin-core:$koinVersion"
