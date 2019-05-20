@@ -304,12 +304,12 @@ class TunnelListFragment : BaseFragment() {
                             true
                         }
 
-                        if (actionMode != null)
-                            (binding.root as MultiselectableRelativeLayout).setMultiSelected(
-                                    actionModeListener.checkedItems.contains(position)
-                            )
-                        else
-                            (binding.root as MultiselectableRelativeLayout).setSingleSelected(selectedTunnel == tunnel)
+                        (binding.root as MultiselectableRelativeLayout).apply {
+                            if (actionMode != null)
+                                setMultiSelected(actionModeListener.checkedItems.contains(position))
+                            else
+                                setSingleSelected(selectedTunnel == tunnel)
+                        }
                     }
                 }
     }

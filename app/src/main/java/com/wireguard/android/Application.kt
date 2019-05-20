@@ -65,7 +65,7 @@ class Application : android.app.Application() {
         private lateinit var weakSelf: WeakReference<Application>
 
         fun get(): Application {
-            return weakSelf.get() as Application
+            return requireNotNull(weakSelf.get())
         }
     }
 }
