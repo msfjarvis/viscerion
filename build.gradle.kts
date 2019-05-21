@@ -12,7 +12,7 @@ buildscript {
         maven(url = "https://storage.googleapis.com/r8-releases/raw")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0-beta01")
+        classpath("com.android.tools.build:gradle:3.5.0-beta02")
         classpath(kotlin("gradle-plugin", "1.3.31"))
         classpath("com.diffplug.spotless:spotless-plugin-gradle:3.23.0")
         classpath("com.android.tools:r8:1.5.27")
