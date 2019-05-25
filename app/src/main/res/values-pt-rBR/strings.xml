@@ -168,13 +168,13 @@
     <string name="global_exclusions_summary">Selecione aplicativos a serem excluídos de todos os túneis do WireGuard por padrão</string>
     <string name="applist_dialog_success">Salvo com sucesso</string>
     <string name="force_userspace_backend_title">Força userspace backend</string>
-    <string name="force_userspace_backend_summary">"Útil para depuração de problemas do userspace Go quando o dispositivo tem um módulo de kernel
+    <string name="force_userspace_backend_summary">"\"Útil para depuração de problemas do userspace Go quando o dispositivo tem um módulo de kernel
         instalado. Aplicativo será reiniciado após esta alteração. DESENVOLVEDORES SOMENTE!
-    "</string>
+    \""</string>
     <string name="whitelist_exclusions_title">Apps da lista branca nos túneis</string>
-    <string name="whitelist_exclusions_summary">"Ao invés de permitir que apps selecionados contornem o túnel, faça exclusões
+    <string name="whitelist_exclusions_summary">"\"Ao invés de permitir que apps selecionados contornem o túnel, faça exclusões
         forçando-os a atravessar o túnel em vez disso, deixando todos os outros aplicativos se comportarem como se não houvesse nenhuma conexão VPN ativa.
-    "</string>
+    \""</string>
     <string name="preference_category_about">Sobre</string>
     <string name="preference_category_config">Configurações do túnel</string>
     <string name="preference_category_debugging">Depuração</string>

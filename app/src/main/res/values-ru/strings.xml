@@ -3,39 +3,45 @@
 <resources>
     <plurals name="delete_error">
         <item quantity="one">Невозможно удалить %d туннель: %s</item>
-        <item quantity="few">Невозможно удалить %d туннели: %s</item>
-        <item quantity="many">Невозможно удалить %d туннели: %s</item>
-        <item quantity="other">Невозможно удалить %d туннели: %s</item>
+        <item quantity="few">Невозможно удалить %d туннеля: %s</item>
+        <item quantity="many">Невозможно удалить %d туннелей: %s</item>
+        <item quantity="other">Невозможно удалить %d туннелей: %s</item>
     </plurals>
     <plurals name="delete_success">
-        <item quantity="one">Был успешно удалён туннель %d</item>
-        <item quantity="few">Были успешно удалены туннели: %d</item>
-        <item quantity="many">Были успешно удалены туннели: %d</item>
-        <item quantity="other">Были успешно удалены туннели: %d</item>
+        <item quantity="one">Успешно удален %d туннель</item>
+        <item quantity="few">Успешно удалено %d туннеля</item>
+        <item quantity="many">Успешно удалено %d туннелей</item>
+        <item quantity="other">Успешно удалено %d туннелей</item>
     </plurals>
     <plurals name="delete_title">
-        <item quantity="one">Выбран туннель %d</item>
-        <item quantity="few">Выбраны туннели %d</item>
-        <item quantity="many">Выбраны туннели %d</item>
-        <item quantity="other">Выбраны туннели %d</item>
+        <item quantity="one">Выбран %d туннель</item>
+        <item quantity="few">Выбрано %d туннеля</item>
+        <item quantity="many">Выбрано %d туннелей</item>
+        <item quantity="other">Выбрано %d туннелей</item>
     </plurals>
     <plurals name="import_partial_success">
-        <item quantity="one">Импортировано %d из %d туннелей</item>
+        <item quantity="one">Импортирован %d из %d туннелей</item>
         <item quantity="few">Импортировано %d из %d туннелей</item>
         <item quantity="many">Импортировано %d из %d туннелей</item>
         <item quantity="other">Импортировано %d из %d туннелей</item>
     </plurals>
     <plurals name="import_total_success">
         <item quantity="one">Импортирован %d туннель</item>
-        <item quantity="few">Импортированны %d туннели</item>
-        <item quantity="many">Импортированны %d туннели</item>
-        <item quantity="other">Импортированны %d туннели</item>
+        <item quantity="few">Импортировано %d туннеля</item>
+        <item quantity="many">Импортировано %d туннелей</item>
+        <item quantity="other">Импортировано %d туннелей</item>
     </plurals>
     <plurals name="set_excluded_applications">
-        <item quantity="one">%d Не выбранно приложение</item>
-        <item quantity="few">%d Не выбранны приложения</item>
-        <item quantity="many">%d Не выбранны приложения</item>
-        <item quantity="other">%d Не выбранны приложения</item>
+        <item quantity="one">%d исключенное приложение</item>
+        <item quantity="few">%d исключенных приложения</item>
+        <item quantity="many">%d исключенных приложений</item>
+        <item quantity="other">%d исключенных приложений</item>
+    </plurals>
+    <plurals name="confirm_tunnel_deletion">
+        <item quantity="one">Удалить выбранный туннель?</item>
+        <item quantity="few">Удалить выбранные туннели?</item>
+        <item quantity="many">Удалить выбранные туннели?</item>
+        <item quantity="other">Удалить выбранные туннели?</item>
     </plurals>
     <string name="add_peer">Добавить пира</string>
     <string name="addresses">Адреса</string>
@@ -178,16 +184,24 @@
     <string name="force_userspace_backend_title">Принудительная поддержка</string>
     <string name="force_userspace_backend_summary">Полезно для отладки Go юзерспейс проблем, когда девайс имеет установленный модуль в           ядре. Приложение перезапустится после включения этой опции. ТОЛЬКО ДЛЯ РАЗРАБОТЧИКОВ!    </string>
     <string name="whitelist_exclusions_title">Список приложений в белом списке в туннелях</string>
-    <string name="whitelist_exclusions_summary">"Вместо того чтобы позволить выбранным приложениям обойти туннель, сделайте исключения
+    <string name="whitelist_exclusions_summary">\"Вместо того чтобы позволить выбранным приложениям обойти туннель, сделайте исключения
         заставить их пройти через туннель, позволяя всем другим приложениям вести себя, как будто нет активного VPN соединения.
-    "</string>
+    \"</string>
     <string name="preference_category_about">О программе</string>
     <string name="preference_category_config">Настройка туннелей</string>
     <string name="preference_category_debugging">Отладка</string>
+    <string name="preference_category_theming">Тема приложения</string>
     <string name="tasker_integration_title">Включить интеграцию tasker</string>
     <string name="tasker_integration_summary">ВНИМАНИЕ: Это потенциальный риск безопасности! Избегайте использовать это на рутированных устройствах, вредоносные приложения могут легко обойти защиту, размещенную на Viscerion!</string>
     <string name="tasker_integration_secret_title">Секрет внешнего намерения</string>
     <string name="tasker_integration_secret_summary">Безопасный секрет, чтобы убедиться, что только доверенные клиенты могут контролировать туннели. Это не может быть пустым!</string>
     <string name="tasker_integration_summary_empty_secret">Установка секрета здесь обязательна!</string>
     <string name="create">Создать</string>
+    <string name="log_viewer">Просмотр журнала</string>
+    <string name="pref_alt_icon_title">Использовать альтернативную иконку</string>
+    <string name="pref_alt_icon_summary">Переключиться на новую иконку Viscerion (еще в работе)</string>
+    <string name="pref_alt_icon_apply_message">Иконка была успешно изменена. Обновление в Вашем лаунчере может занять несколько минут.</string>
+    <string name="pref_dark_theme_title">Включить темную тему</string>
+    <string name="pref_dark_theme_summary">Переключиться на темную тему, вследствие чего приложение будет потреблять чуть меньше энергии на AMOLED-экранах</string>
+    <string name="dark_theme_summary_auto">Темная тема включена из-за режима экономии батареи или системного переключателя</string>
 </resources>
