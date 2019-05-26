@@ -330,7 +330,7 @@ class TunnelListFragment : BaseFragment() {
                     }
                     val ctx = requireContext()
                     val tunnelCount = tunnelsToDelete.size
-                    MaterialAlertDialogBuilder(ctx)
+                    MaterialAlertDialogBuilder(ctx, R.style.AppTheme_Dialog)
                             .setMessage(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelCount, tunnelCount))
                             .setPositiveButton(android.R.string.ok) { _, _ ->
                                 val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)

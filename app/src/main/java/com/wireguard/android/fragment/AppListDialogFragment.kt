@@ -34,7 +34,7 @@ class AppListDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.AppTheme_Dialog)
         alertDialogBuilder.setTitle(R.string.excluded_applications)
 
         val binding = activity?.layoutInflater?.let { AppListDialogFragmentBinding.inflate(it, null, false) }

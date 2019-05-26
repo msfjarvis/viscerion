@@ -52,7 +52,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         imm = requireContext().getSystemService()
 
-        val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.AppTheme_Dialog)
         alertDialogBuilder.setTitle(R.string.import_from_qr_code)
         alertDialogBuilder.setPositiveButton(R.string.create_tunnel, null)
         alertDialogBuilder.setNegativeButton(R.string.cancel) { _, _ -> dismiss() }
