@@ -16,6 +16,7 @@ import com.wireguard.android.R
 import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.di.ext.getBackendAsync
 import org.koin.core.KoinComponent
+import java.util.Locale
 
 class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var versionSummary: String? = null
@@ -23,7 +24,7 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
     init {
         getBackendAsync().thenAccept { backend ->
             versionSummary =
-                    getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase())
+                    getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase(Locale.ROOT))
             getAsyncWorker().supplyAsync {
                 backend.getVersion()
             }.whenComplete { version, exception ->
@@ -32,7 +33,7 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
                 else
                     getContext().getString(
                                     R.string.version_summary_unknown,
-                                    backend.getTypePrettyName().toLowerCase()
+                                    backend.getTypePrettyName().toLowerCase(Locale.ROOT)
                             )
                 notifyChanged()
             }

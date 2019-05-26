@@ -20,6 +20,7 @@ import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.model.ApplicationData
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
+import java.util.Locale
 
 class AppListDialogFragment : DialogFragment() {
 
@@ -81,7 +82,9 @@ class AppListDialogFragment : DialogFragment() {
                 ))
             }
             appData.also {
-                it.sortWith(Comparator { lhs, rhs -> lhs.name.toLowerCase().compareTo(rhs.name.toLowerCase()) })
+                it.sortWith(Comparator {
+                    lhs, rhs -> lhs.name.toLowerCase(Locale.ROOT).compareTo(rhs.name.toLowerCase(Locale.ROOT))
+                })
             }
         }.whenComplete { data, throwable ->
             if (data != null) {

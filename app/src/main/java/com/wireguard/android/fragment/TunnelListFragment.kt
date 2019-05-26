@@ -39,6 +39,7 @@ import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -86,8 +87,8 @@ class TunnelListFragment : BaseFragment() {
                     throw IllegalArgumentException("Illegal file name: $name")
                 name = name.substring(idx + 1)
             }
-            val isZip = name.toLowerCase().endsWith(".zip")
-            if (name.toLowerCase().endsWith(CONFIGURATION_FILE_SUFFIX))
+            val isZip = name.toLowerCase(Locale.ROOT).endsWith(".zip")
+            if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX))
                 name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
             else if (!isZip)
                 throw IllegalArgumentException("File must be .conf or .zip")
@@ -107,7 +108,7 @@ class TunnelListFragment : BaseFragment() {
                                 continue
                             name = name.substring(name.lastIndexOf('/') + 1)
                         }
-                        if (name.toLowerCase().endsWith(CONFIGURATION_FILE_SUFFIX))
+                        if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX))
                             name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
                         else
                             continue
