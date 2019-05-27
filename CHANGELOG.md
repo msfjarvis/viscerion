@@ -1,5 +1,13 @@
 # Release Notes
 
+### Unreleased
+- Ensure dark theme follows battery saver on Android P and below
+- Remove unused internet permission
+- Improve memory usage
+- Improve support for FireTV remote
+- Refactor app theme and convert night theme to a dark grey background
+- Update Russian translations
+
 ### [v5.0.0](https://github.com/MSF-Jarvis/viscerion/releases/5.0.0)
 - Add an adaptive icon and an alternative concept icon
 - Add live log viewer
