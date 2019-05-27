@@ -72,10 +72,10 @@
             android:layout_margin="@dimen/fab_margin"
             android:clipChildren="false"
             android:text="@string/create"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnSecondary"
             app:backgroundTint="?attr/colorSecondary"
             app:icon="@drawable/ic_baseline_add_24px"
-            app:iconTint="@color/white"
+            app:iconTint="?attr/colorOnSecondary"
             app:layout_behavior="com.wireguard.android.widget.fab.FloatingActionButtonBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

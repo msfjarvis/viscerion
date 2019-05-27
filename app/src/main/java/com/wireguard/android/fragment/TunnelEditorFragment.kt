@@ -125,7 +125,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
             requireActivity().window?.apply {
                 val ctx = requireContext()
-                navigationBarColor = ContextCompat.getColor(ctx, R.color.accent_darker)
+                navigationBarColor = ContextCompat.getColor(ctx, R.color.secondary_dark_color)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
                         (!getPrefs().useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
                     // Clear window flags to let navigation bar be dark

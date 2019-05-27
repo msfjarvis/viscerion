@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="primary_color">@color/white</color>
-    <color name="primary_color_lighter">#32323232</color>
-    <color name="color_background">@color/white</color>
-    <color name="color_control_normal">#ff000000</color>
-    <color name="accent">#FF3D00</color>
-    <color name="accent_darker">#DD2C00</color>
-    <color name="system_bars_color">@color/white</color>
+
+    <!-- Base palette -->
+    <color name="primary_color">#FFFFFF</color>
+    <color name="primary_light_color">#FFFFFF</color>
+    <color name="primary_dark_color">#CCCCCC</color>
+    <color name="secondary_color">#FF3D00</color>
+    <color name="secondary_light_color">#FF7539</color>
+    <color name="secondary_dark_color">#C30000</color>
+    <color name="primary_text_color">#000000</color>
+    <color name="secondary_text_color">#FFFF</color>
+
+    <!-- Theme variables -->
+    <color name="color_control_normal">@color/primary_text_color</color>
+    <color name="system_bars_color">@color/primary_color</color>
     <color name="list_multiselect_background">#EEEEEE</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/accent</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/secondary_color</color>
     <color name="white">#FFFFFF</color>
 </resources>
