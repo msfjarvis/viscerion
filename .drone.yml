@@ -16,7 +16,7 @@ steps:
     image: msfjarvis/drone-decrypt-files:latest
     settings:
       file_to_path_mapping:
-        - 'ci/keystore.cipher:wireguard.jks|ci/props.cipher:keystore.properties'
+        - 'ci/keystore.cipher:keystore.jks|ci/props.cipher:keystore.properties'
       decrypt_key:
         from_secret: key
     when:
