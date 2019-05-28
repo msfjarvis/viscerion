@@ -122,7 +122,6 @@ dependencies {
     implementation(deps.ThirdParty.koinAndroid)
     implementation(deps.ThirdParty.koinCore)
     implementation(deps.ThirdParty.retrofuture)
-    implementation(deps.ThirdParty.retrostreams)
     implementation(deps.ThirdParty.threetenabp)
     implementation(deps.ThirdParty.timber)
     implementation(deps.ThirdParty.zxing)

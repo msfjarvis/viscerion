@@ -38,7 +38,7 @@ class DependencyStore {
     object ThirdParty {
         private const val inlineActivityResultVersion = "0.1.0"
         private const val koinVersion = "2.0.1"
-        private const val streamsupportVersion = "1.7.1"
+        private const val retroFutureVersion = "1.7.1"
         private const val threetenabpVersion = "1.2.0"
         private const val timberVersion = "4.7.1"
         private const val zxingVersion = "3.4.0"
@@ -46,8 +46,7 @@ class DependencyStore {
         const val inlineActivityResult = "com.afollestad:inline-activity-result:$inlineActivityResultVersion"
         const val koinCore = "org.koin:koin-core:$koinVersion"
         const val koinAndroid = "org.koin:koin-android:$koinVersion"
-        const val retrofuture = "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
-        const val retrostreams = "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
+        const val retrofuture = "net.sourceforge.streamsupport:android-retrofuture:$retroFutureVersion"
         const val threetenabp = "com.jakewharton.threetenabp:threetenabp:$threetenabpVersion"
         const val timber = "com.jakewharton.timber:timber:$timberVersion"
         const val zxing = "com.google.zxing:core:$zxingVersion"
