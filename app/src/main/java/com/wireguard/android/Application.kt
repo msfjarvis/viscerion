@@ -49,13 +49,13 @@ class Application : android.app.Application() {
 
         startKoin {
             androidContext(this@Application)
-            modules(
+            modules(listOf(
                     configStoreModule,
                     earlyInitModules,
                     backendModule,
                     backendAsyncModule,
                     toolsInstallerModule
-            )
+            ))
         }
 
         if (BuildConfig.DEBUG)
