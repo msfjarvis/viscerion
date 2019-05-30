@@ -31,7 +31,6 @@ android {
         targetSdkVersion(28)
         versionCode = VersionConfiguration.versionCode
         versionName = VersionConfiguration.versionName
-        buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
         if (System.getenv("DRONE") != "true") setProperty("archivesBaseName", "viscerion_${gitHash()}")
         resConfigs("en", "fr", "ko", "pt-rBR", "ru")
     }
@@ -67,6 +66,7 @@ android {
             }
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String", "GIT_HASH", "\"\"")
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
@@ -77,6 +77,7 @@ android {
                 }
             }
             isMinifyEnabled = false
+            buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
         }
         flavorDimensions("default")
         productFlavors {
