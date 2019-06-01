@@ -15,7 +15,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:3.5.0-beta03")
         classpath(kotlin("gradle-plugin", "1.3.31"))
         classpath("com.diffplug.spotless:spotless-plugin-gradle:3.23.0")
-        classpath("com.android.tools:r8:1.5.41")
+        classpath("com.android.tools:r8:1.5.42")
     }
 }
 
