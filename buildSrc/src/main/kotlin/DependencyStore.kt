@@ -30,7 +30,7 @@ class DependencyStore {
     }
 
     object Material {
-        private const val materialVersion = "1.1.0-alpha06"
+        private const val materialVersion = "1.1.0-alpha07"
 
         const val material = "com.google.android.material:material:$materialVersion"
     }
