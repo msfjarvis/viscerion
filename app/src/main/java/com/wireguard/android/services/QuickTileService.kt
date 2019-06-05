@@ -140,7 +140,7 @@ class QuickTileService : TileService() {
                 Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
-            state = Tile.STATE_INACTIVE
+            state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Tile.STATE_UNAVAILABLE else Tile.STATE_INACTIVE
         }
         tile.label = label
         if (tile.state != state) {
