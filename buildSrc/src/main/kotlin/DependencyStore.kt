@@ -38,6 +38,7 @@ class DependencyStore {
     object ThirdParty {
         private const val inlineActivityResultVersion = "0.1.0"
         private const val koinVersion = "2.0.1"
+        private const val recyclicalVersion = "1.0.0-RC2"
         private const val retroFutureVersion = "1.7.1"
         private const val threetenabpVersion = "1.2.1"
         private const val timberVersion = "4.7.1"
@@ -46,6 +47,7 @@ class DependencyStore {
         const val inlineActivityResult = "com.afollestad:inline-activity-result:$inlineActivityResultVersion"
         const val koinCore = "org.koin:koin-core:$koinVersion"
         const val koinAndroid = "org.koin:koin-android:$koinVersion"
+        const val recyclical = "com.afollestad:recyclical:$recyclicalVersion"
         const val retrofuture = "net.sourceforge.streamsupport:android-retrofuture:$retroFutureVersion"
         const val threetenabp = "com.jakewharton.threetenabp:threetenabp:$threetenabpVersion"
         const val timber = "com.jakewharton.timber:timber:$timberVersion"

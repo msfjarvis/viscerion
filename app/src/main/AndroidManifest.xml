@@ -66,7 +66,7 @@
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
 
-        <activity android:name=".activity.LiveLogViewerActivity"
+        <activity android:name=".activity.LogViewerActivity"
             android:label="@string/log_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

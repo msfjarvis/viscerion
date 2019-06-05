@@ -122,6 +122,7 @@ dependencies {
     implementation(deps.ThirdParty.inlineActivityResult)
     implementation(deps.ThirdParty.koinAndroid)
     implementation(deps.ThirdParty.koinCore)
+    implementation(deps.ThirdParty.recyclical)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.threetenabp)
     implementation(deps.ThirdParty.timber)
