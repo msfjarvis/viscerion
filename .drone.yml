@@ -37,7 +37,7 @@ steps:
     image: msfjarvis/drone-telegram:latest
     settings:
       channel_id: -1001278683441
-      artifact_path: ./app/build/outputs/apk/pie/debug/app-debug.apk
+      artifact_path: ./app/build/outputs/apk/debug/app-debug.apk
       major_minor: ci
       filename: Viscerion
       sticker: CAADBAAD8R8AAmSKPgABCOk3mg-Zvf0C
