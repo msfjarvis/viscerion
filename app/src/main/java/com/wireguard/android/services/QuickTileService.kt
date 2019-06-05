@@ -55,9 +55,7 @@ class QuickTileService : TileService() {
     }
 
     override fun onCreate() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            return
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             iconOn = Icon.createWithResource(this, R.drawable.ic_qs_tile)
             iconOff = iconOn
             return
@@ -90,7 +88,7 @@ class QuickTileService : TileService() {
         if (tunnel != null) {
             val tile = qsTile
             if (tile != null) {
-                switchIcon(tile)
+                tile.icon = if (tile.icon == iconOn) iconOff else iconOn
                 tile.updateTile()
             }
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
@@ -112,11 +110,6 @@ class QuickTileService : TileService() {
     override fun onStopListening() {
         tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
         tunnelManager.removeOnPropertyChangedCallback(onTunnelChangedCallback)
-    }
-
-    private fun switchIcon(tile: Tile) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) return
-        tile.icon = if (tile.icon == iconOn) iconOff else iconOn
     }
 
     private fun onToggleFinished(throwable: Throwable?) {
@@ -151,7 +144,7 @@ class QuickTileService : TileService() {
         }
         tile.label = label
         if (tile.state != state) {
-            switchIcon(tile)
+            tile.icon = if (tile.icon == iconOn) iconOff else iconOn
             tile.state = state
         }
         tile.updateTile()
