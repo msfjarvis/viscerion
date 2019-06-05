@@ -9,7 +9,7 @@ Refreshed take at the official Android client with a nicer UI and additional fea
 ```
 $ git clone https://github.com/MSF-Jarvis/viscerion --recursive
 $ cd viscerion
-$ ./gradlew assemblePieDebug # Or assembleQuinoaDebug for proper Android Q support
+$ ./gradlew assembleDebug
 ```
 
 Note: on macOS you also need to install the GNU `coreutils` package through homebrew.

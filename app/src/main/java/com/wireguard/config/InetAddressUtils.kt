@@ -3,9 +3,10 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package me.msfjarvis.viscerion
+package com.wireguard.config
 
-import com.wireguard.config.ParseException
+import android.net.InetAddresses
+import android.os.Build
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.net.Inet4Address
@@ -16,7 +17,7 @@ import java.net.InetAddress
  * Utility methods for creating instances of [InetAddress].
  */
 object InetAddressUtils {
-    private val PARSER_METHOD: Method = InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
+    private val PARSER_METHOD: Method by lazy { InetAddress::class.java.getMethod("parseNumericAddress", String::class.java) }
 
     /**
      * Parses a numeric IPv4 or IPv6 address without performing any DNS lookups.
@@ -29,7 +30,11 @@ object InetAddressUtils {
         if (address.isEmpty())
             throw ParseException(InetAddress::class.java, address, "Empty address")
         try {
-            return PARSER_METHOD.invoke(null, address) as InetAddress
+            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                PARSER_METHOD.invoke(null, address) as InetAddress
+            } else {
+                InetAddresses.parseNumericAddress(address)
+            }
         } catch (e: IllegalAccessException) {
             val cause = e.cause
             // Re-throw parsing exceptions with the original type, as callers might try to catch

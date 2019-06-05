@@ -23,12 +23,12 @@ fun gitHash(): String {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
     dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "me.msfjarvis.viscerion"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(29)
         versionCode = VersionConfiguration.versionCode
         versionName = VersionConfiguration.versionName
         if (System.getenv("DRONE") != "true") setProperty("archivesBaseName", "viscerion_${gitHash()}")
@@ -78,17 +78,6 @@ android {
             }
             isMinifyEnabled = false
             buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
-        }
-        flavorDimensions("default")
-        productFlavors {
-            create("quinoa") {
-                setDimension("default")
-                compileSdkVersion("android-Q")
-                targetSdkVersion("Q")
-            }
-            create("pie") {
-                setDimension("default")
-            }
         }
     }
     externalNativeBuild.cmake {

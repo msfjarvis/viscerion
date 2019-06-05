@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package me.msfjarvis.viscerion;
+package com.wireguard.android.widget;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

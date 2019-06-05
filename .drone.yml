@@ -27,38 +27,20 @@ steps:
   - name: build
     image: msfjarvis/docker-android-sdk:latest
     commands:
-      - ./gradlew assemblePieDebug assembleQuinoaDebug lintPieDebug lintQuinoaDebug
+      - ./gradlew assembleDebug lintDebug
     when:
       branch:
         exclude:
           - l10n_master
 
-  - name: telegram-deploy-pie
+  - name: telegram-deploy
     image: msfjarvis/drone-telegram:latest
     settings:
       channel_id: -1001278683441
-      artifact_path: ./app/build/outputs/apk/pie/debug/app-pie-debug.apk
-      major_minor: pie-ci
+      artifact_path: ./app/build/outputs/apk/pie/debug/app-debug.apk
+      major_minor: ci
       filename: Viscerion
-      skip_changelog: true
       sticker: CAADBAAD8R8AAmSKPgABCOk3mg-Zvf0C
-      bot_token:
-        from_secret: bot_token
-    when:
-      branch:
-        exclude:
-          - l10n_master
-      event:
-        exclude:
-          - pull_request
-
-  - name: telegram-deploy-quinoa
-    image: msfjarvis/drone-telegram:latest
-    settings:
-      channel_id: -1001278683441
-      artifact_path: ./app/build/outputs/apk/quinoa/debug/app-quinoa-debug.apk
-      major_minor: quinoa-ci
-      filename: Viscerion
       bot_token:
         from_secret: bot_token
     when:
