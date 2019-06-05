@@ -13,6 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
@@ -26,7 +27,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.app.AlarmManagerCompat.setExact
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import androidx.core.os.BuildCompat
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -114,7 +114,7 @@ fun updateAppTheme(dark: Boolean) {
         if (dark) {
             MODE_NIGHT_YES
         } else {
-            if (BuildCompat.isAtLeastQ()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 MODE_NIGHT_FOLLOW_SYSTEM
             } else {
                 MODE_NIGHT_AUTO_BATTERY
