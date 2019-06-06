@@ -1,6 +1,7 @@
 # Release Notes
 
 ### Unreleased
+- Target Android Q and adapt APIs for it
 - Ensure dark theme follows battery saver on Android P and below
 - Remove unused internet permission
 - Improve memory usage
