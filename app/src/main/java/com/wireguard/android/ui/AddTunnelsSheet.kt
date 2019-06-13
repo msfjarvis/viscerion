@@ -6,6 +6,7 @@
 package com.wireguard.android.ui
 
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,10 +22,13 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.fragment.TunnelListFragment
+import com.wireguard.android.util.resolveAttribute
 import timber.log.Timber
 import com.google.android.material.R as materialR
 
 class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragment() {
+
+    private val sheetCorners = 24f
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
@@ -37,6 +41,7 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val ctx = requireContext()
         view.viewTreeObserver.addOnGlobalLayoutListener(object :
                 ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -70,6 +75,12 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
                 }
             }
         })
+        val gradientDrawable = GradientDrawable().apply {
+            setColor(ctx.resolveAttribute(R.attr.colorBackground))
+            cornerRadii =
+                    floatArrayOf(sheetCorners, sheetCorners, sheetCorners, sheetCorners, 0f, 0f, 0f, 0f)
+        }
+        view.background = gradientDrawable
     }
 
     private fun onRequestCreateConfig() {

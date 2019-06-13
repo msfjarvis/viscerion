@@ -4,6 +4,5 @@
     <dimen name="extra_margin">12dp</dimen>
     <dimen name="bottom_sheet_item_height">56dp</dimen>
     <dimen name="normal_margin">8dp</dimen>
-    <dimen name="bottom_sheet_corner_radius">12dp</dimen>
     <dimen name="bottom_sheet_top_padding">8dp</dimen>
 </resources>

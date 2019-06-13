@@ -7,7 +7,6 @@ package com.wireguard.android.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -18,6 +17,7 @@ import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.isSystemDarkThemeEnabled
+import com.wireguard.android.util.resolveAttribute
 
 /**
  * Fragment that shows details about a specific tunnel.
@@ -71,9 +71,7 @@ class TunnelDetailFragment : BaseFragment() {
         super.onResume()
         requireActivity().window?.apply {
             val ctx = requireContext()
-            val typedValue = TypedValue()
-            ctx.theme.resolveAttribute(android.R.attr.navigationBarColor, typedValue, true)
-            navigationBarColor = typedValue.data
+            navigationBarColor = ctx.resolveAttribute(android.R.attr.navigationBarColor)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 &&
                     (!getPrefs().useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
                 // Restore window flags

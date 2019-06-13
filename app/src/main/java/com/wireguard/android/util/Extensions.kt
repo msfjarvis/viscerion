@@ -17,13 +17,15 @@ import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.app.AlarmManagerCompat.setExact
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -101,6 +103,12 @@ fun Context.isSystemDarkThemeEnabled(): Boolean {
     }
 }
 
+fun Context.resolveAttribute(@AttrRes attrRes: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attrRes, typedValue, true)
+    return typedValue.data
+}
+
 inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     return try {
         context as T
@@ -110,7 +118,7 @@ inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
 }
 
 fun updateAppTheme(dark: Boolean) {
-    AppCompatDelegate.setDefaultNightMode(
+    setDefaultNightMode(
         if (dark) {
             MODE_NIGHT_YES
         } else {
