@@ -9,8 +9,8 @@ import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
-import com.wireguard.crypto.Key
-import com.wireguard.crypto.KeyFormatException
+import me.msfjarvis.viscerion.crypto.Key
+import me.msfjarvis.viscerion.crypto.KeyFormatException
 import java.util.Collections
 import java.util.Locale
 

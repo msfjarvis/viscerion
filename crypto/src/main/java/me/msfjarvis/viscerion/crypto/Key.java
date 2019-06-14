@@ -3,11 +3,12 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.crypto;
+package me.msfjarvis.viscerion.crypto;
 
-import com.wireguard.crypto.KeyFormatException.Type;
 import java.security.SecureRandom;
 import java.util.Arrays;
+
+import me.msfjarvis.viscerion.crypto.KeyFormatException.Type;
 
 /**
  * Represents a WireGuard public or private key. This class uses specialized constant-time base64

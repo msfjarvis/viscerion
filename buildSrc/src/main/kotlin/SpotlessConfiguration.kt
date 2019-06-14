@@ -44,7 +44,6 @@ fun Project.configureSpotless() {
 
         java {
             target(
-                "app/src/main/java/com/wireguard/crypto/Key.java",
                 "app/src/main/java/com/wireguard/android/util/ObservableSortedKeyedArrayList.java",
                 "app/src/main/java/com/wireguard/android/util/ObservableKeyedArrayList.java",
                 "app/src/main/java/com/wireguard/android/util/KotlinCompanions.java"

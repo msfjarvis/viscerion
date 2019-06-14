@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.wireguard.crypto;
+package me.msfjarvis.viscerion.crypto;
 
 import androidx.annotation.Nullable;
 import java.util.Arrays;

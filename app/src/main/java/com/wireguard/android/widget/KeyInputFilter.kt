@@ -8,7 +8,7 @@ package com.wireguard.android.widget
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import com.wireguard.crypto.Key
+import me.msfjarvis.viscerion.crypto.Key
 
 class KeyInputFilter : InputFilter {
     override fun filter(

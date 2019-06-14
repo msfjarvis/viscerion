@@ -5,7 +5,7 @@
  */
 package com.wireguard.config
 
-import com.wireguard.crypto.KeyFormatException
+import me.msfjarvis.viscerion.crypto.KeyFormatException
 
 class BadConfigException private constructor(
     val section: Section,

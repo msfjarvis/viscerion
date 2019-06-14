@@ -14,7 +14,7 @@ import androidx.databinding.ObservableInt
 import com.wireguard.config.Attribute
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Interface
-import com.wireguard.crypto.KeyPair
+import me.msfjarvis.viscerion.crypto.KeyPair
 
 class InterfaceProxy : BaseObservable, Parcelable {
 

@@ -10,9 +10,9 @@ import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
-import com.wireguard.crypto.Key
-import com.wireguard.crypto.KeyFormatException
-import com.wireguard.crypto.KeyPair
+import me.msfjarvis.viscerion.crypto.Key
+import me.msfjarvis.viscerion.crypto.KeyFormatException
+import me.msfjarvis.viscerion.crypto.KeyPair
 import org.koin.core.KoinComponent
 import java.net.InetAddress
 import java.util.Collections

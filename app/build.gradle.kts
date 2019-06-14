@@ -96,6 +96,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+    implementation(project(":crypto"))
     implementation(deps.AndroidX.annotations)
     implementation(deps.AndroidX.appcompat)
     implementation(deps.AndroidX.constraintlayout)
