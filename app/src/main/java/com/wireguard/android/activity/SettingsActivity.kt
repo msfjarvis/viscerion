@@ -124,25 +124,20 @@ class SettingsActivity : AppCompatActivity() {
                 pref?.isVisible = false
 
             if (BuildConfig.DEBUG && File("/sys/module/wireguard").exists())
-                for (pref in debugOnlyPrefs)
-                    pref?.isVisible = true
+                debugOnlyPrefs.filterNotNull().forEach { it.isVisible = true }
 
             getBackendAsync().thenAccept { backend ->
-                for (pref in wgQuickOnlyPrefs) {
-                    pref?.let {
-                        if (backend is WgQuickBackend)
-                            it.isVisible = true
-                        else
-                            screen.removePreference(it)
-                    }
+                wgQuickOnlyPrefs.filterNotNull().forEach {
+                    if (backend is WgQuickBackend)
+                        it.isVisible = true
+                    else
+                        screen.removePreference(it)
                 }
-                for (pref in wgOnlyPrefs) {
-                    pref?.let {
-                        if (backend is GoBackend)
-                            it.isVisible = true
-                        else
-                            screen.removePreference(it)
-                    }
+                wgOnlyPrefs.filterNotNull().forEach {
+                    if (backend is GoBackend)
+                        it.isVisible = true
+                    else
+                        screen.removePreference(it)
                 }
             }
 
