@@ -28,8 +28,6 @@ import com.google.android.material.R as materialR
 
 class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragment() {
 
-    private val sheetCorners = 24f
-
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
     }
@@ -77,8 +75,6 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
         })
         val gradientDrawable = GradientDrawable().apply {
             setColor(ctx.resolveAttribute(R.attr.colorBackground))
-            cornerRadii =
-                    floatArrayOf(sheetCorners, sheetCorners, sheetCorners, sheetCorners, 0f, 0f, 0f, 0f)
         }
         view.background = gradientDrawable
     }
