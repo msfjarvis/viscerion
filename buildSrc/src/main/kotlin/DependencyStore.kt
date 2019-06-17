@@ -9,7 +9,7 @@ class DependencyStore {
         private const val annotationVersion = "1.1.0"
         private const val appcompatVersion = "1.1.0-beta01"
         private const val constraintlayoutVersion = "2.0.0-beta1"
-        private const val coreKtxVersion = "1.2.0-alpha01"
+        private const val coreKtxVersion = "1.2.0-alpha02"
         private const val databindingVersion = "3.5.0-beta04"
         private const val fragmentKtxVersion = "1.1.0-beta01"
         private const val preferenceVersion = "1.1.0-beta01"
@@ -38,7 +38,7 @@ class DependencyStore {
     object ThirdParty {
         private const val inlineActivityResultVersion = "0.1.0"
         private const val koinVersion = "2.0.1"
-        private const val recyclicalVersion = "1.0.0-RC3"
+        private const val recyclicalVersion = "1.0.0"
         private const val retroFutureVersion = "1.7.1"
         private const val threetenabpVersion = "1.2.1"
         private const val timberVersion = "4.7.1"
