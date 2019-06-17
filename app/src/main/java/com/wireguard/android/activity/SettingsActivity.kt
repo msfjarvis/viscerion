@@ -12,7 +12,6 @@ import android.util.SparseArray
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityOptionsCompat.makeCustomAnimation
 import androidx.fragment.app.commit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -203,11 +202,7 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
                 setOnPreferenceClickListener {
-                    val activity = requireActivity()
                     updateAppTheme(prefs.useDarkTheme)
-                    val bundle = makeCustomAnimation(ctx, R.anim.fade_in, R.anim.fade_out).toBundle()
-                    activity.finish()
-                    startActivity(activity.intent, bundle)
                     true
                 }
                 if (isSystemDark && !darkThemeOverride) {
