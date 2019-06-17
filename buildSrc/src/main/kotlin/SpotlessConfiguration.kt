@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2018 WireGuard LLC.
+ * Copyright © 2017-2019 WireGuard LLC.
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 
 val kotlinLicenseHeader = """/*
- * Copyright © 2017-2018 WireGuard LLC.
+ * Copyright © 2017-2019 WireGuard LLC.
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,7 +57,7 @@ fun Project.configureSpotless() {
         }
 
         kotlinGradle {
-            target("*.gradle.kts", "gradle/*.gradle.kts", "buildSrc/*.gradle.kts")
+            target("**/*.gradle.kts", "*.gradle.kts")
             ktlint("0.31.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
             @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenseHeader, "import|tasks|apply|plugins|include")

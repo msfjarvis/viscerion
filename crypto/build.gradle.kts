@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2017-2019 WireGuard LLC.
+ * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import DependencyStore as deps
 plugins {
     id("com.android.library")
@@ -20,7 +25,6 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-
 }
 
 dependencies {
