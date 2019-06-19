@@ -14,7 +14,19 @@ $ ./gradlew assembleDebug
 
 Note: on macOS you also need to install the GNU `coreutils` package through homebrew.
 
-# Disclaimer
+## Contributing
+
+Viscerion is open to all contributions big and small, including documentation and code improvements. For upstream components such as `wg(8)`, `wg-quick(8)`, and the `wireguard-go` library, please refer to WireGuard LLC's contribution guidelines.
+
+For contributions to the core Viscerion code base, codestyle checks are provided within the project which can be invoked via `./gradlew spotlessCheck`.
+
+You can also install the Git pre-push hook to ensure all code being pushed builds and adheres to the code style guidelines.
+
+```bash
+ln -sf $(pwd)/config/pre-push-recommended.sh .git/hooks/pre-push
+```
+
+## Disclaimer
 As I've made abundantly clear on my Play Store listing, this is *not* an officially endorsed product. The WireGuard development team is not in any way affiliated with this project and I intend to keep it that way. Please do not approach them for any issues encountered during the usage of Viscerion, those belong to me unless it's an issue with an upstream component.
 
 <br />
