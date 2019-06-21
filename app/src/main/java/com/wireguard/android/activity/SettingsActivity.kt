@@ -6,6 +6,7 @@
 package com.wireguard.android.activity
 
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.SparseArray
@@ -27,6 +28,7 @@ import com.wireguard.android.di.ext.getBackendAsync
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment
+import com.wireguard.android.services.TaskerIntegrationService
 import com.wireguard.android.util.asString
 import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.isSystemDarkThemeEnabled
@@ -101,6 +103,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
+
         private val prefs = getPrefs()
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
@@ -153,7 +156,10 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             taskerPref?.onPreferenceChangeListener = ChangeListener { _, newValue ->
-                integrationSecretPref?.isVisible = (newValue as Boolean)
+                val isEnabled = newValue as Boolean
+                integrationSecretPref?.isVisible = isEnabled
+                val intent = Intent(ctx, TaskerIntegrationService::class.java)
+                ctx.apply { if (isEnabled) startService(intent) else stopService(intent) }
                 true
             }
 
