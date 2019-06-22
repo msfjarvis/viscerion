@@ -37,8 +37,12 @@ import java.io.File
  * Interface for changing application-global persistent settings.
  */
 
+typealias ClickListener = Preference.OnPreferenceClickListener
+typealias ChangeListener = Preference.OnPreferenceChangeListener
+typealias SummaryProvider<T> = Preference.SummaryProvider<T>
+
 class SettingsActivity : AppCompatActivity() {
-    private val permissionRequestCallbacks by lazy { SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>() }
+    private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
     private var permissionRequestCounter: Int = 0
 
     fun ensurePermissions(
@@ -142,18 +146,18 @@ class SettingsActivity : AppCompatActivity() {
 
             integrationSecretPref?.isVisible = prefs.allowTaskerIntegration
 
-            exclusionsPref?.setOnPreferenceClickListener {
+            exclusionsPref?.onPreferenceClickListener = ClickListener {
                 val fragment = AppListDialogFragment.newInstance(prefs.exclusionsArray, true, this)
                 fragment.show(requireFragmentManager(), null)
                 true
             }
 
-            taskerPref?.setOnPreferenceChangeListener { _, newValue ->
+            taskerPref?.onPreferenceChangeListener = ChangeListener { _, newValue ->
                 integrationSecretPref?.isVisible = (newValue as Boolean)
                 true
             }
 
-            integrationSecretPref?.setSummaryProvider { preference ->
+            integrationSecretPref?.summaryProvider = SummaryProvider<EditTextPreference> { preference ->
                 if (prefs.allowTaskerIntegration &&
                         preference.isEnabled &&
                         prefs.taskerIntegrationSecret.isEmpty()
@@ -163,7 +167,7 @@ class SettingsActivity : AppCompatActivity() {
                     getString(R.string.tasker_integration_secret_summary)
             }
 
-            altIconPref?.setOnPreferenceClickListener {
+            altIconPref?.onPreferenceClickListener = ClickListener {
                 val checked = (it as CheckBoxPreference).isChecked
                 ctx.packageManager.apply {
                     setComponentEnabledSetting(
@@ -194,14 +198,14 @@ class SettingsActivity : AppCompatActivity() {
             darkThemePref?.apply {
                 val isSystemDark = ctx.isSystemDarkThemeEnabled()
                 val darkThemeOverride = prefs.useDarkTheme
-                setSummaryProvider {
+                summaryProvider = SummaryProvider<CheckBoxPreference> {
                     if (isSystemDark) {
                         getString(R.string.dark_theme_summary_auto)
                     } else {
                         getString(R.string.pref_dark_theme_summary)
                     }
                 }
-                setOnPreferenceClickListener {
+                onPreferenceClickListener = ClickListener {
                     updateAppTheme(prefs.useDarkTheme)
                     true
                 }
