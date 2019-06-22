@@ -32,7 +32,6 @@ import com.wireguard.android.util.isPermissionGranted
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
 import java.io.File
-import java.util.Arrays
 
 /**
  * Interface for changing application-global persistent settings.
@@ -52,8 +51,9 @@ class SettingsActivity : AppCompatActivity() {
                 needPermissions.add(permission)
         }
         if (needPermissions.isEmpty()) {
-            val granted = IntArray(permissions.size)
-            Arrays.fill(granted, PackageManager.PERMISSION_GRANTED)
+            val granted = IntArray(permissions.size) {
+                PackageManager.PERMISSION_GRANTED
+            }
             function(permissions, granted)
             return
         }
