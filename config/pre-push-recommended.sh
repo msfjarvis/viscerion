@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-./gradlew spotlessCheck
-./gradlew :app:assembleDebug
+gradle spotlessCheck || ./gradlew spotlessCheck
+gradle :app:assembleDebug || ./gradlew :app:assembleDebug
