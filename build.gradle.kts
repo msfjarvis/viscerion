@@ -38,7 +38,7 @@ tasks {
         reportfileName = "report"
     }
     named<Wrapper>("wrapper") {
-        gradleVersion = "5.5-rc-3"
+        gradleVersion = "5.5-rc-4"
         distributionType = Wrapper.DistributionType.ALL
     }
 }
