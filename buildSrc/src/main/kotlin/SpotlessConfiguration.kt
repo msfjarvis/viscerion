@@ -58,7 +58,7 @@ fun Project.configureSpotless() {
 
         kotlinGradle {
             target("**/*.gradle.kts", "*.gradle.kts")
-            ktlint("0.31.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
+            ktlint("0.33.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
             @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenseHeader, "import|tasks|apply|plugins|include")
             trimTrailingWhitespace()
@@ -68,7 +68,7 @@ fun Project.configureSpotless() {
 
         kotlin {
             target("**/src/**/*.kt", "buildSrc/**/*.kt")
-            ktlint("0.31.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "8"))
+            ktlint("0.33.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "8"))
             @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenseHeader, "import|package|class|object|@file")
             trimTrailingWhitespace()
