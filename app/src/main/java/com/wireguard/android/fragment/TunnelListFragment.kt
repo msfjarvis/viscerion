@@ -170,11 +170,12 @@ class TunnelListFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val bottomSheet = AddTunnelsSheet(this)
-
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
-            createFab.setOnClickListener { bottomSheet.show(requireFragmentManager(), "BOTTOM_SHEET") }
+            createFab.setOnClickListener {
+                val bottomSheet = AddTunnelsSheet(this@TunnelListFragment)
+                bottomSheet.show(requireFragmentManager(), "BOTTOM_SHEET")
+            }
             tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
             executePendingBindings()
         }
