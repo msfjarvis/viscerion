@@ -123,6 +123,7 @@ dependencies {
     implementation(deps.ThirdParty.timber)
     implementation(deps.ThirdParty.zxing)
     implementation(embeddedKotlin("stdlib-jdk8"))
+    debugImplementation(deps.Debugging.leakcanary)
 }
 
 kapt {

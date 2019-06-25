@@ -29,6 +29,12 @@ class DependencyStore {
         const val sliceKtx = "androidx.slice:slice-builders-ktx:$slicesKtxVersion"
     }
 
+    object Debugging {
+        private const val leakcanaryVersion = "2.0-alpha-2"
+
+        const val leakcanary = "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+    }
+
     object Material {
         private const val materialVersion = "1.1.0-alpha07"
 
