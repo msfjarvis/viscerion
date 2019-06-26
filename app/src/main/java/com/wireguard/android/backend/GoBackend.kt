@@ -8,6 +8,7 @@ package com.wireguard.android.backend
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.collection.ArraySet
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
@@ -159,6 +160,9 @@ class GoBackend(private var context: Context) : Backend {
                     builder.addRoute(addr.address, addr.mask)
                 }
             }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                builder.setMetered(false)
 
             var mtu = config.`interface`.mtu
             if (mtu == null || mtu == 0)
