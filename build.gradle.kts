@@ -12,7 +12,7 @@ buildscript {
         maven(url = "https://storage.googleapis.com/r8-releases/raw")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0-beta04")
+        classpath("com.android.tools.build:gradle:3.5.0-beta05")
         classpath(kotlin("gradle-plugin", "1.3.40"))
         classpath("com.android.tools:r8:1.5.52")
     }
