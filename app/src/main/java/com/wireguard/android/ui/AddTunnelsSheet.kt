@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -102,8 +103,14 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
             setBeepEnabled(false)
             setPrompt(getString(R.string.qr_code_hint))
         }
-        startActivityForResult(intentIntegrator.createScanIntent()) { _, data ->
-            IntentIntegrator.parseActivityResult(data)?.contents?.let {
+        startActivityForResult(intentIntegrator.createScanIntent()) { success, data ->
+            IntentIntegrator.parseActivityResult(
+                    when (success) {
+                        true -> AppCompatActivity.RESULT_OK
+                        else -> AppCompatActivity.RESULT_CANCELED
+                    },
+                    data
+            )?.contents?.let {
                 fragment.importTunnel(it)
             }
         }
