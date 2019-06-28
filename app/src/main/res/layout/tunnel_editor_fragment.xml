@@ -67,10 +67,10 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/interface_name_layout"
                             style="@style/TextInputLayoutBase"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            app:layout_constraintStart_toStartOf="@+id/private_key_text_layout"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/interface_title"
                             app:layout_constraintEnd_toEndOf="parent">
 
@@ -87,10 +87,10 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/private_key_text_layout"
                             style="@style/TextInputLayoutBase"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            app:layout_constraintStart_toStartOf="@+id/public_key_label_layout"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/interface_name_layout"
                             app:layout_constraintEnd_toEndOf="parent">
 
@@ -107,10 +107,10 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/public_key_label_layout"
                             style="@style/TextInputLayoutBase"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            app:layout_constraintStart_toStartOf="@+id/addresses_label_layout"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/private_key_text_layout"
                             app:layout_constraintEnd_toEndOf="parent">
 
@@ -130,10 +130,10 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/addresses_label_layout"
                             style="@style/TextInputLayoutBase"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            app:layout_constraintStart_toStartOf="@+id/dns_servers_label_layout"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/public_key_label_layout"
                             app:layout_constraintEnd_toEndOf="parent">
 
@@ -149,10 +149,10 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/dns_servers_label_layout"
                             style="@style/TextInputLayoutBase"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
-                            app:layout_constraintStart_toStartOf="@+id/listen_port_mtu_parent_constaint"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/addresses_label_layout"
                             app:layout_constraintEnd_toEndOf="parent">
 
