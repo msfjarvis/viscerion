@@ -349,6 +349,10 @@ class TunnelListFragment : BaseFragment() {
                                 checkedItems.clear()
                                 mode.finish()
                             }
+                            .setOnCancelListener {
+                                checkedItems.clear()
+                                mode.finish()
+                            }
                             .show()
                     return true
                 }
