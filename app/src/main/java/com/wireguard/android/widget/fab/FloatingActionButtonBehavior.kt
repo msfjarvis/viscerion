@@ -5,12 +5,14 @@
  */
 package com.wireguard.android.widget.fab
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import kotlin.math.min
 
 class FloatingActionButtonBehavior(
     context: Context,
@@ -30,7 +32,10 @@ class FloatingActionButtonBehavior(
         child: ExtendedFloatingActionButton,
         dependency: View
     ): Boolean {
-        child.translationY = Math.min(0f, dependency.translationY - dependency.measuredHeight)
+        ObjectAnimator.ofFloat(child, "translationY", min(0f, dependency.translationY - dependency.measuredHeight)).apply {
+            duration = 10
+            start()
+        }
         return true
     }
 
@@ -39,6 +44,9 @@ class FloatingActionButtonBehavior(
         child: ExtendedFloatingActionButton,
         dependency: View
     ) {
-        child.translationY = 0f
+        ObjectAnimator.ofFloat(child, "translationY", 0f).apply {
+            duration = 100
+            start()
+        }
     }
 }
