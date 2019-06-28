@@ -5,6 +5,9 @@
  */
 package com.wireguard.android
 
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
@@ -70,9 +73,15 @@ class Application : android.app.Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
 
-        if (prefs.allowTaskerIntegration) {
+        if (prefs.allowTaskerIntegration && isForeground()) {
             startService(Intent(this, TaskerIntegrationService::class.java))
         }
+    }
+
+    private fun isForeground(): Boolean {
+        val appProcessInfo = ActivityManager.RunningAppProcessInfo()
+        ActivityManager.getMyMemoryState(appProcessInfo)
+        return (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE)
     }
 
     companion object {
