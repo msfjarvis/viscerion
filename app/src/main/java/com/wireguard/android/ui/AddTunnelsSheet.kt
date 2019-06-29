@@ -13,8 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
-import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -24,7 +22,6 @@ import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.util.resolveAttribute
-import timber.log.Timber
 import com.google.android.material.R as materialR
 
 class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragment() {
@@ -89,12 +86,7 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf")) { _, data ->
-            data.data?.also { uri ->
-                Timber.tag("TunnelImport").i("Import uri: $uri")
-                fragment.importTunnel(uri)
-            }
-        }
+        fragment.startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), TunnelListFragment.REQUEST_IMPORT)
     }
 
     private fun onRequestScanQRCode() {
@@ -103,16 +95,6 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
             setBeepEnabled(false)
             setPrompt(getString(R.string.qr_code_hint))
         }
-        startActivityForResult(intentIntegrator.createScanIntent()) { success, data ->
-            IntentIntegrator.parseActivityResult(
-                    when (success) {
-                        true -> AppCompatActivity.RESULT_OK
-                        else -> AppCompatActivity.RESULT_CANCELED
-                    },
-                    data
-            )?.contents?.let {
-                fragment.importTunnel(it)
-            }
-        }
+        startActivityForResult(intentIntegrator.createScanIntent(), IntentIntegrator.REQUEST_CODE)
     }
 }

@@ -114,7 +114,6 @@ dependencies {
     implementation(deps.AndroidX.sliceCore)
     implementation(deps.AndroidX.sliceKtx)
     implementation(deps.Material.material)
-    implementation(deps.ThirdParty.inlineActivityResult)
     implementation(deps.ThirdParty.koinAndroid)
     implementation(deps.ThirdParty.koinCore)
     implementation(deps.ThirdParty.recyclical)

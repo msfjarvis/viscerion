@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.integration.android.IntentIntegrator
 import com.wireguard.android.R
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
@@ -160,6 +162,26 @@ class TunnelListFragment : BaseFragment() {
                     onTunnelImportFinished(tunnels, throwables)
                 }
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_IMPORT -> {
+                if (resultCode == AppCompatActivity.RESULT_OK)
+                    data?.data?.also { uri ->
+                        Timber.tag("TunnelImport").i("Import uri: $uri")
+                        importTunnel(uri)
+                    }
+                return
+            }
+            IntentIntegrator.REQUEST_CODE -> {
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)?.contents?.let {
+                    importTunnel(it)
+                }
+                return
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -425,5 +447,9 @@ class TunnelListFragment : BaseFragment() {
             val count = checkedItems.size
             mode.title = if (count == 0) "" else resources?.getQuantityString(R.plurals.delete_title, count, count)
         }
+    }
+
+    companion object {
+        const val REQUEST_IMPORT = 1
     }
 }

@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.inlineactivityresult.startActivityForResult
 import com.afollestad.recyclical.datasource.dataSourceTypedOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
@@ -67,21 +66,24 @@ class LogViewerActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RESULT_OK && requestCode == REQUEST_LOCATION) {
+            data?.data?.also { uri ->
+                Timber.d("Exporting logcat stream to ${uri.path}")
+                exportLog(uri)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     private fun createLogFile() {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "text/plain"
             putExtra(Intent.EXTRA_TITLE, "viscerion-log.txt")
         }
-
-        startActivityForResult(intent) { result, data ->
-            if (result) {
-                data.data?.also { uri ->
-                    Timber.d("Exporting logcat stream to ${uri.path}")
-                    exportLog(uri)
-                }
-            }
-        }
+        startActivityForResult(intent, REQUEST_LOCATION)
     }
 
     private fun exportLog(fileUri: Uri) {
@@ -111,4 +113,8 @@ class LogViewerActivity : AppCompatActivity() {
     }
 
     data class LogEntry(val line: String)
+
+    companion object {
+        private const val REQUEST_LOCATION = 1000
+    }
 }

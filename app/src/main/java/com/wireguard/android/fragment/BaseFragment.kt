@@ -6,12 +6,13 @@
 package com.wireguard.android.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.afollestad.inlineactivityresult.startActivityForResult
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.activity.BaseActivity
@@ -58,6 +59,20 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         super.onDetach()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_VPN_PERMISSION && resultCode == AppCompatActivity.RESULT_OK) {
+            pendingTunnel?.let { tunnel ->
+                pendingTunnelUp?.let { tunnelUp ->
+                    setTunnelStateWithPermissionsResult(tunnel, tunnelUp)
+                }
+            }
+            pendingTunnel = null
+            pendingTunnelUp = null
+        }
+    }
+
     fun setTunnelState(view: View, checked: Boolean) {
         val binding = DataBindingUtil.findBinding<ViewDataBinding>(view)
         val tunnel: Tunnel?
@@ -75,17 +90,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
                 intent?.let {
                     pendingTunnel = tunnel
                     pendingTunnelUp = checked
-                    startActivityForResult(it) { result, _ ->
-                        if (result) {
-                            pendingTunnel?.let { tunnel ->
-                                pendingTunnelUp?.let { tunnelUp ->
-                                    setTunnelStateWithPermissionsResult(tunnel, tunnelUp)
-                                }
-                            }
-                            pendingTunnel = null
-                            pendingTunnelUp = null
-                        }
-                    }
+                    startActivityForResult(it, REQUEST_CODE_VPN_PERMISSION)
                     return@thenAccept
                 }
             }
@@ -107,5 +112,9 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             Timber.e(throwable)
         }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_VPN_PERMISSION = 23491
     }
 }
