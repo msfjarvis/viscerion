@@ -24,7 +24,13 @@ import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.util.resolveAttribute
 import com.google.android.material.R as materialR
 
-class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragment() {
+class AddTunnelsSheet() : BottomSheetDialogFragment() {
+
+    private var tunnelListFragment: TunnelListFragment? = null
+
+    constructor(fragment: TunnelListFragment) : this() {
+        tunnelListFragment = fragment
+    }
 
     override fun getTheme(): Int {
         return R.style.BottomSheetDialogTheme
@@ -86,7 +92,10 @@ class AddTunnelsSheet(val fragment: TunnelListFragment) : BottomSheetDialogFragm
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        fragment.startActivityForResult(Intent.createChooser(intent, "Choose ZIP or conf"), TunnelListFragment.REQUEST_IMPORT)
+        tunnelListFragment?.startActivityForResult(
+                Intent.createChooser(intent, "Choose ZIP or conf"),
+                TunnelListFragment.REQUEST_IMPORT
+        )
     }
 
     private fun onRequestScanQRCode() {
