@@ -53,7 +53,7 @@ class TunnelListFragment : BaseFragment() {
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
 
-    internal fun importTunnel(configText: String) {
+    private fun importTunnel(configText: String) {
         try {
             // Ensure the config text is parseable before proceeding…
             Config.parse(ByteArrayInputStream(configText.toByteArray(StandardCharsets.UTF_8)))
@@ -65,7 +65,7 @@ class TunnelListFragment : BaseFragment() {
         }
     }
 
-    internal fun importTunnel(uri: Uri?) {
+    private fun importTunnel(uri: Uri?) {
         val activity = activity
         if (activity == null || uri == null)
             return
