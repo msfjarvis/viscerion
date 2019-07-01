@@ -8,6 +8,7 @@
 - Improve support for FireTV remote
 - Refactor app theme and convert night theme to a dark grey background
 - Update Russian translations
+- Switch fully to Storage Access Framework and remove WRITE_EXTERNAL_STORAGE permission
 
 ### [v5.0.0](https://github.com/MSF-Jarvis/viscerion/releases/5.0.0)
 - Add an adaptive icon and an alternative concept icon
