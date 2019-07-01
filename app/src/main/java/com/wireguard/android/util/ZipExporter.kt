@@ -5,55 +5,51 @@
  */
 package com.wireguard.android.util
 
-import android.os.Environment
+import android.content.ContentResolver
+import android.net.Uri
 import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.model.Tunnel
 import com.wireguard.config.Config
 import java9.util.concurrent.CompletableFuture
 import org.koin.core.KoinComponent
-import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 object ZipExporter : KoinComponent {
     fun exportZip(
+        contentResolver: ContentResolver,
+        fileUri: Uri,
         tunnels: List<Tunnel>,
-        onExportCompleteCallback: (filePath: String?, throwable: Throwable?) -> Unit
+        onExportCompleteCallback: (throwable: Throwable?) -> Unit
     ) {
         val futureConfigs = ArrayList<CompletableFuture<Config>>(tunnels.size)
         tunnels.forEach { futureConfigs.add(it.configAsync.toCompletableFuture()) }
         if (futureConfigs.isEmpty()) {
-            onExportCompleteCallback(null, IllegalArgumentException("No tunnels exist"))
+            onExportCompleteCallback(IllegalArgumentException("No tunnels exist"))
             return
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
                 .whenComplete { _, exception ->
-                    getAsyncWorker().supplyAsync {
+                    getAsyncWorker().runAsync {
                         if (exception != null)
                             throw exception
-                        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        val file = File(path, "viscerion-export.zip")
-                        if (!path.isDirectory && !path.mkdirs())
-                            throw IOException("Cannot create output directory")
                         try {
-                            ZipOutputStream(FileOutputStream(file)).use { zip ->
-                                for (i in futureConfigs.indices) {
-                                    zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
-                                    zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
+                            contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
+                                ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->
+                                    for (i in futureConfigs.indices) {
+                                        zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
+                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
+                                    }
+                                    zip.closeEntry()
                                 }
-                                zip.closeEntry()
                             }
                         } catch (e: Exception) {
-                            file.delete()
                             throw e
                         }
-
-                        file.absolutePath
-                    }.whenComplete { path, throwable ->
-                        onExportCompleteCallback(path, throwable)
+                    }.whenComplete { _, throwable ->
+                        onExportCompleteCallback(throwable)
                     }
                 }
     }

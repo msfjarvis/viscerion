@@ -8,11 +8,11 @@ package com.wireguard.android.activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.commit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -29,10 +29,13 @@ import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.services.TaskerIntegrationService
+import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.asString
-import com.wireguard.android.util.isPermissionGranted
+import com.wireguard.android.util.getParentActivity
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -44,32 +47,6 @@ typealias ChangeListener = Preference.OnPreferenceChangeListener
 typealias SummaryProvider<T> = Preference.SummaryProvider<T>
 
 class SettingsActivity : AppCompatActivity() {
-    private val permissionRequestCallbacks = SparseArray<(permissions: Array<String>, granted: IntArray) -> Unit>()
-    private var permissionRequestCounter: Int = 0
-
-    fun ensurePermissions(
-        permissions: Array<String>,
-        function: (permissions: Array<String>, granted: IntArray) -> Unit
-    ) {
-        val needPermissions = ArrayList<String>(permissions.size)
-        for (permission in permissions) {
-            if (!this.isPermissionGranted(permission))
-                needPermissions.add(permission)
-        }
-        if (needPermissions.isEmpty()) {
-            val granted = IntArray(permissions.size) {
-                PackageManager.PERMISSION_GRANTED
-            }
-            function(permissions, granted)
-            return
-        }
-        val idx = permissionRequestCounter++
-        permissionRequestCallbacks.put(idx, function)
-        ActivityCompat.requestPermissions(
-                this,
-                needPermissions.toTypedArray(), idx
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,21 +67,10 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        val f = permissionRequestCallbacks.get(requestCode)
-        if (f != null) {
-            permissionRequestCallbacks.remove(requestCode)
-            f(permissions, grantResults)
-        }
-    }
-
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
 
         private val prefs = getPrefs()
+        private var zipExporterPref: Preference? = null
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
@@ -126,6 +92,7 @@ class SettingsActivity : AppCompatActivity() {
                     preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
+            zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
@@ -145,6 +112,11 @@ class SettingsActivity : AppCompatActivity() {
                     else
                         screen.removePreference(it)
                 }
+            }
+
+            zipExporterPref?.onPreferenceClickListener = ClickListener {
+                createExportFile()
+                true
             }
 
             integrationSecretPref?.isVisible = prefs.allowTaskerIntegration
@@ -232,6 +204,37 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            data?.data?.also { uri ->
+                Timber.d("Exporting configs as ZIP to ${uri.path}")
+                if (requestCode == REQUEST_LOG_SAVE && resultCode == RESULT_OK) {
+                    exportZip(uri)
+                } else {
+                    super.onActivityResult(requestCode, resultCode, data)
+                }
+            }
+        }
+
+        private fun exportZip(fileUri: Uri) {
+            val pref = requireNotNull(zipExporterPref)
+            val ctx = requireContext()
+            getTunnelManager().getTunnels().thenAccept { tunnels ->
+                ZipExporter.exportZip(ctx.contentResolver, fileUri, tunnels) { throwable ->
+                    if (throwable != null) {
+                        val error = ExceptionLoggers.unwrapMessage(throwable)
+                        val message = ctx.getString(R.string.zip_export_error, error)
+                        Timber.e(message)
+                        pref.getParentActivity<SettingsActivity>()?.findViewById<View>(android.R.id.content)?.let { view ->
+                            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+                        }
+                        pref.isEnabled = true
+                    } else {
+                        pref.summary = ctx.getString(R.string.zip_export_success, fileUri.path)
+                    }
+                }
+            }
+        }
+
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
             if (excludedApps.asString() == prefs.exclusions) return
             getTunnelManager().getTunnels().thenAccept { tunnels ->
@@ -258,6 +261,19 @@ class SettingsActivity : AppCompatActivity() {
                     prefs.exclusions = ""
                 }
             }
+        }
+
+        private fun createExportFile() {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "application/zip"
+                putExtra(Intent.EXTRA_TITLE, "viscerion-export.zip")
+            }
+            startActivityForResult(intent, REQUEST_LOG_SAVE)
+        }
+
+        companion object {
+            const val REQUEST_LOG_SAVE = 1234
         }
     }
 }
