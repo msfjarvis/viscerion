@@ -135,6 +135,9 @@ tasks {
         options.isDeprecation = true
     }
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs += listOf("-Xnew-inference")
+        }
     }
 }
