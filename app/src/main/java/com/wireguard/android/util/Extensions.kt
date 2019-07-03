@@ -11,8 +11,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.app.AlarmManagerCompat.setExact
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
@@ -91,10 +90,6 @@ fun Context.restartApplication() {
     }
 }
 
-fun Context.isPermissionGranted(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-}
-
 fun Context.isSystemDarkThemeEnabled(): Boolean {
     return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_YES -> true
@@ -108,6 +103,18 @@ fun Context.resolveAttribute(@AttrRes attrRes: Int): Int {
     theme.resolveAttribute(attrRes, typedValue, true)
     return typedValue.data
 }
+
+val Uri.humanReadablePath: String
+    get() {
+        path?.apply {
+            if (startsWith("/document/primary")) {
+                return replace("/document/primary:", "/sdcard/")
+            } else if (startsWith("/document/")) {
+                return replace("/document/", "/storage/").replace(":", "/")
+            }
+        }
+        return requireNotNull(path)
+    }
 
 inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
     return try {

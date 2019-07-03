@@ -32,7 +32,7 @@ import com.wireguard.android.services.TaskerIntegrationService
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.asString
-import com.wireguard.android.util.getParentActivity
+import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
 import timber.log.Timber
@@ -70,7 +70,6 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
 
         private val prefs = getPrefs()
-        private var zipExporterPref: Preference? = null
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
@@ -92,7 +91,7 @@ class SettingsActivity : AppCompatActivity() {
                     preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
-            zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
+            val zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
@@ -216,20 +215,17 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun exportZip(fileUri: Uri) {
-            val pref = requireNotNull(zipExporterPref)
             val ctx = requireContext()
+            val snackbarView = requireNotNull(requireActivity().findViewById<View>(android.R.id.content))
             getTunnelManager().getTunnels().thenAccept { tunnels ->
                 ZipExporter.exportZip(ctx.contentResolver, fileUri, tunnels) { throwable ->
                     if (throwable != null) {
                         val error = ExceptionLoggers.unwrapMessage(throwable)
                         val message = ctx.getString(R.string.zip_export_error, error)
                         Timber.e(message)
-                        pref.getParentActivity<SettingsActivity>()?.findViewById<View>(android.R.id.content)?.let { view ->
-                            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
-                        }
-                        pref.isEnabled = true
+                        Snackbar.make(snackbarView, message, Snackbar.LENGTH_LONG).show()
                     } else {
-                        pref.summary = ctx.getString(R.string.zip_export_success, fileUri.path)
+                        Snackbar.make(snackbarView, ctx.getString(R.string.zip_export_success, fileUri.humanReadablePath), Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

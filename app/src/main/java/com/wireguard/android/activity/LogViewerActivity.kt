@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.databinding.LogViewerActivityBinding
 import com.wireguard.android.databinding.LogViewerEntryBinding
+import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.runShellCommand
 import timber.log.Timber
 import java.io.FileOutputStream
@@ -67,7 +68,7 @@ class LogViewerActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RESULT_OK && requestCode == REQUEST_LOCATION) {
+        if (requestCode == REQUEST_LOCATION) {
             data?.data?.also { uri ->
                 Timber.d("Exporting logcat stream to ${uri.path}")
                 exportLog(uri)
@@ -93,10 +94,8 @@ class LogViewerActivity : AppCompatActivity() {
                     outputStream.write((entry.line + "\n").toByteArray())
                 }
             }
-            val message = getString(R.string.log_export_success, fileUri.path)
-            findViewById<View>(android.R.id.content)?.let { view ->
-                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
-            }
+            val message = getString(R.string.log_export_success, fileUri.humanReadablePath)
+            Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
         }
     }
 
