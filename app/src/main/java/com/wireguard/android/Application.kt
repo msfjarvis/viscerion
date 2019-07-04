@@ -73,12 +73,13 @@ class Application : android.app.Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
 
-        if (prefs.allowTaskerIntegration && isForeground()) {
+        if (prefs.allowTaskerIntegration && canStartService()) {
             startService(Intent(this, TaskerIntegrationService::class.java))
         }
     }
 
-    private fun isForeground(): Boolean {
+    private fun canStartService(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return true
         val appProcessInfo = ActivityManager.RunningAppProcessInfo()
         ActivityManager.getMyMemoryState(appProcessInfo)
         return (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE)
