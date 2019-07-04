@@ -7,7 +7,7 @@ class DependencyStore {
 
     object AndroidX {
         private const val annotationVersion = "1.1.0"
-        private const val appcompatVersion = "1.1.0-beta01"
+        private const val appcompatVersion = "1.1.0-rc01"
         private const val constraintlayoutVersion = "2.0.0-beta2"
         private const val coreKtxVersion = "1.2.0-alpha02"
         private const val databindingVersion = "3.5.0-beta05"
