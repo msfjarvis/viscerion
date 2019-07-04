@@ -21,14 +21,12 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.AttrRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.app.AlarmManagerCompat.setExact
 import androidx.core.content.getSystemService
-import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.backend.Backend
@@ -115,14 +113,6 @@ val Uri.humanReadablePath: String
         }
         return requireNotNull(path)
     }
-
-inline fun <reified T : AppCompatActivity> Preference.getParentActivity(): T? {
-    return try {
-        context as T
-    } catch (ignored: ClassCastException) {
-        null
-    }
-}
 
 fun updateAppTheme(dark: Boolean) {
     setDefaultNightMode(
