@@ -43,7 +43,7 @@ class DependencyStore {
 
     object ThirdParty {
         private const val koinVersion = "2.0.1"
-        private const val recyclicalVersion = "1.0.0"
+        private const val recyclicalVersion = "1.0.1"
         private const val retroFutureVersion = "1.7.1"
         private const val threetenabpVersion = "1.2.1"
         private const val timberVersion = "4.7.1"
