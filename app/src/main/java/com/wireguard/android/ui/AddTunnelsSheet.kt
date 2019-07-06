@@ -104,6 +104,9 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
             setBeepEnabled(false)
             setPrompt(getString(R.string.qr_code_hint))
         }
-        startActivityForResult(intentIntegrator.createScanIntent(), IntentIntegrator.REQUEST_CODE)
+        tunnelListFragment?.startActivityForResult(
+                intentIntegrator.createScanIntent(),
+                IntentIntegrator.REQUEST_CODE
+        )
     }
 }
