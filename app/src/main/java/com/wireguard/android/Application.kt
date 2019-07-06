@@ -12,6 +12,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
+import android.os.StrictMode
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import com.wireguard.android.di.backendAsyncModule
@@ -65,8 +66,20 @@ class Application : android.app.Application() {
             ))
         }
 
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .build()
+            )
+            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+                    .detectLeakedClosableObjects()
+                    .detectActivityLeaks()
+                    .penaltyLog()
+                    .build()
+            )
+        }
 
         updateAppTheme(prefs.useDarkTheme)
 
