@@ -17,6 +17,7 @@
         <item name="android:windowBackground">@color/primary_color</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.Dialog</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.ActionBar</item>
     </style>
 </resources>
