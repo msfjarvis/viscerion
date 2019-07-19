@@ -1,6 +1,6 @@
 # Release Notes
 
-### Unreleased
+### [v5.1.0](https://github.com/MSF-Jarvis/viscerion/releases/5.1.0)
 - Target Android Q and adapt APIs for it
 - Ensure dark theme follows battery saver on Android P and below
 - Improve memory usage
