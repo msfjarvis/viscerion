@@ -1,5 +1,9 @@
 # Release Notes
 
+### [v5.1.1](https://github.com/MSF-Jarvis/viscerion/releases/5.1.1)
+- Revert back to non-service Tasker integration as many devices incessantly
+  kill background services thus breaking the feature entirely.
+
 ### [v5.1.0](https://github.com/MSF-Jarvis/viscerion/releases/5.1.0)
 - Target Android Q and adapt APIs for it
 - Ensure dark theme follows battery saver on Android P and below
