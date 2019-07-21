@@ -44,8 +44,7 @@ steps:
         from_secret: bot_token
     when:
       branch:
-        exclude:
-          - l10n_master
+        - master
       event:
         exclude:
           - pull_request
