@@ -136,7 +136,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs += listOf("-Xnew-inference")
+            freeCompilerArgs += "-Xnew-inference"
         }
     }
 }
