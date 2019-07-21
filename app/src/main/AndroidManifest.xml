@@ -86,7 +86,12 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.TaskerIntegrationService" />
+        <receiver android:name=".services.TaskerIntegrationReceiver">
+            <intent-filter>
+                <action android:name="${applicationId}.SET_TUNNEL_UP" />
+                <action android:name="${applicationId}.SET_TUNNEL_DOWN" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".backend.GoBackend$VpnService"

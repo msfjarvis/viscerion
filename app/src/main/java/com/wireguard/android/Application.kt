@@ -5,12 +5,8 @@
  */
 package com.wireguard.android
 
-import android.app.ActivityManager
-import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Intent
 import android.os.Build
 import android.os.StrictMode
 import androidx.annotation.RequiresApi
@@ -19,10 +15,9 @@ import com.wireguard.android.di.backendAsyncModule
 import com.wireguard.android.di.backendModule
 import com.wireguard.android.di.configStoreModule
 import com.wireguard.android.di.earlyInitModules
-import com.wireguard.android.di.ext.injectPrefs
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.toolsInstallerModule
 import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.services.TaskerIntegrationService
 import com.wireguard.android.util.updateAppTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -30,8 +25,6 @@ import timber.log.Timber
 import java.lang.ref.WeakReference
 
 class Application : android.app.Application() {
-
-    val prefs by injectPrefs()
 
     init {
         weakSelf = WeakReference(this)
@@ -80,21 +73,10 @@ class Application : android.app.Application() {
             )
         }
 
-        updateAppTheme(prefs.useDarkTheme)
+        updateAppTheme(getPrefs().useDarkTheme)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannel()
-
-        if (prefs.allowTaskerIntegration && canStartService()) {
-            startService(Intent(this, TaskerIntegrationService::class.java))
-        }
-    }
-
-    private fun canStartService(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return true
-        val appProcessInfo = ActivityManager.RunningAppProcessInfo()
-        ActivityManager.getMyMemoryState(appProcessInfo)
-        return (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE)
     }
 
     companion object {
