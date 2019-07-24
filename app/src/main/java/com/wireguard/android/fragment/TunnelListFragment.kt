@@ -364,11 +364,9 @@ class TunnelListFragment : BaseFragment() {
                                             onTunnelDeletionFinished(count, throwable)
                                         }
                                 binding?.createFab?.extend()
-                                checkedItems.clear()
                                 mode.finish()
                             }
                             .setNegativeButton(android.R.string.cancel) { _, _ ->
-                                checkedItems.clear()
                                 mode.finish()
                             }
                             .setOnCancelListener {
@@ -380,9 +378,11 @@ class TunnelListFragment : BaseFragment() {
                 }
                 R.id.menu_action_select_all -> {
                     tunnelManager.getTunnels().thenAccept { tunnels ->
-                        val checkedState = checkedItems.size != tunnels.size
-                        for (i in tunnels.indices) {
-                            setItemChecked(i, checkedState)
+                        val allChecked = checkedItems.size == tunnels.size
+                        if (allChecked) {
+                            mode.finish()
+                        } else {
+                            tunnels.indices.forEach { setItemChecked(it, true) }
                         }
                     }
                     return true
