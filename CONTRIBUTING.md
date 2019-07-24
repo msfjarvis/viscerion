@@ -1,6 +1,6 @@
 # Contributing
 
-Viscerion follows the [all-contributors](https://allcontributors.org) spec, and as such all contributions both code and non-code are very welcome.
+Viscerion follows the [all-contributors](https://allcontributors.org) spec, and as such both code contributions and documentation updates are very welcome.
 
 ### Contributing documentation
 
