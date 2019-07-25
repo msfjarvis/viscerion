@@ -110,4 +110,21 @@
     <string name="parse_error_integer">Nummer</string>
     <string name="parse_error_reason">Kann %1$s “%2$s ” nicht verarbeiten</string>
     <string name="peer">Peer</string>
+    <string name="persistent_keepalive">Dauerhaft im Hintergrund</string>
+    <string name="pre_shared_key">Vorab geteilter Schlüssel</string>
+    <string name="private_key">Privater Schlüssel</string>
+    <string name="public_key">Öffentlicher Schlüssel</string>
+    <string name="public_key_description">Öffentlicher Schlüssel</string>
+    <string name="qr_code_hint">Tipp: Mit `qrencode -t ansiutf8 &lt; tunnel.conf` generieren.</string>
+    <string name="restore_on_boot_summary">Vorher aktivierte Tunnel beim Start wieder aktivieren</string>
+    <string name="restore_on_boot_title">Wiederherstellen bei Neustart</string>
+    <string name="save">Speichern</string>
+    <string name="select_all">Alles auswählen</string>
+    <string name="set_exclusions">Ausschlüsse festlegen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="preference_category_config">Tunnelkonfigurationen</string>
+    <string name="preference_category_debugging">Fehlersuche</string>
+    <string name="preference_category_theming">Darstellung</string>
+    <string name="tasker_integration_title">Tasker-Integration aktivieren</string>
+    <string name="tasker_integration_summary">WARNUNG: Dies ist ein potenzielles Sicherheitsrisiko! Vermeiden Sie, dies auf gerooteten Geräten zu verwenden, da bösartige Apps den von Viscerion geschaffenen Schutz sehr leicht umgehen können!</string>
 </resources>
