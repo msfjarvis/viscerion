@@ -6,7 +6,6 @@
 package com.wireguard.config
 
 import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
@@ -78,7 +77,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         addresses = Collections.unmodifiableSet(LinkedHashSet(builder.addresses))
         dnsServers = Collections.unmodifiableSet(LinkedHashSet(builder.dnsServers))
         excludedApplications = ArrayList(builder.excludedApplications)
-        keyPair = builder.keyPair.requireNonNull("Interfaces must have a private key")
+        keyPair = requireNotNull(builder.keyPair) { "Interfaces must have a private key" }
         listenPort = builder.listenPort
         mtu = builder.mtu
     }

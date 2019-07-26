@@ -28,7 +28,6 @@ import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.isSystemDarkThemeEnabled
-import com.wireguard.android.util.requireNonNull
 import com.wireguard.android.viewmodel.ConfigProxy
 import com.wireguard.config.Config
 import timber.log.Timber
@@ -152,7 +151,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 when {
                     tunnel == null -> {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
-                        getTunnelManager().create(binding?.name.requireNonNull("Tunnel name cannot be empty!"), newConfig)
+                        getTunnelManager().create(requireNotNull(binding?.name) { "Tunnel name cannot be empty!" }, newConfig)
                                 .whenComplete { newTunnel, throwable ->
                                     this.onTunnelCreated(
                                             newTunnel,
@@ -268,7 +267,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     }
 
     override fun onExcludedAppsSelected(excludedApps: List<String>) {
-        binding.requireNonNull<TunnelEditorFragmentBinding>("Tried to set excluded apps while no view was loaded")
+        requireNotNull(binding) { "Tried to set excluded apps while no view was loaded" }
         binding?.config?.`interface`?.apply {
             excludedApplications.clear()
             excludedApplications.addAll(excludedApps)

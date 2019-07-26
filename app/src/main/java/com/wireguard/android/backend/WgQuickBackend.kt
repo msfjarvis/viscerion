@@ -20,7 +20,6 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
-import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.Config
 import timber.log.Timber
 import java.io.File
@@ -131,13 +130,13 @@ class WgQuickBackend(private var context: Context) : Backend {
         state: State,
         config: Config?
     ) {
-        config.requireNonNull<Config>("Trying to set state with a null config")
+        requireNotNull(config) { "Trying to set state with a null config" }
 
         val tempFile = File(localTemporaryDir, tunnel.name + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(
                 tempFile,
                 false
-        ).use { stream -> stream.write(config?.toWgQuickString()?.toByteArray(StandardCharsets.UTF_8)) }
+        ).use { stream -> stream.write(config.toWgQuickString().toByteArray(StandardCharsets.UTF_8)) }
         var command = "wg-quick $state '${tempFile.absolutePath}'"
         if (state == State.UP)
             command = "cat /sys/module/wireguard/version && $command"

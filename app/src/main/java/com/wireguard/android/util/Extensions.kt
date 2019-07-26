@@ -65,14 +65,6 @@ fun <T> List<T>.asString(): String {
     return TextUtils.join(", ", this)
 }
 
-inline fun <reified T : Any> Any?.requireNonNull(message: String): T {
-    if (this == null)
-        throw NullPointerException(message)
-    if (this !is T)
-        throw IllegalArgumentException(message)
-    return this
-}
-
 fun Context.restartApplication() {
     val homeIntent = Intent(Intent.ACTION_MAIN)
             .addCategory(Intent.CATEGORY_HOME)

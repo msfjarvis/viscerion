@@ -5,7 +5,6 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.util.requireNonNull
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
@@ -38,7 +37,7 @@ class Config private constructor(builder: Builder) {
     val peers: List<Peer>
 
     init {
-        `interface` = builder.interfaze.requireNonNull("An [Interface] section is required")
+        `interface` = requireNotNull(builder.interfaze) { "An [Interface] section is required" }
         // Defensively copy to ensure immutability even if the Builder is reused.
         peers = Collections.unmodifiableList(ArrayList(builder.peers))
     }

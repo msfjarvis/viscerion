@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
 import com.wireguard.android.BR
-import com.wireguard.android.util.requireNonNull
 import java.lang.ref.WeakReference
 
 /**
@@ -30,7 +29,7 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
             binding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
         }
 
-        list.requireNonNull<ObservableList<T>>("Trying to get a view while list is still null")
+        requireNotNull(list) { "Trying to get a view while list is still null" }
 
         binding?.setVariable(BR.collection, list)
         list?.let { binding?.setVariable(BR.item, it[position]) }
