@@ -74,8 +74,8 @@ func wgTurnOn(ifnameRef string, tunFd int32, settings string) int32 {
 
 	tun, name, err := tun.CreateUnmonitoredTUNFromFD(int(tunFd))
 	if err != nil {
-		unix.Close(int(tunFd))
 		logger.Error.Println(err)
+		unix.Close(int(tunFd))
 		if (err.Error() == "bad file descriptor") {
 			return -2
 		}
@@ -87,8 +87,8 @@ func wgTurnOn(ifnameRef string, tunFd int32, settings string) int32 {
 
 	setError := device.IpcSetOperation(bufio.NewReader(strings.NewReader(settings)))
 	if setError != nil {
-		unix.Close(int(tunFd))
 		logger.Error.Println(setError)
+		unix.Close(int(tunFd))
 		if (err.Error() == "bad file descriptor") {
 			return -2
 		}
