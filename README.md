@@ -1,6 +1,6 @@
 # Viscerion, Unofficial Android client for [WireGuard](https://www.wireguard.com/)
 
-[![Build Status](https://build.msfjarvis.website/api/badges/MSF-Jarvis/viscerion/status.svg)](https://build.msfjarvis.website/MSF-Jarvis/viscerion) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion)
+[![Build Status](https://build.msfjarvis.website/api/badges/msfjarvis/viscerion/status.svg)](https://build.msfjarvis.website/msfjarvis/viscerion) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion)
 
 <a href='https://play.google.com/store/apps/details?id=me.msfjarvis.viscerion&utm_source=GitHub&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200px"/></a>
 
@@ -9,7 +9,7 @@ Refreshed take at the official Android client with a nicer UI and additional fea
 ## Building
 
 ```
-$ git clone https://github.com/MSF-Jarvis/viscerion --recursive
+$ git clone https://github.com/msfjarvis/viscerion --recursive
 $ cd viscerion
 $ ./gradlew assembleDebug
 ```

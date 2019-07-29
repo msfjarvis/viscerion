@@ -4,7 +4,7 @@ Viscerion follows the [all-contributors](https://allcontributors.org) spec, and 
 
 ### Contributing documentation
 
-Viscerion has very little in the way of documentation, save for a lone wiki page on the [Tasker integration](https://github.com/MSF-Jarvis/viscerion/wiki/Tasker-integration). I'd love for this to change and evolve into more in-depth documentation for the various features Viscerion adds over the official Android client as well as basic WireGuard usage, since it seems to be quite lacking as well.
+Viscerion has very little in the way of documentation, save for a lone wiki page on the [Tasker integration](https://github.com/msfjarvis/viscerion/wiki/Tasker-integration). I'd love for this to change and evolve into more in-depth documentation for the various features Viscerion adds over the official Android client as well as basic WireGuard usage, since it seems to be quite lacking as well.
 
 
 ### Contributing code
