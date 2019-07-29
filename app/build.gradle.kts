@@ -64,11 +64,6 @@ android {
     }
     buildTypes {
         getByName("release") {
-            externalNativeBuild {
-                cmake {
-                    arguments.add("-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}")
-                }
-            }
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "GIT_HASH", "\"\"")
@@ -76,17 +71,9 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            externalNativeBuild {
-                cmake {
-                    arguments.add("-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}$applicationIdSuffix")
-                }
-            }
             isMinifyEnabled = false
             buildConfigField("String", "GIT_HASH", "\"${gitHash()}\"")
         }
-    }
-    externalNativeBuild.cmake {
-        setPath(file("tools/CMakeLists.txt"))
     }
     lintOptions {
         isAbortOnError = true
@@ -101,6 +88,7 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(project(":crypto"))
+    implementation(project(":native"))
     implementation(deps.AndroidX.annotations)
     implementation(deps.AndroidX.appcompat)
     implementation(deps.AndroidX.constraintlayout)

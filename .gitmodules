@@ -1,6 +1,6 @@
-[submodule "app/tools/libmnl"]
-	path = app/tools/libmnl
+[submodule "native/tools/libmnl"]
+	path = native/tools/libmnl
 	url = https://github.com/justmirror/libmnl/
-[submodule "app/tools/wireguard"]
-	path = app/tools/wireguard
+[submodule "native/tools/wireguard"]
+	path = native/tools/wireguard
 	url = https://github.com/MSF-Jarvis/WireGuard

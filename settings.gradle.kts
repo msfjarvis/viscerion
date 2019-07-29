@@ -3,4 +3,4 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-include(":app", ":crypto")
+include(":app", ":crypto", ":native")
