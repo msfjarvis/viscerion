@@ -76,6 +76,9 @@ func wgTurnOn(ifnameRef string, tunFd int32, settings string) int32 {
 	if err != nil {
 		unix.Close(int(tunFd))
 		logger.Error.Println(err)
+		if (err.Error() == "bad file descriptor") {
+			return -2
+		}
 		return -1
 	}
 
@@ -86,6 +89,9 @@ func wgTurnOn(ifnameRef string, tunFd int32, settings string) int32 {
 	if setError != nil {
 		unix.Close(int(tunFd))
 		logger.Error.Println(setError)
+		if (err.Error() == "bad file descriptor") {
+			return -2
+		}
 		return -1
 	}
 
