@@ -1,17 +1,10 @@
 kind: pipeline
 name: debug-test
 
-clone:
-  disable: true
-
 steps:
-  - name: clone
+  - name: submodules
     image: docker:git
     commands:
-      - git init
-      - git remote add origin git://github.com/MSF-Jarvis/viscerion.git
-      - git fetch origin
-      - git checkout -f $DRONE_COMMIT
       - git submodule update --init --recursive
     when:
       branch:
