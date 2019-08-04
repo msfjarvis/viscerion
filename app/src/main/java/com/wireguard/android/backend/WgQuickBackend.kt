@@ -116,6 +116,8 @@ class WgQuickBackend(private var context: Context) : Backend {
                     .setContentText(tunnel.name)
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
+                    .setShowWhen(true)
+                    .setUsesChronometer(true)
                     .setPriority(Notification.FLAG_ONGOING_EVENT)
                     .setSmallIcon(R.drawable.ic_qs_tile)
             notificationManager.notify(tunnel.name.hashCode(), builder.build())
