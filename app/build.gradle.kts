@@ -100,6 +100,7 @@ dependencies {
     implementation(deps.AndroidX.sliceBuilders)
     implementation(deps.AndroidX.sliceCore)
     implementation(deps.AndroidX.sliceKtx)
+    implementation(deps.AndroidX.workmanager)
     implementation(deps.Material.material)
     implementation(deps.ThirdParty.koinAndroid)
     implementation(deps.ThirdParty.koinCore)

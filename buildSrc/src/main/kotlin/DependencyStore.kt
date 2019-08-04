@@ -15,6 +15,7 @@ class DependencyStore {
         private const val preferenceVersion = "1.1.0-rc01"
         private const val slicesVersion = "1.1.0-alpha01"
         private const val slicesKtxVersion = "1.0.0-alpha07"
+        private const val workVersion = "2.2.0-rc01"
 
         const val annotations = "androidx.annotation:annotation:$annotationVersion"
         const val appcompat = "androidx.appcompat:appcompat:$appcompatVersion"
@@ -27,6 +28,7 @@ class DependencyStore {
         const val sliceBuilders = "androidx.slice:slice-builders:$slicesVersion"
         const val sliceCore = "androidx.slice:slice-core:$slicesVersion"
         const val sliceKtx = "androidx.slice:slice-builders-ktx:$slicesKtxVersion"
+        const val workmanager = "androidx.work:work-runtime-ktx:$workVersion"
     }
 
     object Debugging {

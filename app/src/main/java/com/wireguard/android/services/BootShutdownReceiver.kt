@@ -8,12 +8,17 @@ package com.wireguard.android.services
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.work.BackoffPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.di.ext.getBackendAsync
 import com.wireguard.android.di.ext.getTunnelManager
-import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.work.TunnelRestoreWork
 import org.koin.core.KoinComponent
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
 
@@ -25,8 +30,16 @@ class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
             val action = intent.action
             val tunnelManager = getTunnelManager()
             if (Intent.ACTION_BOOT_COMPLETED == action) {
-                Timber.i("Broadcast receiver restoring state (boot)")
-                tunnelManager.restoreState(false).whenComplete(ExceptionLoggers.D)
+                Timber.i("Broadcast receiver attempting to restore state (boot)")
+                val restoreWork = OneTimeWorkRequestBuilder<TunnelRestoreWork>()
+                        .setBackoffCriteria(
+                                BackoffPolicy.LINEAR,
+                                OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                                TimeUnit.MILLISECONDS
+                        )
+                        .addTag("restore_work")
+                        .build()
+                WorkManager.getInstance(context).enqueue(restoreWork)
             } else if (Intent.ACTION_SHUTDOWN == action) {
                 Timber.i("Broadcast receiver saving state (shutdown)")
                 tunnelManager.saveState()
