@@ -83,7 +83,7 @@ class GoBackend(private var context: Context) : Backend {
             return originalState
         if (state == Tunnel.State.UP && currentTunnel != null)
             throw IllegalStateException(context.getString(R.string.multiple_tunnels_error))
-        Timber.d("Changing tunnel %s to state %s ", tunnel.name, finalState)
+        Timber.d("Changing tunnel ${tunnel.name} to state $finalState ")
         setStateInternal(tunnel, tunnel.getConfig(), finalState)
         return getState(tunnel)
     }
@@ -223,7 +223,7 @@ class GoBackend(private var context: Context) : Backend {
                 }
             }
 
-            vpnService = vpnService.newIncompleteFuture<VpnService>()
+            vpnService = vpnService.newIncompleteFuture()
             super.onDestroy()
         }
 
