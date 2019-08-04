@@ -32,7 +32,7 @@ class DependencyStore {
     }
 
     object Debugging {
-        private const val leakcanaryVersion = "2.0-beta-1"
+        private const val leakcanaryVersion = "2.0-beta-2"
 
         const val leakcanary = "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
     }
