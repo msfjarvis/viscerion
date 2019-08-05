@@ -1,5 +1,11 @@
 # Release Notes
 
+### Unreleased
+- Add timer to wg-quick notifications
+- Defer tunnel state restoration to workaround AFWall+ startup block
+- Add German translations
+- Update library dependencies
+
 ### [v5.1.1](https://github.com/msfjarvis/viscerion/releases/5.1.1)
 - Revert back to non-service Tasker integration as many devices incessantly
   kill background services thus breaking the feature entirely.
