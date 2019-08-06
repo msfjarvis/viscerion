@@ -103,11 +103,11 @@
     <string name="no_config_error">Versuche, einen Tunnel ohne Konfiguration zu öffnen</string>
     <string name="no_configs_error">Keine Konfigurationen gefunden</string>
     <string name="no_tunnels_error">Keine Tunnel vorhanden</string>
-    <string name="parse_error_generic">String</string>
+    <string name="parse_error_generic">string</string>
     <string name="parse_error_inet_address">IP-Adresse</string>
-    <string name="parse_error_inet_endpoint">Endpunkt</string>
+    <string name="parse_error_inet_endpoint">endpunkt</string>
     <string name="parse_error_inet_network">IP-Netzwerk</string>
-    <string name="parse_error_integer">Nummer</string>
+    <string name="parse_error_integer">nummer</string>
     <string name="parse_error_reason">Kann %1$s “%2$s ” nicht verarbeiten</string>
     <string name="peer">Peer</string>
     <string name="persistent_keepalive">Dauerhaft im Hintergrund</string>
@@ -122,6 +122,7 @@
     <string name="select_all">Alles auswählen</string>
     <string name="set_exclusions">Ausschlüsse festlegen</string>
     <string name="settings">Einstellungen</string>
+    <string name="zip_export_success">Gespeichert als „%s”</string>
     <string name="preference_category_config">Tunnelkonfigurationen</string>
     <string name="preference_category_debugging">Fehlersuche</string>
     <string name="preference_category_theming">Darstellung</string>
