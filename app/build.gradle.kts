@@ -37,7 +37,7 @@ android {
         versionCode = VersionConfiguration.versionCode
         versionName = VersionConfiguration.versionName
         if (System.getenv("DRONE") != "true") setProperty("archivesBaseName", "viscerion_${gitHash()}")
-        resConfigs("de", "en", "fr", "ko", "pt-rBR", "ru")
+        resConfigs("de", "en", "fr", "pt-rBR", "ru")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
