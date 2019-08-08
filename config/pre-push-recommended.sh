@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ $(git diff --name-only HEAD origin/$(git rev-parse --abbrev-ref HEAD) | grep -e '\.kt[s]\?$' -e '\.xml\?$') != "" ]]; then
+if [[ $(git diff --name-only HEAD origin/$(git rev-parse --abbrev-ref HEAD) | grep -E 'buildSrc|native|app|crypto|gradle') != "" ]]; then
     gradle spotlessApply
     gradle assembleDebug
 fi
