@@ -104,7 +104,8 @@
         <service
             android:name=".services.QuickTileService"
             android:icon="@drawable/ic_qs_tile"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:process=":qstile">
 
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
