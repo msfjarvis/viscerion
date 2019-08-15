@@ -116,7 +116,7 @@ class GoBackend(private var context: Context) : Backend {
                 startVpnService()
 
             try {
-                service = vpnService.get(2, TimeUnit.SECONDS)
+                service = vpnService.get(5, TimeUnit.SECONDS)
             } catch (e: TimeoutException) {
                 throw Exception(context.getString(R.string.vpn_start_error), e)
             }
