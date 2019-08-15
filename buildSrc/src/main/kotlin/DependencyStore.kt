@@ -31,12 +31,6 @@ class DependencyStore {
         const val workmanager = "androidx.work:work-runtime-ktx:$workVersion"
     }
 
-    object Debugging {
-        private const val leakcanaryVersion = "2.0-beta-2"
-
-        const val leakcanary = "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
-    }
-
     object Material {
         private const val materialVersion = "1.1.0-alpha09"
 
