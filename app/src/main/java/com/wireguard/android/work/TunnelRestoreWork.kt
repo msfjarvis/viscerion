@@ -29,16 +29,16 @@ class TunnelRestoreWork(
         rootShell.run(result, "ip6tables -L | grep Chain")
         Timber.tag("RestoreWork")
         val isDropping = result.any { it.contains("DROP") }
-        if (isDropping) {
+        return if (isDropping) {
             // AFWall+ sets all packets to DROP to prevent leaks during boot.
             // Trying to start a WireGuard tunnel in this phase will end badly, so
             // defer the job for later.
             Timber.d("Packets are currently being dropped, defer tunnel state restore")
-            return Result.retry()
+            Result.retry()
         } else {
             Timber.d("Restoring tunnel state")
             tunnelManager.restoreState(false).whenComplete(ExceptionLoggers.D)
+            Result.success()
         }
-        return Result.success()
     }
 }
