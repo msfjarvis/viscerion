@@ -34,7 +34,7 @@ steps:
 - name: build
   image: msfjarvis/docker-android-sdk:latest
   commands:
-  - ./gradlew spotlessCheck :app:assembleDebug :app:lintDebug
+  - ./gradlew spotlessCheck assembleDebug lintDebug
   when:
     branch:
       exclude:
