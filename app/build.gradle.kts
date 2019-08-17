@@ -86,7 +86,6 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(project(":crypto"))
     implementation(project(":native"))
     implementation(deps.AndroidX.annotations)
@@ -102,13 +101,13 @@ dependencies {
     implementation(deps.AndroidX.sliceKtx)
     implementation(deps.AndroidX.workmanager)
     implementation(deps.Material.material)
+    implementation(deps.ThirdParty.kaiteki)
     implementation(deps.ThirdParty.koinAndroid)
     implementation(deps.ThirdParty.koinCore)
     implementation(deps.ThirdParty.recyclical)
     implementation(deps.ThirdParty.retrofuture)
     implementation(deps.ThirdParty.threetenabp)
     implementation(deps.ThirdParty.timber)
-    implementation(deps.ThirdParty.zxing)
     implementation(embeddedKotlin("stdlib-jdk8"))
 }
 

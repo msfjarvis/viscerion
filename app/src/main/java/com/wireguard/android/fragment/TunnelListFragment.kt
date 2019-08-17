@@ -19,7 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.Result
+import com.kroegerama.kaiteki.bcode.BarcodeResultListener
 import com.wireguard.android.R
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
@@ -29,7 +30,6 @@ import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
-import com.wireguard.android.ui.AddTunnelsSheet
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
@@ -45,7 +45,7 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-class TunnelListFragment : BaseFragment() {
+class TunnelListFragment : BaseFragment(), BarcodeResultListener {
 
     private val actionModeListener = ActionModeListener()
     private val tunnelManager by injectTunnelManager()
@@ -175,12 +175,6 @@ class TunnelListFragment : BaseFragment() {
                     }
                 return
             }
-            IntentIntegrator.REQUEST_CODE -> {
-                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)?.contents?.let {
-                    importTunnel(it)
-                }
-                return
-            }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
@@ -303,6 +297,11 @@ class TunnelListFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onBarcodeResult(result: Result): Boolean {
+        importTunnel(result.text)
+        return true
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

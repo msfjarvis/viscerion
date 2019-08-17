@@ -3,7 +3,7 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.android.ui
+package com.wireguard.android.fragment
 
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -17,10 +17,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
-import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.BarcodeFormat
+import com.kroegerama.kaiteki.bcode.ui.BarcodeBottomSheet
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
-import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.util.resolveAttribute
 import com.google.android.material.R as materialR
 
@@ -64,16 +64,16 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
                     }
                 })
                 dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
-                    onRequestCreateConfig()
                     dismiss()
+                    onRequestCreateConfig()
                 }
                 dialog?.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
-                    onRequestImportConfig()
                     dismiss()
+                    onRequestImportConfig()
                 }
                 dialog?.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
-                    onRequestScanQRCode()
                     dismiss()
+                    onRequestScanQRCode()
                 }
             }
         })
@@ -99,14 +99,10 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
     }
 
     private fun onRequestScanQRCode() {
-        val intentIntegrator = IntentIntegrator.forSupportFragment(this).apply {
-            setOrientationLocked(false)
-            setBeepEnabled(false)
-            setPrompt(getString(R.string.qr_code_hint))
-        }
-        tunnelListFragment?.startActivityForResult(
-                intentIntegrator.createScanIntent(),
-                IntentIntegrator.REQUEST_CODE
+        BarcodeBottomSheet.show(
+                requireNotNull(tunnelListFragment).childFragmentManager,
+                formats = listOf(BarcodeFormat.QR_CODE),
+                barcodeInverted = false
         )
     }
 }
