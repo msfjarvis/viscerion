@@ -61,11 +61,6 @@
             android:label="@string/create_activity_title"
             android:parentActivityName=".activity.MainActivity" />
 
-        <activity
-            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
-
         <activity android:name=".activity.LogViewerActivity"
             android:label="@string/log_viewer">
             <intent-filter>
