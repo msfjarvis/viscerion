@@ -161,7 +161,7 @@ class GoBackend(private var context: Context) : Backend {
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            if (Build.VERSION.SDK_INT >= 29)
                 builder.setMetered(false)
 
             var mtu = config.`interface`.mtu

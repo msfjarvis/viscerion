@@ -111,7 +111,7 @@ fun updateAppTheme(dark: Boolean) {
         if (dark) {
             MODE_NIGHT_YES
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= 29) {
                 MODE_NIGHT_FOLLOW_SYSTEM
             } else {
                 MODE_NIGHT_AUTO_BATTERY

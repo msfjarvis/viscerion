@@ -30,7 +30,7 @@ class Application : android.app.Application() {
         weakSelf = WeakReference(this)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(26)
     private fun createNotificationChannel() {
         val notificationManager = requireNotNull(getSystemService<NotificationManager>())
         val notificationChannel = NotificationChannel(
@@ -70,7 +70,7 @@ class Application : android.app.Application() {
 
         updateAppTheme(getPrefs().useDarkTheme)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= 26)
             createNotificationChannel()
     }
 

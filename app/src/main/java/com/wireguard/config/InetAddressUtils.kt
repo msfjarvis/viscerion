@@ -30,7 +30,7 @@ object InetAddressUtils {
         if (address.isEmpty())
             throw ParseException(InetAddress::class.java, address, "Empty address")
         try {
-            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return if (Build.VERSION.SDK_INT < 29) {
                 PARSER_METHOD.invoke(null, address) as InetAddress
             } else {
                 InetAddresses.parseNumericAddress(address)

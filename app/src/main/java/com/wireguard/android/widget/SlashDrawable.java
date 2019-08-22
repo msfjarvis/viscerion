@@ -30,11 +30,11 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-@TargetApi(Build.VERSION_CODES.N)
+@TargetApi(24)
 public class SlashDrawable extends Drawable {
 
     private static final float CORNER_RADIUS =
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? 0f : 1f;
+            Build.VERSION.SDK_INT < 26 ? 0f : 1f;
     private static final long QS_ANIM_LENGTH = 350;
     // These values are derived in un-rotated (vertical) orientation
     private static final float SLASH_WIDTH = 1.8384776f;
@@ -154,7 +154,7 @@ public class SlashDrawable extends Drawable {
         m.setRotate(mRotation + DEFAULT_ROTATION, width / 2, height / 2);
         mPath.transform(m);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT < 26)
             canvas.clipPath(mPath, Region.Op.DIFFERENCE);
         else canvas.clipOutPath(mPath);
 

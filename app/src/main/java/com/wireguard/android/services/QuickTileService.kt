@@ -34,7 +34,7 @@ import timber.log.Timber
  * forward click events to the application.
  */
 
-@TargetApi(Build.VERSION_CODES.N)
+@TargetApi(24)
 class QuickTileService : TileService() {
 
     private val onStateChangedCallback = OnStateChangedCallback()
@@ -55,7 +55,7 @@ class QuickTileService : TileService() {
     }
 
     override fun onCreate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= 28) {
             iconOn = Icon.createWithResource(this, R.drawable.ic_qs_tile)
             iconOff = iconOn
             return
@@ -94,7 +94,7 @@ class QuickTileService : TileService() {
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
                 this.onToggleFinished(throwable)
             }
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        } else if (Build.VERSION.SDK_INT < 29) {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivityAndCollapse(intent)
@@ -140,7 +140,7 @@ class QuickTileService : TileService() {
                 Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
-            state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Tile.STATE_UNAVAILABLE else Tile.STATE_INACTIVE
+            state = if (Build.VERSION.SDK_INT >= 29) Tile.STATE_UNAVAILABLE else Tile.STATE_INACTIVE
         }
         tile.label = label
         if (tile.state != state) {
