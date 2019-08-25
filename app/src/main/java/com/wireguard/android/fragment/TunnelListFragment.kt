@@ -85,15 +85,13 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
                 name = Uri.decode(uri.lastPathSegment)
             var idx = name.lastIndexOf('/')
             if (idx >= 0) {
-                if (idx >= name.length - 1)
-                    throw IllegalArgumentException("Illegal file name: $name")
+                require(idx < name.length - 1) { "Illegal file name: $name" }
                 name = name.substring(idx + 1)
             }
             val isZip = name.toLowerCase(Locale.ROOT).endsWith(".zip")
             if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX))
                 name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
-            else if (!isZip)
-                throw IllegalArgumentException("File must be .conf or .zip")
+            else require(isZip) { "File must be .conf or .zip" }
 
             if (isZip) {
                 ZipInputStream(contentResolver.openInputStream(uri)).use { zip ->
@@ -137,8 +135,7 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
             if (futureTunnels.isEmpty()) {
                 if (throwables.size == 1)
                     throw throwables[0]
-                else if (throwables.isEmpty())
-                    throw IllegalArgumentException("No configurations found")
+                else require(!throwables.isEmpty()) { "No configurations found" }
             }
 
             CompletableFuture.allOf(*futureTunnels.toTypedArray())
