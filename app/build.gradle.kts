@@ -113,6 +113,11 @@ dependencies {
 
 kapt {
     useBuildCache = true
+    // https://github.com/google/dagger/issues/1449#issuecomment-495404186
+    javacOptions {
+        option("-source", "8")
+        option("-target", "8")
+    }
 }
 
 tasks {
