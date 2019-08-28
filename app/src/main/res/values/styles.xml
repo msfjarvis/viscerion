@@ -10,6 +10,7 @@
         <item name="colorSurface">@color/primary_color</item>
         <item name="colorOnSurface">@color/color_control_normal</item>
         <item name="colorBackground">@color/primary_color</item>
+        <item name="colorMultiselectActiveBackground">@color/list_multiselect_background</item>
         <item name="colorControlNormal">@color/color_control_normal</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
