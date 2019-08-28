@@ -3,10 +3,10 @@ module golang.zx2c4.com/wireguard/android
 go 1.12
 
 require (
-	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80 // indirect
-	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa
+	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586 // indirect
+	golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297 // indirect
+	golang.org/x/sys v0.0.0-20190826190057-c7b8b68b1456
 	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20190809145639-6d4652c779c4 // indirect
-	golang.zx2c4.com/wireguard v0.0.20190805
+	golang.org/x/tools v0.0.0-20190827205025-b29f5f60c37a // indirect
+	golang.zx2c4.com/wireguard v0.0.20190806-0.20190825184513-f8198c042810
 )
