@@ -135,7 +135,7 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
             if (futureTunnels.isEmpty()) {
                 if (throwables.size == 1)
                     throw throwables[0]
-                else require(!throwables.isEmpty()) { "No configurations found" }
+                else require(throwables.isNotEmpty()) { "No configurations found" }
             }
 
             CompletableFuture.allOf(*futureTunnels.toTypedArray())
@@ -246,20 +246,22 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
             Timber.e(throwable)
         }
 
-        if (tunnels.size == 1 && throwables.isEmpty())
-            message = getString(R.string.import_success, tunnels[0].name)
-        else if (tunnels.isEmpty() && throwables.size == 1)
-        else if (throwables.isEmpty())
-            message = resources.getQuantityString(
+        when {
+            tunnels.size == 1 && throwables.isEmpty() -> message = getString(R.string.import_success, tunnels[0].name)
+            tunnels.isEmpty() && throwables.size == 1 -> {}
+            throwables.isEmpty() -> message = resources.getQuantityString(
                     R.plurals.import_total_success,
                     tunnels.size, tunnels.size
             )
-        else if (!throwables.isEmpty())
-            message = resources.getQuantityString(
+            throwables.isNotEmpty() -> {
+                /* Use the exception message from above. */
+                message = resources.getQuantityString(
                     R.plurals.import_partial_success,
                     tunnels.size + throwables.size,
                     tunnels.size, tunnels.size + throwables.size
-            )/* Use the exception message from above. */
+                )
+            }
+        }
 
         if (prefs.exclusions.isNotEmpty()) {
             val excludedApps = prefs.exclusionsArray
@@ -288,10 +290,8 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
 
         savedInstanceState?.let { bundle ->
             val checkedItems = bundle.getIntegerArrayList("CHECKED_ITEMS")
-            checkedItems?.let {
-                it.forEach { checkedItem ->
-                    actionModeListener.setItemChecked(checkedItem, true)
-                }
+            checkedItems?.filterNotNull()?.forEach { checkedItem ->
+                actionModeListener.setItemChecked(checkedItem, true)
             }
         }
     }
