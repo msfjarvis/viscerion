@@ -278,7 +278,7 @@
             android:gravity="center"
             android:onClick="@{() -> config.addPeer()}"
             android:text="@string/add_peer"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             app:layout_anchorGravity="bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -18,7 +18,7 @@
         android:textAlignment="viewStart"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_action_edit"
-        app:iconPadding="16dp"
+        app:iconPadding="@dimen/bottom_sheet_icon_padding"
         app:iconTint="?attr/colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/create_from_file"
@@ -39,7 +39,7 @@
         android:textAlignment="viewStart"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_action_open_white"
-        app:iconPadding="16dp"
+        app:iconPadding="@dimen/bottom_sheet_icon_padding"
         app:iconTint="?attr/colorSecondary"
         app:layout_constraintTop_toBottomOf="@+id/create_empty"
         app:layout_constraintBottom_toTopOf="@+id/create_from_qrcode"
@@ -60,7 +60,7 @@
         android:textAlignment="viewStart"
         android:textColor="?attr/colorOnSurface"
         app:icon="@drawable/ic_action_scan_qr_code_white"
-        app:iconPadding="16dp"
+        app:iconPadding="@dimen/bottom_sheet_icon_padding"
         app:iconTint="?attr/colorSecondary"
         app:layout_constraintTop_toBottomOf="@+id/create_from_file"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,12 +68,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="?attr/colorSecondary"
         style="@style/TextButton.Icon.CustomFont"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="-1dp"
-        android:background="#1F000000"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
