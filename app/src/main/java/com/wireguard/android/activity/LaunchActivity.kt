@@ -12,29 +12,35 @@ import androidx.appcompat.app.AppCompatActivity
 import com.wireguard.android.R
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
+import com.wireguard.android.util.FeatureFlags
 
 class LaunchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Authenticator(this) {
-            when (it) {
-                is AuthenticationResult.Success -> {
-                    startMainActivity()
+        if (FeatureFlags.ENABLE_BIOMETRIC_AUTH) {
+            Authenticator(this) {
+                when (it) {
+                    is AuthenticationResult.Success -> {
+                        startMainActivity()
+                    }
+                    is AuthenticationResult.RecoverableError -> {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is AuthenticationResult.UnrecoverableError -> {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is AuthenticationResult.Cancelled -> {
+                        Toast.makeText(this, getString(R.string.biometric_prompt_cancelled), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                    }
                 }
-                is AuthenticationResult.RecoverableError -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-                is AuthenticationResult.UnrecoverableError -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-                is AuthenticationResult.Cancelled -> {
-                    Toast.makeText(this, getString(R.string.biometric_prompt_cancelled), Toast.LENGTH_SHORT).show()
-                }
-                else -> { }
-            }
-        }.authenticate()
+            }.authenticate()
+        } else {
+            startMainActivity()
+        }
     }
 
     private fun startMainActivity() {
