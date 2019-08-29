@@ -15,7 +15,7 @@ class DependencyStore {
         private const val preferenceVersion = "1.1.0-rc01"
         private const val slicesVersion = "1.1.0-alpha01"
         private const val slicesKtxVersion = "1.0.0-alpha07"
-        private const val workVersion = "2.2.0-rc01"
+        private const val workVersion = "2.3.0-alpha01"
 
         const val annotations = "androidx.annotation:annotation:$annotationVersion"
         const val appcompat = "androidx.appcompat:appcompat:$appcompatVersion"
