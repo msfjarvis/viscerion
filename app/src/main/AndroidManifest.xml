@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!--suppress DeprecatedClassUsageInspection -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
         android:name=".Application"
@@ -18,7 +21,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity" />
+
+        <activity android:name=".activity.LaunchActivity">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +33,7 @@
         <activity-alias
             android:name="${applicationId}.LauncherActivity"
             android:icon="@mipmap/ic_launcher"
-            android:targetActivity=".activity.MainActivity">
+            android:targetActivity=".activity.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,7 +44,7 @@
             android:name="${applicationId}.AltIconLauncherActivity"
             android:icon="@drawable/alt_launcher_icon"
             android:enabled="false"
-            android:targetActivity=".activity.MainActivity">
+            android:targetActivity=".activity.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

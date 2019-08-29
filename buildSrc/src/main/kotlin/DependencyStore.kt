@@ -8,6 +8,7 @@ class DependencyStore {
     object AndroidX {
         private const val annotationVersion = "1.1.0"
         private const val appcompatVersion = "1.1.0-rc01"
+        private const val biometricsVersion = "1.0.0-beta01"
         private const val constraintlayoutVersion = "2.0.0-beta2"
         private const val coreKtxVersion = "1.2.0-alpha03"
         private const val databindingVersion = "3.5.0"
@@ -19,6 +20,7 @@ class DependencyStore {
 
         const val annotations = "androidx.annotation:annotation:$annotationVersion"
         const val appcompat = "androidx.appcompat:appcompat:$appcompatVersion"
+        const val biometrics = "androidx.biometric:biometric:$biometricsVersion"
         const val constraintlayout = "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
         const val coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
         const val databindingAdapters = "androidx.databinding:databinding-adapters:$databindingVersion"

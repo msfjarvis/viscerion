@@ -90,6 +90,7 @@ dependencies {
     implementation(project(":native"))
     implementation(deps.AndroidX.annotations)
     implementation(deps.AndroidX.appcompat)
+    implementation(deps.AndroidX.biometrics)
     implementation(deps.AndroidX.constraintlayout)
     implementation(deps.AndroidX.coreKtx)
     implementation(deps.AndroidX.databindingAdapters)
