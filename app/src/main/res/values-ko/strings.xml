@@ -60,4 +60,5 @@
     <string name="dns_servers">DNS 서버</string>
     <string name="edit">편집</string>
     <string name="endpoint">엔드포인트</string>
+    <string name="biometric_prompt_negative_text">취소</string>
 </resources>

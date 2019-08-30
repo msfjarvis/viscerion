@@ -128,4 +128,5 @@
     <string name="preference_category_theming">Darstellung</string>
     <string name="tasker_integration_title">Tasker-Integration aktivieren</string>
     <string name="tasker_integration_summary">WARNUNG: Dies ist ein potenzielles Sicherheitsrisiko! Vermeiden Sie, dies auf gerooteten Geräten zu verwenden, da bösartige Apps den von Viscerion geschaffenen Schutz sehr leicht umgehen können!</string>
+    <string name="biometric_prompt_negative_text">Abbrechen</string>
 </resources>

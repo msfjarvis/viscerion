@@ -10,4 +10,5 @@
     <string name="save">Spara</string>
     <string name="settings">Inställningar</string>
     <string name="preference_category_about">Om</string>
+    <string name="biometric_prompt_negative_text">Avbryt</string>
 </resources>
