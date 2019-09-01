@@ -175,6 +175,7 @@
     <string name="preference_category_config">Tunnel configurations</string>
     <string name="preference_category_debugging">Debugging</string>
     <string name="preference_category_theming">Theming</string>
+    <string name="preference_category_misc">Misc</string>
     <string name="tasker_integration_title">Enable tasker integration</string>
     <string name="tasker_integration_summary">WARNING: This is a potential security risk! Avoid using this on rooted devices, malicious apps can very easily circumvent the protection put in place by Viscerion!</string>
     <string name="tasker_integration_secret_title">External intent secret</string>
@@ -188,6 +189,9 @@
     <string name="pref_dark_theme_title">Enable dark theme</string>
     <string name="pref_dark_theme_summary">Switch to a darker theme that can help save some power on AMOLED displays</string>
     <string name="dark_theme_summary_auto">Dark theme turned on by battery saver or system toggle</string>
+    <string name="biometric_auth_title">Enable biometric authentication</string>
+    <string name="biometric_auth_summary">When enabled, Viscerion will prompt you for your fingerprint when launching the app</string>
+    <string name="biometric_auth_summary_error">Fingerprint hardware not accessible or missing</string>
     <string name="biometric_prompt_title">Biometric Prompt</string>
     <string name="biometric_prompt_negative_text">Cancel</string>
     <string name="biometric_prompt_retry">Retry</string>

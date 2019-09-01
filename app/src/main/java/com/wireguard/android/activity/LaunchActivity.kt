@@ -10,15 +10,15 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.wireguard.android.R
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
-import com.wireguard.android.util.FeatureFlags
 
 class LaunchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (FeatureFlags.ENABLE_BIOMETRIC_AUTH) {
+        if (getPrefs().fingerprintAuth) {
             Authenticator(this) {
                 when (it) {
                     is AuthenticationResult.Success -> {

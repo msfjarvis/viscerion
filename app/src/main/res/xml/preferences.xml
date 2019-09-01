@@ -48,4 +48,10 @@
             android:title="@string/force_userspace_backend_title"
             android:summary="@string/force_userspace_backend_summary" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_misc">
+        <SwitchPreferenceCompat
+            android:key="fingerprint_auth"
+            android:title="@string/biometric_auth_title"
+            android:summary="@string/biometric_auth_summary" />
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

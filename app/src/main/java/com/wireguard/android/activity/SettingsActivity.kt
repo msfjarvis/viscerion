@@ -28,6 +28,9 @@ import com.wireguard.android.di.ext.getBackendAsync
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment
+import com.wireguard.android.util.AuthenticationResult
+import com.wireguard.android.util.Authenticator
+import com.wireguard.android.util.BiometricChecker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.asString
@@ -90,6 +93,7 @@ class SettingsActivity : AppCompatActivity() {
             val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             val zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
+            val fingerprintPref = preferenceManager.findPreference<SwitchPreferenceCompat>("fingerprint_auth")
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
@@ -194,6 +198,33 @@ class SettingsActivity : AppCompatActivity() {
                 } else {
                     isEnabled = true
                     isChecked = darkThemeOverride
+                }
+            }
+            fingerprintPref?.apply {
+                val isFingerprintSupported = BiometricChecker.getInstance(requireContext()).hasBiometrics
+                if (!isFingerprintSupported) {
+                    isEnabled = false
+                    isChecked = false
+                    summary = getString(R.string.biometric_auth_summary_error)
+                } else {
+                    setOnPreferenceClickListener {
+                        val checked = isChecked
+                        Authenticator(requireActivity()) { result ->
+                            when (result) {
+                                is AuthenticationResult.Success -> {
+                                    // Apply the changes
+                                    prefs.fingerprintAuth = checked
+                                }
+                                else -> {
+                                    // If any error occurs, revert back to the previous state. This
+                                    // catch-all clause includes the cancellation case.
+                                    prefs.fingerprintAuth = !checked
+                                    isChecked = !checked
+                                }
+                            }
+                        }.authenticate()
+                        true
+                    }
                 }
             }
         }
