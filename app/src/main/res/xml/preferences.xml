@@ -32,7 +32,7 @@
             android:title="@string/tasker_integration_title"
             android:summary="@string/tasker_integration_summary" />
         <EditTextPreference
-            android:defaultValue=""
+            android:defaultValue="@null"
             android:key="intent_integration_secret"
             android:title="@string/tasker_integration_secret_title"
             android:summary="@string/tasker_integration_secret_summary" />
