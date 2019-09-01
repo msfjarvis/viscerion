@@ -12,7 +12,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.wireguard.android.R
-import com.wireguard.android.activity.MainActivity
+import com.wireguard.android.activity.LaunchActivity
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.di.ext.getRootShell
 import com.wireguard.android.di.ext.getToolsInstaller
@@ -105,7 +105,7 @@ class WgQuickBackend(private var context: Context) : Backend {
 
     override fun postNotification(state: State, tunnel: Tunnel) {
         if (state == State.UP) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, LaunchActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
             val builder = NotificationCompat.Builder(
