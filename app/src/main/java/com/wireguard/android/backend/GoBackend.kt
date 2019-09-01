@@ -81,8 +81,7 @@ class GoBackend(private var context: Context) : Backend {
             finalState = if (originalState == Tunnel.State.UP) Tunnel.State.DOWN else Tunnel.State.UP
         if (state == originalState)
             return originalState
-        if (state == Tunnel.State.UP && currentTunnel != null)
-            throw IllegalStateException(context.getString(R.string.multiple_tunnels_error))
+        check(!(state == Tunnel.State.UP && currentTunnel != null)) { context.getString(R.string.multiple_tunnels_error) }
         Timber.d("Changing tunnel ${tunnel.name} to state $finalState ")
         setStateInternal(tunnel, tunnel.getConfig(), finalState)
         return getState(tunnel)
