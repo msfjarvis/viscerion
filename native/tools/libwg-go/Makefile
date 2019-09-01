@@ -28,6 +28,7 @@ GOBUILDVERSION_NEEDED := go version go$(GOBUILDVERSION) $(GOBUILDOS)/$(GOBUILDAR
 export GOROOT := $(CURDIR)/goroot
 export GOPATH := $(CURDIR)/gopath
 export PATH := $(GOROOT)/bin:$(PATH)
+export GOPROXY := https://proxy.golang.org
 GOBUILDVERSION_CURRENT := $(shell $(GOROOT)/bin/go version 2>/dev/null)
 ifneq ($(GOBUILDVERSION_NEEDED),$(GOBUILDVERSION_CURRENT))
 $(shell rm -f $(GOROOT)/bin/go)
