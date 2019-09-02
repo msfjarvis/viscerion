@@ -31,9 +31,6 @@ class LaunchActivity : AppCompatActivity() {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                         finish()
                     }
-                    is AuthenticationResult.Cancelled -> {
-                        Toast.makeText(this, getString(R.string.biometric_prompt_cancelled), Toast.LENGTH_SHORT).show()
-                    }
                     else -> {
                     }
                 }

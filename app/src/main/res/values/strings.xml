@@ -195,6 +195,5 @@
     <string name="biometric_prompt_title">Biometric Prompt</string>
     <string name="biometric_prompt_negative_text">Cancel</string>
     <string name="biometric_prompt_retry">Retry</string>
-    <string name="biometric_prompt_cancelled">Authentication canceled</string>
     <string name="biometric_prompt_no_hardware">No Biometric hardware was found</string>
 </resources>
