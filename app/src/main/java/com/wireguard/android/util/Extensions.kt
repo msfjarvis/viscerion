@@ -121,17 +121,18 @@ fun updateAppTheme(dark: Boolean) {
 }
 
 fun copyTextView(view: View) {
-    var isTextInput = false
-    if (view is TextInputEditText)
-        isTextInput = true
-    else if (view !is TextView)
-        return
-    val text = if (isTextInput) (view as TextInputEditText).editableText else (view as TextView).text
+    val text = when (view) {
+        is TextInputEditText -> view.editableText
+        is TextView -> view.text
+        else -> null
+    }
     if (text == null || text.isEmpty())
         return
-    val service = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-            ?: return
-    val description = if (isTextInput) (view as TextInputEditText).hint else view.contentDescription
+    val service = view.context.getSystemService<ClipboardManager>() ?: return
+    val description = when (view) {
+        is TextInputEditText -> view.hint
+        else -> view.contentDescription
+    }
     service.setPrimaryClip(ClipData.newPlainText(description, text))
     Snackbar.make(view, "$description copied to clipboard", Snackbar.LENGTH_LONG).show()
 }
