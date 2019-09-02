@@ -11,6 +11,7 @@ import android.content.Context
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import androidx.biometric.BiometricManager
+import androidx.core.content.getSystemService
 
 sealed class BiometricChecker {
 
@@ -32,7 +33,7 @@ sealed class BiometricChecker {
         companion object {
 
             fun getInstance(context: Context): QBiometricChecker? =
-                    context.getSystemService(BiometricManager::class.java)?.let {
+                    context.getSystemService<BiometricManager>()?.let {
                         QBiometricChecker(it)
                     }
         }
@@ -43,14 +44,11 @@ sealed class BiometricChecker {
     ) : BiometricChecker() {
 
         override val hasBiometrics: Boolean
-            @Suppress("MissingPermission")
             get() = if (Build.VERSION.SDK_INT >= 23) fingerprintManager.isHardwareDetected else false
 
         companion object {
             fun getInstance(context: Context): LegacyBiometricChecker? = if (Build.VERSION.SDK_INT >= 23)
-                    context.getSystemService(
-                            FingerprintManager::class.java
-                    )?.let {
+                    context.getSystemService<FingerprintManager>()?.let {
                         LegacyBiometricChecker(it)
                     } else null
         }
@@ -64,12 +62,8 @@ sealed class BiometricChecker {
 
         fun getInstance(context: Context): BiometricChecker {
             return when {
-                // We should change this when Android Q is fully released
-                // as this BuildCompat lookup will be deprecated
-                Build.VERSION.SDK_INT >= 29 ->
-                    QBiometricChecker.getInstance(context)
-                Build.VERSION.SDK_INT >= 23 ->
-                    LegacyBiometricChecker.getInstance(context)
+                Build.VERSION.SDK_INT >= 29 -> QBiometricChecker.getInstance(context)
+                Build.VERSION.SDK_INT >= 23 -> LegacyBiometricChecker.getInstance(context)
                 else -> null
             } ?: DefaultBiometricChecker()
         }
