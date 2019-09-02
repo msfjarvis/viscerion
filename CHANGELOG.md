@@ -6,6 +6,7 @@
 - Add German translations
 - Update library dependencies
 - Update to Golang 1.12.7 for native library
+- Add ability to restrict application access using biometric authentication
 
 ### [v5.1.1](https://github.com/msfjarvis/viscerion/releases/5.1.1)
 - Revert back to non-service Tasker integration as many devices incessantly
