@@ -6,6 +6,7 @@
 package com.wireguard.android.util
 
 import android.os.Handler
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.wireguard.android.R
@@ -17,7 +18,7 @@ internal class Authenticator(
 ) {
 
     private val handler = Handler()
-    private val biometricChecker: BiometricChecker = BiometricChecker.getInstance(fragmentActivity)
+    private val biometricManager = BiometricManager.from(fragmentActivity)
 
     private val authCallback = object : BiometricPrompt.AuthenticationCallback() {
 
@@ -52,7 +53,7 @@ internal class Authenticator(
             .build()
 
     fun authenticate() {
-        if (!biometricChecker.hasBiometrics) {
+        if (biometricManager.canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
             callback(AuthenticationResult.UnrecoverableError(
                     0,
                     fragmentActivity.getString(R.string.biometric_prompt_no_hardware)

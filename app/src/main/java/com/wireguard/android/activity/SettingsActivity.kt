@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.fragment.app.commit
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
@@ -30,7 +31,6 @@ import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
-import com.wireguard.android.util.BiometricChecker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.asString
@@ -201,7 +201,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             fingerprintPref?.apply {
-                val isFingerprintSupported = BiometricChecker.getInstance(requireContext()).hasBiometrics
+                val isFingerprintSupported = BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
                 if (!isFingerprintSupported) {
                     isEnabled = false
                     isChecked = false
