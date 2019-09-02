@@ -8,9 +8,9 @@ package com.wireguard.android.util
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.hardware.biometrics.BiometricManager
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
-import androidx.biometric.BiometricManager
 import androidx.core.content.getSystemService
 
 sealed class BiometricChecker {
