@@ -52,7 +52,11 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             selectedTunnel = null
             return
         }
-        super.onBackPressed()
+        if (isTaskRoot) {
+            finishAfterTransition()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onBackStackChanged() {
