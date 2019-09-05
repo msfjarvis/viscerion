@@ -6,9 +6,7 @@
 package com.wireguard.android.util;
 
 import androidx.annotation.NonNull;
-
 import com.wireguard.util.Keyed;
-
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Collections;

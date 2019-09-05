@@ -14,11 +14,11 @@ import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
+import com.wireguard.android.di.ext.getConfigStore
+import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.di.ext.injectAsyncWorker
 import com.wireguard.android.di.ext.injectBackend
-import com.wireguard.android.di.ext.injectConfigStore
-import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
@@ -36,8 +36,8 @@ class TunnelManager(private val context: Context) : BaseObservable(), KoinCompon
     private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
     private val delayedLoadRestoreTunnels = ArrayList<CompletableFuture<Void>>()
-    private val configStore by injectConfigStore()
-    private val prefs by injectPrefs()
+    private val configStore = getConfigStore()
+    private val prefs = getPrefs()
     private var haveLoaded: Boolean = false
 
     init {
