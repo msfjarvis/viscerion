@@ -120,7 +120,7 @@ public class SlashDrawable extends Drawable {
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("DEPRECATION")
     @Override
     public void draw(@NonNull final Canvas canvas) {
         canvas.save();
@@ -194,7 +194,7 @@ public class SlashDrawable extends Drawable {
     }
 
     @Override
-    public void setTintMode(@NonNull final Mode tintMode) {
+    public void setTintMode(@Nullable final Mode tintMode) {
         super.setTintMode(tintMode);
         mDrawable.setTintMode(tintMode);
     }
