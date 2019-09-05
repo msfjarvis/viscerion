@@ -6,13 +6,13 @@
 package com.wireguard.android.util;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import com.wireguard.util.Keyed;
+
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
@@ -25,10 +25,10 @@ import java.util.Spliterator;
  */
 public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         extends ObservableKeyedArrayList<K, E> implements ObservableSortedKeyedList<K, E> {
-    @Nullable private final Comparator<? super K> comparator;
+    @NonNull private final Comparator<? super K> comparator;
     private final transient KeyList<K, E> keyList = new KeyList<>(this);
 
-    public ObservableSortedKeyedArrayList(@Nullable final Comparator<? super K> comparator) {
+    public ObservableSortedKeyedArrayList(@NonNull final Comparator<? super K> comparator) {
         this.comparator = comparator;
     }
 
@@ -67,7 +67,7 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         return true;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Comparator<? super K> comparator() {
         return comparator;
@@ -83,28 +83,17 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
     }
 
     private int getInsertionPoint(final E e) {
-        if (comparator != null) {
-            return -Collections.binarySearch(keyList, e.getKey(), comparator) - 1;
-        } else {
-            @SuppressWarnings("unchecked")
-            final List<Comparable<? super K>> list = (List<Comparable<? super K>>) keyList;
-            return -Collections.binarySearch(list, e.getKey()) - 1;
-        }
+        return -Collections.binarySearch(keyList, e.getKey(), comparator) - 1;
     }
 
     @Override
     public int indexOfKey(final K key) {
         final int index;
-        if (comparator != null) {
-            index = Collections.binarySearch(keyList, key, comparator);
-        } else {
-            @SuppressWarnings("unchecked")
-            final List<Comparable<? super K>> list = (List<Comparable<? super K>>) keyList;
-            index = Collections.binarySearch(list, key);
-        }
+        index = Collections.binarySearch(keyList, key, comparator);
         return index >= 0 ? index : -1;
     }
 
+    @NonNull
     @Override
     public Set<K> keySet() {
         return keyList;
@@ -128,13 +117,7 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
     @Override
     public E set(final int index, final E e) {
         final int order;
-        if (comparator != null) {
-            order = comparator.compare(e.getKey(), get(index).getKey());
-        } else {
-            @SuppressWarnings("unchecked")
-            final Comparable<? super K> key = (Comparable<? super K>) e.getKey();
-            order = key.compareTo(get(index).getKey());
-        }
+        order = comparator.compare(e.getKey(), get(index).getKey());
         if (order != 0) {
             // Allow replacement if the new key would be inserted adjacent to the replaced element.
             final int insertionPoint = getInsertionPoint(e);
@@ -144,6 +127,7 @@ public class ObservableSortedKeyedArrayList<K, E extends Keyed<? extends K>>
         return super.set(index, e);
     }
 
+    @NonNull
     @Override
     public Collection<E> values() {
         return this;
