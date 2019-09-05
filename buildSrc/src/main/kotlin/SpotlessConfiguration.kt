@@ -60,7 +60,7 @@ fun Project.configureSpotless() {
             target("**/*.gradle.kts", "*.gradle.kts")
             ktlint("0.33.0").userData(mapOf("indent_size" to "4", "continuation_indent_size" to "4"))
             @Suppress("INACCESSIBLE_TYPE")
-            licenseHeader(kotlinLicenseHeader, "import|tasks|apply|plugins|include")
+            licenseHeader(kotlinLicenseHeader, "import|tasks|apply|plugins|include|buildscript")
             trimTrailingWhitespace()
             indentWithSpaces()
             endWithNewline()

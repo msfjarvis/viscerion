@@ -3,7 +3,6 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-import DependencyStore as deps
 plugins {
     id("com.android.library")
 }
@@ -28,5 +27,5 @@ android {
 }
 
 dependencies {
-    implementation(deps.AndroidX.annotations)
+    implementation(Libs.annotation)
 }

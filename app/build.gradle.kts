@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.io.IOException
 import java.util.Properties
-import DependencyStore as deps
 
 plugins {
     id("com.android.application")
@@ -89,28 +88,28 @@ android {
 dependencies {
     implementation(project(":crypto"))
     implementation(project(":native"))
-    implementation(deps.AndroidX.annotations)
-    implementation(deps.AndroidX.appcompat)
-    implementation(deps.AndroidX.biometrics)
-    implementation(deps.AndroidX.constraintlayout)
-    implementation(deps.AndroidX.coreKtx)
-    implementation(deps.AndroidX.databindingAdapters)
-    implementation(deps.AndroidX.databindingRuntime)
-    implementation(deps.AndroidX.fragmentKtx)
-    implementation(deps.AndroidX.preference)
-    implementation(deps.AndroidX.sliceBuilders)
-    implementation(deps.AndroidX.sliceCore)
-    implementation(deps.AndroidX.sliceKtx)
-    implementation(deps.AndroidX.workmanager)
-    implementation(deps.Material.material)
-    implementation(deps.ThirdParty.kaiteki)
-    implementation(deps.ThirdParty.koinAndroid)
-    implementation(deps.ThirdParty.koinCore)
-    implementation(deps.ThirdParty.recyclical)
-    implementation(deps.ThirdParty.retrofuture)
-    implementation(deps.ThirdParty.threetenabp)
-    implementation(deps.ThirdParty.timber)
-    implementation(embeddedKotlin("stdlib-jdk8"))
+    implementation(Libs.annotation)
+    implementation(Libs.appcompat)
+    implementation(Libs.biometric)
+    implementation(Libs.constraintlayout)
+    implementation(Libs.core_ktx)
+    implementation(Libs.databinding_adapters)
+    implementation(Libs.databinding_runtime)
+    implementation(Libs.fragment_ktx)
+    implementation(Libs.preference)
+    implementation(Libs.slice_builders)
+    implementation(Libs.slice_core)
+    implementation(Libs.slice_builders_ktx)
+    implementation(Libs.work_runtime_ktx)
+    implementation(Libs.material)
+    implementation(Libs.barcode_kaiteki)
+    implementation(Libs.koin_android)
+    implementation(Libs.koin_core)
+    implementation(Libs.recyclical)
+    implementation(Libs.android_retrofuture)
+    implementation(Libs.threetenabp)
+    implementation(Libs.timber)
+    implementation(Libs.kotlin_stdlib_jdk8)
 }
 
 kapt {
