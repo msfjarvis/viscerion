@@ -81,11 +81,7 @@ fun Context.restartApplication() {
 }
 
 fun Context.isSystemDarkThemeEnabled(): Boolean {
-    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-        Configuration.UI_MODE_NIGHT_YES -> true
-        Configuration.UI_MODE_NIGHT_UNDEFINED, Configuration.UI_MODE_NIGHT_NO -> false
-        else -> false
-    }
+    return (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 }
 
 fun Context.resolveAttribute(@AttrRes attrRes: Int): Int {
