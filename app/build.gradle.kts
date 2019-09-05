@@ -30,6 +30,7 @@ fun gitHash(): String {
 android {
     compileSdkVersion(29)
     dataBinding.isEnabled = true
+    buildToolsVersion = "29.0.2"
     defaultConfig {
         applicationId = "me.msfjarvis.viscerion"
         minSdkVersion(21)
