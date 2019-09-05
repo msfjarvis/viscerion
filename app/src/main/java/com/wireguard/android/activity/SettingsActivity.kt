@@ -45,6 +45,7 @@ import java.io.File
  */
 
 typealias ClickListener = Preference.OnPreferenceClickListener
+
 typealias ChangeListener = Preference.OnPreferenceChangeListener
 typealias SummaryProvider<T> = Preference.SummaryProvider<T>
 

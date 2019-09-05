@@ -82,8 +82,8 @@ class AppListDialogFragment : DialogFragment() {
                 ))
             }
             appData.also {
-                it.sortWith(Comparator {
-                    lhs, rhs -> lhs.name.toLowerCase(Locale.ROOT).compareTo(rhs.name.toLowerCase(Locale.ROOT))
+                it.sortWith(Comparator { lhs, rhs ->
+                    lhs.name.toLowerCase(Locale.ROOT).compareTo(rhs.name.toLowerCase(Locale.ROOT))
                 })
             }
         }.whenComplete { data, throwable ->

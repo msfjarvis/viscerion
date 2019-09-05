@@ -186,16 +186,16 @@ class Config private constructor(builder: Builder) {
                                 inPeerSection = true
                             }
                             else -> throw BadConfigException(
-                                Section.CONFIG, Location.TOP_LEVEL,
-                                Reason.UNKNOWN_SECTION, line
+                                    Section.CONFIG, Location.TOP_LEVEL,
+                                    Reason.UNKNOWN_SECTION, line
                             )
                         }
                     }
                     inInterfaceSection -> interfaceLines.add(line)
                     inPeerSection -> peerLines.add(line)
                     else -> throw BadConfigException(
-                        Section.CONFIG, Location.TOP_LEVEL,
-                        Reason.UNKNOWN_SECTION, line
+                            Section.CONFIG, Location.TOP_LEVEL,
+                            Reason.UNKNOWN_SECTION, line
                     )
                 }
             }
@@ -203,8 +203,8 @@ class Config private constructor(builder: Builder) {
                 builder.parsePeer(peerLines)
             else if (!inInterfaceSection)
                 throw BadConfigException(
-                    Section.CONFIG, Location.TOP_LEVEL,
-                    Reason.MISSING_SECTION, null
+                        Section.CONFIG, Location.TOP_LEVEL,
+                        Reason.MISSING_SECTION, null
                 )
             // Combine all [Interface] sections in the file.
             builder.parseInterface(interfaceLines)

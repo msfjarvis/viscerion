@@ -86,11 +86,11 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         if (other !is Interface)
             return false
         return (addresses == other.addresses &&
-            dnsServers == other.dnsServers &&
-            excludedApplications == other.excludedApplications &&
-            keyPair == other.keyPair &&
-            listenPort == other.listenPort &&
-            mtu == other.mtu)
+                dnsServers == other.dnsServers &&
+                excludedApplications == other.excludedApplications &&
+                keyPair == other.keyPair &&
+                listenPort == other.listenPort &&
+                mtu == other.mtu)
     }
 
     override fun hashCode(): Int {
@@ -193,8 +193,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         fun build(): Interface {
             if (keyPair == null)
                 throw BadConfigException(
-                    Section.INTERFACE, Location.PRIVATE_KEY,
-                    Reason.MISSING_ATTRIBUTE, null
+                        Section.INTERFACE, Location.PRIVATE_KEY,
+                        Reason.MISSING_ATTRIBUTE, null
                 )
             return Interface(this)
         }
@@ -237,9 +237,9 @@ class Interface private constructor(builder: Builder) : KoinComponent {
 
         fun parseExcludedApplications(apps: CharSequence): Builder {
             return excludeApplications(
-                Attribute.split(apps)
-                    .filter { it !in prefs.exclusionsArray }
-                    .toList()
+                    Attribute.split(apps)
+                            .filter { it !in prefs.exclusionsArray }
+                            .toList()
             )
         }
 
@@ -279,8 +279,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         fun setListenPort(listenPort: Int): Builder {
             if (listenPort < MIN_UDP_PORT || listenPort > MAX_UDP_PORT)
                 throw BadConfigException(
-                    Section.INTERFACE, Location.LISTEN_PORT,
-                    Reason.INVALID_VALUE, listenPort.toString()
+                        Section.INTERFACE, Location.LISTEN_PORT,
+                        Reason.INVALID_VALUE, listenPort.toString()
                 )
             this.listenPort = if (listenPort == 0) 0 else listenPort
             return this
@@ -290,8 +290,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         fun setMtu(mtu: Int): Builder {
             if (mtu < 0)
                 throw BadConfigException(
-                    Section.INTERFACE, Location.LISTEN_PORT,
-                    Reason.INVALID_VALUE, mtu.toString()
+                        Section.INTERFACE, Location.LISTEN_PORT,
+                        Reason.INVALID_VALUE, mtu.toString()
                 )
             this.mtu = if (mtu == 0) 0 else mtu
             return this
@@ -315,8 +315,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
             for (line in lines) {
                 val attribute = Attribute.parse(line) ?: throw
                 BadConfigException(
-                    Section.INTERFACE, Location.TOP_LEVEL,
-                    Reason.SYNTAX_ERROR, line
+                        Section.INTERFACE, Location.TOP_LEVEL,
+                        Reason.SYNTAX_ERROR, line
                 )
                 when (attribute.key.toLowerCase(Locale.ENGLISH)) {
                     "address" -> builder.parseAddresses(attribute.value)
@@ -326,8 +326,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
                     "mtu" -> builder.parseMtu(attribute.value)
                     "privatekey" -> builder.parsePrivateKey(attribute.value)
                     else -> throw BadConfigException(
-                        Section.INTERFACE, Location.TOP_LEVEL,
-                        Reason.UNKNOWN_ATTRIBUTE, attribute.key
+                            Section.INTERFACE, Location.TOP_LEVEL,
+                            Reason.UNKNOWN_ATTRIBUTE, attribute.key
                     )
                 }
             }

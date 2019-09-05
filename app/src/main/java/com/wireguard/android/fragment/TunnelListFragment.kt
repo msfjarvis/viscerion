@@ -248,7 +248,8 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
 
         when {
             tunnels.size == 1 && throwables.isEmpty() -> message = getString(R.string.import_success, tunnels[0].name)
-            tunnels.isEmpty() && throwables.size == 1 -> {}
+            tunnels.isEmpty() && throwables.size == 1 -> {
+            }
             throwables.isEmpty() -> message = resources.getQuantityString(
                     R.plurals.import_total_success,
                     tunnels.size, tunnels.size
@@ -256,9 +257,9 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
             throwables.isNotEmpty() -> {
                 /* Use the exception message from above. */
                 message = resources.getQuantityString(
-                    R.plurals.import_partial_success,
-                    tunnels.size + throwables.size,
-                    tunnels.size, tunnels.size + throwables.size
+                        R.plurals.import_partial_success,
+                        tunnels.size + throwables.size,
+                        tunnels.size, tunnels.size + throwables.size
                 )
             }
         }

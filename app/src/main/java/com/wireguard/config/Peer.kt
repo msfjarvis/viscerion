@@ -66,10 +66,10 @@ class Peer private constructor(builder: Builder) {
         if (other !is Peer)
             return false
         return (allowedIps == other.allowedIps &&
-            endpoint == other.endpoint &&
-            persistentKeepalive == other.persistentKeepalive &&
-            preSharedKey == other.preSharedKey &&
-            publicKey == other.publicKey)
+                endpoint == other.endpoint &&
+                persistentKeepalive == other.persistentKeepalive &&
+                preSharedKey == other.preSharedKey &&
+                publicKey == other.publicKey)
     }
 
     override fun hashCode(): Int {
@@ -157,8 +157,8 @@ class Peer private constructor(builder: Builder) {
         fun build(): Peer {
             if (publicKey == null)
                 throw BadConfigException(
-                    Section.PEER, Location.PUBLIC_KEY,
-                    Reason.MISSING_ATTRIBUTE, null
+                        Section.PEER, Location.PUBLIC_KEY,
+                        Reason.MISSING_ATTRIBUTE, null
                 )
             return Peer(this)
         }
@@ -189,8 +189,8 @@ class Peer private constructor(builder: Builder) {
                 return setPersistentKeepalive(Integer.parseInt(persistentKeepalive))
             } catch (e: NumberFormatException) {
                 throw BadConfigException(
-                    Section.PEER, Location.PERSISTENT_KEEPALIVE,
-                    persistentKeepalive, e
+                        Section.PEER, Location.PERSISTENT_KEEPALIVE,
+                        persistentKeepalive, e
                 )
             }
         }
@@ -222,8 +222,8 @@ class Peer private constructor(builder: Builder) {
         fun setPersistentKeepalive(persistentKeepalive: Int): Builder {
             if (persistentKeepalive < 0 || persistentKeepalive > MAX_PERSISTENT_KEEPALIVE)
                 throw BadConfigException(
-                    Section.PEER, Location.PERSISTENT_KEEPALIVE,
-                    Reason.INVALID_VALUE, persistentKeepalive.toString()
+                        Section.PEER, Location.PERSISTENT_KEEPALIVE,
+                        Reason.INVALID_VALUE, persistentKeepalive.toString()
                 )
             this.persistentKeepalive = persistentKeepalive
             return this
@@ -259,8 +259,8 @@ class Peer private constructor(builder: Builder) {
             val builder = Builder()
             for (line in lines) {
                 val attribute = Attribute.parse(line) ?: throw BadConfigException(
-                    Section.PEER, Location.TOP_LEVEL,
-                    Reason.SYNTAX_ERROR, line
+                        Section.PEER, Location.TOP_LEVEL,
+                        Reason.SYNTAX_ERROR, line
                 )
                 when (attribute.key.toLowerCase(Locale.ENGLISH)) {
                     "allowedips" -> builder.parseAllowedIPs(attribute.value)
@@ -269,8 +269,8 @@ class Peer private constructor(builder: Builder) {
                     "presharedkey" -> builder.parsePreSharedKey(attribute.value)
                     "publickey" -> builder.parsePublicKey(attribute.value)
                     else -> throw BadConfigException(
-                        Section.PEER, Location.TOP_LEVEL,
-                        Reason.UNKNOWN_ATTRIBUTE, attribute.key
+                            Section.PEER, Location.TOP_LEVEL,
+                            Reason.UNKNOWN_ATTRIBUTE, attribute.key
                     )
                 }
             }

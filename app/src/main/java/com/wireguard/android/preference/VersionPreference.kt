@@ -32,9 +32,9 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
                     getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
                 else
                     getContext().getString(
-                                    R.string.version_summary_unknown,
-                                    backend.getTypePrettyName().toLowerCase(Locale.ROOT)
-                            )
+                            R.string.version_summary_unknown,
+                            backend.getTypePrettyName().toLowerCase(Locale.ROOT)
+                    )
                 notifyChanged()
             }
         }

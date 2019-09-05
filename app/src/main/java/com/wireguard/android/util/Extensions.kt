@@ -108,15 +108,15 @@ val Uri.humanReadablePath: String
 
 fun updateAppTheme(dark: Boolean) {
     setDefaultNightMode(
-        if (dark) {
-            MODE_NIGHT_YES
-        } else {
-            if (Build.VERSION.SDK_INT >= 29) {
-                MODE_NIGHT_FOLLOW_SYSTEM
+            if (dark) {
+                MODE_NIGHT_YES
             } else {
-                MODE_NIGHT_AUTO_BATTERY
+                if (Build.VERSION.SDK_INT >= 29) {
+                    MODE_NIGHT_FOLLOW_SYSTEM
+                } else {
+                    MODE_NIGHT_AUTO_BATTERY
+                }
             }
-        }
     )
 }
 

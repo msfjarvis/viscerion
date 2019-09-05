@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 @file:Suppress("Unused")
+
 package com.wireguard.android.di.ext
 
 import android.content.ComponentCallbacks
@@ -23,6 +24,7 @@ import org.koin.core.inject
 
 // Early init modules
 fun ComponentCallbacks.injectAsyncWorker() = inject<AsyncWorker>()
+
 fun ComponentCallbacks.injectRootShell() = inject<RootShell>()
 fun ComponentCallbacks.injectPrefs() = inject<ApplicationPreferences>()
 fun ComponentCallbacks.injectConfigStore() = inject<ConfigStore>()

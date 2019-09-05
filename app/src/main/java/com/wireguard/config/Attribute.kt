@@ -21,8 +21,8 @@ class Attribute private constructor(val key: String, val value: String) {
             val matcher = LINE_PATTERN.matcher(line)
             return if (matcher.matches())
                 Attribute(
-                    requireNotNull(matcher.group(1)),
-                    requireNotNull(matcher.group(2))
+                        requireNotNull(matcher.group(1)),
+                        requireNotNull(matcher.group(2))
                 )
             else
                 null

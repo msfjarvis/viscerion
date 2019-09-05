@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.wireguard.android.R
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
