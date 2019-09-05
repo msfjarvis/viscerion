@@ -44,7 +44,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         val backStackEntries = supportFragmentManager.backStackEntryCount
         // If the two-pane layout does not have an editor open, going back should exit the app.
         if (isTwoPaneLayout && backStackEntries <= 1) {
-            finish()
+            finishAfterTransition()
             return
         }
         // Deselect the current tunnel on navigating back from the detail pane to the one-pane list.
@@ -52,8 +52,8 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             selectedTunnel = null
             return
         }
-        if (isTaskRoot) {
-            finishAfterTransition()
+        if (isTaskRoot && backStackEntries == 2) {
+            supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
