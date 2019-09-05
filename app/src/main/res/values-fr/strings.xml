@@ -172,6 +172,8 @@
     <string name="preference_category_about">À propos</string>
     <string name="preference_category_config">Configurations des tunnels</string>
     <string name="preference_category_debugging">Débogage</string>
+    <string name="preference_category_theming">Thèmes</string>
+    <string name="preference_category_misc">Divers</string>
     <string name="tasker_integration_title">Activer l\'intégration de Tasker</string>
     <string name="tasker_integration_summary">AVERTISSEMENT : Ceci est un risque potentiel de sécurité ! Évitez d\'utiliser ceci sur les appareils rootés, les applications malveillantes peuvent très facilement contourner la protection mise en place par Viscerion !</string>
     <string name="tasker_integration_summary_empty_secret">Définir un secret ici est obligatoire !</string>
@@ -181,5 +183,10 @@
     <string name="pref_alt_icon_apply_message">L\'icône a été activée avec succès. Cela peut prendre quelques instants pour se refléter dans votre lanceur.</string>
     <string name="pref_dark_theme_title">Activer le thème sombre</string>
     <string name="pref_dark_theme_summary">Passer à un thème sombre qui peut aider à économiser de l\'énergie sur les écrans AMOLED</string>
+    <string name="biometric_auth_title">Activer l\'authentification biométrique</string>
+    <string name="biometric_auth_summary">Une fois activé, Viscerion demandera votre empreinte digitale lors du lancement de l\'application</string>
+    <string name="biometric_auth_summary_error">Lecteur d\'empreinte digitale non accessible ou manquant</string>
     <string name="biometric_prompt_negative_text">Annuler</string>
+    <string name="biometric_prompt_retry">Réessayer</string>
+    <string name="biometric_prompt_no_hardware">Aucun lecteur biométrique n\'a été trouvé</string>
 </resources>
