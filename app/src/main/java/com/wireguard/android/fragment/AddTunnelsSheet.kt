@@ -48,12 +48,12 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
                 ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                val dialog = dialog as BottomSheetDialog?
-                val bottomSheet = dialog?.findViewById<FrameLayout>(materialR.id.design_bottom_sheet)
+                val dialog = dialog as BottomSheetDialog? ?: return
+                val bottomSheet = dialog.findViewById<FrameLayout>(materialR.id.design_bottom_sheet) ?: return
                 val behavior = BottomSheetBehavior.from(bottomSheet)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.peekHeight = 0
-                behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                behavior.bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
                     override fun onSlide(bottomSheet: View, slideOffset: Float) {
                     }
 
@@ -62,16 +62,16 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
                             dismiss()
                         }
                     }
-                })
-                dialog?.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
+                }
+                dialog.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
                     dismiss()
                     onRequestCreateConfig()
                 }
-                dialog?.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
+                dialog.findViewById<MaterialButton>(R.id.create_from_file)?.setOnClickListener {
                     dismiss()
                     onRequestImportConfig()
                 }
-                dialog?.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
+                dialog.findViewById<MaterialButton>(R.id.create_from_qrcode)?.setOnClickListener {
                     dismiss()
                     onRequestScanQRCode()
                 }
