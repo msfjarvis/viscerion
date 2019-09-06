@@ -19,7 +19,7 @@ import org.gradle.plugin.use.PluginDependencySpec
 object Versions {
     const val annotation: String = "1.1.0"
 
-    const val appcompat: String = "1.1.0-rc01"
+    const val appcompat: String = "1.1.0"
 
     const val biometric: String = "1.0.0-beta01"
 
