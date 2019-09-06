@@ -25,7 +25,7 @@ object Versions {
 
     const val constraintlayout: String = "2.0.0-beta2"
 
-    const val core_ktx: String = "1.2.0-alpha03"
+    const val core_ktx: String = "1.2.0-alpha04"
 
     const val androidx_databinding: String = "3.5.0" // available: "3.6.0-alpha09"
 
