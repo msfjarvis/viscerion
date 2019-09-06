@@ -33,7 +33,7 @@ steps:
       - pull_request
 
 - name: build
-  image: msfjarvis/docker-android-sdk:latest
+  image: msfjarvis/docker-android-sdk:ubuntu-standalone
   commands:
   - ./gradlew spotlessCheck assembleDebug lintDebug
   when:
