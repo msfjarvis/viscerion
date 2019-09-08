@@ -18,6 +18,7 @@ buildscript {
 
 plugins {
     buildSrcVersions
+    id("io.gitlab.arturbosch.detekt") version "1.0.1"
 }
 
 buildSrcVersions {
@@ -26,6 +27,7 @@ buildSrcVersions {
 }
 
 subprojects {
+    apply(file("$rootDir/detekt.gradle"))
     repositories {
         google()
         jcenter()
