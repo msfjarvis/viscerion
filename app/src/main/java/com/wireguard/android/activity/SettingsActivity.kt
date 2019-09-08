@@ -130,7 +130,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             taskerPref?.onPreferenceChangeListener = ChangeListener { _, newValue ->
-                integrationSecretPref?.isVisible = (newValue as Boolean)
+                integrationSecretPref?.isVisible = newValue as Boolean
                 true
             }
 

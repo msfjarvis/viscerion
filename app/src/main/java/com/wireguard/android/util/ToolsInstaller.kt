@@ -186,7 +186,7 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         )
         val magiskVer = output[0].toInt()
         return when {
-            magiskVer in (18000..18100) -> "/sbin/.magisk/img"
+            magiskVer in 18000..18100 -> "/sbin/.magisk/img"
             magiskVer >= 18101 -> "/data/adb/modules"
             else -> "/sbin/.core/img"
         }

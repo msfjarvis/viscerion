@@ -40,13 +40,14 @@ object SharedLibraryLoader {
                     File(context.cacheDir.absolutePath + File.separatorChar + mappedLibName)
                 else
                     File.createTempFile("lib", ".so", context.cacheDir)
-                Timber.d("Extracting apk:/$libZipPath to ${f?.absolutePath} and loading")
+                requireNotNull(f)
+                Timber.d("Extracting apk:/$libZipPath to ${f.absolutePath} and loading")
                 FileOutputStream(f).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)
                     }
                 }
-                return f!!.absolutePath
+                return f.absolutePath
             } catch (e: Exception) {
                 Timber.d(e, "Failed to load library apk:/$libZipPath")
                 throw e

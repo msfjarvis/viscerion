@@ -44,9 +44,9 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
             setState(State.INITIAL)
         else if (state and ToolsInstaller.YES == ToolsInstaller.YES)
             setState(State.ALREADY)
-        else if ((state and (ToolsInstaller.MAGISK or ToolsInstaller.NO)) == (ToolsInstaller.MAGISK or ToolsInstaller.NO))
+        else if (state and (ToolsInstaller.MAGISK or ToolsInstaller.NO) == ToolsInstaller.MAGISK or ToolsInstaller.NO)
             setState(State.INITIAL_MAGISK)
-        else if ((state and (ToolsInstaller.SYSTEM or ToolsInstaller.NO)) == (ToolsInstaller.SYSTEM or ToolsInstaller.NO))
+        else if (state and (ToolsInstaller.SYSTEM or ToolsInstaller.NO) == ToolsInstaller.SYSTEM or ToolsInstaller.NO)
             setState(State.INITIAL_SYSTEM)
         else
             setState(State.INITIAL)
@@ -54,7 +54,7 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     override fun onClick() {
         setState(State.WORKING)
-        asyncWorker.supplyAsync<Int> {
+        asyncWorker.supplyAsync {
             toolsInstaller.install()
         }.whenComplete(this::onInstallResult)
     }
@@ -62,10 +62,10 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
     private fun onInstallResult(result: Int, throwable: Throwable?) {
         when {
             throwable != null -> setState(State.FAILURE)
-            result and ((ToolsInstaller.YES or ToolsInstaller.MAGISK)) == (ToolsInstaller.YES or ToolsInstaller.MAGISK) -> setState(
+            result and (ToolsInstaller.YES or ToolsInstaller.MAGISK) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
                     State.SUCCESS_MAGISK
             )
-            result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == (ToolsInstaller.YES or ToolsInstaller.SYSTEM) -> setState(
+            result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == ToolsInstaller.YES or ToolsInstaller.SYSTEM -> setState(
                     State.SUCCESS_SYSTEM
             )
             else -> setState(State.FAILURE)

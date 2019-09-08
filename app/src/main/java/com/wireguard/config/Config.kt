@@ -37,7 +37,7 @@ class Config private constructor(builder: Builder) {
     val peers: List<Peer>
 
     init {
-        `interface` = requireNotNull(builder.interfaze) { "An [Interface] section is required" }
+        `interface` = requireNotNull(builder.`interface`) { "An [Interface] section is required" }
         // Defensively copy to ensure immutability even if the Builder is reused.
         peers = Collections.unmodifiableList(ArrayList(builder.peers))
     }
@@ -94,7 +94,7 @@ class Config private constructor(builder: Builder) {
         // Defaults to an empty set.
         val peers = LinkedHashSet<Peer>()
         // No default; must be provided before building.
-        var interfaze: Interface? = null
+        var `interface`: Interface? = null
 
         private fun addPeer(peer: Peer): Builder {
             peers.add(peer)
@@ -107,8 +107,7 @@ class Config private constructor(builder: Builder) {
         }
 
         fun build(): Config {
-            if (interfaze == null)
-                throw IllegalArgumentException("An [Interface] section is required")
+            requireNotNull(`interface`) { "An [Interface] section is required" }
             return Config(this)
         }
 
@@ -122,8 +121,8 @@ class Config private constructor(builder: Builder) {
             return addPeer(Peer.parse(lines))
         }
 
-        fun setInterface(interfaze: Interface): Builder {
-            this.interfaze = interfaze
+        fun setInterface(`interface`: Interface): Builder {
+            this.`interface` = `interface`
             return this
         }
     }
@@ -140,6 +139,7 @@ class Config private constructor(builder: Builder) {
          */
         @Throws(IOException::class, BadConfigException::class)
         fun parse(stream: InputStream?): Config {
+            requireNotNull(stream)
             return parse(BufferedReader(InputStreamReader(stream)))
         }
 

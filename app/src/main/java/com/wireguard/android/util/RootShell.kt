@@ -28,6 +28,14 @@ class RootShell(val context: Context) {
     private lateinit var stderr: BufferedReader
     private lateinit var stdin: OutputStreamWriter
     private lateinit var stdout: BufferedReader
+    private val isSuAvailable: Boolean
+        get() {
+            val path = System.getenv("PATH") ?: return false
+            for (dir in path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+                if (File(dir, SU).canExecute())
+                    return true
+            return false
+        }
 
     init {
         val cacheDir = context.cacheDir
@@ -35,14 +43,6 @@ class RootShell(val context: Context) {
         localTemporaryDir = File(cacheDir, "tmp")
         preamble =
                 "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
-    }
-
-    private fun isExecutableInPath(name: String): Boolean {
-        val path = System.getenv("PATH") ?: return false
-        for (dir in path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
-            if (File(dir, name).canExecute())
-                return true
-        return false
     }
 
     @Synchronized
@@ -110,7 +110,7 @@ class RootShell(val context: Context) {
     @Synchronized
     @Throws(IOException::class, NoRootException::class)
     fun start() {
-        if (!isExecutableInPath(SU))
+        if (!isSuAvailable)
             throw NoRootException(deviceNotRootedMessage)
         if (isRunning())
             return
