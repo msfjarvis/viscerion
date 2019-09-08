@@ -12,12 +12,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:background="?attr/colorPrimaryVariant"
-        app:cardCornerRadius="4dp"
+        android:layout_margin="8dp"
+        android:background="?attr/colorBackground"
+        app:cardCornerRadius="0dp"
         app:cardElevation="2dp"
         app:contentPadding="8dp">
 
