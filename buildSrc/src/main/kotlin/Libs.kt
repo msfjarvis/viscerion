@@ -127,6 +127,13 @@ object Libs {
             "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
             Versions.de_fayard_buildsrcversions_gradle_plugin
 
+    const val detekt_cli: String = "io.gitlab.arturbosch.detekt:detekt-cli:" +
+            Versions.io_gitlab_arturbosch_detekt
+
+    const val io_gitlab_arturbosch_detekt_gradle_plugin: String =
+            "io.gitlab.arturbosch.detekt:io.gitlab.arturbosch.detekt.gradle.plugin:" +
+            Versions.io_gitlab_arturbosch_detekt
+
     /**
      * http://github.com/retrostreams/android-retrofuture/
      */

@@ -18,7 +18,7 @@ buildscript {
 
 plugins {
     buildSrcVersions
-    id("io.gitlab.arturbosch.detekt") version "1.0.1"
+    id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt
 }
 
 buildSrcVersions {

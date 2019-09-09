@@ -27,11 +27,11 @@ object Versions {
 
     const val core_ktx: String = "1.2.0-alpha04"
 
-    const val androidx_databinding: String = "3.5.0" // available: "3.6.0-alpha09"
+    const val androidx_databinding: String = "3.5.0" // available: "3.6.0-alpha10"
 
-    const val fragment_ktx: String = "1.2.0-alpha01" // available: "1.2.0-alpha02"
+    const val fragment_ktx: String = "1.2.0-alpha01" // available: "1.2.0-alpha03"
 
-    const val preference: String = "1.1.0-rc01"
+    const val preference: String = "1.1.0"
 
     const val slice_builders_ktx: String = "1.0.0-alpha07"
 
@@ -43,11 +43,11 @@ object Versions {
 
     const val recyclical: String = "1.1.0"
 
-    const val aapt2: String = "3.5.0-5435860" // available: "3.6.0-alpha09-5720371"
+    const val aapt2: String = "3.5.0-5435860" // available: "3.6.0-alpha10-5720371"
 
-    const val com_android_tools_build_gradle: String = "3.5.0" // available: "3.6.0-alpha09"
+    const val com_android_tools_build_gradle: String = "3.5.0" // available: "3.6.0-alpha10"
 
-    const val lint_gradle: String = "26.5.0" // available: "26.6.0-alpha09"
+    const val lint_gradle: String = "26.5.0" // available: "26.6.0-alpha10"
 
     const val r8: String = "1.5.68"
 
@@ -60,6 +60,8 @@ object Versions {
     const val barcode_kaiteki: String = "1.0.2"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.4.2"
+
+    const val io_gitlab_arturbosch_detekt: String = "1.0.1"
 
     const val android_retrofuture: String = "1.7.1"
 
