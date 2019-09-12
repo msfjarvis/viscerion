@@ -27,9 +27,9 @@ object Versions {
 
     const val core_ktx: String = "1.2.0-alpha04"
 
-    const val androidx_databinding: String = "3.5.0" // available: "3.6.0-alpha11"
+    const val androidx_databinding: String = "3.5.0"
 
-    const val fragment_ktx: String = "1.2.0-alpha01" // available: "1.2.0-alpha03"
+    const val fragment_ktx: String = "1.2.0-alpha01"
 
     const val preference: String = "1.1.0"
 
@@ -43,11 +43,11 @@ object Versions {
 
     const val recyclical: String = "1.1.0"
 
-    const val aapt2: String = "3.5.0-5435860" // available: "3.6.0-alpha11-5720371"
+    const val aapt2: String = "3.5.0-5435860"
 
-    const val com_android_tools_build_gradle: String = "3.5.0" // available: "3.6.0-alpha11"
+    const val com_android_tools_build_gradle: String = "3.5.0"
 
-    const val lint_gradle: String = "26.5.0" // available: "26.6.0-alpha11"
+    const val lint_gradle: String = "26.5.0"
 
     const val r8: String = "1.5.68"
 

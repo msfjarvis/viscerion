@@ -22,9 +22,6 @@ object Libs {
      */
     const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
 
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
     const val biometric: String = "androidx.biometric:biometric:" + Versions.biometric
 
     /**
@@ -34,7 +31,7 @@ object Libs {
             Versions.constraintlayout
 
     /**
-     * https://developer.android.com/jetpack/androidx
+     * http://developer.android.com/tools/extras/support-library.html
      */
     const val core_ktx: String = "androidx.core:core-ktx:" + Versions.core_ktx
 
@@ -66,9 +63,6 @@ object Libs {
      */
     const val preference: String = "androidx.preference:preference:" + Versions.preference
 
-    /**
-     * http://developer.android.com/tools/extras/support-library.html
-     */
     const val slice_builders_ktx: String = "androidx.slice:slice-builders-ktx:" +
             Versions.slice_builders_ktx
 

@@ -23,7 +23,6 @@ plugins {
 
 buildSrcVersions {
     indent = "    "
-    rejectedVersionKeywords()
 }
 
 subprojects {
