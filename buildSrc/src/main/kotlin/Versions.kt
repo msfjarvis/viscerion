@@ -57,7 +57,7 @@ object Versions {
 
     const val timber: String = "4.7.1"
 
-    const val barcode_kaiteki: String = "1.0.2"
+    const val barcode_kaiteki: String = "1.1.1"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
 

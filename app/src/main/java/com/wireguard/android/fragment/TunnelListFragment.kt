@@ -302,6 +302,9 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
         return true
     }
 
+    override fun onBarcodeScanCancelled() {
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
 
