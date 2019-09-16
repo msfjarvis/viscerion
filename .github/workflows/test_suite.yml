@@ -1,0 +1,17 @@
+name: "Build workflow"
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v1
+        with:
+          submodules: true
+
+      - name: "Run test suite"
+        uses: msfjarvis/setup-android@0.2
+        with:
+          gradleTasks: "dependencies spotlessApply detekt assembleDebug"
