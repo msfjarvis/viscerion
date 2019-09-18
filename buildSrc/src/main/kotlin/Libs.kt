@@ -119,6 +119,9 @@ object Libs {
      */
     const val timber: String = "com.jakewharton.timber:timber:" + Versions.timber
 
+    /**
+     * https://github.com/kroegerama/barcode-kaiteki
+     */
     const val barcode_kaiteki: String = "com.kroegerama:barcode-kaiteki:" + Versions.barcode_kaiteki
 
     const val de_fayard_buildsrcversions_gradle_plugin: String =

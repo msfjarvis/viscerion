@@ -21,7 +21,7 @@ object Versions {
 
     const val appcompat: String = "1.1.0"
 
-    const val biometric: String = "1.0.0-beta01"
+    const val biometric: String = "1.0.0-beta02"
 
     const val constraintlayout: String = "2.0.0-beta2"
 
@@ -29,7 +29,7 @@ object Versions {
 
     const val androidx_databinding: String = "3.5.0"
 
-    const val fragment_ktx: String = "1.2.0-alpha01"
+    const val fragment_ktx: String = "1.2.0-alpha04"
 
     const val preference: String = "1.1.0"
 
@@ -61,7 +61,7 @@ object Versions {
 
     const val barcode_kaiteki: String = "1.1.1"
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.6.1"
 
     const val io_gitlab_arturbosch_detekt: String = "1.0.1"
 
