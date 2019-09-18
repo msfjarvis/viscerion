@@ -257,7 +257,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     @Suppress("UNUSED_PARAMETER")
     fun onRequestSetExcludedApplications(view: View) {
-        val fragmentManager = requireFragmentManager()
+        val fragmentManager = parentFragmentManager
         binding?.let {
             val excludedApps = ArrayList(it.config?.`interface`?.excludedApplications?.toMutableSet()
                     ?: mutableSetOf())

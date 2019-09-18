@@ -125,7 +125,7 @@ class SettingsActivity : AppCompatActivity() {
 
             exclusionsPref?.onPreferenceClickListener = ClickListener {
                 val fragment = AppListDialogFragment.newInstance(prefs.exclusionsArray, true, this)
-                fragment.show(requireFragmentManager(), null)
+                fragment.show(parentFragmentManager, null)
                 true
             }
 

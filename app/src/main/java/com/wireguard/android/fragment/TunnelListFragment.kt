@@ -59,7 +59,7 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
             Config.parse(ByteArrayInputStream(configText.toByteArray(StandardCharsets.UTF_8)))
 
             // Config text is valid, now create the tunnel…
-            ConfigNamingDialogFragment.newInstance(configText).show(requireFragmentManager(), null)
+            ConfigNamingDialogFragment.newInstance(configText).show(parentFragmentManager, null)
         } catch (exception: Exception) {
             onTunnelImportFinished(emptyList(), listOf<Throwable>(exception))
         }
@@ -187,7 +187,7 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
         binding?.apply {
             createFab.setOnClickListener {
                 val bottomSheet = AddTunnelsSheet(this@TunnelListFragment)
-                bottomSheet.show(requireFragmentManager(), "BOTTOM_SHEET")
+                bottomSheet.show(parentFragmentManager, "BOTTOM_SHEET")
             }
             tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
             executePendingBindings()
