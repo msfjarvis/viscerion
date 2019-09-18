@@ -104,6 +104,10 @@ object Libs {
      */
     const val material: String = "com.google.android.material:material:" + Versions.material
 
+    const val com_gradle_build_scan_gradle_plugin: String =
+            "com.gradle.build-scan:com.gradle.build-scan.gradle.plugin:" +
+            Versions.com_gradle_build_scan_gradle_plugin
+
     /**
      * https://github.com/JakeWharton/ThreeTenABP/
      */

@@ -19,6 +19,12 @@ buildscript {
 plugins {
     buildSrcVersions
     id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt
+    id("com.gradle.build-scan") version Versions.com_gradle_build_scan_gradle_plugin
+}
+
+buildScan {
+    termsOfServiceAgree = "yes"
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
 }
 
 buildSrcVersions {

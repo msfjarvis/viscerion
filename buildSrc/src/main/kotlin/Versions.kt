@@ -53,6 +53,8 @@ object Versions {
 
     const val material: String = "1.1.0-alpha10"
 
+    const val com_gradle_build_scan_gradle_plugin: String = "2.4.2"
+
     const val threetenabp: String = "1.2.1"
 
     const val timber: String = "4.7.1"
