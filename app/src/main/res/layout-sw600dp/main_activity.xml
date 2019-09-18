@@ -17,7 +17,7 @@
         android:layout_weight="2"
         android:tag="LIST" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
