@@ -98,7 +98,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             }
             R.id.menu_action_edit -> {
                 supportFragmentManager.commit {
-                    replace(R.id.detail_container, TunnelEditorFragment())
+                    replace(R.id.detail_container, TunnelEditorFragment::class.java, null)
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     addToBackStack(null)
                 }
@@ -133,7 +133,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         } else if (backStackEntries == 0) {
             // Create and show a new detail fragment.
             fragmentManager.commit {
-                add(R.id.detail_container, TunnelDetailFragment())
+                add(R.id.detail_container, TunnelDetailFragment::class.java, null)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 addToBackStack(null)
             }
