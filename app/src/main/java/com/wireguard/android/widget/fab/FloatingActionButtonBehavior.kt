@@ -32,7 +32,7 @@ class FloatingActionButtonBehavior(
         child: ExtendedFloatingActionButton,
         dependency: View
     ): Boolean {
-        ObjectAnimator.ofFloat(child, "translationY", min(0f, dependency.translationY - dependency.measuredHeight)).apply {
+        ObjectAnimator.ofFloat(child, "translationY", min(0f, dependency.translationY - dependency.measuredHeight - 12f)).apply {
             duration = 10
             start()
         }
