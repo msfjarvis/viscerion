@@ -55,7 +55,7 @@
                     android:id="@+id/tunnel_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginTop="16dp"
                     app:checked="@{tunnel.state == State.UP}"
                     app:onBeforeCheckedChanged="@{fragment::setTunnelState}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/interface_title"

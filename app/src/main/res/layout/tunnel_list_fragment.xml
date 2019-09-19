@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:choiceMode="multipleChoiceModal"
             android:clipToPadding="false"
+            android:layout_marginTop="8dp"
             android:paddingBottom="@{@dimen/design_fab_size_normal * 1.1f}"
             android:visibility="@{tunnels.size() > 0 ? android.view.View.VISIBLE : android.view.View.GONE}"
             app:configurationHandler="@{rowConfigurationHandler}"
