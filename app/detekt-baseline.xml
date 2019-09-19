@@ -22,8 +22,8 @@
     <ID>ConstructorParameterNaming:ConfigProxy.kt$ConfigProxy$`in`: Parcel</ID>
     <ID>ConstructorParameterNaming:InterfaceProxy.kt$InterfaceProxy$`in`: Parcel</ID>
     <ID>ConstructorParameterNaming:PeerProxy.kt$PeerProxy$`in`: Parcel</ID>
+    <ID>EmptyFunctionBlock:AddTunnelsSheet.kt$AddTunnelsSheet${ }</ID>
     <ID>EmptyFunctionBlock:AddTunnelsSheet.kt$AddTunnelsSheet.&lt;no name provided&gt;.&lt;no name provided&gt;${ }</ID>
-    <ID>EmptyFunctionBlock:TunnelListFragment.kt$TunnelListFragment${ }</ID>
     <ID>ForbiddenComment:Tunnel.kt$Tunnel$// FIXME: Check age of statistics.</ID>
     <ID>FunctionParameterNaming:Config.kt$Config.Builder$`interface`: Interface</ID>
     <ID>LongMethod:GoBackend.kt$GoBackend$@Throws(Exception::class) private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: Tunnel.State?)</ID>
@@ -62,7 +62,7 @@
     <ID>TooManyFunctions:Peer.kt$Peer$Builder</ID>
     <ID>TooManyFunctions:PeerProxy.kt$PeerProxy : BaseObservableParcelable</ID>
     <ID>TooManyFunctions:TunnelEditorFragment.kt$TunnelEditorFragment : BaseFragmentAppExclusionListener</ID>
-    <ID>TooManyFunctions:TunnelListFragment.kt$TunnelListFragment : BaseFragmentBarcodeResultListener</ID>
+    <ID>TooManyFunctions:TunnelListFragment.kt$TunnelListFragment : BaseFragment</ID>
     <ID>TooManyFunctions:TunnelManager.kt$TunnelManager : BaseObservableKoinComponent</ID>
     <ID>UnnecessaryLet:TunnelManager.kt$TunnelManager$let { it.forEach { future -&gt; if (t == null) future.complete(v) else future.completeExceptionally(t) } }</ID>
     <ID>UnnecessaryParentheses:ExceptionLoggers.kt$ExceptionLoggers.Companion$(throwable.cause ?: throwable)</ID>

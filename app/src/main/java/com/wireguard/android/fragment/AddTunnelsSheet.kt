@@ -18,18 +18,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.Result
+import com.kroegerama.kaiteki.bcode.BarcodeResultListener
 import com.kroegerama.kaiteki.bcode.ui.BarcodeBottomSheet
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
+import com.wireguard.android.util.ImportEventsListener
 import com.wireguard.android.util.resolveAttribute
 import com.google.android.material.R as materialR
 
-class AddTunnelsSheet() : BottomSheetDialogFragment() {
+class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
 
-    private var tunnelListFragment: TunnelListFragment? = null
+    private var fragmentListener: ImportEventsListener? = null
 
-    constructor(fragment: TunnelListFragment) : this() {
-        tunnelListFragment = fragment
+    constructor(listener: ImportEventsListener) : this() {
+        fragmentListener = listener
     }
 
     override fun getTheme(): Int {
@@ -84,24 +87,25 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
         view.background = gradientDrawable
     }
 
+    override fun onBarcodeResult(result: Result): Boolean {
+        fragmentListener?.onQrImport(result.text)
+        return true
+    }
+
+    override fun onBarcodeScanCancelled() {
+    }
+
     private fun onRequestCreateConfig() {
         startActivity(Intent(activity, TunnelCreatorActivity::class.java))
     }
 
     private fun onRequestImportConfig() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-        }
-        tunnelListFragment?.startActivityForResult(
-                Intent.createChooser(intent, "Choose ZIP or conf"),
-                TunnelListFragment.REQUEST_IMPORT
-        )
+        fragmentListener?.onRequestImport()
     }
 
     private fun onRequestScanQRCode() {
         BarcodeBottomSheet.show(
-                requireNotNull(tunnelListFragment).childFragmentManager,
+                childFragmentManager,
                 formats = listOf(BarcodeFormat.QR_CODE),
                 barcodeInverted = false
         )

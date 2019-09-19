@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.Result
-import com.kroegerama.kaiteki.bcode.BarcodeResultListener
 import com.wireguard.android.R
 import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION_FILE_SUFFIX
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
@@ -31,6 +29,7 @@ import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ExceptionLoggers
+import com.wireguard.android.util.ImportEventsListener
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
@@ -45,7 +44,7 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-class TunnelListFragment : BaseFragment(), BarcodeResultListener {
+class TunnelListFragment : BaseFragment() {
 
     private val actionModeListener = ActionModeListener()
     private val tunnelManager by injectTunnelManager()
@@ -183,10 +182,27 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        val bottomSheetActionListener = object : ImportEventsListener {
+            override fun onQrImport(result: String) {
+                importTunnel(result)
+            }
+
+            override fun onRequestImport() {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "*/*"
+                }
+                startActivityForResult(
+                        Intent.createChooser(intent, "Choose ZIP or conf"),
+                        REQUEST_IMPORT
+                )
+            }
+        }
+
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
             createFab.setOnClickListener {
-                val bottomSheet = AddTunnelsSheet(this@TunnelListFragment)
+                val bottomSheet = AddTunnelsSheet(bottomSheetActionListener)
                 bottomSheet.show(parentFragmentManager, "BOTTOM_SHEET")
             }
             tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
@@ -295,14 +311,6 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
                 actionModeListener.setItemChecked(checkedItem, true)
             }
         }
-    }
-
-    override fun onBarcodeResult(result: Result): Boolean {
-        importTunnel(result.text)
-        return true
-    }
-
-    override fun onBarcodeScanCancelled() {
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
