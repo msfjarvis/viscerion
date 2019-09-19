@@ -5,7 +5,7 @@
 - Defer tunnel state restoration to workaround AFWall+ startup block
 - Add German translations
 - Update library dependencies
-- Update to Golang 1.12.7 for native library
+- Update to Golang 1.12.9 for native library
 - Add ability to restrict application access using biometric authentication
 - Fix constant memory leaks on Q that Google deemed too low priority.
 
