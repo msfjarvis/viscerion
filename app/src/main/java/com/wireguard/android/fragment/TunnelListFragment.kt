@@ -76,10 +76,10 @@ class TunnelListFragment : BaseFragment(), BarcodeResultListener {
         getAsyncWorker().supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name = ""
-            @Suppress("Recycle")
             contentResolver.query(uri, columns, null, null, null)?.use { cursor ->
                 if (cursor.moveToFirst() && !cursor.isNull(0))
                     name = cursor.getString(0)
+                cursor.close()
             }
             if (name.isEmpty())
                 name = Uri.decode(uri.lastPathSegment)
