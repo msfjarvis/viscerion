@@ -7,7 +7,6 @@ package com.wireguard.android.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.util.AuthenticationResult
@@ -23,11 +22,7 @@ class LaunchActivity : AppCompatActivity() {
                     is AuthenticationResult.Success -> {
                         startMainActivity()
                     }
-                    is AuthenticationResult.RecoverableError -> {
-                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    }
                     is AuthenticationResult.UnrecoverableError -> {
-                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     else -> {
