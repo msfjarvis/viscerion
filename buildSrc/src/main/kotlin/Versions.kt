@@ -61,7 +61,7 @@ object Versions {
 
     const val barcode_kaiteki: String = "1.1.1"
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.6.1"
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
 
     const val io_gitlab_arturbosch_detekt: String = "1.0.1"
 
