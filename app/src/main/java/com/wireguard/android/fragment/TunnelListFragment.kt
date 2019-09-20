@@ -51,6 +51,22 @@ class TunnelListFragment : BaseFragment() {
     private val prefs by injectPrefs()
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
+    private val bottomSheetActionListener = object : ImportEventsListener {
+        override fun onQrImport(result: String) {
+            importTunnel(result)
+        }
+
+        override fun onRequestImport() {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "*/*"
+            }
+            startActivityForResult(
+                    Intent.createChooser(intent, "Choose ZIP or conf"),
+                    REQUEST_IMPORT
+            )
+        }
+    }
 
     private fun importTunnel(configText: String) {
         try {
@@ -181,24 +197,6 @@ class TunnelListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
-        val bottomSheetActionListener = object : ImportEventsListener {
-            override fun onQrImport(result: String) {
-                importTunnel(result)
-            }
-
-            override fun onRequestImport() {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "*/*"
-                }
-                startActivityForResult(
-                        Intent.createChooser(intent, "Choose ZIP or conf"),
-                        REQUEST_IMPORT
-                )
-            }
-        }
-
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
             createFab.setOnClickListener {
