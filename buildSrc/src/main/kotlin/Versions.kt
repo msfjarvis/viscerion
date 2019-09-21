@@ -61,7 +61,9 @@ object Versions {
 
     const val barcode_kaiteki: String = "1.1.1"
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
+    const val leakcanary_android: String = "2.0-beta-3"
+
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0" // available: "0.6.1"
 
     const val io_gitlab_arturbosch_detekt: String = "1.0.1"
 

@@ -110,6 +110,7 @@ dependencies {
     implementation(Libs.threetenabp)
     implementation(Libs.timber)
     implementation(Libs.kotlin_stdlib_jdk8)
+    debugImplementation(Libs.leakcanary_android)
 }
 
 kapt {

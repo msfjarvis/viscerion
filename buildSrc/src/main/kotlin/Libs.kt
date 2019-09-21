@@ -124,6 +124,12 @@ object Libs {
      */
     const val barcode_kaiteki: String = "com.kroegerama:barcode-kaiteki:" + Versions.barcode_kaiteki
 
+    /**
+     * http://github.com/square/leakcanary/
+     */
+    const val leakcanary_android: String = "com.squareup.leakcanary:leakcanary-android:" +
+            Versions.leakcanary_android
+
     const val de_fayard_buildsrcversions_gradle_plugin: String =
             "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
             Versions.de_fayard_buildsrcversions_gradle_plugin
