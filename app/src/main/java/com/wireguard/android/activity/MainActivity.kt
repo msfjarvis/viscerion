@@ -53,8 +53,12 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             selectedTunnel = null
             return
         }
-        if (isTaskRoot && backStackEntries == 2) {
-            supportFragmentManager.popBackStack()
+        if (isTaskRoot) {
+            if (backStackEntries == 2) {
+                supportFragmentManager.popBackStack()
+            } else if (backStackEntries == 0) {
+                finishAfterTransition()
+            }
         } else {
             super.onBackPressed()
         }
