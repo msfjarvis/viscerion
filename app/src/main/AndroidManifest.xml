@@ -21,8 +21,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
-        <activity android:name=".activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" />
+        <activity android:name=".activity.MainActivity" />
 
         <activity android:name=".activity.LaunchActivity">
             <intent-filter>
