@@ -12,7 +12,6 @@ jobs:
           submodules: true
 
       - name: "Run test suite"
-        uses: msfjarvis/setup-android@1.0
+        uses: msfjarvis/setup-android@0.2
         with:
-          entrypoint: ./gradlew
-          args: dependencies spotlessCheck detekt assembleDebug
+          gradleTasks: "dependencies spotlessCheck detekt assembleDebug"
