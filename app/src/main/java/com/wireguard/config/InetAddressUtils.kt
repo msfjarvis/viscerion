@@ -42,6 +42,8 @@ object InetAddressUtils {
             if (cause is IllegalArgumentException)
                 throw ParseException(InetAddress::class.java, address, cause)
             throw RuntimeException(e)
+        } catch (e: IllegalArgumentException) {
+            throw ParseException(InetAddress::class.java, address, e)
         } catch (e: InvocationTargetException) {
             val cause = e.cause
             if (cause is IllegalArgumentException)
