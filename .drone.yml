@@ -32,10 +32,10 @@ steps:
       exclude:
       - pull_request
 
-- name: static-analysis-and-stylecheck
+- name: stylecheck
   image: msfjarvis/docker-android-sdk:ubuntu-standalone
   commands:
-  - ./gradlew spotlessCheck detekt
+  - ./gradlew spotlessCheck
   when:
     branch:
       exclude:
