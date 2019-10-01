@@ -1,6 +1,15 @@
 name: "Build workflow"
 
-on: [push]
+on:
+  push:
+    paths:
+    - "!.github/"
+    - "!*.md"
+    - "!_bin/"
+    - "**.java"
+    - "**.kt"
+    - "**.kts"
+    - "**.xml"
 
 jobs:
   build:
