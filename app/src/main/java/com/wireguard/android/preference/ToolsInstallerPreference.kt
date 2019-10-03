@@ -13,6 +13,7 @@ import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.di.ext.getToolsInstaller
 import com.wireguard.android.util.ToolsInstaller
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
 /**
  * Preference implementing a button that asynchronously runs `ToolsInstaller` and displays the
@@ -61,7 +62,10 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
 
     private fun onInstallResult(result: Int, throwable: Throwable?) {
         when {
-            throwable != null -> setState(State.FAILURE)
+            throwable != null -> {
+                setState(State.FAILURE)
+                Timber.d(throwable)
+            }
             result and (ToolsInstaller.YES or ToolsInstaller.MAGISK) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
                     State.SUCCESS_MAGISK
             )
