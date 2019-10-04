@@ -6,7 +6,8 @@ cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
 add_executable(libwg-quick.so wireguard/src/tools/wg-quick/android.c ndk-compat/compat.c)
-target_compile_options(libwg-quick.so PUBLIC -O3 -std=gnu11 -Wall -pedantic -Wno-missing-field-initializers -include ${CMAKE_CURRENT_SOURCE_DIR}/ndk-compat/compat.h -DWG_PACKAGE_NAME=\"${ANDROID_PACKAGE_NAME}\")
+target_compile_options(libwg-quick.so PUBLIC -O3 -std=gnu11 -Wall -include ${CMAKE_CURRENT_SOURCE_DIR}/ndk-compat/compat.h -DWG_PACKAGE_NAME=\"${ANDROID_PACKAGE_NAME}\")
+target_link_libraries(libwg-quick.so -ldl)
 
 file(GLOB WG_SOURCES wireguard/src/tools/*.c libmnl/src/*.c ndk-compat/compat.c)
 add_executable(libwg.so ${WG_SOURCES})
