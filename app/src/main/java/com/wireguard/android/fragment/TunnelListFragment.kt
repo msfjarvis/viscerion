@@ -319,16 +319,17 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        binding?.tunnels.let { tunnelList ->
+        binding?.tunnels?.let { tunnelList ->
+            tunnelList.clear()
             if (!newText.isNullOrEmpty()) {
-                tunnelList?.clear()
+                tunnelList.clear()
                 savedTunnelsList.forEach {
                     if (it.name.contains(newText, true)) {
-                        tunnelList?.add(it)
+                        tunnelList.add(it)
                     }
                 }
             } else {
-                tunnelList?.addAll(savedTunnelsList)
+                tunnelList.addAll(savedTunnelsList)
             }
         }
         return false
@@ -367,6 +368,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+
         setHasOptionsMenu(true)
         if (binding == null)
             return
