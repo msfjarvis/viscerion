@@ -33,6 +33,7 @@ class TunnelDetailFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.tunnel_detail, menu)
+        menu.findItem(R.id.menu_search).isVisible = false
     }
 
     override fun onCreateView(
