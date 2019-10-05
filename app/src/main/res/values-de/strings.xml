@@ -83,6 +83,7 @@
     <string name="hint_generated">(generiert)</string>
     <string name="hint_optional">(optional)</string>
     <string name="hint_random">(zufällig)</string>
+    <string name="hint_search">Tunnel suchen</string>
     <string name="illegal_filename_error">Ungültiger Dateiname “%s”</string>
     <string name="import_error">Kann Tunnel nicht importieren: %s</string>
     <string name="import_from_qr_code">Tunnel mittels QR-Code importieren</string>
@@ -196,4 +197,5 @@
     <string name="biometric_prompt_negative_text">Abbrechen</string>
     <string name="biometric_prompt_retry">Wiederholen</string>
     <string name="biometric_prompt_no_hardware">Keine Biometrische Hardware gefunden</string>
+    <string name="search">Suche</string>
 </resources>
