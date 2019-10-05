@@ -8,6 +8,7 @@
 - Update to Golang 1.12.9 for native library
 - Add ability to restrict application access using biometric authentication
 - Fix constant memory leaks on Q that Google deemed too low priority.
+- Allow searching through tunnels in list view
 
 ### [v5.1.1](https://github.com/msfjarvis/viscerion/releases/5.1.1)
 - Revert back to non-service Tasker integration as many devices incessantly
