@@ -96,6 +96,7 @@
     <string name="log_export_summary">Le fichier journal sera sauvegardé dans le dossier de téléchargement</string>
     <string name="log_export_title">Exporter le fichier journal</string>
     <string name="module_version_error">Impossible de déterminer la version du module noyau</string>
+    <string name="mtu">MTU</string>
     <string name="multiple_tunnels_error">Un seul tunnel ne peut fonctionner à la fois en espace utilisateur</string>
     <string name="name">Nom</string>
     <string name="no_config_error">Tentative d\'établir un tunnel sans configuration</string>
@@ -186,7 +187,9 @@
     <string name="biometric_auth_title">Activer l\'authentification biométrique</string>
     <string name="biometric_auth_summary">Une fois activé, Viscerion demandera votre empreinte digitale lors du lancement de l\'application</string>
     <string name="biometric_auth_summary_error">Lecteur d\'empreinte digitale non accessible ou manquant</string>
+    <string name="biometric_prompt_title">Requête biométrique</string>
     <string name="biometric_prompt_negative_text">Annuler</string>
     <string name="biometric_prompt_retry">Réessayer</string>
     <string name="biometric_prompt_no_hardware">Aucun lecteur biométrique n\'a été trouvé</string>
+    <string name="search">Rechercher</string>
 </resources>
