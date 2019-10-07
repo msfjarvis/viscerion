@@ -9,6 +9,7 @@
 - Add ability to restrict application access using biometric authentication
 - Fix constant memory leaks on Q that Google deemed too low priority.
 - Allow searching through tunnels in list view
+- Encrypt app settings on Android 6.0 and above (you might lose your settings on upgrade)
 
 ### [v5.1.1](https://github.com/msfjarvis/viscerion/releases/5.1.1)
 - Revert back to non-service Tasker integration as many devices incessantly
