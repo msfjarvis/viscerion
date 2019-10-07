@@ -33,6 +33,8 @@ object Versions {
 
     const val preference: String = "1.1.0"
 
+    const val security_crypto: String = "1.0.0-alpha02"
+
     const val slice_builders_ktx: String = "1.0.0-alpha07"
 
     const val slice_builders: String = "1.1.0-alpha01"
