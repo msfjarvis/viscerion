@@ -30,6 +30,17 @@ import com.google.android.material.R as materialR
 class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
 
     private var fragmentListener: ImportEventsListener? = null
+    private lateinit var behavior: BottomSheetBehavior<FrameLayout>
+    private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                dismiss()
+            }
+        }
+    }
 
     constructor(listener: ImportEventsListener) : this() {
         fragmentListener = listener
@@ -52,21 +63,12 @@ class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val dialog = dialog as BottomSheetDialog? ?: return
-                val bottomSheet = dialog.findViewById<FrameLayout>(materialR.id.design_bottom_sheet)
+                val bottomSheet: FrameLayout = dialog.findViewById(materialR.id.design_bottom_sheet)
                         ?: return
-                val behavior = BottomSheetBehavior.from(bottomSheet)
+                behavior = BottomSheetBehavior.from(bottomSheet)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.peekHeight = 0
-                behavior.bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    }
-
-                    override fun onStateChanged(bottomSheet: View, newState: Int) {
-                        if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                            dismiss()
-                        }
-                    }
-                }
+                behavior.addBottomSheetCallback(bottomSheetCallback)
                 dialog.findViewById<MaterialButton>(R.id.create_empty)?.setOnClickListener {
                     dismiss()
                     onRequestCreateConfig()
@@ -85,6 +87,11 @@ class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
             setColor(ctx.resolveAttribute(R.attr.colorBackground))
         }
         view.background = gradientDrawable
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        behavior.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     override fun onBarcodeResult(result: Result): Boolean {

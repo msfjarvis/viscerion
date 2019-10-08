@@ -53,7 +53,7 @@ object Versions {
 
     const val r8: String = "1.5.68"
 
-    const val material: String = "1.1.0-alpha10"
+    const val material: String = "1.1.0-beta01"
 
     const val com_gradle_build_scan_gradle_plugin: String = "2.4.2"
 
