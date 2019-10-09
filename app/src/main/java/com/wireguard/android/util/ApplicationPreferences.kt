@@ -7,21 +7,15 @@ package com.wireguard.android.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.preference.PreferenceManager
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import kotlin.reflect.KProperty
 
 class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-    private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-
     private val onChangeMap: MutableMap<String, () -> Unit> = HashMap()
     private val onChangeListeners: MutableMap<String, MutableSet<OnPreferenceChangeListener>> = HashMap()
     private var onChangeCallback: ApplicationPreferencesChangeCallback? = null
-    val sharedPrefs: SharedPreferences = getPreferences(context)
+    val sharedPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val doNothing = { }
     private val restart = { restart() }
@@ -39,21 +33,6 @@ class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedP
     val restoreOnBoot by BooleanPref("restore_on_boot", false)
     var runningTunnels by StringSetPref("enabled_configs", emptySet())
     var fingerprintAuth by BooleanPref("fingerprint_auth", false)
-
-    private fun getPreferences(context: Context): SharedPreferences {
-        return if (Build.VERSION.SDK_INT >= 23) {
-            EncryptedSharedPreferences
-                    .create(
-                            "${context.packageName}_preferences",
-                            masterKeyAlias,
-                            context,
-                            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                    )
-        } else {
-            PreferenceManager.getDefaultSharedPreferences(context)
-        }
-    }
 
     fun registerCallback(callback: ApplicationPreferencesChangeCallback) {
         sharedPrefs.registerOnSharedPreferenceChangeListener(this)

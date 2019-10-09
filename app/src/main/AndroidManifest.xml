@@ -11,8 +11,6 @@
     <!--suppress DeprecatedClassUsageInspection -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
-    <uses-sdk tools:overrideLibrary="androidx.security" /> <!-- We check usages at runtime -->
-
     <application
         android:name=".Application"
         android:allowBackup="false"
