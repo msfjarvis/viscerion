@@ -21,17 +21,19 @@ object Versions {
 
     const val appcompat: String = "1.1.0"
 
-    const val biometric: String = "1.0.0-beta02"
+    const val biometric: String = "1.0.0-rc01"
 
     const val constraintlayout: String = "2.0.0-beta2"
 
-    const val core_ktx: String = "1.2.0-alpha04"
+    const val core_ktx: String = "1.2.0-beta01"
 
-    const val androidx_databinding: String = "3.5.0"
+    const val androidx_databinding: String = "3.5.0" // available: "3.5.1"
 
-    const val fragment_ktx: String = "1.2.0-alpha04"
+    const val fragment_ktx: String = "1.2.0-beta01"
 
     const val preference: String = "1.1.0"
+
+    const val recyclerview: String = "1.1.0-beta05"
 
     const val slice_builders_ktx: String = "1.0.0-alpha07"
 
@@ -39,15 +41,15 @@ object Versions {
 
     const val slice_core: String = "1.1.0-alpha01"
 
-    const val work_runtime_ktx: String = "2.3.0-alpha01"
+    const val work_runtime_ktx: String = "2.3.0-alpha02"
 
     const val recyclical: String = "1.1.0"
 
-    const val aapt2: String = "3.5.0-5435860"
+    const val aapt2: String = "3.5.0-5435860" // available: "3.5.1-5435860"
 
-    const val com_android_tools_build_gradle: String = "3.5.0"
+    const val com_android_tools_build_gradle: String = "3.5.0" // available: "3.5.1"
 
-    const val lint_gradle: String = "26.5.0"
+    const val lint_gradle: String = "26.5.0" // available: "26.5.1"
 
     const val r8: String = "1.5.68"
 
@@ -63,7 +65,7 @@ object Versions {
 
     const val leakcanary_android: String = "2.0-beta-3"
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0" // available: "0.6.1"
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0" // available: "0.6.4"
 
     const val android_retrofuture: String = "1.7.1"
 

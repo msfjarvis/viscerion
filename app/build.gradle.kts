@@ -103,6 +103,7 @@ dependencies {
     implementation(Libs.koin_android)
     implementation(Libs.koin_core)
     implementation(Libs.preference)
+    implementation(Libs.recyclerview)
     implementation(Libs.recyclical)
     implementation(Libs.slice_builders)
     implementation(Libs.slice_core)
