@@ -322,12 +322,9 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener {
         binding?.tunnels?.let { tunnelList ->
             tunnelList.clear()
             if (!newText.isNullOrEmpty()) {
-                tunnelList.clear()
-                savedTunnelsList.forEach {
-                    if (it.name.contains(newText, true)) {
-                        tunnelList.add(it)
-                    }
-                }
+                tunnelList.addAll(savedTunnelsList.filter {
+                    it.name.contains(newText, true)
+                })
             } else {
                 tunnelList.addAll(savedTunnelsList)
             }
