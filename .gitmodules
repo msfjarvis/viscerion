@@ -3,4 +3,4 @@
 	url = https://github.com/justmirror/libmnl
 [submodule "native/tools/wireguard"]
 	path = native/tools/wireguard
-	url = https://github.com/msfjarvis/WireGuard
+	url = https://github.com/wireguard/WireGuard
