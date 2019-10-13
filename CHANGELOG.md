@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### [v5.2.1](https://github.com/msfjarvis/viscerion/releases/5.2.1)
+- Fix crash in tunnel detail view
+
 ### [v5.2.0](https://github.com/msfjarvis/viscerion/releases/5.2.0)
 - Add timer to wg-quick notifications
 - Defer tunnel state restoration to workaround AFWall+ startup block
