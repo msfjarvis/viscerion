@@ -14,8 +14,8 @@
         <item name="colorMultiselectActiveBackground">@color/list_multiselect_background</item>
         <item name="android:colorBackground">@color/primary_color</item>
         <item name="android:colorBackgroundFloating">@color/primary_color</item>
-        <item name="android:navigationBarColor">@color/system_bars_color</item>
-        <item name="android:statusBarColor">@color/system_bars_color</item>
+        <item name="android:navigationBarColor">@color/navigation_bar_color</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
         <item name="android:windowLightNavigationBar">@bool/light_navigation_bar</item>
         <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
         <item name="android:windowBackground">@color/primary_color</item>

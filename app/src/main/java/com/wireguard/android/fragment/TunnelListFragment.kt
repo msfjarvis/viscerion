@@ -32,6 +32,7 @@ import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.di.ext.injectPrefs
 import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.ui.EdgeToEdge
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ImportEventsListener
 import com.wireguard.android.util.KotlinCompanions
@@ -228,6 +229,11 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener {
             if (searchItem.isActionViewExpanded) {
                 searchItem.collapseActionView()
             }
+        }
+        binding?.let {
+            EdgeToEdge.setUpRoot(it.root as ViewGroup)
+            EdgeToEdge.setUpFAB(it.createFab)
+            EdgeToEdge.setUpScrollingContent(it.tunnelList, it.createFab)
         }
         return binding?.root
     }

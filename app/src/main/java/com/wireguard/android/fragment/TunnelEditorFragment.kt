@@ -26,6 +26,7 @@ import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.ui.EdgeToEdge
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.viewmodel.ConfigProxy
@@ -76,6 +77,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.config_editor, menu)
+        menu.findItem(R.id.menu_search)?.isVisible = false
     }
 
     override fun onCreateView(
@@ -86,6 +88,10 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = TunnelEditorFragmentBinding.inflate(inflater, container, false)
         binding?.executePendingBindings()
+        binding?.let {
+            EdgeToEdge.setUpRoot(it.root as ViewGroup)
+            EdgeToEdge.setUpScrollingContent(it.mainContainer, null)
+        }
         return binding?.root
     }
 

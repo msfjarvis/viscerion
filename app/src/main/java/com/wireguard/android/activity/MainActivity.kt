@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
@@ -82,6 +83,15 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
         prefs.registerCallback(prefCallback)
+        // Dispatch insets on back stack changed
+        findViewById<ViewGroup>(android.R.id.content).setOnApplyWindowInsetsListener { _, insets ->
+            supportFragmentManager.let {
+                it.addOnBackStackChangedListener {
+                    it.fragments.last().view?.dispatchApplyWindowInsets(insets)
+                }
+                insets
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

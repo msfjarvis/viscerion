@@ -16,6 +16,7 @@ import com.wireguard.android.R
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.ui.EdgeToEdge
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.resolveAttribute
 
@@ -44,6 +45,10 @@ class TunnelDetailFragment : BaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = TunnelDetailFragmentBinding.inflate(inflater, container, false)
         binding?.executePendingBindings()
+        binding?.let {
+            EdgeToEdge.setUpRoot(it.root as ViewGroup)
+            EdgeToEdge.setUpScrollingContent(it.tunnelDetailCard, null)
+        }
         return binding?.root
     }
 
