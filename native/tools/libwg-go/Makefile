@@ -44,6 +44,6 @@ $(shell test "$$(cat $(BUILDDIR)/.gobuildversion 2>/dev/null)" = "$(GOBUILDVERSI
 $(DESTDIR)/libwg-go.so: $(GOROOT)/bin/go
 	go get -tags linux || { chmod -fR +w "$(GOPATH)/pkg/mod"; rm -rf "$(GOPATH)/pkg/mod"; exit 1; }
 	chmod -fR +w "$(GOPATH)/pkg/mod"
-	go build -tags linux -ldflags="-X main.socketDirectory=/data/data/$(ANDROID_PACKAGE_NAME)/cache/wireguard" -v -o "$@" -buildmode c-shared
+	go build -tags linux -ldflags="-X ipc.socketDirectory=/data/data/$(ANDROID_PACKAGE_NAME)/cache/wireguard" -v -o "$@" -buildmode c-shared
 	mkdir -p "$(BUILDDIR)"
 	go version > $(BUILDDIR)/.gobuildversion
