@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### [v5.2.2](https://github.com/msfjarvis/viscerion/releases/5.2.2)
+- Fix another crash in settings
+
 ### [v5.2.1](https://github.com/msfjarvis/viscerion/releases/5.2.1)
 - Fix crash in tunnel detail view
 
