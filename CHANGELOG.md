@@ -1,7 +1,10 @@
 # Release Notes
 
 ### Unreleased
+
+### [v5.2.3](https://github.com/msfjarvis/viscerion/releases/5.2.3)
 - Make log exporter a top-level menu item and remove viewer activity
+- Resolve wg-quick segfaults on some devices
 
 ### [v5.2.2](https://github.com/msfjarvis/viscerion/releases/5.2.2)
 - Fix another crash in settings
