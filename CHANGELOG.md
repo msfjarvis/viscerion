@@ -1,6 +1,7 @@
 # Release Notes
 
 ### Unreleased
+- Make log exporter a top-level menu item and remove viewer activity
 
 ### [v5.2.2](https://github.com/msfjarvis/viscerion/releases/5.2.2)
 - Fix another crash in settings

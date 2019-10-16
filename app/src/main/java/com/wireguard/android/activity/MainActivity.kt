@@ -6,6 +6,7 @@
 package com.wireguard.android.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.fragment.TunnelDetailFragment
@@ -23,6 +25,10 @@ import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
+import com.wireguard.android.util.humanReadablePath
+import com.wireguard.android.util.runShellCommand
+import timber.log.Timber
+import java.io.FileOutputStream
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the
@@ -74,6 +80,17 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         actionBar?.setDisplayHomeAsUpEnabled(backStackEntries >= minBackStackEntries)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_LOG_FILE_LOCATION) {
+            data?.data?.also { uri ->
+                Timber.d("Exporting logcat stream to ${uri.path}")
+                exportLog(uri)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -106,8 +123,8 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 onBackPressed()
                 return true
             }
-            R.id.menu_logviewer -> {
-                startActivity(Intent(this, LogViewerActivity::class.java))
+            R.id.export_log -> {
+                createLogFile()
                 return true
             }
             R.id.menu_action_edit -> {
@@ -154,8 +171,38 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         }
     }
 
+    private fun createLogFile() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TITLE, "viscerion-log.txt")
+        }
+        startActivityForResult(intent, REQUEST_LOG_FILE_LOCATION)
+    }
+
+    private fun exportLog(fileUri: Uri) {
+        contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
+            FileOutputStream(pfd.fileDescriptor).use { outputStream ->
+                readLogcat().forEach { line ->
+                    outputStream.write((line + "\n").toByteArray())
+                }
+            }
+            val message = getString(R.string.log_export_success, fileUri.humanReadablePath)
+            Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun readLogcat(): ArrayList<String> {
+        val ret = ArrayList<String>()
+        "logcat -b all -d -v threadtime *:V".runShellCommand().forEach { line ->
+            ret.add(line)
+        }
+        return ret
+    }
+
     companion object {
         var isTwoPaneLayout: Boolean = false
             private set
+        private const val REQUEST_LOG_FILE_LOCATION = 1000
     }
 }

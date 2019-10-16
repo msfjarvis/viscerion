@@ -87,8 +87,6 @@ object Libs {
     const val work_runtime_ktx: String = "androidx.work:work-runtime-ktx:" +
             Versions.work_runtime_ktx
 
-    const val recyclical: String = "com.afollestad:recyclical:" + Versions.recyclical
-
     /**
      * https://developer.android.com/studio
      */

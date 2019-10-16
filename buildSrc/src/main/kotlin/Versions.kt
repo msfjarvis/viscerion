@@ -43,8 +43,6 @@ object Versions {
 
     const val work_runtime_ktx: String = "2.3.0-alpha02"
 
-    const val recyclical: String = "1.1.0"
-
     const val aapt2: String = "3.5.0-5435860" // available: "3.5.1-5435860"
 
     const val com_android_tools_build_gradle: String = "3.5.0" // available: "3.5.1"
