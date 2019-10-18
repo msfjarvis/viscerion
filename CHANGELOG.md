@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### [v5.2.4](https://github.com/msfjarvis/viscerion/releases/5.2.4)
+- Fix QR code import action not working
+
 ### [v5.2.3](https://github.com/msfjarvis/viscerion/releases/5.2.3)
 - Make log exporter a top-level menu item and remove viewer activity
 - Resolve wg-quick segfaults on some devices
