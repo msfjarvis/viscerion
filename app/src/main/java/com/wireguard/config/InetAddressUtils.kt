@@ -7,17 +7,28 @@ package com.wireguard.config
 
 import android.net.InetAddresses
 import android.os.Build
-import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.net.Inet4Address
 import java.net.Inet6Address
 import java.net.InetAddress
+import java.net.UnknownHostException
+import java.util.regex.Pattern
 
 /**
  * Utility methods for creating instances of [InetAddress].
  */
 object InetAddressUtils {
-    private val PARSER_METHOD: Method by lazy { InetAddress::class.java.getMethod("parseNumericAddress", String::class.java) }
+    private var PARSER_METHOD: Method? = null
+    private val WONT_TOUCH_RESOLVER: Pattern = Pattern.compile("^(((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:)(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?)|((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$")
+
+    init {
+        var m: Method? = null
+        try {
+            m = InetAddress::class.java.getMethod("parseNumericAddress", String::class.java)
+        } catch (_: Exception) {
+        }
+        PARSER_METHOD = m
+    }
 
     /**
      * Parses a numeric IPv4 or IPv6 address without performing any DNS lookups.
@@ -30,25 +41,27 @@ object InetAddressUtils {
         if (address.isEmpty())
             throw ParseException(InetAddress::class.java, address, "Empty address")
         try {
-            return if (Build.VERSION.SDK_INT < 29) {
-                PARSER_METHOD.invoke(null, address) as InetAddress
-            } else {
-                InetAddresses.parseNumericAddress(address)
+            return when {
+                Build.VERSION.SDK_INT >= 29 -> InetAddresses.parseNumericAddress(address)
+                PARSER_METHOD != null -> PARSER_METHOD?.invoke(null, address) as InetAddress
+                else -> throw NoSuchMethodException("parseNumericAddress")
             }
-        } catch (e: IllegalAccessException) {
+        } catch (e: IllegalArgumentException) {
+            throw ParseException(InetAddress::class.java, address, e)
+        } catch (e: Exception) {
             val cause = e.cause
             // Re-throw parsing exceptions with the original type, as callers might try to catch
             // them. On the other hand, callers cannot be expected to handle reflection failures.
             if (cause is IllegalArgumentException)
                 throw ParseException(InetAddress::class.java, address, cause)
-            throw RuntimeException(e)
-        } catch (e: IllegalArgumentException) {
-            throw ParseException(InetAddress::class.java, address, e)
-        } catch (e: InvocationTargetException) {
-            val cause = e.cause
-            if (cause is IllegalArgumentException)
-                throw ParseException(InetAddress::class.java, address, cause)
-            throw RuntimeException(e)
+            try {
+                if (WONT_TOUCH_RESOLVER.matcher(address).matches())
+                    return InetAddress.getByName(address)
+                else
+                    throw ParseException(InetAddress::class.java, address, "Not an IP address")
+            } catch (f: UnknownHostException) {
+                throw ParseException(InetAddress::class.java, address, f)
+            }
         }
     }
 }
