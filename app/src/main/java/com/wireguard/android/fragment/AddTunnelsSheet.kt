@@ -18,18 +18,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.Result
-import com.kroegerama.kaiteki.bcode.BarcodeResultListener
 import com.kroegerama.kaiteki.bcode.ui.BarcodeBottomSheet
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
-import com.wireguard.android.util.ImportEventsListener
 import com.wireguard.android.util.resolveAttribute
 import com.google.android.material.R as materialR
 
-class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
+class AddTunnelsSheet() : BottomSheetDialogFragment() {
 
-    private var fragmentListener: ImportEventsListener? = null
+    private var tunnelListFragment: TunnelListFragment? = null
     private lateinit var behavior: BottomSheetBehavior<FrameLayout>
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -42,8 +39,8 @@ class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
         }
     }
 
-    constructor(listener: ImportEventsListener) : this() {
-        fragmentListener = listener
+    constructor(fragment: TunnelListFragment) : this() {
+        tunnelListFragment = fragment
     }
 
     override fun getTheme(): Int {
@@ -94,25 +91,24 @@ class AddTunnelsSheet() : BottomSheetDialogFragment(), BarcodeResultListener {
         behavior.removeBottomSheetCallback(bottomSheetCallback)
     }
 
-    override fun onBarcodeResult(result: Result): Boolean {
-        fragmentListener?.onQrImport(result.text)
-        return true
-    }
-
-    override fun onBarcodeScanCancelled() {
-    }
-
     private fun onRequestCreateConfig() {
         startActivity(Intent(activity, TunnelCreatorActivity::class.java))
     }
 
     private fun onRequestImportConfig() {
-        fragmentListener?.onRequestImport()
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
+        tunnelListFragment?.startActivityForResult(
+                Intent.createChooser(intent, "Choose ZIP or conf"),
+                TunnelListFragment.REQUEST_IMPORT
+        )
     }
 
     private fun onRequestScanQRCode() {
         BarcodeBottomSheet.show(
-                childFragmentManager,
+                requireNotNull(tunnelListFragment).childFragmentManager,
                 formats = listOf(BarcodeFormat.QR_CODE),
                 barcodeInverted = false
         )
