@@ -80,9 +80,9 @@ object Versions {
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */
-    const val gradleLatestVersion: String = "5.6.2"
+    const val gradleLatestVersion: String = "5.6.3"
 
-    const val gradleCurrentVersion: String = "5.6.2"
+    const val gradleCurrentVersion: String = "5.6.3"
 }
 
 /**
