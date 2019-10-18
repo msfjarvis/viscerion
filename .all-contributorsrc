@@ -1,0 +1,100 @@
+{
+  "files": ["README.md"],
+  "imageSize": 100,
+  "contributorsPerLine": 7,
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
+  "contributorTemplate": "<%= avatarBlock %><br /><%= contributions %>",
+  "skipCi": "true",
+  "contributors": [
+    {
+      "login": "msfjarvis",
+      "name": "Harsh Shandilya",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/13348378?v=4",
+      "profile": "https://msfjarvis.website/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "msasikanth",
+      "name": "Sasikanth Miriyampalli",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6140516?v=4",
+      "profile": "https://sasikanth.dev/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "zx2c4",
+      "name": "Jason A. Donenfeld",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/10643?v=4",
+      "profile": "https://zx2c4.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "EricKuck",
+      "name": "Eric Kuck",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2039026?v=4",
+      "profile": "https://github.com/EricKuck/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Skrilltrax",
+      "name": "Aditya Wasan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/10516866?v=4",
+      "profile": "https://github.com/Skrilltrax/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Hello71",
+      "name": "Alex Xu",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/351006?v=4",
+      "profile": "https://www.alxu.ca/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "trishika",
+      "name": "Aurélien Chabot",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/497339?v=4",
+      "profile": "https://chabot.fr/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "franciscofranco",
+      "name": "Francisco Franco",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/792248?v=4",
+      "profile": "https://play.google.com/store/apps/developer?id=Francisco+Franco/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "KaenDagger",
+      "name": "Rohan Maity",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24780524?v=4",
+      "profile": "https://github.com/KaenDagger/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "SubhrajyotiSen",
+      "name": "Subhrajyoti Sen",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/12984845?v=4",
+      "profile": "https://subhrajyoti.me/",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
