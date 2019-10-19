@@ -26,7 +26,6 @@ buildScan {
 }
 
 buildSrcVersions {
-    indent = "    "
 }
 
 subprojects {
