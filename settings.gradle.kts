@@ -4,3 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 include(":app", ":crypto", ":native")
+plugins {
+    id("com.gradle.enterprise").version("3.0")
+}

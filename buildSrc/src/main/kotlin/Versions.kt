@@ -53,8 +53,6 @@ object Versions {
 
     const val material: String = "1.1.0-beta01"
 
-    const val com_gradle_build_scan_gradle_plugin: String = "2.4.2"
-
     const val threetenabp: String = "1.2.1"
 
     const val timber: String = "4.7.1"
@@ -63,7 +61,7 @@ object Versions {
 
     const val leakcanary_android: String = "2.0-beta-3"
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0" // available: "0.6.4"
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0" // available: "0.7.0"
 
     const val android_retrofuture: String = "1.7.1"
 
@@ -74,15 +72,6 @@ object Versions {
     const val kotlin_stdlib_jdk8: String = "1.3.41" // available: "1.3.50"
 
     const val org_koin: String = "2.0.1"
-
-    /**
-     *
-     * See issue 19: How to update Gradle itself?
-     * https://github.com/jmfayard/buildSrcVersions/issues/19
-     */
-    const val gradleLatestVersion: String = "5.6.3"
-
-    const val gradleCurrentVersion: String = "5.6.3"
 }
 
 /**

@@ -18,7 +18,6 @@ buildscript {
 
 plugins {
     buildSrcVersions
-    id("com.gradle.build-scan") version Versions.com_gradle_build_scan_gradle_plugin
 }
 
 buildScan {
@@ -40,7 +39,6 @@ subprojects {
 
 tasks {
     named<Wrapper>("wrapper") {
-        gradleVersion = Versions.gradleLatestVersion
         distributionType = Wrapper.DistributionType.ALL
     }
 }
