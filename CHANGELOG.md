@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### [v5.2.5](https://github.com/msfjarvis/viscerion/releases/5.2.5)
+- Resolve crashes with QR import dialog on release builds
+
 ### [v5.2.4](https://github.com/msfjarvis/viscerion/releases/5.2.4)
 - Fix QR code import action not working
 
