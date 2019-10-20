@@ -7,12 +7,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven(url = "https://storage.googleapis.com/r8-releases/raw")
     }
     dependencies {
         classpath(Libs.com_android_tools_build_gradle)
         classpath(Libs.kotlin_gradle_plugin)
-        classpath(Libs.r8)
     }
 }
 

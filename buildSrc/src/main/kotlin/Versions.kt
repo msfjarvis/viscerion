@@ -71,8 +71,6 @@ object Versions {
 
     const val aapt2: String = "3.5.0-5435860" // available: "3.5.1-5435860"
 
-    const val r8: String = "1.5.68"
-
     /**
      * Current version: "6.0-rc-1"
      * See issue 19: How to update Gradle itself?

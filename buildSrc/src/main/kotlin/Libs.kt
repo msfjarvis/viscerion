@@ -156,6 +156,4 @@ object Libs {
      * https://developer.android.com/studio
      */
     const val aapt2: String = "com.android.tools.build:aapt2:" + Versions.aapt2
-
-    const val r8: String = "com.android.tools:r8:" + Versions.r8
 }
