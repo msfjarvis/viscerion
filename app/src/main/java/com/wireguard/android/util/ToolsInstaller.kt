@@ -10,7 +10,6 @@ import android.system.OsConstants
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.di.ext.getRootShell
 import com.wireguard.android.util.RootShell.NoRootException
-import com.wireguard.android.util.SharedLibraryLoader.extractNativeLibrary
 import org.koin.core.KoinComponent
 import timber.log.Timber
 import java.io.File
@@ -23,8 +22,7 @@ import java.io.IOException
 
 class ToolsInstaller(val context: Context) : KoinComponent {
 
-    private val localBinaryDir = File(context.cacheDir, "bin")
-    private val nativeLibraryDir = getNativeLibraryDir(context)
+    private val localBinaryDir = File(context.codeCacheDir, "bin")
     private val rootShell = getRootShell()
     private val magiskDir by lazy { getMagiskDirectory() }
     private var areToolsAvailable: Boolean? = null
@@ -35,12 +33,9 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         if (INSTALL_DIR == null)
             return ERROR
         val script = StringBuilder()
-        for (names in EXECUTABLES) {
+        for (name in EXECUTABLES) {
             script.append(
-                    "[ -f '${File(INSTALL_DIR, names[1])}' ] && cmp -s '${File(nativeLibraryDir, names[0])}' '${File(
-                            INSTALL_DIR,
-                            names[1]
-                    )}' && "
+                    "cmp -s '${File(localBinaryDir, name).absolutePath}' '${File(INSTALL_DIR, name).absolutePath}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
@@ -56,26 +51,18 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         }
     }
 
-    @Throws(FileNotFoundException::class, NoRootException::class)
+    @Throws(FileNotFoundException::class)
     @Synchronized
     fun ensureToolsAvailable() {
         if (areToolsAvailable == null) {
-            val ret = symlink()
-            areToolsAvailable = when (ret) {
-                OsConstants.EALREADY -> {
-                    Timber.d("Tools were already symlinked into our private binary dir")
-                    true
-                }
-                OsConstants.EXIT_SUCCESS -> {
-                    Timber.d("Tools are now symlinked into our private binary dir")
-                    true
-                }
-                else -> {
-                    Timber.e("For some reason, wg and wg-quick are not available at all")
-                    false
-                }
+            areToolsAvailable = try {
+                Timber.d(if (extract()) "Tools are now extracted into our private binary dir" else "Tools were already extracted into our private binary dir")
+                true
+            } catch (e: IOException) {
+                Timber.e("The wg and wg-quick tools are not available", e)
+                false
             }
-        }
+            }
         if (areToolsAvailable == false)
             throw FileNotFoundException("Required tools unavailable")
     }
@@ -96,19 +83,17 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         return installAsMagiskModule == true
     }
 
-    @Throws(NoRootException::class)
+    @Throws(NoRootException::class, IOException::class)
     private fun installSystem(): Int {
         if (INSTALL_DIR == null)
             return OsConstants.ENOENT
+        extract()
         val script = StringBuilder("set -ex; ")
         script.append("trap 'mount -o ro,remount /system' EXIT; mount -o rw,remount /system; ")
-        for (names in EXECUTABLES) {
-            val destination = File(INSTALL_DIR, names[1])
+        for (name in EXECUTABLES) {
+            val destination = File(INSTALL_DIR, name)
             script.append(
-                    "cp '${File(
-                            nativeLibraryDir,
-                            names[0]
-                    )}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
+                    "cp '${File(localBinaryDir, name)}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
             )
         }
         return try {
@@ -118,8 +103,9 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         }
     }
 
-    @Throws(NoRootException::class)
+    @Throws(NoRootException::class, IOException::class)
     private fun installMagisk(): Int {
+        extract()
         val script = StringBuilder("set -ex; ")
         val magiskDirectory = "$magiskDir/wireguard"
 
@@ -131,13 +117,10 @@ class ToolsInstaller(val context: Context) : KoinComponent {
                 "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
         )
         script.append("touch $magiskDirectory/auto_mount; ")
-        for (names in EXECUTABLES) {
-            val destination = File("$magiskDirectory/$INSTALL_DIR", names[1])
+        for (name in EXECUTABLES) {
+            val destination = File("$magiskDirectory/$INSTALL_DIR", name)
             script.append(
-                    "cp '${File(
-                            nativeLibraryDir,
-                            names[0]
-                    )}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
+                    "cp '${File(localBinaryDir, name)}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
             )
         }
         script.append("trap - INT TERM EXIT;")
@@ -149,33 +132,29 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         }
     }
 
-    @Throws(NoRootException::class)
+    @Throws(NoRootException::class, IOException::class)
     fun install(): Int {
         return if (willInstallAsMagiskModule()) installMagisk() else installSystem()
     }
 
-    @Throws(NoRootException::class)
-    fun symlink(): Int {
-        val script = StringBuilder("set -x; ")
-        for (names in EXECUTABLES) {
-            script.append(
-                    "test '${File(nativeLibraryDir, names[0])}' -ef '${File(localBinaryDir, names[1])}' && "
-            )
+    @Throws(IOException::class)
+    fun extract(): Boolean {
+        localBinaryDir.mkdirs()
+        val files: Array<File?> = arrayOfNulls(EXECUTABLES.size)
+        var allExist = false
+        for (i in files.indices) {
+            files[i] = File(localBinaryDir, EXECUTABLES[i])
+            allExist = allExist and requireNotNull(files[i]).exists()
         }
-        script.append("exit ").append(OsConstants.EALREADY).append("; set -e; ")
-
-        for (names in EXECUTABLES) {
-            script.append(
-                    "ln -fns '${File(nativeLibraryDir, names[0])}' '${File(localBinaryDir, names[1])}'; "
-            )
+        if (allExist) return false
+        for (i in files.indices) {
+            val file = requireNotNull(files[i])
+            if (!SharedLibraryLoader.extractNativeLibrary(context, EXECUTABLES[i], file))
+                throw FileNotFoundException("Unable to find ${EXECUTABLES[i]}")
+            if (!file.setExecutable(true, false))
+                throw IOException("Unable to mark ${file.absolutePath} as executable")
         }
-        script.append("exit ").append(OsConstants.EXIT_SUCCESS).append(';')
-
-        return try {
-            rootShell.run(null, script.toString())
-        } catch (ignored: IOException) {
-            OsConstants.EXIT_FAILURE
-        }
+        return true
     }
 
     private fun getMagiskDirectory(): String {
@@ -205,7 +184,7 @@ class ToolsInstaller(val context: Context) : KoinComponent {
         const val MAGISK = 0x4
         const val SYSTEM = 0x8
 
-        private val EXECUTABLES = arrayOf(arrayOf("libwg.so", "wg"), arrayOf("libwg-quick.so", "wg-quick"))
+        private val EXECUTABLES = arrayOf("wg", "wg-quick")
         private val INSTALL_DIRS = arrayOf(File("/system/xbin"), File("/system/bin"))
         private val INSTALL_DIR by lazy { getInstallDir() }
 
@@ -217,23 +196,6 @@ class ToolsInstaller(val context: Context) : KoinComponent {
                     return dir
             }
             return null
-        }
-
-        private fun getNativeLibraryDir(context: Context): File {
-            return if (context.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                File(context.applicationInfo.nativeLibraryDir)
-            } else {
-                // App bundles, unpack executables from the split config APK.
-                EXECUTABLES.forEach {
-                    extractNativeLibrary(
-                            context,
-                            it[0],
-                            useActualName = true,
-                            skipDeletion = true
-                    )
-                }
-                context.cacheDir
-            }
         }
     }
 }

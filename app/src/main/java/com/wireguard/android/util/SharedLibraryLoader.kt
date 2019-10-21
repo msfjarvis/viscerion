@@ -18,9 +18,8 @@ object SharedLibraryLoader {
     fun extractNativeLibrary(
         context: Context,
         libName: String,
-        useActualName: Boolean = false,
-        skipDeletion: Boolean = false
-    ): String? {
+        destination: File
+    ): Boolean {
         val apkPath = getApkPath(context)
         Timber.d("apkPath: $apkPath")
         val zipFile: ZipFile
@@ -34,28 +33,20 @@ object SharedLibraryLoader {
         for (abi in Build.SUPPORTED_ABIS) {
             val libZipPath = "lib" + File.separatorChar + abi + File.separatorChar + mappedLibName
             val zipEntry = zipFile.getEntry(libZipPath) ?: continue
-            var f: File? = null
             try {
-                f = if (useActualName)
-                    File(context.cacheDir.absolutePath + File.separatorChar + mappedLibName)
-                else
-                    File.createTempFile("lib", ".so", context.cacheDir)
-                requireNotNull(f)
-                Timber.d("Extracting apk:/$libZipPath to ${f.absolutePath} and loading")
-                FileOutputStream(f).use { out ->
+                Timber.d("Extracting apk:/$libZipPath to ${destination.absolutePath} and loading")
+                FileOutputStream(destination).use { out ->
                     zipFile.getInputStream(zipEntry).use { inputStream ->
                         inputStream.copyTo(out)
                     }
                 }
-                return f.absolutePath
+                return true
             } catch (e: Exception) {
                 Timber.d(e, "Failed to load library apk:/$libZipPath")
                 throw e
-            } finally {
-                if (!skipDeletion) f?.delete()
             }
         }
-        return null
+        return false
     }
 
     @Suppress("UnsafeDynamicallyLoadedCode")
@@ -69,15 +60,18 @@ object SharedLibraryLoader {
             noAbiException = e
         }
 
-        extractNativeLibrary(context, libName)?.let { libPath ->
-            if (libPath.isNotEmpty()) {
-                try {
-                    System.load(libPath)
-                } catch (e: Exception) {
-                    Timber.d(e, "Failed to load library apk:/$libPath")
-                    noAbiException = e
-                }
+        var f: File? = null
+        try {
+            f = File.createTempFile("lib", "so", context.codeCacheDir)
+            if (extractNativeLibrary(context, libName, f)) {
+                System.load(f.absolutePath)
+                return
             }
+        } catch (e: Exception) {
+            Timber.d("Failed to load library apk:/$libName", e)
+            noAbiException = e
+        } finally {
+            f?.delete()
         }
 
         if (noAbiException is RuntimeException)

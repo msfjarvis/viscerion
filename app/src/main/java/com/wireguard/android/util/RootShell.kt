@@ -21,9 +21,9 @@ import java.util.UUID
 class RootShell(val context: Context) {
 
     private val deviceNotRootedMessage: String by lazy { context.getString(R.string.error_root) }
-    private val localBinaryDir: File
-    private val localTemporaryDir: File
-    private val preamble: String
+    private val localBinaryDir: File = File(context.codeCacheDir, "bin")
+    private val localTemporaryDir: File = File(context.cacheDir, "tmp")
+    private val preamble: String = "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
     private var process: Process? = null
     private lateinit var stderr: BufferedReader
     private lateinit var stdin: OutputStreamWriter
@@ -36,14 +36,6 @@ class RootShell(val context: Context) {
                     return true
             return false
         }
-
-    init {
-        val cacheDir = context.cacheDir
-        localBinaryDir = File(cacheDir, "bin")
-        localTemporaryDir = File(cacheDir, "tmp")
-        preamble =
-                "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
-    }
 
     @Synchronized
     private fun isRunning(): Boolean {
