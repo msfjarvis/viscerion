@@ -66,8 +66,6 @@
             android:label="@string/create_activity_title"
             android:parentActivityName=".activity.MainActivity" />
 
-        <activity android:name=".activity.LogViewerActivity" android:label="@string/log_viewer" />
-
         <receiver android:name=".services.BootShutdownReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
