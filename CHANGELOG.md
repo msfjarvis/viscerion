@@ -1,6 +1,7 @@
 # Release Notes
 
 ### Unreleased
+- Update libwg-go and build with Go 1.13.3
 
 ### [v5.2.5](https://github.com/msfjarvis/viscerion/releases/5.2.5)
 - Resolve crashes with QR import dialog on release builds
