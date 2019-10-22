@@ -59,7 +59,8 @@ class ToolsInstaller(val context: Context) : KoinComponent {
                 Timber.d(if (extract()) "Tools are now extracted into our private binary dir" else "Tools were already extracted into our private binary dir")
                 true
             } catch (e: IOException) {
-                Timber.e("The wg and wg-quick tools are not available", e)
+                Timber.e("The wg and wg-quick tools are not available")
+                Timber.e(e)
                 false
             }
             }

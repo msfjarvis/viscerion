@@ -68,7 +68,8 @@ object SharedLibraryLoader {
                 return
             }
         } catch (e: Exception) {
-            Timber.d("Failed to load library apk:/$libName", e)
+            Timber.d("Failed to load library apk:/$libName")
+            Timber.d(e)
             noAbiException = e
         } finally {
             f?.delete()
