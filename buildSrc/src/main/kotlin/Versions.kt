@@ -65,7 +65,7 @@ object Versions {
 
     const val core_ktx: String = "1.2.0-beta01"
 
-    const val material: String = "1.1.0-beta01"
+    const val material: String = "1.2.0-alpha01"
 
     const val timber: String = "4.7.1"
 
