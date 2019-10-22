@@ -120,7 +120,7 @@ public class SlashDrawable extends Drawable {
         }
     }
 
-    @SuppressWarnings("DEPRECATION")
+    @SuppressWarnings("deprecation")
     @Override
     public void draw(@NonNull final Canvas canvas) {
         canvas.save();
@@ -212,6 +212,7 @@ public class SlashDrawable extends Drawable {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public int getOpacity() {
         return PixelFormat.OPAQUE;
     }
