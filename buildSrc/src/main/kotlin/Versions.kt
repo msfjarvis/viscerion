@@ -37,7 +37,7 @@ object Versions {
 
     const val slice_builders_ktx: String = "1.0.0-alpha07"
 
-    const val constraintlayout: String = "2.0.0-beta2"
+    const val constraintlayout: String = "2.0.0-beta3"
 
     const val work_runtime_ktx: String = "2.3.0-alpha02"
 
