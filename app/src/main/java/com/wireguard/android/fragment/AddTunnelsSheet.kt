@@ -96,7 +96,7 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
     }
 
     private fun onRequestImportConfig() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
