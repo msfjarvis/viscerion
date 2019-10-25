@@ -7,20 +7,18 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath(Libs.com_android_tools_build_gradle)
-        classpath(Libs.kotlin_gradle_plugin)
+        classpath Libs.com_android_tools_build_gradle
+        classpath Libs.kotlin_gradle_plugin
+        // classpath 'com.diffplug.spotless:spotless-plugin-gradle:3.25.0'
     }
 }
 
 plugins {
-    buildSrcVersions
-}
-
-buildScan {
-    termsOfServiceAgree = "yes"
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    id 'de.fayard.buildSrcVersions' version '0.7.0'
+    id 'com.diffplug.gradle.spotless' version '3.25.0'
 }
 
 buildSrcVersions {
@@ -30,14 +28,16 @@ subprojects {
     repositories {
         google()
         jcenter()
-        maven(url = "https://jitpack.io")
+        maven { url 'https://jitpack.io' }
     }
+}
+
+project(':app') {
+    apply from: '../spotless.gradle'
 }
 
 tasks {
-    named<Wrapper>("wrapper") {
+    wrapper {
         distributionType = Wrapper.DistributionType.ALL
     }
 }
-
-configureSpotless()

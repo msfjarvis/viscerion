@@ -15,8 +15,8 @@ import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.di.ext.getBackendAsync
-import org.koin.core.KoinComponent
 import java.util.Locale
+import org.koin.core.KoinComponent
 
 class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
     private var versionSummary: String? = null

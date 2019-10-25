@@ -37,8 +37,8 @@ import com.wireguard.android.util.asString
 import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
-import timber.log.Timber
 import java.io.File
+import timber.log.Timber
 
 /**
  * Interface for changing application-global persistent settings.

@@ -16,9 +16,9 @@ import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.di.ext.getBackendAsync
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.work.TunnelRestoreWork
+import java.util.concurrent.TimeUnit
 import org.koin.core.KoinComponent
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
 

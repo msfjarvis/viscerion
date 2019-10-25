@@ -40,8 +40,6 @@ import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
 import com.wireguard.config.Config
-import java9.util.concurrent.CompletableFuture
-import timber.log.Timber
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
@@ -49,6 +47,8 @@ import java.nio.charset.StandardCharsets
 import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import java9.util.concurrent.CompletableFuture
+import timber.log.Timber
 
 class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, BarcodeResultListener {
 

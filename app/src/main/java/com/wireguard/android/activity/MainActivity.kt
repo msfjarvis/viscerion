@@ -27,8 +27,8 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
 import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.runShellCommand
-import timber.log.Timber
 import java.io.FileOutputStream
+import timber.log.Timber
 
 /**
  * CRUD interface for WireGuard tunnels. This activity serves as the main entry point to the

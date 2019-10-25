@@ -9,13 +9,13 @@ import android.content.Context
 import com.wireguard.android.R
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Config
-import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
+import timber.log.Timber
 
 /**
  * Configuration store that uses a `wg-quick`-style file for each configured tunnel.

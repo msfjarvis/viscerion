@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.wireguard.android.BR
 import com.wireguard.android.util.ObservableKeyedList
 import com.wireguard.util.Keyed
-
 import java.lang.ref.WeakReference
 
 /**

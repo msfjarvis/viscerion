@@ -1,0 +1,135 @@
+/*
+ * Copyright © 2017-2019 WireGuard LLC.
+ * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.FileInputStream
+import java.io.IOException
+import java.util.Properties
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+final def keystorePropertiesFile = rootProject.file 'keystore.properties'
+
+final def gitHash = { ->
+    final def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    stdout.toString().trim()
+}
+
+android {
+    compileSdkVersion 29
+    dataBinding.enabled = true
+    if (System.getenv('DRONE') != 'true') {
+        android.applicationVariants.all { final variant ->
+            variant.outputs.all {
+                outputFileName = "viscerion_${gitHash()}.apk"
+            }
+        }
+    }
+    buildToolsVersion = '29.0.2'
+    defaultConfig {
+        applicationId 'me.msfjarvis.viscerion'
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode VersionConfiguration.versionCode
+        versionName VersionConfiguration.versionName
+        resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru'
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    if (keystorePropertiesFile.exists()) {
+        final def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        signingConfigs {
+            release {
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+                storeFile = rootProject.file keystoreProperties['storeFile']
+                storePassword = keystoreProperties['storePassword']
+            }
+        }
+        buildTypes.release.signingConfig = signingConfigs.release
+        buildTypes.debug.signingConfig = signingConfigs.release
+    }
+    buildTypes {
+        release {
+            minifyEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'GIT_HASH', '\'\''
+        }
+        debug {
+            applicationIdSuffix = '.debug'
+            versionNameSuffix = '-debug'
+            minifyEnabled = false
+            buildConfigField 'String', 'GIT_HASH', '\"${gitHash()}\"'
+        }
+    }
+    lintOptions {
+        abortOnError = true
+        disable(
+            'UnusedResources', // Databinding-only layouts are misinterpreted by Android lint as unused
+            'MissingTranslation', // I personally resolve these issues before releases
+            'ImpliedQuantity' // Some languages differ between 0 and 1 quantities but I don't use %d in the confirm_tunnel_deletion plural so lint trips
+        )
+    }
+}
+
+dependencies {
+    implementation (project(':crypto'))
+    implementation (project(':native'))
+    implementation Libs.android_retrofuture
+    implementation Libs.annotation
+    implementation Libs.appcompat
+    implementation Libs.biometric
+    implementation Libs.constraintlayout
+    implementation Libs.core_ktx
+    implementation Libs.databinding_adapters
+    implementation Libs.databinding_runtime
+    implementation Libs.fragment_ktx
+    implementation Libs.kotlin_stdlib_jdk8
+    implementation Libs.material
+    implementation Libs.barcode_kaiteki
+    implementation Libs.koin_android
+    implementation Libs.koin_core
+    implementation Libs.preference
+    implementation(Libs.recyclerview) {
+        force = true
+    }
+    implementation Libs.slice_builders
+    implementation Libs.slice_core
+    implementation Libs.slice_builders_ktx
+    implementation Libs.threetenabp
+    implementation Libs.timber
+    implementation Libs.work_runtime_ktx
+    debugImplementation Libs.leakcanary_android
+}
+
+kapt {
+    useBuildCache = true
+    // https://github.com/google/dagger/issues/1449#issuecomment-495404186
+    javacOptions {
+        option '-source', '8'
+        option '-target', '8'
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
+}
+tasks.withType(KotlinCompile) {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}

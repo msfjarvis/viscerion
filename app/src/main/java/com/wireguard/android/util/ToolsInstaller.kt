@@ -10,11 +10,11 @@ import android.system.OsConstants
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.di.ext.getRootShell
 import com.wireguard.android.util.RootShell.NoRootException
-import org.koin.core.KoinComponent
-import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import org.koin.core.KoinComponent
+import timber.log.Timber
 
 /**
  * Helper to install WireGuard tools to the system partition.

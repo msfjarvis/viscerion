@@ -18,10 +18,10 @@ import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
 import com.wireguard.config.Config
-import java9.util.concurrent.CompletableFuture
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
+import java9.util.concurrent.CompletableFuture
+import timber.log.Timber
 
 class GoBackend(private var context: Context) : Backend {
 

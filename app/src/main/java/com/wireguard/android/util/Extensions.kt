@@ -31,9 +31,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.backend.Backend
 import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
-import java9.util.concurrent.CompletableFuture
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java9.util.concurrent.CompletableFuture
 
 typealias BackendAsync = CompletableFuture<Backend>
 

@@ -8,10 +8,10 @@ package com.wireguard.config
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
-import me.msfjarvis.viscerion.crypto.Key
-import me.msfjarvis.viscerion.crypto.KeyFormatException
 import java.util.Collections
 import java.util.Locale
+import me.msfjarvis.viscerion.crypto.Key
+import me.msfjarvis.viscerion.crypto.KeyFormatException
 
 /**
  * Represents the configuration for a WireGuard peer (a [Peer] block). Peers must have a public key,

@@ -9,14 +9,14 @@ import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
-import me.msfjarvis.viscerion.crypto.Key
-import me.msfjarvis.viscerion.crypto.KeyFormatException
-import me.msfjarvis.viscerion.crypto.KeyPair
-import org.koin.core.KoinComponent
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
 import java.util.Locale
+import me.msfjarvis.viscerion.crypto.Key
+import me.msfjarvis.viscerion.crypto.KeyFormatException
+import me.msfjarvis.viscerion.crypto.KeyPair
+import org.koin.core.KoinComponent
 
 /**
  * Represents the configuration for a WireGuard interface (an [Interface] block). Interfaces must

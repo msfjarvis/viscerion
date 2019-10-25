@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,7 +23,6 @@ import com.kroegerama.kaiteki.bcode.ui.BarcodeBottomSheet
 import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.util.resolveAttribute
-import com.google.android.material.R as materialR
 
 class AddTunnelsSheet() : BottomSheetDialogFragment() {
 

@@ -13,10 +13,10 @@ import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.InetEndpoint
 import com.wireguard.config.InetNetwork
 import com.wireguard.config.ParseException
+import java.net.InetAddress
 import me.msfjarvis.viscerion.crypto.Key.Format
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import me.msfjarvis.viscerion.crypto.KeyFormatException.Type
-import java.net.InetAddress
 
 object ErrorMessages {
     private val BCE_REASON_MAP = mapOf(

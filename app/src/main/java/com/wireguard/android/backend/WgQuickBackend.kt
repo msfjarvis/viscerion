@@ -21,10 +21,10 @@ import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.config.Config
-import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
+import timber.log.Timber
 
 /**
  * WireGuard backend that uses `wg-quick` to implement tunnel configuration.

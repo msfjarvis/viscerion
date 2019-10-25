@@ -19,10 +19,10 @@ import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.toolsInstallerModule
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.updateAppTheme
+import java.lang.ref.WeakReference
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
-import java.lang.ref.WeakReference
 
 class Application : android.app.Application() {
 
