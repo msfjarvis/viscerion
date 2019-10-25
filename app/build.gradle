@@ -4,12 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.FileInputStream
-import java.io.IOException
-import java.util.Properties
 
 plugins {
-    id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
@@ -26,7 +22,6 @@ final def gitHash = { ->
 }
 
 android {
-    compileSdkVersion 29
     dataBinding.enabled = true
     if (System.getenv('DRONE') != 'true') {
         android.applicationVariants.all { final variant ->
@@ -35,13 +30,8 @@ android {
             }
         }
     }
-    buildToolsVersion = '29.0.2'
     defaultConfig {
         applicationId 'me.msfjarvis.viscerion'
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode VersionConfiguration.versionCode
-        versionName VersionConfiguration.versionName
         resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru'
     }
     compileOptions {
@@ -97,7 +87,6 @@ dependencies {
     implementation Libs.databinding_adapters
     implementation Libs.databinding_runtime
     implementation Libs.fragment_ktx
-    implementation Libs.kotlin_stdlib_jdk8
     implementation Libs.material
     implementation Libs.barcode_kaiteki
     implementation Libs.koin_android
