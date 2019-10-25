@@ -103,7 +103,9 @@ dependencies {
     implementation(Libs.koin_android)
     implementation(Libs.koin_core)
     implementation(Libs.preference)
-    implementation(Libs.recyclerview)
+    implementation(Libs.recyclerview) {
+        isForce = true
+    }
     implementation(Libs.slice_builders)
     implementation(Libs.slice_core)
     implementation(Libs.slice_builders_ktx)
