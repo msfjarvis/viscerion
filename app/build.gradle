@@ -78,30 +78,28 @@ android {
 dependencies {
     implementation (project(':crypto'))
     implementation (project(':native'))
-    implementation Libs.android_retrofuture
-    implementation Libs.annotation
-    implementation Libs.appcompat
-    implementation Libs.biometric
-    implementation Libs.constraintlayout
-    implementation Libs.core_ktx
-    implementation Libs.databinding_adapters
-    implementation Libs.databinding_runtime
-    implementation Libs.fragment_ktx
-    implementation Libs.material
-    implementation Libs.barcode_kaiteki
-    implementation Libs.koin_android
-    implementation Libs.koin_core
-    implementation Libs.preference
-    implementation(Libs.recyclerview) {
+    implementation 'net.sourceforge.streamsupport:android-retrofuture:' + versions.retrofuture
+    implementation 'androidx.annotation:annotation:' + versions.annotation
+    implementation 'androidx.appcompat:appcompat:' + versions.appcompat
+    implementation 'androidx.biometric:biometric:' + versions.biometric
+    implementation 'androidx.constraintlayout:constraintlayout:' + versions.constraintLayout
+    implementation 'androidx.core:core-ktx:' + versions.coreKtx
+    implementation 'androidx.fragment:fragment-ktx:' + versions.fragmentKtx
+    implementation 'com.google.android.material:material:' + versions.material
+    implementation 'com.kroegerama:barcode-kaiteki:' + versions.barcode
+    implementation 'org.koin:koin-android:' + versions.koin
+    implementation 'org.koin:koin-core:' + versions.koin
+    implementation 'androidx.preference:preference:' + versions.preference
+    implementation('androidx.recyclerview:recyclerview:' + versions.recyclerview) {
         force = true
     }
-    implementation Libs.slice_builders
-    implementation Libs.slice_core
-    implementation Libs.slice_builders_ktx
-    implementation Libs.threetenabp
-    implementation Libs.timber
-    implementation Libs.work_runtime_ktx
-    debugImplementation Libs.leakcanary_android
+    implementation 'androidx.slice:slice-builders:' + versions.slice
+    implementation 'androidx.slice:slice-core:' + versions.slice
+    implementation 'androidx.slice:slice-builders-ktx:' + versions.sliceKtx
+    implementation 'com.jakewharton.threetenabp:threetenabp:' + versions.threetenabp
+    implementation 'com.jakewharton.timber:timber:' + versions.timber
+    implementation 'androidx.work:work-runtime-ktx:' + versions.work
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:' + versions.leakcanary
 }
 
 kapt {

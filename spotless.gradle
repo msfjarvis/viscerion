@@ -22,16 +22,8 @@ spotless {
         endWithNewline()
     }
 
-    groovyGradle {
-        target '**/*.gradle', '*.gradle'
-        licenseHeaderFile '../spotless.license', 'import|tasks|apply|plugins|include|buildscript'
-        trimTrailingWhitespace()
-        indentWithSpaces()
-        endWithNewline()
-    }
-
     kotlin {
-        target '**/src/**/*.kt', 'buildSrc/**/*.kt'
+        target '**/src/**/*.kt'
         ktlint('0.35.0').userData(['indent_size': '4', 'continuation_indent_size': '8'])
         licenseHeaderFile '../spotless.license'
         trimTrailingWhitespace()

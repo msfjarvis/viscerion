@@ -4,22 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 android {
-    buildTypes {
-        release {
-            externalNativeBuild {
-                cmake {
-                    arguments "-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}"
-                }
-            }
-        }
-        debug {
-            externalNativeBuild {
-                cmake {
-                    arguments "-DANDROID_PACKAGE_NAME=${android.defaultConfig.applicationId}${applicationIdSuffix}"
-                }
-            }
-        }
-    }
     externalNativeBuild {
         cmake {
             path 'tools/CMakeLists.txt'
