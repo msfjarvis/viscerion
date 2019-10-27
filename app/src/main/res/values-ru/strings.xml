@@ -207,7 +207,6 @@
     <string name="biometric_auth_summary">Когда включено, Viscerion будет запрашивать отпечаток пальца при запуске приложения</string>
     <string name="biometric_auth_summary_error">Сканер отпечатков пальцев недоступен или отсутствует</string>
     <string name="biometric_prompt_title">Запрос отпечатка</string>
-    <string name="biometric_prompt_negative_text">Отменить</string>
     <string name="biometric_prompt_retry">Повторить</string>
     <string name="biometric_prompt_no_hardware">Сканер отпечатков пальцев не найден</string>
 </resources>

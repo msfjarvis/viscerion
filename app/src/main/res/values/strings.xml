@@ -194,7 +194,6 @@
     <string name="biometric_auth_summary">When enabled, Viscerion will prompt you for your fingerprint when launching the app</string>
     <string name="biometric_auth_summary_error">Fingerprint hardware not accessible or missing</string>
     <string name="biometric_prompt_title">Biometric Prompt</string>
-    <string name="biometric_prompt_negative_text">Cancel</string>
     <string name="biometric_prompt_retry">Retry</string>
     <string name="biometric_prompt_no_hardware">No Biometric hardware was found</string>
     <string name="search">Search</string>
