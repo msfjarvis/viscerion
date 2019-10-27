@@ -56,7 +56,7 @@ android {
         release {
             minifyEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'GIT_HASH', '\'\''
+            buildConfigField 'String', 'GIT_HASH', '\"\"'
         }
         debug {
             applicationIdSuffix = '.debug'
