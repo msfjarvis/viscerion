@@ -8,9 +8,9 @@ package com.wireguard.android.widget
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 
-class ToggleSwitch(context: Context, attrs: AttributeSet? = null) : Switch(context, attrs) {
+class ToggleSwitch(context: Context, attrs: AttributeSet? = null) : SwitchCompat(context, attrs) {
     private var isRestoringState: Boolean = false
     private var listener: OnBeforeCheckedChangeListener? = null
 
