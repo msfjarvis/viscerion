@@ -3,6 +3,7 @@
 ### Unreleased
 - Update libwg-go and build with Go 1.13.3
 - Add Tasker plugin support to simplify integration (by Rafhaan Shah)
+- Allow using PIN/password/pattern as fallback authentication
 
 ### [v5.2.5](https://github.com/msfjarvis/viscerion/releases/5.2.5)
 - Resolve crashes with QR import dialog on release builds
