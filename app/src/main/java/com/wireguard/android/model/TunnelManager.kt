@@ -261,6 +261,7 @@ class TunnelManager(private val context: Context) : BaseObservable(), KoinCompon
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
         const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
         const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
+        const val TUNNEL_STATE_INTENT_EXTRA = "tunnel_state"
         private val asyncWorker by injectAsyncWorker()
         private val backend by injectBackend()
 

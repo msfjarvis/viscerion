@@ -67,8 +67,10 @@
     <string name="create_tunnel">Create Tunnel</string>
     <string name="delete">Delete</string>
     <string name="deselect_all">Deselect All</string>
+    <string name="disable_tunnel">Disable tunnel: %s</string>
     <string name="dns_servers">DNS servers</string>
     <string name="edit">Edit</string>
+    <string name="enable_tunnel">Enable tunnel: %s</string>
     <string name="endpoint">Endpoint</string>
     <string name="error_down">Error bringing down tunnel: %s</string>
     <string name="error_fetching_apps">Error fetching apps list: %s</string>
@@ -178,7 +180,9 @@
     <string name="preference_category_theming">Theming</string>
     <string name="preference_category_misc">Misc</string>
     <string name="tasker_integration_title">Enable tasker integration</string>
+    <string name="tasker_integration_enable_or_disable_tunnel">Enable / Disable Tunnel</string>
     <string name="tasker_integration_summary">WARNING: This is a potential security risk! Avoid using this on rooted devices, malicious apps can very easily circumvent the protection put in place by Viscerion!</string>
+    <string name="tasker_integration_secret">Tasker Secret</string>
     <string name="tasker_integration_secret_title">External intent secret</string>
     <string name="tasker_integration_secret_summary">Secured secret to ensure only trusted clients can control tunnels. This cannot be empty!</string>
     <string name="tasker_integration_summary_empty_secret">Setting a secret here is mandatory!</string>
