@@ -64,8 +64,8 @@
             android:name=".activity.TunnelCreatorActivity"
             android:label="@string/create_activity_title"
             android:parentActivityName=".activity.MainActivity" />
-			
-		<activity
+
+        <activity
             android:name=".activity.TaskerActivity"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name" >
@@ -91,7 +91,7 @@
             <intent-filter>
                 <action android:name="${applicationId}.SET_TUNNEL_UP" />
                 <action android:name="${applicationId}.SET_TUNNEL_DOWN" />
-				<action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
 
