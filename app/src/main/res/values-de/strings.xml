@@ -67,8 +67,10 @@
     <string name="create_tunnel">Tunnel erstellen</string>
     <string name="delete">Löschen</string>
     <string name="deselect_all">Gesamte Auswahl aufheben</string>
+    <string name="disable_tunnel">Tunnel deaktivieren: %s</string>
     <string name="dns_servers">DNS-Server</string>
     <string name="edit">Bearbeiten</string>
+    <string name="enable_tunnel">Tunnel aktivieren: %s</string>
     <string name="endpoint">Endpunkt</string>
     <string name="error_down">Fehler beim Herunterfahren des Tunnels: %s</string>
     <string name="error_fetching_apps">Fehler beim Abrufen der App-Liste: %s</string>
@@ -178,7 +180,9 @@
     <string name="preference_category_theming">Darstellung</string>
     <string name="preference_category_misc">Verschiedenes</string>
     <string name="tasker_integration_title">Tasker-Integration aktivieren</string>
+    <string name="tasker_integration_enable_or_disable_tunnel">Tunnel aktivieren / deaktivieren</string>
     <string name="tasker_integration_summary">WARNUNG: Dies ist ein potenzielles Sicherheitsrisiko! Vermeiden Sie, dies auf gerooteten Geräten zu verwenden, da bösartige Apps den von Viscerion geschaffenen Schutz sehr leicht umgehen können!</string>
+    <string name="tasker_integration_secret">Tasker Funktionen</string>
     <string name="tasker_integration_secret_title">Externes, absichtliches Geheimnis</string>
     <string name="tasker_integration_secret_summary">Ein gesichertes Geheimnis, um sicherzustellen, dass nur vertrauenswürdiges Klientel Tunnel steuern können. Dies darf nicht leer sein!</string>
     <string name="tasker_integration_summary_empty_secret">Ein Geheimnis hier zu setzen ist obligatorisch!</string>

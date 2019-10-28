@@ -66,8 +66,10 @@
     <string name="create_tunnel">Créer le tunnel</string>
     <string name="delete">Supprimer</string>
     <string name="deselect_all">Tout désélectionner</string>
+    <string name="disable_tunnel">Désactiver le tunnel : %s</string>
     <string name="dns_servers">Serveurs DNS</string>
     <string name="edit">Modifier</string>
+    <string name="enable_tunnel">Activer le tunnel : %s</string>
     <string name="endpoint">Terminaison</string>
     <string name="error_down">Erreur lors de la désactivation du tunnel : %s</string>
     <string name="error_fetching_apps">Erreur lors de la récupération de la liste d\'applications : %s</string>
@@ -82,6 +84,7 @@
     <string name="hint_generated">(généré)</string>
     <string name="hint_optional">(facultatif)</string>
     <string name="hint_random">(aléatoire)</string>
+    <string name="hint_search">Rechercher dans les tunnels</string>
     <string name="illegal_filename_error">Nom de fichier illégal « %s »</string>
     <string name="import_error">Impossible d\'importer le tunnel : %s</string>
     <string name="import_from_qr_code">Importer un tunnel depuis un QR-code</string>
@@ -176,14 +179,18 @@
     <string name="preference_category_theming">Thèmes</string>
     <string name="preference_category_misc">Divers</string>
     <string name="tasker_integration_title">Activer l\'intégration de Tasker</string>
+    <string name="tasker_integration_enable_or_disable_tunnel">Activer / Désactiver le tunnel</string>
     <string name="tasker_integration_summary">AVERTISSEMENT : Ceci est un risque potentiel de sécurité ! Évitez d\'utiliser ceci sur les appareils rootés, les applications malveillantes peuvent très facilement contourner la protection mise en place par Viscerion !</string>
+    <string name="tasker_integration_secret_summary">Secret sécurisé pour s\'assurer que seuls les clients de confiances puissent contrôler les tunnels. Ce champ ne peut pas être vide !</string>
     <string name="tasker_integration_summary_empty_secret">Définir un secret ici est obligatoire !</string>
     <string name="create">Créer</string>
     <string name="log_viewer">Voir le journal</string>
     <string name="pref_alt_icon_title">Utiliser une icône alternative</string>
+    <string name="pref_alt_icon_summary">Afficher la nouvelle icône de Viscerion en cours de réalisation</string>
     <string name="pref_alt_icon_apply_message">L\'icône a été activée avec succès. Cela peut prendre quelques instants pour se refléter dans votre lanceur.</string>
     <string name="pref_dark_theme_title">Activer le thème sombre</string>
     <string name="pref_dark_theme_summary">Passer à un thème sombre qui peut aider à économiser de l\'énergie sur les écrans AMOLED</string>
+    <string name="dark_theme_summary_auto">Thème foncé activé par l\'économiseur de batterie ou par configuration système</string>
     <string name="biometric_auth_title">Activer l\'authentification biométrique</string>
     <string name="biometric_auth_summary">Une fois activé, Viscerion demandera votre empreinte digitale lors du lancement de l\'application</string>
     <string name="biometric_auth_summary_error">Lecteur d\'empreinte digitale non accessible ou manquant</string>
