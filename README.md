@@ -1,6 +1,6 @@
 # Viscerion, Unofficial Android client for [WireGuard](https://www.wireguard.com/)
 
-[![Build Status](https://build.msfjarvis.website/api/badges/msfjarvis/viscerion/status.svg)](https://build.msfjarvis.website/msfjarvis/viscerion) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=msfjarvis/viscerion)](https://dependabot.com)
+[![Build Status](https://build.msfjarvis.website/api/badges/msfjarvis/viscerion/status.svg)](https://build.msfjarvis.website/msfjarvis/viscerion) [![GitHub workflow](https://github.com/msfjarvis/viscerion/workflows/CI%20Builds/badge.svg)](https://github.com/msfjarvis/viscerion/actions) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/viscerion/localized.svg)](https://crowdin.com/project/viscerion) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=msfjarvis/viscerion)](https://dependabot.com)
 
 <a href='https://play.google.com/store/apps/details?id=me.msfjarvis.viscerion&utm_source=GitHub&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200px"/></a>
 

@@ -23,7 +23,7 @@ final def gitHash = { ->
 
 android {
     dataBinding.enabled = true
-    if (System.getenv('DRONE') != 'true') {
+    if (System.env['USER'] == 'msfjarvis') {
         android.applicationVariants.all { final variant ->
             variant.outputs.all {
                 outputFileName = "viscerion_${gitHash()}.apk"
