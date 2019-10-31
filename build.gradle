@@ -18,8 +18,8 @@ buildscript {
 }
 
 subprojects {
-    apply from: '../versions.gradle'
-    apply from: '../spotless.gradle'
+    apply from: rootProject.projectDir.absolutePath + '/versions.gradle'
+    apply from: rootProject.projectDir.absolutePath + '/spotless.gradle'
     repositories {
         google()
         jcenter()
@@ -47,7 +47,7 @@ subprojects {
     }
 }
 
-apply from: './spotless.root.gradle'
+apply from: projectDir.absolutePath + '/spotless.root.gradle'
 
 project(':native') {
     android {
