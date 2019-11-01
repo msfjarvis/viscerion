@@ -62,7 +62,7 @@ android {
             applicationIdSuffix = '.debug'
             versionNameSuffix = '-debug'
             minifyEnabled = false
-            buildConfigField 'String', 'GIT_HASH', '\"${gitHash()}\"'
+            buildConfigField 'String', 'GIT_HASH', "\"${gitHash()}\""
         }
     }
     lintOptions {
