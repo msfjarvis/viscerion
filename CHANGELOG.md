@@ -1,27 +1,27 @@
 # Release Notes
 
-### Unreleased
+### [Unreleased]
 - Update libwg-go and build with Go 1.13.3
 - Add Tasker plugin support to simplify integration (by Rafhaan Shah)
 - Allow using PIN/password/pattern as fallback authentication
 
-### [v5.2.5](https://github.com/msfjarvis/viscerion/releases/5.2.5)
+### [5.2.5] - 2019-10-20
 - Resolve crashes with QR import dialog on release builds
 
-### [v5.2.4](https://github.com/msfjarvis/viscerion/releases/5.2.4)
+### [5.2.4] - 2019-10-19
 - Fix QR code import action not working
 
-### [v5.2.3](https://github.com/msfjarvis/viscerion/releases/5.2.3)
+### [5.2.3] - 2019-10-16
 - Make log exporter a top-level menu item and remove viewer activity
 - Resolve wg-quick segfaults on some devices
 
-### [v5.2.2](https://github.com/msfjarvis/viscerion/releases/5.2.2)
+### [5.2.2] - 2019-10-16
 - Fix another crash in settings
 
-### [v5.2.1](https://github.com/msfjarvis/viscerion/releases/5.2.1)
+### [5.2.1] - 2019-10-13
 - Fix crash in tunnel detail view
 
-### [v5.2.0](https://github.com/msfjarvis/viscerion/releases/5.2.0)
+### [5.2.0] - 2019-10-12
 - Add timer to wg-quick notifications
 - Defer tunnel state restoration to workaround AFWall+ startup block
 - Add German translations
@@ -32,11 +32,11 @@
 - Allow searching through tunnels in list view
 - Support kernelspace mode on Android Q.
 
-### [v5.1.1](https://github.com/msfjarvis/viscerion/releases/5.1.1)
+### [5.1.1] - 2019-07-21
 - Revert back to non-service Tasker integration as many devices incessantly
   kill background services thus breaking the feature entirely.
 
-### [v5.1.0](https://github.com/msfjarvis/viscerion/releases/5.1.0)
+### [5.1.0] - 2019-07-19
 - Target Android Q and adapt APIs for it
 - Ensure dark theme follows battery saver on Android P and below
 - Improve memory usage
@@ -48,7 +48,7 @@
 - Update library dependencies
 - Use a background service to improve Tasker integration reliability
 
-### [v5.0.0](https://github.com/msfjarvis/viscerion/releases/5.0.0)
+### [5.0.0] - 2019-05-08
 - Add an adaptive icon and an alternative concept icon
 - Add live log viewer
 - Ensure global exclusions are not exported with configs to prevent import bugs
@@ -59,8 +59,7 @@
 - Fix bug which caused settings to crash on first run
 - Make app theme follow system night mode
 
-### [v4.0.0](https://github.com/msfjarvis/viscerion/releases/4.0.0)
-
+### [4.0.0] - 2019-03-21
 - Add support for Magisk 18.2
 - Fix lingering theming issue with bottom sheets
 - Add support for Tasker
@@ -71,15 +70,13 @@
 - Move theme toggle to overflow menu for easier access
 - Improved speeds for ARM devices on userspace backend
 
-### [v3.1.1](https://github.com/msfjarvis/viscerion/releases/3.1.1)
-
+### [3.1.1] - 2019-02-17
 - Update userspace backend to latest upstream, should bring significant
   speed improvements.
 - Fix more theming related issues.
 
 
-### [v3.1.0](https://github.com/msfjarvis/viscerion/releases/3.1.0)
-
+### [3.1.0] - 2019-02-16
 - Rewrite theming options - Replace light/dark/black options
   with a choice between light and black.
 - Redesign settings screen with categories
@@ -88,8 +85,7 @@
 - Code improvements and dependency updates.
 
 
-### [v3.0.0](https://github.com/msfjarvis/viscerion/releases/3.0.0)
-
+### [3.0.0] - 2019-01-30
 - Initial release with Viscerion branding
 - Allow switching between whitelist and blacklist for userspace backend (more below)
 - Smaller install size
@@ -105,10 +101,25 @@ list are exempt from going through the tunnel, and the ones in the list are
 the only ones which use the tunnel for networking.
 
 
-### [v2.0.0](https://github.com/msfjarvis/viscerion/releases/2.0.0)
-
+### [2.0.0] - 2018-12-30
 - Rewrite entire codebase based on upstream remodel
 - Future-proof Magisk version detection
 - Fix restorecon issues with Magisk
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
+
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.5...HEAD
+[5.2.5]: https://github.com/msfjarvis/viscerion/releases/5.2.5
+[5.2.4]: https://github.com/msfjarvis/viscerion/releases/5.2.4
+[5.2.3]: https://github.com/msfjarvis/viscerion/releases/5.2.3
+[5.2.2]: https://github.com/msfjarvis/viscerion/releases/5.2.2
+[5.2.1]: https://github.com/msfjarvis/viscerion/releases/5.2.1
+[5.2.0]: https://github.com/msfjarvis/viscerion/releases/5.2.0
+[5.1.1]: https://github.com/msfjarvis/viscerion/releases/5.1.1
+[5.1.0]: https://github.com/msfjarvis/viscerion/releases/5.1.0
+[5.0.0]: https://github.com/msfjarvis/viscerion/releases/5.0.0
+[4.0.0]: https://github.com/msfjarvis/viscerion/releases/4.0.0
+[3.1.1]: https://github.com/msfjarvis/viscerion/releases/3.1.1
+[3.1.0]: https://github.com/msfjarvis/viscerion/releases/3.1.0
+[3.0.0]: https://github.com/msfjarvis/viscerion/releases/3.0.0
+[2.0.0]: https://github.com/msfjarvis/viscerion/releases/2.0.0
