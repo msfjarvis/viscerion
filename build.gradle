@@ -75,3 +75,9 @@ tasks {
         distributionType = Wrapper.DistributionType.ALL
     }
 }
+
+task installHook(type: Copy) {
+    from 'config'
+    into rootProject.projectDir.absolutePath + '/.git/hooks/'
+    rename('pre-push-recommended.sh', 'pre-push')
+}

@@ -24,7 +24,7 @@ The Java crypto subproject in this repository is also an [upstream component](ht
 Everything not covered above belongs directly to this repository and welcomes contributions in all forms and sizes. The only requirement here is that you follow the code style of this repository. I will follow up with every PR to its completion and help along the way, so don't worry too much about making mistakes :)
 
 
-It is recommended that you install the Git pre-push hook to ensure all code being pushed builds and adheres to the code style guidelines.
+It is recommended that you install the Git pre-push hook to ensure all code being pushed builds and adheres to the code style guidelines. Use the Gradle `installHook` task to install the git pre-push hook or run the following command in your terminal.
 
 ```bash
 ln -sf $(pwd)/config/pre-push-recommended.sh .git/hooks/pre-push
