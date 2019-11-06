@@ -16,7 +16,7 @@ spotless {
     java {
         target 'app/src/main/java/com/wireguard/android/util/ObservableSortedKeyedArrayList.java', 'app/src/main/java/com/wireguard/android/util/ObservableKeyedArrayList.java', 'app/src/main/java/com/wireguard/android/util/KotlinCompanions.java'
         trimTrailingWhitespace()
-        licenseHeaderFile rootProject.projectDir.absolutePath + '/spotless.license'
+        licenseHeaderFile rootProject.file('spotless.license')
         removeUnusedImports()
         googleJavaFormat().aosp()
         endWithNewline()
@@ -25,7 +25,7 @@ spotless {
     kotlin {
         target '**/src/**/*.kt'
         ktlint('0.35.0').userData(['indent_size': '4', 'continuation_indent_size': '8'])
-        licenseHeaderFile rootProject.projectDir.absolutePath + '/spotless.license'
+        licenseHeaderFile rootProject.file('spotless.license')
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()

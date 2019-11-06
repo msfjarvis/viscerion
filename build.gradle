@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 buildscript {
-    apply from: './versions.gradle'
+    apply from: rootProject.file('versions.gradle')
     repositories {
         google()
         jcenter()
@@ -18,8 +18,8 @@ buildscript {
 }
 
 subprojects {
-    apply from: rootProject.projectDir.absolutePath + '/versions.gradle'
-    apply from: rootProject.projectDir.absolutePath + '/spotless.gradle'
+    apply from: rootProject.file('versions.gradle')
+    apply from: rootProject.file('spotless.gradle')
     repositories {
         google()
         jcenter()
@@ -47,7 +47,7 @@ subprojects {
     }
 }
 
-apply from: projectDir.absolutePath + '/spotless.root.gradle'
+apply from: rootProject.file('spotless.root.gradle')
 
 project(':native') {
     android {
@@ -78,6 +78,6 @@ tasks {
 
 task installHook(type: Copy) {
     from 'config'
-    into rootProject.projectDir.absolutePath + '/.git/hooks/'
+    into rootProject.file('.git/hooks/')
     rename('pre-push-recommended.sh', 'pre-push')
 }
