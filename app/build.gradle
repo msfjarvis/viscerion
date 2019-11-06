@@ -21,9 +21,13 @@ final def gitHash = { ->
     stdout.toString().trim()
 }
 
+final def isCi() {
+    return System.env['GITHUB_WORKFLOW'] != null || System.env['DRONE'] != null
+}
+
 android {
     dataBinding.enabled = true
-    if (System.env['USER'] == 'msfjarvis') {
+    if (!isCi()) {
         android.applicationVariants.all { final variant ->
             variant.outputs.all {
                 outputFileName = "viscerion_${gitHash()}.apk"
@@ -62,7 +66,7 @@ android {
             applicationIdSuffix = '.debug'
             versionNameSuffix = '-debug'
             minifyEnabled = false
-            buildConfigField 'String', 'GIT_HASH', "\"${gitHash()}\""
+            buildConfigField 'String', 'GIT_HASH', isCi() ? "\"${gitHash()}\"" : '\"\"'
         }
     }
     lintOptions {
