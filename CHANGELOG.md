@@ -1,7 +1,7 @@
 # Release Notes
 
 ### [Unreleased]
-- Update libwg-go and build with Go 1.13.3
+- Update libwg-go and build with Go 1.13.4
 - Add Tasker plugin support to simplify integration (by Rafhaan Shah)
 - Allow using PIN/password/pattern as fallback authentication
 
