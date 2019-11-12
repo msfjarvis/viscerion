@@ -40,12 +40,14 @@ object SharedLibraryLoader {
                         inputStream.copyTo(out)
                     }
                 }
+                zipFile.close()
                 return true
             } catch (e: Exception) {
                 Timber.d(e, "Failed to load library apk:/$libZipPath")
                 throw e
             }
         }
+        zipFile.close()
         return false
     }
 
