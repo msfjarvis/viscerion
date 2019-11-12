@@ -7,9 +7,11 @@
 
 package com.wireguard.android.model
 
+import android.content.Intent
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.BR
+import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.config.Config
 import com.wireguard.util.Keyed
@@ -110,6 +112,14 @@ class Tunnel internal constructor(
                 this,
                 state
         ) else CompletableFuture.completedFuture(this.state)
+    }
+
+    fun createToggleIntent(): Intent {
+        return Intent().apply {
+            `package` = BuildConfig.APPLICATION_ID
+            action = "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_${if (state == State.UP) "DOWN" else "UP"}"
+            putExtra(TunnelManager.TUNNEL_NAME_INTENT_EXTRA, name)
+        }
     }
 
     enum class State {
