@@ -14,12 +14,12 @@ import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.getConfigStore
-import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.di.ext.injectAsyncWorker
 import com.wireguard.android.di.ext.injectBackend
 import com.wireguard.android.model.Tunnel.Statistics
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
@@ -31,13 +31,15 @@ import java9.util.concurrent.CompletionStage
 import org.koin.core.KoinComponent
 import timber.log.Timber
 
-class TunnelManager(private val context: Context) : BaseObservable(), KoinComponent {
+class TunnelManager(
+    private val context: Context,
+    private val configStore: ConfigStore,
+    private val prefs: ApplicationPreferences
+) : BaseObservable(), KoinComponent {
 
     private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
     private val delayedLoadRestoreTunnels = ArrayList<CompletableFuture<Void>>()
-    private val configStore = getConfigStore()
-    private val prefs = getPrefs()
     private var haveLoaded: Boolean = false
 
     init {

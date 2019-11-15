@@ -28,11 +28,11 @@ val earlyInitModules = module {
     single { AsyncWorker(AsyncTask.SERIAL_EXECUTOR, Handler(Looper.getMainLooper())) }
     single { RootShell(androidContext()) }
     single { ApplicationPreferences(androidContext()) }
-    single { TunnelManager(androidContext()) }
+    single { TunnelManager(androidContext(), get(), get()) }
 }
 
 val backendModule = module {
-    single { BackendFactory.getBackend(androidContext(), get(), get()) }
+    single { BackendFactory.getBackend(androidContext(), get(), get(), get()) }
 }
 
 val backendAsyncModule = module {
@@ -40,5 +40,5 @@ val backendAsyncModule = module {
 }
 
 val toolsInstallerModule = module {
-    single { ToolsInstaller(androidContext()) }
+    single { ToolsInstaller(androidContext(), get()) }
 }

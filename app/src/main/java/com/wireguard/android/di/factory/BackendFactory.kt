@@ -11,13 +11,15 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.RootShell
+import com.wireguard.android.util.ToolsInstaller
 import java.io.File
 
 object BackendFactory {
     fun getBackend(
         context: Context,
         prefs: ApplicationPreferences,
-        rootShell: RootShell
+        rootShell: RootShell,
+        toolsInstaller: ToolsInstaller
     ): Backend {
         var ret: Backend? = null
         if (File("/sys/module/wireguard").exists()) {
@@ -25,12 +27,12 @@ object BackendFactory {
                 if (prefs.forceUserspaceBackend)
                     throw Exception("Forcing userspace backend on user request.")
                 rootShell.start()
-                ret = WgQuickBackend(context)
+                ret = WgQuickBackend(context, toolsInstaller, rootShell)
             } catch (ignored: Exception) {
             }
         }
         if (ret == null)
-            ret = GoBackend(context)
+            ret = GoBackend(context, prefs)
         return ret
     }
 }

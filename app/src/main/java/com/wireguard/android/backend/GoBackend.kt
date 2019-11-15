@@ -12,9 +12,9 @@ import android.os.Build
 import androidx.collection.ArraySet
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
-import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
 import com.wireguard.config.Config
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException
 import java9.util.concurrent.CompletableFuture
 import timber.log.Timber
 
-class GoBackend(private var context: Context) : Backend {
+class GoBackend(private val context: Context, private val prefs: ApplicationPreferences) : Backend {
 
     private var currentTunnel: Tunnel? = null
     private var currentTunnelHandle = -1
@@ -136,7 +136,7 @@ class GoBackend(private var context: Context) : Backend {
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
-            if (getPrefs().whitelistApps) {
+            if (prefs.whitelistApps) {
                 config.`interface`.excludedApplications.forEach { excludedApplication ->
                     builder.addAllowedApplication(excludedApplication)
                 }
