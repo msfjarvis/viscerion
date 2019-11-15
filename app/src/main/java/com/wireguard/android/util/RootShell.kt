@@ -63,9 +63,7 @@ class RootShell(val context: Context) {
         var errnoStderr = Integer.MAX_VALUE
         var markersSeen = 0
         while (true) {
-            line = stdout.readLine()
-            if (line == null)
-                break
+            line = stdout.readLine() ?: break
             if (line.startsWith(marker)) {
                 ++markersSeen
                 if (line.length > marker.length + 1) {
@@ -78,9 +76,7 @@ class RootShell(val context: Context) {
             }
         }
         while (true) {
-            line = stderr.readLine()
-            if (line == null)
-                break
+            line = stderr.readLine() ?: break
             if (line.startsWith(marker)) {
                 ++markersSeen
                 if (line.length > marker.length + 1) {
@@ -144,9 +140,7 @@ class RootShell(val context: Context) {
             if (!isRunning()) {
                 var line: String?
                 while (true) {
-                    line = stderr.readLine()
-                    if (line == null)
-                        break
+                    line = stderr.readLine() ?: break
                     Timber.w("Root check returned an error: %s", line)
                     if (line.contains("Permission denied"))
                         throw NoRootException(deviceNotRootedMessage)

@@ -105,9 +105,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                     val reader = BufferedReader(InputStreamReader(zip, StandardCharsets.UTF_8))
                     var entry: ZipEntry?
                     while (true) {
-                        entry = zip.nextEntry
-                        if (entry == null)
-                            break
+                        entry = zip.nextEntry ?: break
                         name = entry.name
                         idx = name.lastIndexOf('/')
                         if (idx >= 0) {

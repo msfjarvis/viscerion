@@ -160,9 +160,7 @@ class Config private constructor(builder: Builder) {
             var inPeerSection = false
             var line: String?
             while (true) {
-                line = reader.readLine()
-                if (line == null)
-                    break
+                line = reader.readLine() ?: break
                 val commentIndex = line.indexOf('#')
                 if (commentIndex != -1)
                     line = line.substring(0, commentIndex)

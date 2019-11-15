@@ -51,9 +51,7 @@ fun String.runShellCommand(): ArrayList<String> {
         val reader = BufferedReader(InputStreamReader(shell.inputStream))
         var line: String?
         while (true) {
-            line = reader.readLine()
-            if (line == null)
-                break
+            line = reader.readLine() ?: break
             ret.add(line)
         }
     } catch (ignored: Exception) {
