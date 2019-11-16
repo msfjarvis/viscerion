@@ -23,7 +23,7 @@ ext {
         appcompat: '1.1.0',
         biometric: '1.0.0',
         constraintLayout: '2.0.0-beta3',
-        coreKtx: '1.2.0-beta01',
+        coreKtx: '1.2.0-beta02',
         databinding: '3.5.0',
         fragmentKtx: '1.2.0-beta01',
         material: '1.2.0-alpha01',
