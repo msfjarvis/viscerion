@@ -103,7 +103,7 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:' + versions.threetenabp
     implementation 'com.jakewharton.timber:timber:' + versions.timber
     implementation 'androidx.work:work-runtime-ktx:' + versions.work
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:' + versions.leakcanary
+    if (!isCi()) debugImplementation 'com.squareup.leakcanary:leakcanary-android:' + versions.leakcanary
 }
 
 kapt {
