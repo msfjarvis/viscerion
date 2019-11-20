@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="com.wireguard.android.util.ExtensionsKt" />
@@ -92,6 +93,29 @@
                 android:text="@{item.endpoint}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/endpoint_label"/>
+
+            <TextView
+                android:id="@+id/transfer_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/endpoint_text"
+                android:layout_marginTop="8dp"
+                android:labelFor="@+id/transfer_text"
+                android:text="@string/transfer"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endpoint_text" />
+
+            <TextView
+                android:id="@+id/transfer_text"
+                style="@style/Medium.CustomFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/transfer_label"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transfer_label"
+                tools:text="1024 MB" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -24,6 +24,7 @@ import com.wireguard.config.Config
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
+import me.msfjarvis.viscerion.crypto.Key
 import timber.log.Timber
 
 /**
@@ -83,8 +84,29 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
         return if (enumerate().contains(tunnel.name)) State.UP else State.DOWN
     }
 
-    override fun getStatistics(tunnel: Tunnel): Statistics {
-        return Statistics()
+    override fun getStatistics(tunnel: Tunnel): Statistics? {
+        val stats = Statistics()
+        val output = ArrayList<String>()
+        try {
+            if (rootShell.run(output, String.format("wg show '%s' transfer", tunnel.name)) != 0) {
+                return stats
+            }
+        } catch (_: Exception) {
+            return stats
+        }
+        for (line in output) {
+            val parts = line.split("\\t".toRegex()).toTypedArray()
+            if (parts.size != 3) continue
+            try {
+                stats.add(
+                    Key.fromBase64(parts[0]),
+                    parts[1].toLong(),
+                    parts[2].toLong()
+                )
+            } catch (_: Exception) {
+            }
+        }
+        return stats
     }
 
     @Throws(Exception::class)

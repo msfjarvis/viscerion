@@ -8,6 +8,7 @@
 package com.wireguard.android.model
 
 import android.content.Intent
+import android.os.SystemClock
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.wireguard.android.BR
@@ -19,6 +20,7 @@ import java.util.Locale
 import java.util.regex.Pattern
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import me.msfjarvis.viscerion.crypto.Key
 
 /**
  * Encapsulates the volatile and nonvolatile state of a WireGuard tunnel.
@@ -38,16 +40,22 @@ class Tunnel internal constructor(
     private var statistics: Statistics? = null
 
     val configAsync: CompletionStage<Config>
-        get() = if (config == null) manager.getTunnelConfig(this) else CompletableFuture.completedFuture(config)
+        get() = if (config == null) {
+            manager.getTunnelConfig(this)
+        } else {
+            CompletableFuture.completedFuture(config)
+        }
 
     val stateAsync: CompletionStage<State>
         get() = TunnelManager.getTunnelState(this)
 
     // FIXME: Check age of statistics.
     val statisticsAsync: CompletionStage<Statistics>
-        get() = if (statistics == null) TunnelManager.getTunnelStatistics(this) else CompletableFuture.completedFuture(
-                statistics
-        )
+        get() = if (statistics == null || statistics!!.isStale()) {
+            TunnelManager.getTunnelStatistics(this)
+        } else {
+            CompletableFuture.completedFuture(statistics)
+        }
 
     fun delete(): CompletionStage<Void> {
         return manager.delete(this)
@@ -62,8 +70,7 @@ class Tunnel internal constructor(
 
     @Bindable
     fun getStatistics(): Statistics? {
-        // FIXME: Check age of statistics.
-        if (statistics == null)
+        if (statistics == null || statistics!!.isStale())
             TunnelManager.getTunnelStatistics(this).whenComplete(ExceptionLoggers.E)
         return statistics
     }
@@ -138,7 +145,47 @@ class Tunnel internal constructor(
         }
     }
 
-    class Statistics : BaseObservable()
+    class Statistics : BaseObservable() {
+        private var lastTouched = SystemClock.elapsedRealtime()
+        private val peerBytes = HashMap<Key, Pair<Long, Long>>()
+
+        fun add(key: Key?, rx: Long, tx: Long) {
+            peerBytes[key!!] = Pair(rx, tx)
+            lastTouched = SystemClock.elapsedRealtime()
+        }
+
+        internal fun isStale(): Boolean {
+            return SystemClock.elapsedRealtime() - lastTouched > 900
+        }
+
+        fun peers(): Array<Key>? {
+            return peerBytes.keys.toTypedArray()
+        }
+
+        fun peerRx(peer: Key?): Long {
+            return if (!peerBytes.containsKey(peer)) 0 else peerBytes[peer]!!.first
+        }
+
+        fun peerTx(peer: Key?): Long {
+            return if (!peerBytes.containsKey(peer)) 0 else peerBytes[peer]!!.second
+        }
+
+        fun totalRx(): Long {
+            var rx: Long = 0
+            for ((first) in peerBytes.values) {
+                rx += first
+            }
+            return rx
+        }
+
+        fun totalTx(): Long {
+            var tx: Long = 0
+            for ((_, second) in peerBytes.values) {
+                tx += second
+            }
+            return tx
+        }
+    }
 
     companion object {
         const val NAME_MAX_LENGTH = 15

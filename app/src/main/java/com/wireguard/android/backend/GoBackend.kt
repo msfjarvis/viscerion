@@ -14,6 +14,7 @@ import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.di.ext.injectTunnelManager
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
@@ -21,12 +22,16 @@ import com.wireguard.config.Config
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java9.util.concurrent.CompletableFuture
+import me.msfjarvis.viscerion.crypto.Key
+import me.msfjarvis.viscerion.crypto.KeyFormatException
 import timber.log.Timber
 
 class GoBackend(private val context: Context, private val prefs: ApplicationPreferences) : Backend {
 
     private var currentTunnel: Tunnel? = null
     private var currentTunnelHandle = -1
+
+    private external fun wgGetConfig(handle: Int): String
 
     private external fun wgGetSocketV4(handle: Int): Int
 
@@ -70,8 +75,43 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
         return if (currentTunnel == tunnel) Tunnel.State.UP else Tunnel.State.DOWN
     }
 
-    override fun getStatistics(tunnel: Tunnel): Tunnel.Statistics? {
-        return Tunnel.Statistics()
+    override fun getStatistics(tunnel: Tunnel): Statistics? {
+        val stats = Statistics()
+        if (tunnel != currentTunnel) {
+            return stats
+        }
+        val config = wgGetConfig(currentTunnelHandle)
+        var key: Key? = null
+        var rx: Long = 0
+        var tx: Long = 0
+        for (line in config.split("\\n").toTypedArray()) {
+            if (line.startsWith("public_key=")) {
+                if (key != null) stats.add(key, rx, tx)
+                rx = 0
+                tx = 0
+                key = try {
+                    Key.fromHex(line.substring(11))
+                } catch (_: KeyFormatException) {
+                    null
+                }
+            } else if (line.startsWith("rx_bytes=")) {
+                if (key == null) continue
+                rx = try {
+                    line.substring(9).toLong()
+                } catch (_: NumberFormatException) {
+                    0
+                }
+            } else if (line.startsWith("tx_bytes=")) {
+                if (key == null) continue
+                tx = try {
+                    line.substring(9).toLong()
+                } catch (_: NumberFormatException) {
+                    0
+                }
+            }
+        }
+        if (key != null) stats.add(key, rx, tx)
+        return stats
     }
 
     override fun setState(tunnel: Tunnel, state: Tunnel.State): Tunnel.State {

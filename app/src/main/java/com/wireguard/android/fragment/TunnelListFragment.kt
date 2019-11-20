@@ -142,7 +142,6 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                     throw throwables[0]
                 else require(throwables.isNotEmpty()) { "No configurations found" }
             }
-
             CompletableFuture.allOf(*futureTunnels.toTypedArray())
         }.whenComplete { future, exception ->
             if (exception != null) {
