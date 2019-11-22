@@ -1,0 +1,50 @@
+/*
+ * Copyright © 2017-2019 WireGuard LLC.
+ * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ext.versions = [
+    minSdk: 21,
+    targetSdk: 29,
+    compileSdk: 29,
+    versionCode: 5250,
+    versionName: "5.2.5",
+    buildTools: "29.0.2"
+]
+
+ext.deps = [
+    gradle_plugin: [
+        android: "com.android.tools.build:gradle:3.5.0",
+        kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.60",
+        spotless: "com.diffplug.spotless:spotless-plugin-gradle:3.26.0"
+    ],
+
+    kotlin: [
+        stdlib8: "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    ],
+
+    androidx: [
+        annotation: "androidx.annotation:annotation:1.1.0",
+        appcompat: "androidx.appcompat:appcompat:1.1.0",
+        biometric: "androidx.biometric:biometric:1.0.0",
+        constraint_layout: "androidx.constraintlayout:constraintlayout:2.0.0-beta3",
+        core_ktx: "androidx.core:core-ktx:1.2.0-beta02",
+        fragment_ktx: "androidx.fragment:fragment-ktx:1.2.0-rc02",
+        material: "com.google.android.material:material:1.2.0-alpha01",
+        preference: "androidx.preference:preference:1.1.0",
+        recycler_view: "androidx.recyclerview:recyclerview:1.0.0",
+        slice_builders: "androidx.slice:slice-builders:1.1.0-alpha01",
+        slice_core: "androidx.slice:slice-core:1.1.0-alpha01",
+        slice_builders_ktx: "androidx.slice:slice-builders-ktx:1.0.0-alpha07",
+        work_ktx: "androidx.work:work-runtime-ktx:2.3.0-alpha03"
+    ],
+
+    third_party: [
+        barcode: "com.kroegerama:barcode-kaiteki:1.1.1",
+        koin_android: "org.koin:koin-android:2.0.1",
+        leak_canary: "com.squareup.leakcanary:leakcanary-android:2.0-beta-3",
+        retrofuture: "net.sourceforge.streamsupport:android-retrofuture:1.7.1",
+        threetenabp: "com.jakewharton.threetenabp:threetenabp:1.2.1",
+        timber: "com.jakewharton.timber:timber:4.7.1",
+    ]
+]
