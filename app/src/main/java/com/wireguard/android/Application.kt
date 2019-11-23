@@ -11,12 +11,8 @@ import android.os.Build
 import android.os.StrictMode
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
-import com.wireguard.android.di.backendAsyncModule
-import com.wireguard.android.di.backendModule
-import com.wireguard.android.di.configStoreModule
-import com.wireguard.android.di.earlyInitModules
+import com.wireguard.android.di.appModule
 import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.di.toolsInstallerModule
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.updateAppTheme
 import java.lang.ref.WeakReference
@@ -50,13 +46,7 @@ class Application : android.app.Application() {
 
         startKoin {
             androidContext(this@Application)
-            modules(listOf(
-                    configStoreModule,
-                    earlyInitModules,
-                    backendModule,
-                    backendAsyncModule,
-                    toolsInstallerModule
-            ))
+            modules(appModule)
         }
 
         if (BuildConfig.DEBUG) {
