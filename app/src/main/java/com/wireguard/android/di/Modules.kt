@@ -8,6 +8,7 @@ package com.wireguard.android.di
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
+import androidx.preference.PreferenceManager
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.configStore.FileConfigStore
 import com.wireguard.android.di.factory.BackendFactory
@@ -24,7 +25,8 @@ val appModule = module {
     single<ConfigStore> { FileConfigStore(androidContext()) }
     single { AsyncWorker(AsyncTask.SERIAL_EXECUTOR, Handler(Looper.getMainLooper())) }
     single { RootShell(androidContext()) }
-    single { ApplicationPreferences(androidContext()) }
+    single { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
+    single { ApplicationPreferences(get()) }
     single { TunnelManager(androidContext(), get(), get()) }
     single { BackendFactory.getBackend(androidContext(), get(), get(), get()) }
     single { CompletableBackendFactory.getBackendAsync(get()) }

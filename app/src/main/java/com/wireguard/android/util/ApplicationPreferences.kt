@@ -5,17 +5,14 @@
  */
 package com.wireguard.android.util
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import kotlin.reflect.KProperty
 
-class ApplicationPreferences(val context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
+class ApplicationPreferences(val sharedPrefs: SharedPreferences) : SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val onChangeMap: MutableMap<String, () -> Unit> = HashMap()
     private val onChangeListeners: MutableMap<String, MutableSet<OnPreferenceChangeListener>> = HashMap()
     private var onChangeCallback: ApplicationPreferencesChangeCallback? = null
-    val sharedPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val doNothing = { }
     private val restart = { restart() }
