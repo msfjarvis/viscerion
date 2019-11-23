@@ -33,11 +33,12 @@ class Application : android.app.Application() {
                 TunnelManager.NOTIFICATION_CHANNEL_ID,
                 getString(R.string.notification_channel_wgquick_title),
                 NotificationManager.IMPORTANCE_DEFAULT
-        )
-        notificationChannel.description = getString(R.string.notification_channel_wgquick_desc)
-        notificationChannel.setShowBadge(false)
-        notificationChannel.setSound(null, null)
-        notificationChannel.enableVibration(false)
+        ).apply {
+            description = getString(R.string.notification_channel_wgquick_desc)
+            setShowBadge(false)
+            setSound(null, null)
+            enableVibration(false)
+        }
         notificationManager.createNotificationChannel(notificationChannel)
     }
 
