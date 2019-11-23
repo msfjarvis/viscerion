@@ -15,16 +15,12 @@ import com.wireguard.android.di.appModule
 import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.updateAppTheme
-import java.lang.ref.WeakReference
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
+@Suppress("Unused")
 class Application : android.app.Application() {
-
-    init {
-        weakSelf = WeakReference(this)
-    }
 
     @RequiresApi(26)
     private fun createNotificationChannel() {
@@ -63,13 +59,5 @@ class Application : android.app.Application() {
 
         if (Build.VERSION.SDK_INT >= 26)
             createNotificationChannel()
-    }
-
-    companion object {
-        private lateinit var weakSelf: WeakReference<Application>
-
-        fun get(): Application {
-            return requireNotNull(weakSelf.get())
-        }
     }
 }
