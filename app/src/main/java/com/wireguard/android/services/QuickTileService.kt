@@ -6,7 +6,6 @@
 package com.wireguard.android.services
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -21,12 +20,12 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.activity.LaunchActivity
+import com.wireguard.android.di.ext.getContext
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.widget.SlashDrawable
-import org.koin.android.ext.android.get
 import timber.log.Timber
 
 /**
@@ -61,7 +60,7 @@ class QuickTileService : TileService() {
             iconOff = iconOn
             return
         }
-        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_qs_tile, get<Context>().theme))
+        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_qs_tile, getContext().theme))
         /* Unfortunately we can't have animations, since icons are marshaled. */
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)
