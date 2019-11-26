@@ -4,6 +4,10 @@
 - Update libwg-go and build with Go 1.13.4
 - Add Tasker plugin support to simplify integration (by Rafhaan Shah)
 - Allow using PIN/password/pattern as fallback authentication
+- Fix file descriptor leaks
+- Allow Android TV devices to use file picker
+- Rewrite native library loading for enhanced robustness
+- Update German and French translations
 
 ### [5.2.5] - 2019-10-20
 - Resolve crashes with QR import dialog on release builds
