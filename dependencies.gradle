@@ -7,8 +7,8 @@ ext.versions = [
     minSdk: 21,
     targetSdk: 29,
     compileSdk: 29,
-    versionCode: 5250,
-    versionName: "5.2.5",
+    versionCode: 5260,
+    versionName: "5.2.6",
     buildTools: "29.0.2"
 ]
 

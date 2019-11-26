@@ -1,6 +1,8 @@
 # Release Notes
 
 ### [Unreleased]
+
+### [5.2.6] - 2019-11-27
 - Update libwg-go and build with Go 1.13.4
 - Add Tasker plugin support to simplify integration (by Rafhaan Shah)
 - Allow using PIN/password/pattern as fallback authentication
@@ -112,7 +114,8 @@ the only ones which use the tunnel for networking.
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
 
-[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.5...HEAD
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.6...HEAD
+[5.2.6]: https://github.com/msfjarvis/viscerion/releases/5.2.6
 [5.2.5]: https://github.com/msfjarvis/viscerion/releases/5.2.5
 [5.2.4]: https://github.com/msfjarvis/viscerion/releases/5.2.4
 [5.2.3]: https://github.com/msfjarvis/viscerion/releases/5.2.3
