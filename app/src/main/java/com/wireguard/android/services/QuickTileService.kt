@@ -80,6 +80,12 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
+        unlockAndRun {
+            handleClick()
+        }
+    }
+
+    private fun handleClick() {
         if (tunnel != null) {
             val tile = qsTile
             if (tile != null) {
