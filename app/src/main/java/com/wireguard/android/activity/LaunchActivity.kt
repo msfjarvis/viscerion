@@ -20,7 +20,7 @@ class LaunchActivity : AppCompatActivity() {
             Authenticator(this) {
                 when (it) {
                     is AuthenticationResult.Success -> {
-                        startMainActivity()
+                        startMainActivity(false)
                     }
                     is AuthenticationResult.UnrecoverableError -> {
                         finish()
@@ -30,13 +30,13 @@ class LaunchActivity : AppCompatActivity() {
                 }
             }.authenticate()
         } else {
-            startMainActivity()
+            startMainActivity(true)
         }
     }
 
-    private fun startMainActivity() {
+    private fun startMainActivity(noAuth: Boolean) {
         startActivity(Intent(this, MainActivity::class.java))
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        android.os.Handler().postDelayed({ finish() }, 1000L)
+        android.os.Handler().postDelayed({ finish() }, if (noAuth) 0L else 500L)
     }
 }
