@@ -44,7 +44,7 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
             } else {
                 if (willInstallAsMagiskModule()) NO or MAGISK else NO or SYSTEM
             }
-        } catch (ignored: IOException) {
+        } catch (_: IOException) {
             ERROR
         }
     }
@@ -75,7 +75,7 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
                         null,
                         "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
-            } catch (ignored: Exception) {
+            } catch (_: Exception) {
                 false
             }
         }
@@ -97,7 +97,7 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
         }
         return try {
             if (rootShell.run(null, script.toString()) == 0) YES or SYSTEM else ERROR
-        } catch (ignored: IOException) {
+        } catch (_: IOException) {
             ERROR
         }
     }
@@ -126,7 +126,7 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
 
         return try {
             if (rootShell.run(null, script.toString()) == 0) YES or MAGISK else ERROR
-        } catch (ignored: IOException) {
+        } catch (_: IOException) {
             ERROR
         }
     }

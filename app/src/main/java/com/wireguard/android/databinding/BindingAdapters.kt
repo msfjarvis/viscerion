@@ -140,7 +140,7 @@ fun setOnBeforeCheckedChanged(
 fun setText(view: TextView, text: Any?) {
     view.text = try {
         text.toString()
-    } catch (ignored: Exception) {
+    } catch (_: Exception) {
         ""
     }
 }

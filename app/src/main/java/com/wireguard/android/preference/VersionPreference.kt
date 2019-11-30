@@ -56,7 +56,7 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
         intent.data = Uri.parse("https://github.com/msfjarvis/viscerion")
         try {
             context.startActivity(intent)
-        } catch (ignored: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
         }
     }
 }

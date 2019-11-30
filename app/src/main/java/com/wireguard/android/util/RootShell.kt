@@ -43,7 +43,7 @@ class RootShell(val context: Context) {
             // Throws an exception if the process hasn't finished yet.
             process?.exitValue()
             false
-        } catch (ignored: IllegalThreadStateException) {
+        } catch (_: IllegalThreadStateException) {
             // The existing process is still running.
             true
         }

@@ -54,7 +54,7 @@ fun String.runShellCommand(): ArrayList<String> {
             line = reader.readLine() ?: break
             ret.add(line)
         }
-    } catch (ignored: Exception) {
+    } catch (_: Exception) {
     }
     return ret
 }
