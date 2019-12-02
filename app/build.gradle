@@ -79,8 +79,9 @@ android {
 }
 
 dependencies {
-    implementation (project(':crypto'))
-    implementation (project(':native'))
+    implementation project(':crypto')
+    implementation project(':native')
+    implementation project(':util')
     implementation deps.androidx.annotation
     implementation deps.androidx.appcompat
     implementation deps.androidx.biometric
