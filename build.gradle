@@ -48,6 +48,11 @@ subprojects {
         apply plugin: 'com.android.application'
     } else {
         apply plugin: 'com.android.library'
+        android {
+            libraryVariants.all { variant ->
+                variant.generateBuildConfigProvider.configure { enabled = false }
+            }
+        }
     }
 
     android {
