@@ -27,13 +27,13 @@ subprojects {
         maven { url 'https://jitpack.io' }
     }
 
-    if (plugins.hasPlugin('kotlin-android')) {
+    pluginManager.withPlugin('kotlin-android') {
         dependencies {
             implementation deps.kotlin.stdlib8
         }
     }
 
-    if (plugins.hasPlugin('kotlin-kapt')) {
+    pluginManager.withPlugin('kotlin-kapt') {
         kapt {
             useBuildCache = true
             // https://github.com/google/dagger/issues/1449#issuecomment-495404186
