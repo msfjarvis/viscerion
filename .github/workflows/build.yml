@@ -10,7 +10,7 @@ jobs:
     - name: Install Android SDK
       uses: malinskiy/action-android/install-sdk@release/0.0.3
     - name: Checkout repository and submodules
-      uses: actions/checkout@master
+      uses: actions/checkout@v1
       with:
         submodules: true
     - name: Install go compiler for libwg-go
