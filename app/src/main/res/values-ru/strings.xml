@@ -81,8 +81,10 @@
     <string name="create_tunnel">Создать туннель</string>
     <string name="delete">Удалить</string>
     <string name="deselect_all">Отменить все</string>
+    <string name="disable_tunnel">Отключить туннель: %s</string>
     <string name="dns_servers">DNS серверы</string>
     <string name="edit">Правка</string>
+    <string name="enable_tunnel">Включить туннель: %s</string>
     <string name="endpoint">Конечная точка</string>
     <string name="error_down">Ошибка при отключении туннеля: %s</string>
     <string name="error_fetching_apps">Ошибка получения списка приложений: %s</string>
@@ -97,6 +99,7 @@
     <string name="hint_generated">(сгенерировано)</string>
     <string name="hint_optional">(необязательно)</string>
     <string name="hint_random">(случайный)</string>
+    <string name="hint_search">Поиск туннелей</string>
     <string name="illegal_filename_error">Недопустимое имя файла “%s”</string>
     <string name="import_error">Невозможно импортировать туннель: %s</string>
     <string name="import_from_qr_code">Импорт туннеля с помощью QR-кода</string>
@@ -191,7 +194,9 @@
     <string name="preference_category_theming">Тема приложения</string>
     <string name="preference_category_misc">Прочее</string>
     <string name="tasker_integration_title">Включить интеграцию tasker</string>
+    <string name="tasker_integration_enable_or_disable_tunnel">Включить / выключить туннель</string>
     <string name="tasker_integration_summary">ВНИМАНИЕ: Это потенциальный риск безопасности! Избегайте использовать это на рутированных устройствах, вредоносные приложения могут легко обойти защиту, размещенную на Viscerion!</string>
+    <string name="tasker_integration_secret">Секрет Tasker</string>
     <string name="tasker_integration_secret_title">Секрет внешнего намерения</string>
     <string name="tasker_integration_secret_summary">Безопасный секрет, чтобы убедиться, что только доверенные клиенты могут контролировать туннели. Это не может быть пустым!</string>
     <string name="tasker_integration_summary_empty_secret">Установка секрета здесь обязательна!</string>
@@ -209,4 +214,5 @@
     <string name="biometric_prompt_title">Запрос отпечатка</string>
     <string name="biometric_prompt_retry">Повторить</string>
     <string name="biometric_prompt_no_hardware">Сканер отпечатков пальцев не найден</string>
+    <string name="search">Поиск</string>
 </resources>
