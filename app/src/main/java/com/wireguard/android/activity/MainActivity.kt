@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
@@ -130,7 +129,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             R.id.menu_action_edit -> {
                 supportFragmentManager.commit {
                     replace(R.id.detail_container, TunnelEditorFragment::class.java, null)
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    setCustomAnimations(0, 0)
                     addToBackStack(null)
                 }
                 return true
@@ -165,7 +164,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
             // Create and show a new detail fragment.
             fragmentManager.commit {
                 add(R.id.detail_container, TunnelDetailFragment::class.java, null)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setCustomAnimations(0, 0)
                 addToBackStack(null)
             }
         }
