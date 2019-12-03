@@ -2,6 +2,7 @@
 
 ### [Unreleased]
 - Require unlocking for using Quick Settings tile.
+- Show tunnel's data usage statistics in detail fragment
 
 ### [5.2.6] - 2019-11-27
 - Update libwg-go and build with Go 1.13.4
