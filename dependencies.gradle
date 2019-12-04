@@ -42,7 +42,7 @@ ext.deps = [
     third_party: [
         barcode: "com.kroegerama:barcode-kaiteki:1.1.1",
         koin_android: "org.koin:koin-android:2.0.1",
-        leak_canary: "com.squareup.leakcanary:leakcanary-android:2.0-beta-5",
+        leak_canary: "com.squareup.leakcanary:leakcanary-android:2.0",
         retrofuture: "net.sourceforge.streamsupport:android-retrofuture:1.7.1",
         threetenabp: "com.jakewharton.threetenabp:threetenabp:1.2.1",
         timber: "com.jakewharton.timber:timber:4.7.1",
