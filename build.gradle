@@ -44,14 +44,12 @@ subprojects {
         }
     }
 
-    if (it.name == 'app') {
+    if (name == 'app') {
         apply plugin: 'com.android.application'
     } else {
         apply plugin: 'com.android.library'
-        android {
-            libraryVariants.all { variant ->
-                variant.generateBuildConfigProvider.configure { enabled = false }
-            }
+        android.libraryVariants.all { variant ->
+            variant.generateBuildConfigProvider.configure { enabled = false }
         }
     }
 
@@ -79,27 +77,6 @@ subprojects {
 }
 
 apply from: rootProject.file('spotless.root.gradle')
-
-project(':native') {
-    android {
-        buildTypes {
-            release {
-                externalNativeBuild {
-                    cmake {
-                        arguments "-DANDROID_PACKAGE_NAME=me.msfjarvis.viscerion"
-                    }
-                }
-            }
-            debug {
-                externalNativeBuild {
-                    cmake {
-                        arguments "-DANDROID_PACKAGE_NAME=me.msfjarvis.viscerion.debug"
-                    }
-                }
-            }
-        }
-    }
-}
 
 tasks {
     wrapper {

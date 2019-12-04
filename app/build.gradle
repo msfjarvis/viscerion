@@ -33,7 +33,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId 'me.msfjarvis.viscerion'
+        applicationId versions.packageName
         resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
