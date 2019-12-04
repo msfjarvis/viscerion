@@ -138,6 +138,7 @@
     <string name="tools_installer_title">Installer les outils de ligne de commande</string>
     <string name="tools_installer_working">Installation de wg et wg-quick</string>
     <string name="tools_unavailable_error">Outils nécessaires indisponibles</string>
+    <string name="transfer">Transférer</string>
     <string name="tun_create_error">Impossible de créer le périphérique tun</string>
     <string name="tunnel_config_error">Impossible de configurer le tunnel (wg-quick a retourné %d)</string>
     <string name="tunnel_create_error">Impossible de créer le tunnel : %s</string>
