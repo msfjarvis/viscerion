@@ -35,6 +35,9 @@ android {
     defaultConfig {
         applicationId versions.packageName
         resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru'
+        testApplicationId "${versions.packageName}.test"
+        testFunctionalTest true
+        testHandleProfiling true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
