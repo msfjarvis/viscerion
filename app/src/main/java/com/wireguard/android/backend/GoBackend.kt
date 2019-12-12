@@ -12,7 +12,7 @@ import android.os.Build
 import androidx.collection.ArraySet
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
-import com.wireguard.android.di.ext.injectTunnelManager
+import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.util.ApplicationPreferences
@@ -243,7 +243,7 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
 
     class VpnService : android.net.VpnService() {
 
-        private val tunnelManager by injectTunnelManager()
+        private val tunnelManager = getTunnelManager()
 
         fun getBuilder(): Builder {
             return Builder()

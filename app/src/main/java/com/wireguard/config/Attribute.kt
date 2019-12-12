@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 class Attribute private constructor(val key: String, val value: String) {
     companion object {
         private val LINE_PATTERN = Pattern.compile("(\\w+)\\s*=\\s*([^\\s#][^#]*)")
-        val LIST_SEPARATOR: Pattern = Pattern.compile("\\s*,\\s*")
+        private val LIST_SEPARATOR: Pattern = Pattern.compile("\\s*,\\s*")
 
         fun join(values: Iterable<*>): String {
             return TextUtils.join(", ", values)

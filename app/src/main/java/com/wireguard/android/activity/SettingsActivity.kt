@@ -33,7 +33,6 @@ import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
-import com.wireguard.android.util.asString
 import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
@@ -72,6 +71,7 @@ class SettingsActivity : AppCompatActivity() {
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
         private val prefs = getPrefs()
+        private val tunnelManager = getTunnelManager()
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
@@ -124,7 +124,7 @@ class SettingsActivity : AppCompatActivity() {
             integrationSecretPref?.isVisible = prefs.allowTaskerIntegration
 
             exclusionsPref?.onPreferenceClickListener = ClickListener {
-                val fragment = AppListDialogFragment.newInstance(prefs.exclusionsArray, true, this)
+                val fragment = AppListDialogFragment.newInstance(prefs.exclusions, true, this)
                 fragment.show(parentFragmentManager, null)
                 true
             }
@@ -244,7 +244,7 @@ class SettingsActivity : AppCompatActivity() {
         private fun exportZip(fileUri: Uri) {
             val ctx = requireContext()
             val snackbarView = requireNotNull(requireActivity().findViewById<View>(android.R.id.content))
-            getTunnelManager().getTunnels().thenAccept { tunnels ->
+            tunnelManager.getTunnels().thenAccept { tunnels ->
                 ZipExporter.exportZip(ctx.contentResolver, fileUri, tunnels) { throwable ->
                     if (throwable != null) {
                         val error = ExceptionLoggers.unwrapMessage(throwable)
@@ -259,29 +259,28 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         override fun onExcludedAppsSelected(excludedApps: List<String>) {
-            if (excludedApps.asString() == prefs.exclusions) return
-            getTunnelManager().getTunnels().thenAccept { tunnels ->
+            if (prefs.exclusions == excludedApps) return
+            tunnelManager.getTunnels().thenAccept { tunnels ->
                 if (excludedApps.isNotEmpty()) {
                     tunnels.forEach { tunnel ->
                         val oldConfig = tunnel.getConfig()
-                        oldConfig?.let {
-                            prefs.exclusionsArray.forEach { exclusion ->
-                                it.`interface`.excludedApplications.remove(
-                                        exclusion
-                                )
+                        if (oldConfig != null) {
+                            prefs.exclusions.forEach {
+                                oldConfig.`interface`.excludedApplications.remove(it)
                             }
-                            it.`interface`.excludedApplications.addAll(excludedApps.toCollection(ArrayList()))
-                            tunnel.setConfig(it)
+                            oldConfig.`interface`.excludedApplications.addAll(ArrayList(excludedApps))
+                            oldConfig.`interface`.excludedApplications.forEach { Timber.tag("DEBUG").d(it) }
+                            tunnel.setConfig(oldConfig)
                         }
                     }
-                    prefs.exclusions = excludedApps.asString()
+                    prefs.exclusions = excludedApps.toSet()
                 } else {
                     tunnels.forEach { tunnel ->
-                        prefs.exclusionsArray.forEach { exclusion ->
+                        prefs.exclusions.forEach { exclusion ->
                             tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
                         }
                     }
-                    prefs.exclusions = ""
+                    prefs.exclusions = emptySet()
                 }
             }
         }

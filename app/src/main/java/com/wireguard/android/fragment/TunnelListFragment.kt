@@ -292,7 +292,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         }
 
         if (prefs.exclusions.isNotEmpty()) {
-            val excludedApps = prefs.exclusionsArray
+            val excludedApps = prefs.exclusions
             tunnels.forEach { tunnel ->
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {

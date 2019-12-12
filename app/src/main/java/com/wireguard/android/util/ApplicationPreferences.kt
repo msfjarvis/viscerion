@@ -10,6 +10,18 @@ import kotlin.reflect.KProperty
 
 class ApplicationPreferences(val sharedPrefs: SharedPreferences) : SharedPreferences.OnSharedPreferenceChangeListener {
 
+    init {
+        // Bad, bad migration strategy
+        val exclusions = sharedPrefs.all["global_exclusions"]
+        if (exclusions is String) {
+            @Suppress("ApplySharedPref")
+            sharedPrefs.edit()
+                .remove("global_exclusions")
+                .putStringSet("global_exclusions", exclusions.split(", ").toSet())
+                .commit()
+        }
+    }
+
     private val onChangeMap: MutableMap<String, () -> Unit> = HashMap()
     private val onChangeListeners: MutableMap<String, MutableSet<OnPreferenceChangeListener>> = HashMap()
     private var onChangeCallback: ApplicationPreferencesChangeCallback? = null
@@ -18,9 +30,7 @@ class ApplicationPreferences(val sharedPrefs: SharedPreferences) : SharedPrefere
     private val restart = { restart() }
     private val restartActiveTunnels = { restartActiveTunnels() }
 
-    var exclusions by StringPref("global_exclusions", "", restartActiveTunnels)
-    val exclusionsArray: ArrayList<String>
-        get() = exclusions.toArrayList()
+    var exclusions by StringSetPref("global_exclusions", emptySet(), restartActiveTunnels)
     var useDarkTheme by BooleanPref("dark_theme", false)
     val forceUserspaceBackend by BooleanPref("force_userspace_backend", false, restart)
     val whitelistApps by BooleanPref("whitelist_exclusions", false, restartActiveTunnels)

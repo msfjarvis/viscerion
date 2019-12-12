@@ -16,7 +16,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
-import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
@@ -30,19 +29,11 @@ import androidx.core.content.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.wireguard.android.backend.Backend
-import com.wireguard.config.Attribute.Companion.LIST_SEPARATOR
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java9.util.concurrent.CompletableFuture
 
 typealias BackendAsync = CompletableFuture<Backend>
-
-fun String.toArrayList(): ArrayList<String> {
-    return if (TextUtils.isEmpty(this))
-        ArrayList()
-    else
-        LIST_SEPARATOR.split(trim()).toCollection(ArrayList())
-}
 
 fun String.runShellCommand(): ArrayList<String> {
     val ret = ArrayList<String>()
@@ -57,10 +48,6 @@ fun String.runShellCommand(): ArrayList<String> {
     } catch (_: Exception) {
     }
     return ret
-}
-
-fun <T> List<T>.asString(): String {
-    return TextUtils.join(", ", this)
 }
 
 fun Context.restartApplication() {

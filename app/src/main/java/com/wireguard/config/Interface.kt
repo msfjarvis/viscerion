@@ -49,10 +49,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
      *
      * @return a set of package names
      */
-    // This should ideally be immutable but I require it to not be
-    // for my global exclusions implementation. Suggestions welcome
-    // on alternate ways to do this.
-    var excludedApplications: ArrayList<String>
+    val excludedApplications: ArrayList<String>
     /**
      * Returns the public/private key pair used by the interface.
      *
@@ -123,9 +120,12 @@ class Interface private constructor(builder: Builder) : KoinComponent {
      *
      * @return The `Interface` represented as a series of "Key = Value" lines
      */
-    fun toWgQuickString(): String {
+    fun toWgQuickString(exporting: Boolean = false): String {
         val sb = StringBuilder()
-        val localExclusions = excludedApplications - prefs.exclusionsArray
+        val localExclusions = if (exporting)
+            excludedApplications - prefs.exclusions
+        else
+            excludedApplications
         if (addresses.isNotEmpty())
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
         if (dnsServers.isNotEmpty()) {
@@ -206,7 +206,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
 
         fun excludeApplications(applications: Collection<String>): Builder {
             excludedApplications.addAll(applications)
-            prefs.exclusionsArray.forEach { exclusion ->
+            prefs.exclusions.forEach { exclusion ->
                 if (exclusion !in excludedApplications)
                     excludedApplications.add(exclusion)
             }
@@ -238,7 +238,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         fun parseExcludedApplications(apps: CharSequence): Builder {
             return excludeApplications(
                     Attribute.split(apps)
-                            .filter { it !in prefs.exclusionsArray }
+                            .filter { it !in prefs.exclusions }
                             .toList()
             )
         }

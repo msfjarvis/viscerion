@@ -40,7 +40,7 @@ object ZipExporter : KoinComponent {
                                 ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->
                                     for (i in futureConfigs.indices) {
                                         zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
-                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
+                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString(exporting = true).toByteArray(StandardCharsets.UTF_8))
                                     }
                                     zip.closeEntry()
                                 }
