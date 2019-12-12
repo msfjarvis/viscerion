@@ -115,19 +115,19 @@ class TunnelDetailFragment : BaseFragment() {
 
     private fun formatBytes(bytes: Long): String? {
         when {
-            bytes < 1024 -> return context!!.getString(
+            bytes < 1024L -> return context!!.getString(
                 R.string.transfer_bytes,
                 bytes
             )
-            bytes < 1024 * 1024 -> return context!!.getString(
+            bytes < 1024L * 1024L -> return context!!.getString(
                 R.string.transfer_kibibytes,
                 bytes / 1024.0
             )
-            bytes < 1024 * 1024 * 1024 -> return context!!.getString(
+            bytes < 1024L * 1024L * 1024L -> return context!!.getString(
                 R.string.transfer_mibibytes,
                 bytes / (1024.0 * 1024.0)
             )
-            bytes < 1024 * 1024 * 1024 * 1024 -> return context!!.getString(
+            bytes < 1024L * 1024L * 1024L * 1024L -> return context!!.getString(
                 R.string.transfer_gibibytes,
                 bytes / (1024.0 * 1024.0 * 1024.0)
             )
