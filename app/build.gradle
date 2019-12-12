@@ -106,8 +106,6 @@ dependencies {
     implementation deps.third_party.threetenabp
     implementation deps.third_party.timber
 
-    if (!isCi()) debugImplementation deps.third_party.leak_canary
-
     testImplementation deps.testing.junit
     testImplementation deps.testing.mockito_core
     testImplementation deps.testing.koin_test
