@@ -269,7 +269,6 @@ class SettingsActivity : AppCompatActivity() {
                                 oldConfig.`interface`.excludedApplications.remove(it)
                             }
                             oldConfig.`interface`.excludedApplications.addAll(ArrayList(excludedApps))
-                            oldConfig.`interface`.excludedApplications.forEach { Timber.tag("DEBUG").d(it) }
                             tunnel.setConfig(oldConfig)
                         }
                     }
