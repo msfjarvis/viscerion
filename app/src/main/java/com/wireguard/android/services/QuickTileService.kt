@@ -93,9 +93,10 @@ class QuickTileService : TileService() {
                 tile.updateTile()
             }
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
+                updateTile()
                 this.onToggleFinished(throwable)
             }
-        } else if (Build.VERSION.SDK_INT < 29) {
+        } else {
             val intent = Intent(this, LaunchActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivityAndCollapse(intent)
@@ -141,7 +142,7 @@ class QuickTileService : TileService() {
                 Tile.STATE_INACTIVE
         } else {
             label = getString(R.string.app_name)
-            state = if (Build.VERSION.SDK_INT >= 29) Tile.STATE_UNAVAILABLE else Tile.STATE_INACTIVE
+            state = Tile.STATE_INACTIVE
         }
         tile.label = label
         if (tile.state != state) {
