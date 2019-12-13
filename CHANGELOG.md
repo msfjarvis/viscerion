@@ -1,6 +1,8 @@
 # Release Notes
 
 ### [Unreleased]
+
+### [5.2.7] - 2019-12-13
 - Require unlocking for using Quick Settings tile.
 - Show tunnel's data usage statistics in detail fragment
 - Update library dependencies
@@ -121,7 +123,8 @@ the only ones which use the tunnel for networking.
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
 
-[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.6...HEAD
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.7...HEAD
+[5.2.7]: https://github.com/msfjarvis/viscerion/releases/5.2.6
 [5.2.6]: https://github.com/msfjarvis/viscerion/releases/5.2.6
 [5.2.5]: https://github.com/msfjarvis/viscerion/releases/5.2.5
 [5.2.4]: https://github.com/msfjarvis/viscerion/releases/5.2.4
