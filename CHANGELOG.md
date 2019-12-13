@@ -124,7 +124,7 @@ the only ones which use the tunnel for networking.
 - Update userspace implementation to work with Android 9's bionic restrictions
 
 [Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.7...HEAD
-[5.2.7]: https://github.com/msfjarvis/viscerion/releases/5.2.6
+[5.2.7]: https://github.com/msfjarvis/viscerion/releases/5.2.7
 [5.2.6]: https://github.com/msfjarvis/viscerion/releases/5.2.6
 [5.2.5]: https://github.com/msfjarvis/viscerion/releases/5.2.5
 [5.2.4]: https://github.com/msfjarvis/viscerion/releases/5.2.4
