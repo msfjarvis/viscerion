@@ -7,6 +7,7 @@
 - Update French, Russian, German and Portugese translations
 - Update WireGuard tools to 0.0.20191127 snapshot
 - Resolve some animation related issues
+- Fix global exclusions not working properly
 
 ### [5.2.6] - 2019-11-27
 - Update libwg-go and build with Go 1.13.4
