@@ -177,11 +177,11 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
             if (prefs.whitelistApps) {
-                config.`interface`.excludedApplications.forEach { excludedApplication ->
+                (config.`interface`.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
                     builder.addAllowedApplication(excludedApplication)
                 }
             } else {
-                config.`interface`.excludedApplications.forEach { excludedApplication ->
+                (config.`interface`.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
                     builder.addDisallowedApplication(excludedApplication)
                 }
             }
