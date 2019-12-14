@@ -29,11 +29,10 @@ class TunnelToggleActivity : AppCompatActivity() {
         tunnel.setState(Tunnel.State.TOGGLE).whenComplete { _, throwable ->
             TileService.requestListeningState(this, ComponentName(this, QuickTileService::class.java))
             onToggleFinished(throwable)
-            finish()
+            finishAffinity()
         }
     }
 
-    // Duplicated from QuickTileService
     private fun onToggleFinished(throwable: Throwable?) {
         throwable ?: return
         val error = ErrorMessages[throwable]
