@@ -20,6 +20,9 @@ import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.activity.LaunchActivity
+import com.wireguard.android.activity.TunnelToggleActivity
+import com.wireguard.android.backend.GoBackend
+import com.wireguard.android.di.ext.getBackend
 import com.wireguard.android.di.ext.getContext
 import com.wireguard.android.di.ext.getTunnelManager
 import com.wireguard.android.model.Tunnel
@@ -40,6 +43,7 @@ class QuickTileService : TileService() {
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
     private val tunnelManager = getTunnelManager()
+    private val backend = getBackend()
     private var tunnel: Tunnel? = null
     private var iconOn: Icon? = null
     private var iconOff: Icon? = null
@@ -92,9 +96,15 @@ class QuickTileService : TileService() {
                 tile.icon = if (tile.icon == iconOn) iconOff else iconOn
                 tile.updateTile()
             }
-            tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
-                updateTile()
-                this.onToggleFinished(throwable)
+            if (Build.VERSION.SDK_INT >= 29 && backend is GoBackend && tunnel?.state == State.DOWN) {
+                startActivity(Intent(this, TunnelToggleActivity::class.java).apply {
+                    flags += Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            } else {
+                tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
+                    updateTile()
+                    this.onToggleFinished(throwable)
+                }
             }
         } else {
             val intent = Intent(this, LaunchActivity::class.java)

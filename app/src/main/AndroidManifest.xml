@@ -74,6 +74,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.TunnelToggleActivity"
+            android:theme="@style/NoBackgroundTheme" />
+
         <receiver android:name=".services.BootShutdownReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
