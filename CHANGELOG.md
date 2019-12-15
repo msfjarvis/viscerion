@@ -1,6 +1,7 @@
 # Release Notes
 
 ### [Unreleased]
+- Workaround background service restrictions on Android 10
 
 ### [5.2.7] - 2019-12-13
 - Require unlocking for using Quick Settings tile.
