@@ -7,7 +7,7 @@ platform:
   arch: amd64
 
 steps:
-- name: submodules
+- name: Clone submodules
   image: docker:git
   commands:
   - git submodule update --init --recursive
@@ -17,22 +17,15 @@ steps:
       exclude:
       - l10n_master
 
-- name: export-keys
-  image: msfjarvis/drone-decrypt-files:latest
-  settings:
-    decrypt_key:
-      from_secret: key
-    file_to_path_mapping:
-    - "ci/keystore.cipher:keystore.jks|ci/props.cipher:keystore.properties"
-  when:
-    branch:
-      exclude:
-      - l10n_master
-    event:
-      exclude:
-      - pull_request
+- name: Decrypt signing keys
+  image: msfjarvis/docker-android-sdk:ubuntu-standalone
+  commands:
+  - "./release/signing-setup.sh \"$SIGNING_KEY\""
+  environment:
+    SIGNING_KEY:
+      from_secret: enc_key
 
-- name: stylecheck
+- name: Run Spotless to validate codestyle
   image: msfjarvis/docker-android-sdk:ubuntu-standalone
   commands:
   - ./gradlew spotlessCheck
@@ -41,19 +34,19 @@ steps:
       exclude:
       - l10n_master
 
-- name: build
+- name: Build debug APK
   image: msfjarvis/docker-android-sdk:ubuntu-standalone
   commands:
-  - ./gradlew assembleDebug lintDebug
+  - ./gradlew assembleDebug
   when:
     branch:
       exclude:
       - l10n_master
 
-- name: telegram-deploy
+- name: Deploy to Telegram
   image: msfjarvis/drone-telegram:latest
   settings:
-    artifacts: "./app/build/outputs/apk/debug/app-debug.apk:Viscerion"
+    artifacts: ./app/build/outputs/apk/debug/app-debug.apk:Viscerion
     bot_token:
       from_secret: bot_token
     channel_id: -1001278683441
@@ -65,5 +58,4 @@ steps:
     event:
       exclude:
       - pull_request
-
 ...
