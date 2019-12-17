@@ -8,7 +8,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath deps.gradle_plugin.android
@@ -18,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id "com.github.ben-manes.versions" version "0.27.0"
+    id 'com.github.ben-manes.versions' version '0.27.0'
 }
 
 subprojects {
@@ -28,7 +27,6 @@ subprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
     }
 
     pluginManager.withPlugin('kotlin-android') {
@@ -77,6 +75,12 @@ subprojects {
         kotlinOptions {
             jvmTarget = '1.8'
         }
+    }
+}
+
+project(':app') {
+    repositories {
+        maven { url 'https://jitpack.io' }
     }
 }
 
