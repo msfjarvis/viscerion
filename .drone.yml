@@ -24,6 +24,10 @@ steps:
   environment:
     SIGNING_KEY:
       from_secret: enc_key
+  when:
+    event:
+      exclude:
+      - pull_request
 
 - name: Run Spotless to validate codestyle
   image: msfjarvis/docker-android-sdk:ubuntu-standalone
@@ -34,6 +38,14 @@ steps:
       exclude:
       - l10n_master
 
+- name: Run checks
+  image: msfjarvis/docker-android-sdk:ubuntu-standalone
+  commands:
+  - ./gradlew check
+  when:
+    event:
+    - pull_request
+
 - name: Build debug APK
   image: msfjarvis/docker-android-sdk:ubuntu-standalone
   commands:
@@ -42,6 +54,9 @@ steps:
     branch:
       exclude:
       - l10n_master
+    event:
+      exclude:
+      - pull_request
 
 - name: Deploy to Telegram
   image: msfjarvis/drone-telegram:latest
@@ -58,4 +73,5 @@ steps:
     event:
       exclude:
       - pull_request
+
 ...
