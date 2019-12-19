@@ -13,9 +13,6 @@ jobs:
     - name: Install coreutils
       run: brew install coreutils
 
-    - name: Install Android SDK
-      uses: malinskiy/action-android/install-sdk@release/0.0.3
-
     - name: Checkout repository and submodules
       uses: actions/checkout@v1
       with:
