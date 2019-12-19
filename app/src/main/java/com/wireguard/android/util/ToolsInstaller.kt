@@ -28,8 +28,9 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
 
     @Throws(NoRootException::class)
     fun areInstalled(): Int {
-        if (INSTALL_DIR == null)
+        if (INSTALL_DIR == null) {
             return ERROR
+        }
         val script = StringBuilder()
         for (name in EXECUTABLES) {
             script.append(
@@ -40,9 +41,17 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
         return try {
             val ret = rootShell.run(null, script.toString())
             if (ret == OsConstants.EALREADY) {
-                if (willInstallAsMagiskModule()) YES or MAGISK else YES or SYSTEM
+                if (willInstallAsMagiskModule()) {
+                    YES or MAGISK
+                } else {
+                    YES or SYSTEM
+                }
             } else {
-                if (willInstallAsMagiskModule()) NO or MAGISK else NO or SYSTEM
+                if (willInstallAsMagiskModule()) {
+                    NO or MAGISK
+                } else {
+                    NO or SYSTEM
+                }
             }
         } catch (_: IOException) {
             ERROR
@@ -61,14 +70,17 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
                 Timber.e(e)
                 false
             }
-            }
-        if (areToolsAvailable == false)
+        }
+        if (areToolsAvailable == false) {
             throw FileNotFoundException("Required tools unavailable")
+        }
     }
 
     @Synchronized
     private fun willInstallAsMagiskModule(): Boolean {
-        if (!isMagiskSu()) return false
+        if (!isMagiskSu()) {
+            return false
+        }
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
                 rootShell.run(
@@ -84,8 +96,9 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
 
     @Throws(NoRootException::class, IOException::class)
     private fun installSystem(): Int {
-        if (INSTALL_DIR == null)
+        if (INSTALL_DIR == null) {
             return OsConstants.ENOENT
+        }
         extract()
         val script = StringBuilder("set -ex; ")
         script.append("trap 'mount -o ro,remount /system' EXIT; mount -o rw,remount /system; ")
@@ -125,7 +138,11 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
         script.append("trap - INT TERM EXIT;")
 
         return try {
-            if (rootShell.run(null, script.toString()) == 0) YES or MAGISK else ERROR
+            if (rootShell.run(null, script.toString()) == 0) {
+                YES or MAGISK
+            } else {
+                ERROR
+            }
         } catch (_: IOException) {
             ERROR
         }
@@ -133,7 +150,11 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
 
     @Throws(NoRootException::class, IOException::class)
     fun install(): Int {
-        return if (willInstallAsMagiskModule()) installMagisk() else installSystem()
+        return if (willInstallAsMagiskModule()) {
+            installMagisk()
+        } else {
+            installSystem()
+        }
     }
 
     @Throws(IOException::class)
@@ -148,10 +169,12 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
         if (allExist) return false
         for (i in files.indices) {
             val file = requireNotNull(files[i])
-            if (!SharedLibraryLoader.extractNativeLibrary(context, EXECUTABLES[i], file))
+            if (!SharedLibraryLoader.extractNativeLibrary(context, EXECUTABLES[i], file)) {
                 throw FileNotFoundException("Unable to find ${EXECUTABLES[i]}")
-            if (!file.setExecutable(true, false))
+            }
+            if (!file.setExecutable(true, false)) {
                 throw IOException("Unable to mark ${file.absolutePath} as executable")
+            }
         }
         return true
     }
@@ -191,8 +214,9 @@ class ToolsInstaller(private val context: Context, private val rootShell: RootSh
             val path = System.getenv("PATH") ?: return INSTALL_DIRS[0]
             val paths = path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toList()
             for (dir in INSTALL_DIRS) {
-                if (paths.contains(dir.path) && dir.isDirectory)
+                if (paths.contains(dir.path) && dir.isDirectory) {
                     return dir
+                }
             }
             return null
         }

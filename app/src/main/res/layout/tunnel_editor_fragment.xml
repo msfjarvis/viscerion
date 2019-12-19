@@ -100,7 +100,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/private_key"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.privateKey}"
+                                android:text="@={config.interfaze.privateKey}"
                                 app:filter="@{KeyInputFilter.newInstance()}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,7 +124,7 @@
                                 android:hint="@string/public_key"
                                 android:onClick="@{ExtensionsKt::copyTextView}"
                                 android:singleLine="true"
-                                android:text="@{config.interface.publicKey}"/>
+                                android:text="@{config.interfaze.publicKey}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -143,7 +143,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/addresses"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.addresses}"/>
+                                android:text="@={config.interfaze.addresses}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -162,7 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/dns_servers"
                                 android:inputType="textNoSuggestions|textVisiblePassword"
-                                android:text="@={config.interface.dnsServers}"/>
+                                android:text="@={config.interfaze.dnsServers}"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -190,7 +190,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/listen_port"
                                     android:inputType="number"
-                                    android:text="@={config.interface.listenPort}"
+                                    android:text="@={config.interfaze.listenPort}"
                                     android:textAlignment="center"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -210,7 +210,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/mtu"
                                     android:inputType="number"
-                                    android:text="@={config.interface.mtu}"
+                                    android:text="@={config.interfaze.mtu}"
                                     android:textAlignment="center"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +231,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
                                 android:onClick="@{fragment::onRequestSetExcludedApplications}"
-                                android:text="@{@plurals/set_excluded_applications(config.interface.totalExclusionsCount, config.interface.totalExclusionsCount)}"
+                                android:text="@{@plurals/set_excluded_applications(config.interfaze.totalExclusionsCount, config.interfaze.totalExclusionsCount)}"
                                 android:textColor="?attr/colorSecondary"
                                 app:rippleColor="?attr/colorSecondary"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -244,7 +244,7 @@
                                 style="@style/Widget.MaterialComponents.Button.TextButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{() -> config.interface.generateKeyPair()}"
+                                android:onClick="@{() -> config.interfaze.generateKeyPair()}"
                                 android:text="@string/generate"
                                 android:textColor="?attr/colorSecondary"
                                 app:rippleColor="?attr/colorSecondary"

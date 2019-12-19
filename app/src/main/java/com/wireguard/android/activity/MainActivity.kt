@@ -71,11 +71,16 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     }
 
     override fun onBackStackChanged() {
-        if (actionBar == null)
+        if (actionBar == null) {
             return
+        }
         // Do not show the home menu when the two-pane layout is at the detail view (see above).
         val backStackEntries = supportFragmentManager.backStackEntryCount
-        val minBackStackEntries = if (isTwoPaneLayout) 2 else 1
+        val minBackStackEntries = if (isTwoPaneLayout) {
+            2
+        } else {
+            1
+        }
         actionBar?.setDisplayHomeAsUpEnabled(backStackEntries >= minBackStackEntries)
     }
 

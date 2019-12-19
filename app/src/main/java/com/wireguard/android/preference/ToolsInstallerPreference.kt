@@ -41,16 +41,17 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
     }
 
     private fun onCheckResult(state: Int, throwable: Throwable?) {
-        if (throwable != null || state == ToolsInstaller.ERROR)
+        if (throwable != null || state == ToolsInstaller.ERROR) {
             setState(State.INITIAL)
-        else if (state and ToolsInstaller.YES == ToolsInstaller.YES)
+        } else if (state and ToolsInstaller.YES == ToolsInstaller.YES) {
             setState(State.ALREADY)
-        else if (state and (ToolsInstaller.MAGISK or ToolsInstaller.NO) == ToolsInstaller.MAGISK or ToolsInstaller.NO)
+        } else if (state and (ToolsInstaller.MAGISK or ToolsInstaller.NO) == ToolsInstaller.MAGISK or ToolsInstaller.NO) {
             setState(State.INITIAL_MAGISK)
-        else if (state and (ToolsInstaller.SYSTEM or ToolsInstaller.NO) == ToolsInstaller.SYSTEM or ToolsInstaller.NO)
+        } else if (state and (ToolsInstaller.SYSTEM or ToolsInstaller.NO) == ToolsInstaller.SYSTEM or ToolsInstaller.NO) {
             setState(State.INITIAL_SYSTEM)
-        else
+        } else {
             setState(State.INITIAL)
+        }
     }
 
     override fun onClick() {
@@ -77,11 +78,13 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
     }
 
     private fun setState(state: State) {
-        if (this.state == state)
+        if (this.state == state) {
             return
+        }
         this.state = state
-        if (isEnabled != state.shouldEnableView)
+        if (isEnabled != state.shouldEnableView) {
             isEnabled = state.shouldEnableView
+        }
         notifyChanged()
     }
 

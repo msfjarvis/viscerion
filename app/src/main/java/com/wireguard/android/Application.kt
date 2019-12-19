@@ -57,7 +57,8 @@ class Application : android.app.Application() {
 
         updateAppTheme(getPrefs().useDarkTheme)
 
-        if (Build.VERSION.SDK_INT >= 26)
+        if (Build.VERSION.SDK_INT >= 26) {
             createNotificationChannel()
+        }
     }
 }

@@ -52,24 +52,26 @@ object ErrorMessages : KoinComponent {
 
     operator fun get(throwable: Throwable?): String {
         val resources = getContext().resources
-        if (throwable == null)
+        if (throwable == null) {
             return resources.getString(R.string.unknown_error)
+        }
         val rootCause = rootCause(throwable)
         val message: String
         when {
             rootCause is BadConfigException -> {
                 val reason = getBadConfigExceptionReason(resources, rootCause)
-                val context = if (rootCause.location == BadConfigException.Location.TOP_LEVEL)
+                val context = if (rootCause.location == BadConfigException.Location.TOP_LEVEL) {
                     resources.getString(
-                            R.string.bad_config_context_top_level,
-                            rootCause.section.name
+                        R.string.bad_config_context_top_level,
+                        rootCause.section.name
                     )
-                else
+                } else {
                     resources.getString(
-                            R.string.bad_config_context,
-                            rootCause.section.name,
-                            rootCause.location.name
+                        R.string.bad_config_context,
+                        rootCause.section.name,
+                        rootCause.location.name
                     )
+                }
                 val explanation = getBadConfigExceptionExplanation(resources, rootCause)
                 message = resources.getString(R.string.bad_config_error, reason, context) + explanation
             }
@@ -88,12 +90,14 @@ object ErrorMessages : KoinComponent {
     ): String {
         if (bce.cause is KeyFormatException) {
             val kfe = bce.cause
-            if (kfe.type == Type.LENGTH)
+            if (kfe.type == Type.LENGTH) {
                 return resources.getString(KFE_FORMAT_MAP[kfe.format] as Int)
+            }
         } else if (bce.cause is ParseException) {
             val pe = bce.cause
-            if (pe.message != null)
+            if (pe.message != null) {
                 return ": " + pe.message
+            }
         } else if (bce.location == BadConfigException.Location.LISTEN_PORT) {
             return resources.getString(R.string.bad_config_explanation_udp_port)
         } else if (bce.location == BadConfigException.Location.MTU) {
@@ -114,10 +118,11 @@ object ErrorMessages : KoinComponent {
         } else if (bce.cause is ParseException) {
             val pe = bce.cause
             val type = resources.getString(
-                    if (PE_CLASS_MAP.containsKey(pe.parsingClass))
+                    if (PE_CLASS_MAP.containsKey(pe.parsingClass)) {
                         PE_CLASS_MAP[pe.parsingClass] as Int
-                    else
+                    } else {
                         R.string.parse_error_generic
+                    }
             )
             return resources.getString(R.string.parse_error_reason, type, pe.text)
         }
@@ -127,8 +132,9 @@ object ErrorMessages : KoinComponent {
     private fun rootCause(throwable: Throwable): Throwable {
         var cause = throwable
         while (cause.cause != null) {
-            if (cause is BadConfigException)
+            if (cause is BadConfigException) {
                 break
+            }
             cause = cause.cause as Throwable
         }
         return cause

@@ -31,9 +31,11 @@ class RootShell(val context: Context) {
     private val isSuAvailable: Boolean
         get() {
             val path = System.getenv("PATH") ?: return false
-            for (dir in path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
-                if (File(dir, SU).canExecute())
+            for (dir in path.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+                if (File(dir, SU).canExecute()) {
                     return true
+                }
+            }
             return false
         }
 
@@ -87,10 +89,12 @@ class RootShell(val context: Context) {
                 Timber.d("stdout: %s", line)
             }
         }
-        if (markersSeen != 4)
+        if (markersSeen != 4) {
             throw IOException(context.getString(R.string.shell_marker_count_error, markersSeen))
-        if (errnoStdout != errnoStderr)
+        }
+        if (errnoStdout != errnoStderr) {
             throw IOException("Unable to read exit status")
+        }
         Timber.d("exit: %s", errnoStdout)
         return errnoStdout
     }
@@ -98,14 +102,18 @@ class RootShell(val context: Context) {
     @Synchronized
     @Throws(IOException::class, NoRootException::class)
     fun start() {
-        if (!isSuAvailable)
+        if (!isSuAvailable) {
             throw NoRootException(deviceNotRootedMessage)
-        if (isRunning())
+        }
+        if (isRunning()) {
             return
-        if (!localBinaryDir.isDirectory && !localBinaryDir.mkdirs())
+        }
+        if (!localBinaryDir.isDirectory && !localBinaryDir.mkdirs()) {
             throw FileNotFoundException("Could not create local binary directory")
-        if (!localTemporaryDir.isDirectory && !localTemporaryDir.mkdirs())
+        }
+        if (!localTemporaryDir.isDirectory && !localTemporaryDir.mkdirs()) {
             throw FileNotFoundException("Could not create local temporary directory")
+        }
         try {
             val builder = ProcessBuilder().command(SU)
             builder.environment()["LC_ALL"] = "C"
@@ -142,8 +150,9 @@ class RootShell(val context: Context) {
                 while (true) {
                     line = stderr.readLine() ?: break
                     Timber.w("Root check returned an error: %s", line)
-                    if (line.contains("Permission denied"))
+                    if (line.contains("Permission denied")) {
                         throw NoRootException(deviceNotRootedMessage)
+                    }
                 }
                 throw IOException(context.getString(R.string.shell_start_error, process!!.exitValue()))
             }

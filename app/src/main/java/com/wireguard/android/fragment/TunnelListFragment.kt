@@ -74,8 +74,9 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
 
     private fun importTunnel(uri: Uri?) {
         val activity = activity
-        if (activity == null || uri == null)
+        if (activity == null || uri == null) {
             return
+        }
         val contentResolver = activity.contentResolver
 
         val futureTunnels = ArrayList<CompletableFuture<Tunnel>>()
@@ -84,21 +85,25 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name = ""
             contentResolver.query(uri, columns, null, null, null)?.use { cursor ->
-                if (cursor.moveToFirst() && !cursor.isNull(0))
+                if (cursor.moveToFirst() && !cursor.isNull(0)) {
                     name = cursor.getString(0)
+                }
                 cursor.close()
             }
-            if (name.isEmpty())
+            if (name.isEmpty()) {
                 name = Uri.decode(uri.lastPathSegment)
+            }
             var idx = name.lastIndexOf('/')
             if (idx >= 0) {
                 require(idx < name.length - 1) { "Illegal file name: $name" }
                 name = name.substring(idx + 1)
             }
             val isZip = name.toLowerCase(Locale.ROOT).endsWith(".zip")
-            if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX))
+            if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX)) {
                 name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
-            else require(isZip) { "File must be .conf or .zip" }
+            } else {
+                require(isZip) { "File must be .conf or .zip" }
+            }
 
             if (isZip) {
                 ZipInputStream(contentResolver.openInputStream(uri)).use { zip ->
@@ -109,14 +114,16 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                         name = entry.name
                         idx = name.lastIndexOf('/')
                         if (idx >= 0) {
-                            if (idx >= name.length - 1)
+                            if (idx >= name.length - 1) {
                                 continue
+                            }
                             name = name.substring(name.lastIndexOf('/') + 1)
                         }
-                        if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX))
+                        if (name.toLowerCase(Locale.ROOT).endsWith(CONFIGURATION_FILE_SUFFIX)) {
                             name = name.substring(0, name.length - CONFIGURATION_FILE_SUFFIX.length)
-                        else
+                        } else {
                             continue
+                        }
                         val config: Config? = try {
                             Config.parse(reader)
                         } catch (e: Exception) {
@@ -124,8 +131,9 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                             null
                         }
 
-                        if (config != null)
+                        if (config != null) {
                             futureTunnels.add(tunnelManager.create(name, config).toCompletableFuture())
+                        }
                     }
                 }
             } else {
@@ -138,9 +146,11 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             }
 
             if (futureTunnels.isEmpty()) {
-                if (throwables.size == 1)
+                if (throwables.size == 1) {
                     throw throwables[0]
-                else require(throwables.isNotEmpty()) { "No configurations found" }
+                } else {
+                    require(throwables.isNotEmpty()) { "No configurations found" }
+                }
             }
             CompletableFuture.allOf(*futureTunnels.toTypedArray())
         }.whenComplete { future, exception ->
@@ -157,8 +167,9 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                             null
                         }
 
-                        if (tunnel != null)
+                        if (tunnel != null) {
                             tunnels.add(tunnel)
+                        }
                     }
                     onTunnelImportFinished(tunnels, throwables)
                 }
@@ -169,11 +180,12 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_IMPORT -> {
-                if (resultCode == AppCompatActivity.RESULT_OK)
+                if (resultCode == AppCompatActivity.RESULT_OK) {
                     data?.data?.also { uri ->
                         Timber.tag("TunnelImport").i("Import uri: $uri")
                         importTunnel(uri)
                     }
+                }
                 return
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
@@ -237,8 +249,9 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
     }
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
-        if (binding == null)
+        if (binding == null) {
             return
+        }
         tunnelManager.getTunnels().thenAccept { tunnels ->
             newTunnel?.let {
                 viewForTunnel(it, tunnels)?.setSingleSelected(true)
@@ -296,7 +309,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             tunnels.forEach { tunnel ->
                 val oldConfig = tunnel.getConfig()
                 oldConfig?.let {
-                    it.`interface`.excludedApplications.addAll(excludedApps)
+                    it.interfaze.excludedApplications.addAll(excludedApps)
                     tunnel.setConfig(it)
                 }
             }
@@ -364,13 +377,18 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         super.onViewStateRestored(savedInstanceState)
 
         setHasOptionsMenu(true)
-        if (binding == null)
+        if (binding == null) {
             return
+        }
         binding?.fragment = this
         tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
         binding?.rowConfigurationHandler =
                 object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
-                    override fun onConfigureRow(binding: TunnelListItemBinding, tunnel: Tunnel, position: Int) {
+                    override fun onConfigureRow(
+                        binding: TunnelListItemBinding,
+                        tunnel: Tunnel,
+                        position: Int
+                    ) {
                         binding.fragment = this@TunnelListFragment
                         binding.root.setOnClickListener {
                             if (actionMode == null) {
@@ -385,10 +403,11 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                         }
 
                         (binding.root as MultiselectableRelativeLayout).apply {
-                            if (actionMode != null)
+                            if (actionMode != null) {
                                 setMultiSelected(actionModeListener.checkedItems.contains(position))
-                            else
+                            } else {
                                 setSingleSelected(selectedTunnel == tunnel)
+                            }
                         }
                     }
                 }
@@ -502,7 +521,11 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             }
 
             val count = checkedItems.size
-            mode.title = if (count == 0) "" else resources?.getQuantityString(R.plurals.delete_title, count, count)
+            mode.title = if (count == 0) {
+                ""
+            } else {
+                resources?.getQuantityString(R.plurals.delete_title, count, count)
+            }
         }
     }
 

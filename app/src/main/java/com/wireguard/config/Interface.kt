@@ -80,8 +80,9 @@ class Interface private constructor(builder: Builder) : KoinComponent {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Interface)
+        if (other !is Interface) {
             return false
+        }
         return (addresses == other.addresses &&
                 dnsServers == other.dnsServers &&
                 excludedApplications == other.excludedApplications &&
@@ -122,18 +123,21 @@ class Interface private constructor(builder: Builder) : KoinComponent {
      */
     fun toWgQuickString(exporting: Boolean = false): String {
         val sb = StringBuilder()
-        val localExclusions = if (exporting)
+        val localExclusions = if (exporting) {
             excludedApplications - prefs.exclusions
-        else
+        } else {
             excludedApplications
-        if (addresses.isNotEmpty())
+        }
+        if (addresses.isNotEmpty()) {
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
+        }
         if (dnsServers.isNotEmpty()) {
             val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
-        if (localExclusions.isNotEmpty())
+        if (localExclusions.isNotEmpty()) {
             sb.append("ExcludedApplications = ").append(Attribute.join(localExclusions)).append('\n')
+        }
         listenPort?.let { lp -> sb.append("ListenPort = ").append(lp).append('\n') }
         mtu?.let { m -> sb.append("MTU = ").append(m).append('\n') }
         sb.append("PrivateKey = ").append(keyPair.privateKey.toBase64()).append('\n')
@@ -191,11 +195,12 @@ class Interface private constructor(builder: Builder) : KoinComponent {
 
         @Throws(BadConfigException::class)
         fun build(): Interface {
-            if (keyPair == null)
+            if (keyPair == null) {
                 throw BadConfigException(
-                        Section.INTERFACE, Location.PRIVATE_KEY,
-                        Reason.MISSING_ATTRIBUTE, null
+                    Section.INTERFACE, Location.PRIVATE_KEY,
+                    Reason.MISSING_ATTRIBUTE, null
                 )
+            }
             return Interface(this)
         }
 
@@ -207,8 +212,9 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         fun excludeApplications(applications: Collection<String>): Builder {
             excludedApplications.addAll(applications)
             prefs.exclusions.forEach { exclusion ->
-                if (exclusion !in excludedApplications)
+                if (exclusion !in excludedApplications) {
                     excludedApplications.add(exclusion)
+                }
             }
             return this
         }
@@ -216,8 +222,9 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         @Throws(BadConfigException::class)
         fun parseAddresses(addresses: CharSequence): Builder {
             try {
-                for (address in Attribute.split(addresses))
+                for (address in Attribute.split(addresses)) {
                     addAddress(InetNetwork.parse(address))
+                }
                 return this
             } catch (e: ParseException) {
                 throw BadConfigException(Section.INTERFACE, Location.ADDRESS, e)
@@ -227,8 +234,9 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         @Throws(BadConfigException::class)
         fun parseDnsServers(dnsServers: CharSequence): Builder {
             try {
-                for (dnsServer in Attribute.split(dnsServers))
+                for (dnsServer in Attribute.split(dnsServers)) {
                     addDnsServer(InetAddressUtils.parse(dnsServer))
+                }
                 return this
             } catch (e: ParseException) {
                 throw BadConfigException(Section.INTERFACE, Location.DNS, e)
@@ -277,22 +285,24 @@ class Interface private constructor(builder: Builder) : KoinComponent {
 
         @Throws(BadConfigException::class)
         fun setListenPort(listenPort: Int): Builder {
-            if (listenPort < MIN_UDP_PORT || listenPort > MAX_UDP_PORT)
+            if (listenPort < MIN_UDP_PORT || listenPort > MAX_UDP_PORT) {
                 throw BadConfigException(
-                        Section.INTERFACE, Location.LISTEN_PORT,
-                        Reason.INVALID_VALUE, listenPort.toString()
+                    Section.INTERFACE, Location.LISTEN_PORT,
+                    Reason.INVALID_VALUE, listenPort.toString()
                 )
+            }
             this.listenPort = if (listenPort == 0) 0 else listenPort
             return this
         }
 
         @Throws(BadConfigException::class)
         fun setMtu(mtu: Int): Builder {
-            if (mtu < 0)
+            if (mtu < 0) {
                 throw BadConfigException(
-                        Section.INTERFACE, Location.LISTEN_PORT,
-                        Reason.INVALID_VALUE, mtu.toString()
+                    Section.INTERFACE, Location.LISTEN_PORT,
+                    Reason.INVALID_VALUE, mtu.toString()
                 )
+            }
             this.mtu = if (mtu == 0) 0 else mtu
             return this
         }

@@ -14,18 +14,18 @@ import com.wireguard.config.Peer
 
 class ConfigProxy : Parcelable {
 
-    val `interface`: InterfaceProxy
+    val interfaze: InterfaceProxy
     val peers = ObservableArrayList<PeerProxy>()
 
-    private constructor(`in`: Parcel) {
-        `interface` = `in`.readParcelable<InterfaceProxy>(InterfaceProxy::class.java.classLoader) as InterfaceProxy
-        `in`.readTypedList(peers, PeerProxy.CREATOR)
+    private constructor(parcel: Parcel) {
+        interfaze = parcel.readParcelable<InterfaceProxy>(InterfaceProxy::class.java.classLoader) as InterfaceProxy
+        parcel.readTypedList(peers, PeerProxy.CREATOR)
         for (proxy in peers)
             proxy.bind(this)
     }
 
     constructor(other: Config) {
-        `interface` = InterfaceProxy(other.`interface`)
+        interfaze = InterfaceProxy(other.interfaze)
         for (peer in other.peers) {
             val proxy = PeerProxy(peer)
             peers.add(proxy)
@@ -34,7 +34,7 @@ class ConfigProxy : Parcelable {
     }
 
     constructor() {
-        `interface` = InterfaceProxy()
+        interfaze = InterfaceProxy()
     }
 
     fun addPeer(): PeerProxy {
@@ -54,19 +54,19 @@ class ConfigProxy : Parcelable {
         for (proxy in peers)
             resolvedPeers.add(proxy.resolve())
         return Config.Builder()
-                .setInterface(`interface`.resolve())
+                .setInterface(interfaze.resolve())
                 .addPeers(resolvedPeers)
                 .build()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeParcelable(`interface`, flags)
+        dest.writeParcelable(interfaze, flags)
         dest.writeTypedList<Parcelable>(peers as List<Parcelable>?)
     }
 
     private class ConfigProxyCreator : Parcelable.Creator<ConfigProxy> {
-        override fun createFromParcel(`in`: Parcel): ConfigProxy {
-            return ConfigProxy(`in`)
+        override fun createFromParcel(parcel: Parcel): ConfigProxy {
+            return ConfigProxy(parcel)
         }
 
         override fun newArray(size: Int): Array<ConfigProxy?> {

@@ -11,6 +11,7 @@ buildscript {
     }
     dependencies {
         classpath deps.gradle_plugin.android
+        classpath deps.gradle_plugin.detekt
         classpath deps.gradle_plugin.kotlin
         classpath deps.gradle_plugin.spotless
     }
@@ -23,6 +24,7 @@ plugins {
 subprojects {
     apply from: rootProject.file('dependencies.gradle')
     apply from: rootProject.file('spotless.gradle')
+    apply plugin: 'io.gitlab.arturbosch.detekt'
 
     repositories {
         google()
@@ -75,6 +77,15 @@ subprojects {
         kotlinOptions {
             jvmTarget = '1.8'
         }
+    }
+    detekt {
+        config = rootProject.files('detekt-config.yml')
+        baseline = project.file('detekt-baseline.xml')
+        parallel = true
+    }
+
+    afterEvaluate {
+        project.tasks.getByName('check').dependsOn 'detekt'
     }
 }
 

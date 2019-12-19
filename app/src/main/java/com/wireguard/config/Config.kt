@@ -28,7 +28,7 @@ class Config private constructor(builder: Builder) {
      *
      * @return the interface configuration
      */
-    val `interface`: Interface
+    val interfaze: Interface
     /**
      * Returns a list of the configuration's peer sections.
      *
@@ -37,19 +37,20 @@ class Config private constructor(builder: Builder) {
     val peers: List<Peer>
 
     init {
-        `interface` = requireNotNull(builder.`interface`) { "An [Interface] section is required" }
+        interfaze = requireNotNull(builder.interfaze) { "An [Interface] section is required" }
         // Defensively copy to ensure immutability even if the Builder is reused.
         peers = Collections.unmodifiableList(ArrayList(builder.peers))
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Config)
+        if (other !is Config) {
             return false
-        return `interface` == other.`interface` && peers == other.peers
+        }
+        return interfaze == other.interfaze && peers == other.peers
     }
 
     override fun hashCode(): Int {
-        return 31 * `interface`.hashCode() + peers.hashCode()
+        return 31 * interfaze.hashCode() + peers.hashCode()
     }
 
     /**
@@ -59,7 +60,7 @@ class Config private constructor(builder: Builder) {
      * @return a concise single-line identifier for the `Config`
      */
     override fun toString(): String {
-        return "(Config $`interface` (${peers.size}))"
+        return "(Config $interfaze (${peers.size}))"
     }
 
     /**
@@ -70,9 +71,10 @@ class Config private constructor(builder: Builder) {
      */
     fun toWgQuickString(exporting: Boolean = false): String {
         val sb = StringBuilder()
-        sb.append("[Interface]\n").append(`interface`.toWgQuickString(exporting))
-        for (peer in peers)
+        sb.append("[Interface]\n").append(interfaze.toWgQuickString(exporting))
+        for (peer in peers) {
             sb.append("\n[Peer]\n").append(peer.toWgQuickString())
+        }
         return sb.toString()
     }
 
@@ -83,10 +85,11 @@ class Config private constructor(builder: Builder) {
      */
     fun toWgUserspaceString(): String {
         val sb = StringBuilder()
-        sb.append(`interface`.toWgUserspaceString())
+        sb.append(interfaze.toWgUserspaceString())
         sb.append("replace_peers=true\n")
-        for (peer in peers)
+        for (peer in peers) {
             sb.append(peer.toWgUserspaceString())
+        }
         return sb.toString()
     }
 
@@ -94,7 +97,7 @@ class Config private constructor(builder: Builder) {
         // Defaults to an empty set.
         val peers = LinkedHashSet<Peer>()
         // No default; must be provided before building.
-        var `interface`: Interface? = null
+        var interfaze: Interface? = null
 
         private fun addPeer(peer: Peer): Builder {
             peers.add(peer)
@@ -107,7 +110,7 @@ class Config private constructor(builder: Builder) {
         }
 
         fun build(): Config {
-            requireNotNull(`interface`) { "An [Interface] section is required" }
+            requireNotNull(interfaze) { "An [Interface] section is required" }
             return Config(this)
         }
 
@@ -121,8 +124,8 @@ class Config private constructor(builder: Builder) {
             return addPeer(Peer.parse(lines))
         }
 
-        fun setInterface(`interface`: Interface): Builder {
-            this.`interface` = `interface`
+        fun setInterface(interfaze: Interface): Builder {
+            this.interfaze = interfaze
             return this
         }
     }
@@ -162,11 +165,13 @@ class Config private constructor(builder: Builder) {
             while (true) {
                 line = reader.readLine() ?: break
                 val commentIndex = line.indexOf('#')
-                if (commentIndex != -1)
+                if (commentIndex != -1) {
                     line = line.substring(0, commentIndex)
+                }
                 line = line.trim { it <= ' ' }
-                if (line.isEmpty())
+                if (line.isEmpty()) {
                     continue
+                }
                 when {
                     line.startsWith("[") -> {
                         // Consume all [Peer] lines read so far.
@@ -197,13 +202,14 @@ class Config private constructor(builder: Builder) {
                     )
                 }
             }
-            if (inPeerSection)
+            if (inPeerSection) {
                 builder.parsePeer(peerLines)
-            else if (!inInterfaceSection)
+            } else if (!inInterfaceSection) {
                 throw BadConfigException(
-                        Section.CONFIG, Location.TOP_LEVEL,
-                        Reason.MISSING_SECTION, null
+                    Section.CONFIG, Location.TOP_LEVEL,
+                    Reason.MISSING_SECTION, null
                 )
+            }
             // Combine all [Interface] sections in the file.
             builder.parseInterface(interfaceLines)
             return builder.build()

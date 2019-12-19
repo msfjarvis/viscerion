@@ -47,11 +47,13 @@ fun <E> setItems(
     newList: Iterable<E>?,
     newLayoutId: Int
 ) {
-    if (oldList == newList && oldLayoutId == newLayoutId)
+    if (oldList == newList && oldLayoutId == newLayoutId) {
         return
+    }
     view.removeAllViews()
-    if (newList == null)
+    if (newList == null) {
         return
+    }
     val layoutInflater = LayoutInflater.from(view.context)
     newList.forEach { item ->
         val binding: ViewDataBinding = DataBindingUtil.inflate(layoutInflater, newLayoutId, view, false)
@@ -70,8 +72,9 @@ fun <E> setItems(
     newList: ObservableList<E>?,
     newLayoutId: Int
 ) {
-    if (oldList == newList && oldLayoutId == newLayoutId)
+    if (oldList == newList && oldLayoutId == newLayoutId) {
         return
+    }
     var listener: ItemChangeListener<E>? =
             ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
     // If the layout changes, any existing listener must be replaced.
@@ -82,8 +85,9 @@ fun <E> setItems(
         ListenerUtil.trackListener<Any>(view, null, R.id.item_change_listener)
     }
     // Avoid adding a listener when there is no new list or layout.
-    if (newList == null || newLayoutId == 0)
+    if (newList == null || newLayoutId == 0) {
         return
+    }
     if (listener == null) {
         listener = ItemChangeListener(view, newLayoutId)
         ListenerUtil.trackListener(view, listener, R.id.item_change_listener)
@@ -103,11 +107,13 @@ fun <K, E : Keyed<out K>> setItems(
     newLayoutId: Int,
     newRowConfigurationHandler: ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<ViewDataBinding, E>? = null
 ) {
-    if (view.layoutManager == null)
+    if (view.layoutManager == null) {
         view.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
+    }
 
-    if (oldList == newList && oldLayoutId == newLayoutId)
+    if (oldList == newList && oldLayoutId == newLayoutId) {
         return
+    }
     // The ListAdapter interface is not generic, so this cannot be checked.
     var adapter = view.adapter as ObservableKeyedRecyclerViewAdapter<K, E>?
     // If the layout changes, any existing adapter must be replaced.
@@ -116,8 +122,9 @@ fun <K, E : Keyed<out K>> setItems(
         adapter = null
     }
     // Avoid setting an adapter when there is no new list or layout.
-    if (newList == null || newLayoutId == 0)
+    if (newList == null || newLayoutId == 0) {
         return
+    }
     if (adapter == null) {
         adapter = ObservableKeyedRecyclerViewAdapter(view.context, newLayoutId, newList)
         view.adapter = adapter
@@ -147,5 +154,9 @@ fun setText(view: TextView, text: Any?) {
 
 @BindingAdapter("android:text")
 fun setText(view: TextView, networks: Iterable<InetNetwork>?) {
-    view.text = if (networks != null) Attribute.join(networks) else ""
+    view.text = if (networks != null) {
+        Attribute.join(networks)
+    } else {
+        ""
+    }
 }

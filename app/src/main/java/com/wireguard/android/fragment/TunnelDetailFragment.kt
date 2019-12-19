@@ -96,12 +96,15 @@ class TunnelDetailFragment : BaseFragment() {
     }
 
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
-        if (binding == null) return
+        if (binding == null) {
+            return
+        }
         binding?.tunnel = newTunnel
-        if (newTunnel == null)
+        if (newTunnel == null) {
             binding?.config = null
-        else
+        } else {
             newTunnel.configAsync.thenAccept { a -> binding?.config = a }
+        }
         lastState = State.TOGGLE
         updateStats()
     }

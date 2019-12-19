@@ -33,8 +33,9 @@ class KeyInputFilter : InputFilter {
                     dLength + (sIndex - start) < Key.Format.BASE64.length) {
                 ++rIndex
             } else {
-                if (replacement == null)
+                if (replacement == null) {
                     replacement = SpannableStringBuilder(source, start, end)
+                }
                 replacement.delete(rIndex, rIndex + 1)
             }
         }

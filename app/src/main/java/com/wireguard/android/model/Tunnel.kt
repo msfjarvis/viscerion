@@ -63,15 +63,17 @@ class Tunnel internal constructor(
 
     @Bindable
     fun getConfig(): Config? {
-        if (config == null)
+        if (config == null) {
             manager.getTunnelConfig(this).whenComplete(ExceptionLoggers.E)
+        }
         return config
     }
 
     @Bindable
     fun getStatistics(): Statistics? {
-        if (statistics == null || statistics!!.isStale())
+        if (statistics == null || statistics!!.isStale()) {
             TunnelManager.getTunnelStatistics(this).whenComplete(ExceptionLoggers.E)
+        }
         return statistics
     }
 
@@ -88,8 +90,9 @@ class Tunnel internal constructor(
     }
 
     fun onStateChanged(state: State?): State? {
-        if (state != State.UP)
+        if (state != State.UP) {
             onStatisticsChanged(null)
+        }
         this.state = state
         notifyPropertyChanged(BR.state)
         return state
@@ -102,23 +105,27 @@ class Tunnel internal constructor(
     }
 
     fun setConfig(config: Config): CompletionStage<Config> {
-        return if (config != this.config) manager.setTunnelConfig(this, config) else CompletableFuture.completedFuture(
-                this.config
-        )
+        return if (config != this.config) {
+            manager.setTunnelConfig(this, config)
+        } else {
+            CompletableFuture.completedFuture(this.config)
+        }
     }
 
     fun setName(name: String): CompletionStage<String> {
-        return if (name != this.name) manager.setTunnelName(
-                this,
-                name
-        ) else CompletableFuture.completedFuture(this.name)
+        return if (name != this.name) {
+            manager.setTunnelName(this, name)
+        } else {
+            CompletableFuture.completedFuture(this.name)
+        }
     }
 
     fun setState(state: State): CompletionStage<State> {
-        return if (state != this.state) manager.setTunnelState(
-                this,
-                state
-        ) else CompletableFuture.completedFuture(this.state)
+        return if (state != this.state) {
+            manager.setTunnelState(this, state)
+        } else {
+            CompletableFuture.completedFuture(this.state)
+        }
     }
 
     fun createToggleIntent(): Intent {
@@ -140,7 +147,11 @@ class Tunnel internal constructor(
 
         companion object {
             fun of(running: Boolean): State {
-                return if (running) UP else DOWN
+                return if (running) {
+                    UP
+                } else {
+                    DOWN
+                }
             }
         }
     }
@@ -163,11 +174,19 @@ class Tunnel internal constructor(
         }
 
         fun peerRx(peer: Key?): Long {
-            return if (!peerBytes.containsKey(peer)) 0 else peerBytes[peer]!!.first
+            return if (!peerBytes.containsKey(peer)) {
+                0
+            } else {
+                peerBytes[peer]!!.first
+            }
         }
 
         fun peerTx(peer: Key?): Long {
-            return if (!peerBytes.containsKey(peer)) 0 else peerBytes[peer]!!.second
+            return if (!peerBytes.containsKey(peer)) {
+                0
+            } else {
+                peerBytes[peer]!!.second
+            }
         }
 
         fun totalRx(): Long {

@@ -38,8 +38,9 @@ object InetAddressUtils {
      */
     @Throws(ParseException::class)
     fun parse(address: String): InetAddress {
-        if (address.isEmpty())
+        if (address.isEmpty()) {
             throw ParseException(InetAddress::class.java, address, "Empty address")
+        }
         try {
             return when {
                 Build.VERSION.SDK_INT >= 29 -> InetAddresses.parseNumericAddress(address)
@@ -52,13 +53,15 @@ object InetAddressUtils {
             val cause = e.cause
             // Re-throw parsing exceptions with the original type, as callers might try to catch
             // them. On the other hand, callers cannot be expected to handle reflection failures.
-            if (cause is IllegalArgumentException)
+            if (cause is IllegalArgumentException) {
                 throw ParseException(InetAddress::class.java, address, cause)
+            }
             try {
-                if (WONT_TOUCH_RESOLVER.matcher(address).matches())
+                if (WONT_TOUCH_RESOLVER.matcher(address).matches()) {
                     return InetAddress.getByName(address)
-                else
+                } else {
                     throw ParseException(InetAddress::class.java, address, "Not an IP address")
+                }
             } catch (f: UnknownHostException) {
                 throw ParseException(InetAddress::class.java, address, f)
             }

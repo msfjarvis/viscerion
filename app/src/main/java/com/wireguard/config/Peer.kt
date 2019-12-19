@@ -63,8 +63,9 @@ class Peer private constructor(builder: Builder) {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Peer)
+        if (other !is Peer) {
             return false
+        }
         return (allowedIps == other.allowedIps &&
                 endpoint == other.endpoint &&
                 persistentKeepalive == other.persistentKeepalive &&
@@ -104,7 +105,9 @@ class Peer private constructor(builder: Builder) {
      */
     fun toWgQuickString(): String {
         val sb = StringBuilder()
-        if (allowedIps.isNotEmpty()) sb.append("AllowedIPs = ").append(Attribute.join(allowedIps)).append('\n')
+        if (allowedIps.isNotEmpty()) {
+            sb.append("AllowedIPs = ").append(Attribute.join(allowedIps)).append('\n')
+        }
         endpoint?.let { ep -> sb.append("Endpoint = ").append(ep).append('\n') }
         persistentKeepalive?.let { pk -> sb.append("PersistentKeepalive = ").append(pk).append('\n') }
         preSharedKey?.let { psk -> sb.append("PreSharedKey = ").append(psk.toBase64()).append('\n') }
@@ -122,8 +125,9 @@ class Peer private constructor(builder: Builder) {
         val sb = StringBuilder()
         // The order here is important: public_key signifies the beginning of a new peer.
         sb.append("public_key=").append(publicKey.toHex()).append('\n')
-        for (allowedIp in allowedIps)
+        for (allowedIp in allowedIps) {
             sb.append("allowed_ip=").append(allowedIp).append('\n')
+        }
         endpoint?.getResolved().let { ep -> sb.append("endpoint=").append(ep).append('\n') }
         persistentKeepalive?.let { pk -> sb.append("persistent_keepalive_interval=").append(pk).append('\n') }
         preSharedKey?.let { psk -> sb.append("preshared_key=").append(psk.toHex()).append('\n') }
@@ -155,19 +159,21 @@ class Peer private constructor(builder: Builder) {
 
         @Throws(BadConfigException::class)
         fun build(): Peer {
-            if (publicKey == null)
+            if (publicKey == null) {
                 throw BadConfigException(
-                        Section.PEER, Location.PUBLIC_KEY,
-                        Reason.MISSING_ATTRIBUTE, null
+                    Section.PEER, Location.PUBLIC_KEY,
+                    Reason.MISSING_ATTRIBUTE, null
                 )
+            }
             return Peer(this)
         }
 
         @Throws(BadConfigException::class)
         fun parseAllowedIPs(allowedIps: CharSequence): Builder {
             try {
-                for (allowedIp in Attribute.split(allowedIps))
+                for (allowedIp in Attribute.split(allowedIps)) {
                     addAllowedIp(InetNetwork.parse(allowedIp))
+                }
                 return this
             } catch (e: ParseException) {
                 throw BadConfigException(Section.PEER, Location.ALLOWED_IPS, e)
@@ -220,11 +226,12 @@ class Peer private constructor(builder: Builder) {
 
         @Throws(BadConfigException::class)
         fun setPersistentKeepalive(persistentKeepalive: Int): Builder {
-            if (persistentKeepalive < 0 || persistentKeepalive > MAX_PERSISTENT_KEEPALIVE)
+            if (persistentKeepalive < 0 || persistentKeepalive > MAX_PERSISTENT_KEEPALIVE) {
                 throw BadConfigException(
-                        Section.PEER, Location.PERSISTENT_KEEPALIVE,
-                        Reason.INVALID_VALUE, persistentKeepalive.toString()
+                    Section.PEER, Location.PERSISTENT_KEEPALIVE,
+                    Reason.INVALID_VALUE, persistentKeepalive.toString()
                 )
+            }
             this.persistentKeepalive = persistentKeepalive
             return this
         }

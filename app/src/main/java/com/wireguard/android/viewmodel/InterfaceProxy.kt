@@ -28,14 +28,14 @@ class InterfaceProxy : BaseObservable, Parcelable {
     var publicKey = ObservableField<String>("")
         private set
 
-    private constructor(`in`: Parcel) {
-        addresses.set(`in`.readString())
-        dnsServers.set(`in`.readString())
-        `in`.readStringList(excludedApplications)
-        listenPort.set(`in`.readString())
-        mtu.set(`in`.readString())
-        privateKey.set(`in`.readString())
-        publicKey.set(`in`.readString())
+    private constructor(parcel: Parcel) {
+        addresses.set(parcel.readString())
+        dnsServers.set(parcel.readString())
+        parcel.readStringList(excludedApplications)
+        listenPort.set(parcel.readString())
+        mtu.set(parcel.readString())
+        privateKey.set(parcel.readString())
+        publicKey.set(parcel.readString())
         totalExclusionsCount.set(excludedApplications.size)
     }
 
@@ -87,8 +87,8 @@ class InterfaceProxy : BaseObservable, Parcelable {
     }
 
     private class InterfaceProxyCreator : Parcelable.Creator<InterfaceProxy> {
-        override fun createFromParcel(`in`: Parcel): InterfaceProxy {
-            return InterfaceProxy(`in`)
+        override fun createFromParcel(parcel: Parcel): InterfaceProxy {
+            return InterfaceProxy(parcel)
         }
 
         override fun newArray(size: Int): Array<InterfaceProxy?> {

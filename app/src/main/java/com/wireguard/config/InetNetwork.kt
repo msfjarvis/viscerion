@@ -17,8 +17,9 @@ import java.net.InetAddress
 class InetNetwork private constructor(val address: InetAddress, val mask: Int) {
 
     override fun equals(other: Any?): Boolean {
-        if (other !is InetNetwork)
+        if (other !is InetNetwork) {
             return false
+        }
         return address == other.address && mask == other.mask
     }
 
@@ -53,10 +54,19 @@ class InetNetwork private constructor(val address: InetAddress, val mask: Int) {
                 rawAddress = network
             }
             val address = InetAddressUtils.parse(rawAddress)
-            val maxMask = if (address is Inet4Address) 32 else 128
-            if (rawMask > maxMask)
+            val maxMask = if (address is Inet4Address) {
+                32
+            } else {
+                128
+            }
+            if (rawMask > maxMask) {
                 throw ParseException(InetNetwork::class.java, maskString, "Invalid network mask")
-            val mask = if (rawMask in 0..maxMask) rawMask else maxMask
+            }
+            val mask = if (rawMask in 0..maxMask) {
+                rawMask
+            } else {
+                maxMask
+            }
             return InetNetwork(address, mask)
         }
     }

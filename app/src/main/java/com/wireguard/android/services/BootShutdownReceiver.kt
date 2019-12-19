@@ -21,14 +21,15 @@ import org.koin.core.KoinComponent
 import timber.log.Timber
 
 class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
+    private val tunnelManager = getTunnelManager()
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == null) return
         getBackendAsync().thenAccept { backend ->
-            if (backend !is WgQuickBackend)
+            if (backend !is WgQuickBackend) {
                 return@thenAccept
+            }
             val action = intent.action
-            val tunnelManager = getTunnelManager()
             if (Intent.ACTION_BOOT_COMPLETED == action) {
                 Timber.i("Broadcast receiver attempting to restore state (boot)")
                 val restoreWork = OneTimeWorkRequestBuilder<TunnelRestoreWork>()

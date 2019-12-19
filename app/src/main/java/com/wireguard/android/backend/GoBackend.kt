@@ -86,7 +86,9 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
         var tx: Long = 0
         for (line in config.split("\\n").toTypedArray()) {
             if (line.startsWith("public_key=")) {
-                if (key != null) stats.add(key, rx, tx)
+                if (key != null) {
+                    stats.add(key, rx, tx)
+                }
                 rx = 0
                 tx = 0
                 key = try {
@@ -95,14 +97,18 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
                     null
                 }
             } else if (line.startsWith("rx_bytes=")) {
-                if (key == null) continue
+                if (key == null) {
+                    continue
+                }
                 rx = try {
                     line.substring(9).toLong()
                 } catch (_: NumberFormatException) {
                     0
                 }
             } else if (line.startsWith("tx_bytes=")) {
-                if (key == null) continue
+                if (key == null) {
+                    continue
+                }
                 tx = try {
                     line.substring(9).toLong()
                 } catch (_: NumberFormatException) {
@@ -117,10 +123,12 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
     override fun setState(tunnel: Tunnel, state: Tunnel.State): Tunnel.State {
         val originalState = getState(tunnel)
         var finalState = state
-        if (state == Tunnel.State.TOGGLE)
+        if (state == Tunnel.State.TOGGLE) {
             finalState = if (originalState == Tunnel.State.UP) Tunnel.State.DOWN else Tunnel.State.UP
-        if (state == originalState)
+        }
+        if (state == originalState) {
             return originalState
+        }
         check(!(state == Tunnel.State.UP && currentTunnel != null)) { context.getString(R.string.multiple_tunnels_error) }
         Timber.d("Changing tunnel ${tunnel.name} to state $finalState ")
         setStateInternal(tunnel, tunnel.getConfig(), finalState)
@@ -144,15 +152,18 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
         if (state == Tunnel.State.UP) {
             Timber.i("Bringing tunnel up")
 
-            if (config == null)
+            if (config == null) {
                 throw NullPointerException(context.getString(R.string.no_config_error))
+            }
 
-            if (VpnService.prepare(this.context) != null)
+            if (VpnService.prepare(this.context) != null) {
                 throw Exception(context.getString(R.string.vpn_not_authorized_error))
+            }
 
             val service: VpnService
-            if (!vpnService.isDone)
+            if (!vpnService.isDone) {
                 startVpnService()
+            }
 
             try {
                 service = vpnService.get(2, TimeUnit.SECONDS)
@@ -177,20 +188,20 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
             if (prefs.whitelistApps) {
-                (config.`interface`.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
+                (config.interfaze.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
                     builder.addAllowedApplication(excludedApplication)
                 }
             } else {
-                (config.`interface`.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
+                (config.interfaze.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
                     builder.addDisallowedApplication(excludedApplication)
                 }
             }
 
-            config.`interface`.addresses.forEach { addr ->
+            config.interfaze.addresses.forEach { addr ->
                 builder.addAddress(addr.address, addr.mask)
             }
 
-            config.`interface`.dnsServers.forEach { dns ->
+            config.interfaze.dnsServers.forEach { dns ->
                 builder.addDnsServer(dns.hostAddress)
             }
 
@@ -200,23 +211,27 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= 29)
+            if (Build.VERSION.SDK_INT >= 29) {
                 builder.setMetered(false)
+            }
 
-            var mtu = config.`interface`.mtu
-            if (mtu == null || mtu == 0)
+            var mtu = config.interfaze.mtu
+            if (mtu == null || mtu == 0) {
                 mtu = 1280
+            }
             builder.setMtu(mtu)
 
             builder.setBlocking(true)
             builder.establish().use { tun ->
-                if (tun == null)
+                if (tun == null) {
                     throw Exception(context.getString(R.string.tun_create_error))
+                }
                 Timber.d("Go backend v%s", wgVersion())
                 currentTunnelHandle = wgTurnOn(tunnel.name, tun.detachFd(), goConfig)
             }
-            if (currentTunnelHandle < 0)
+            if (currentTunnelHandle < 0) {
                 throw Exception(context.getString(R.string.tunnel_on_error, currentTunnelHandle))
+            }
 
             currentTunnel = tunnel
 
@@ -257,8 +272,9 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
         override fun onDestroy() {
             tunnelManager.getTunnels().thenAccept { tunnels ->
                 tunnels.forEach { tunnel ->
-                    if (tunnel.state != Tunnel.State.DOWN)
+                    if (tunnel.state != Tunnel.State.DOWN) {
                         tunnel.setState(Tunnel.State.DOWN)
+                    }
                 }
             }
 

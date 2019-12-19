@@ -39,8 +39,9 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
     @Throws(Exception::class)
     override fun getVersion(): String {
         val output = ArrayList<String>()
-        if (rootShell.run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty())
+        if (rootShell.run(output, "cat /sys/module/wireguard/version") != 0 || output.isEmpty()) {
             throw Exception(context.getString(R.string.module_version_error))
+        }
         return output[0]
     }
 
@@ -69,8 +70,9 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
         // Don't throw an exception here or nothing will show up in the UI.
         try {
             toolsInstaller.ensureToolsAvailable()
-            if (rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty())
+            if (rootShell.run(output, "wg show interfaces") != 0 || output.isEmpty()) {
                 return emptySet()
+            }
         } catch (e: Exception) {
             Timber.w(e, "Unable to enumerate running tunnels")
             return emptySet()
@@ -81,7 +83,11 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
     }
 
     override fun getState(tunnel: Tunnel): State {
-        return if (enumerate().contains(tunnel.name)) State.UP else State.DOWN
+        return if (enumerate().contains(tunnel.name)) {
+            State.UP
+        } else {
+            State.DOWN
+        }
     }
 
     override fun getStatistics(tunnel: Tunnel): Statistics? {
@@ -96,7 +102,9 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
         }
         for (line in output) {
             val parts = line.split("\\t".toRegex()).toTypedArray()
-            if (parts.size != 3) continue
+            if (parts.size != 3) {
+                continue
+            }
             try {
                 stats.add(
                     Key.fromBase64(parts[0]),
@@ -113,10 +121,16 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
     override fun setState(tunnel: Tunnel, state: State): State {
         var stateToSet = state
         val originalState = getState(tunnel)
-        if (stateToSet == State.TOGGLE)
-            stateToSet = if (originalState == State.UP) State.DOWN else State.UP
-        if (stateToSet == originalState)
+        if (stateToSet == State.TOGGLE) {
+            stateToSet = if (originalState == State.UP) {
+                State.DOWN
+            } else {
+                State.UP
+            }
+        }
+        if (stateToSet == originalState) {
             return originalState
+        }
         Timber.d("Changing tunnel %s to state %s", tunnel.name, stateToSet)
         toolsInstaller.ensureToolsAvailable()
         setStateInternal(tunnel, stateToSet, tunnel.getConfig())
@@ -160,8 +174,9 @@ class WgQuickBackend(private val context: Context, private val toolsInstaller: T
                 false
         ).use { stream -> stream.write(config.toWgQuickString().toByteArray(StandardCharsets.UTF_8)) }
         var command = "wg-quick $state '${tempFile.absolutePath}'"
-        if (state == State.UP)
+        if (state == State.UP) {
             command = "cat /sys/module/wireguard/version && $command"
+        }
         val result = rootShell.run(null, command)
 
         tempFile.delete()

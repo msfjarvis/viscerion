@@ -22,8 +22,9 @@ abstract class BaseActivity : AppCompatActivity() {
     var selectedTunnel: Tunnel? = null
         set(tunnel) {
             val oldTunnel = this.selectedTunnel
-            if (oldTunnel == tunnel)
+            if (oldTunnel == tunnel) {
                 return
+            }
             field = tunnel
             onSelectedTunnelChanged(oldTunnel, tunnel)
             selectionChangeRegistry.notifyCallbacks(oldTunnel, 0, tunnel)

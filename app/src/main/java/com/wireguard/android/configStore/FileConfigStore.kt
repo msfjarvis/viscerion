@@ -27,8 +27,9 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     override fun create(name: String, config: Config): Config {
         Timber.d("Creating configuration for tunnel $name")
         val file = fileFor(name)
-        if (!file.createNewFile())
+        if (!file.createNewFile()) {
             throw IOException(context.getString(R.string.config_file_exists_error, file.name))
+        }
         FileOutputStream(
                 file,
                 false
@@ -40,8 +41,9 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     override fun delete(name: String) {
         Timber.d("Deleting configuration for tunnel $name")
         val file = fileFor(name)
-        if (!file.delete())
+        if (!file.delete()) {
             throw IOException(context.getString(R.string.config_delete_error, file.name))
+        }
     }
 
     override fun enumerate(): Set<String> {
@@ -65,11 +67,13 @@ class FileConfigStore(private val context: Context) : ConfigStore {
         Timber.d("Renaming configuration for tunnel $name to $replacement")
         val file = fileFor(name)
         val replacementFile = fileFor(replacement)
-        if (!replacementFile.createNewFile())
+        if (!replacementFile.createNewFile()) {
             throw IOException(context.getString(R.string.config_exists_error, replacement))
+        }
         if (!file.renameTo(replacementFile)) {
-            if (!replacementFile.delete())
+            if (!replacementFile.delete()) {
                 Timber.w("Couldn't delete marker file for new name $replacement")
+            }
             throw IOException(context.getString(R.string.config_rename_error, file.name))
         }
     }
@@ -78,8 +82,9 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     override fun save(name: String, config: Config): Config {
         Timber.d("Saving configuration for tunnel $name")
         val file = fileFor(name)
-        if (!file.isFile)
+        if (!file.isFile) {
             throw FileNotFoundException(context.getString(R.string.config_not_found_error, file.name))
+        }
         FileOutputStream(
                 file,
                 false

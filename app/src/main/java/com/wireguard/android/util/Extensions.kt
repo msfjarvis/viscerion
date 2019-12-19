@@ -107,8 +107,9 @@ fun copyTextView(view: View) {
         is TextView -> Pair(view.text, view.contentDescription)
         else -> return
     }
-    if (data.first == null || data.first.isEmpty())
+    if (data.first == null || data.first.isEmpty()) {
         return
+    }
     val service = view.context.getSystemService<ClipboardManager>() ?: return
     service.setPrimaryClip(ClipData.newPlainText(data.second, data.first))
     Snackbar.make(view, "${data.second} copied to clipboard", Snackbar.LENGTH_LONG).show()

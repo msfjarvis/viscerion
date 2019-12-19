@@ -28,13 +28,14 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
             getAsyncWorker().supplyAsync {
                 backend.getVersion()
             }.whenComplete { version, exception ->
-                versionSummary = if (exception == null)
+                versionSummary = if (exception == null) {
                     getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
-                else
+                } else {
                     getContext().getString(
-                            R.string.version_summary_unknown,
-                            backend.getTypePrettyName().toLowerCase(Locale.ROOT)
+                        R.string.version_summary_unknown,
+                        backend.getTypePrettyName().toLowerCase(Locale.ROOT)
                     )
+                }
                 notifyChanged()
             }
         }

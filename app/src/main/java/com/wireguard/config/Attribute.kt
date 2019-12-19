@@ -19,13 +19,14 @@ class Attribute private constructor(val key: String, val value: String) {
 
         fun parse(line: CharSequence): Attribute? {
             val matcher = LINE_PATTERN.matcher(line)
-            return if (matcher.matches())
+            return if (matcher.matches()) {
                 Attribute(
-                        requireNotNull(matcher.group(1)),
-                        requireNotNull(matcher.group(2))
+                    requireNotNull(matcher.group(1)),
+                    requireNotNull(matcher.group(2))
                 )
-            else
+            } else {
                 null
+            }
         }
 
         fun split(value: CharSequence): Array<String> {

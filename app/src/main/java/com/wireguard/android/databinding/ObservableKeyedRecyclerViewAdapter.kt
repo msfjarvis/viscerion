@@ -43,7 +43,11 @@ class ObservableKeyedRecyclerViewAdapter<K, E : Keyed<out K>> internal construct
 
     private fun getItem(position: Int): E? {
         return list?.let {
-            if (position < 0 || position >= it.size) null else it[position]
+            if (position < 0 || position >= it.size) {
+                null
+            } else {
+                it[position]
+            }
         }
     }
 
@@ -94,10 +98,11 @@ class ObservableKeyedRecyclerViewAdapter<K, E : Keyed<out K>> internal construct
 
         override fun onChanged(sender: ObservableList<E>) {
             val adapter = weakAdapter.get()
-            if (adapter != null)
+            if (adapter != null) {
                 adapter.notifyDataSetChanged()
-            else
+            } else {
                 sender.removeOnListChangedCallback(this)
+            }
         }
 
         override fun onItemRangeChanged(

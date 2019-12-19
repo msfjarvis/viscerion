@@ -88,7 +88,11 @@ class QuickTileService : TileService() {
         if (tunnel != null) {
             val tile = qsTile
             if (tile != null) {
-                tile.icon = if (tile.icon == iconOn) iconOff else iconOn
+                tile.icon = if (tile.icon == iconOn) {
+                    iconOff
+                } else {
+                    iconOn
+                }
                 tile.updateTile()
             }
             tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
@@ -132,17 +136,22 @@ class QuickTileService : TileService() {
         val tile = qsTile ?: return
         if (tunnel != null) {
             label = tunnel?.name
-            state = if (tunnel?.state == State.UP)
+            state = if (tunnel?.state == State.UP) {
                 Tile.STATE_ACTIVE
-            else
+            } else {
                 Tile.STATE_INACTIVE
+            }
         } else {
             label = getString(R.string.app_name)
             state = Tile.STATE_INACTIVE
         }
         tile.label = label
         if (tile.state != state) {
-            tile.icon = if (tile.icon == iconOn) iconOff else iconOn
+            tile.icon = if (tile.icon == iconOn) {
+                iconOff
+            } else {
+                iconOn
+            }
             tile.state = state
         }
         tile.updateTile()
@@ -154,16 +163,18 @@ class QuickTileService : TileService() {
                 sender.removeOnPropertyChangedCallback(this)
                 return
             }
-            if (propertyId != 0 && propertyId != BR.state)
+            if (propertyId != 0 && propertyId != BR.state) {
                 return
+            }
             updateTile()
         }
     }
 
     private inner class OnTunnelChangedCallback : OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-            if (propertyId != 0 && propertyId != BR.lastUsedTunnel)
+            if (propertyId != 0 && propertyId != BR.lastUsedTunnel) {
                 return
+            }
             updateTile()
         }
     }

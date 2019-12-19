@@ -81,8 +81,9 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             is TunnelListItemBinding -> binding.item
             else -> return
         }
-        if (tunnel == null)
+        if (tunnel == null) {
             return
+        }
 
         getBackendAsync().thenAccept { backend ->
             if (backend is GoBackend) {
@@ -106,10 +107,11 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             val messageResId = if (checked) R.string.error_up else R.string.error_down
             val message = context?.getString(messageResId, error)
             val view = view
-            if (view != null && message != null)
+            if (view != null && message != null) {
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
-            else
+            } else {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
             Timber.e(throwable)
         }
     }

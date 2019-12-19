@@ -46,7 +46,7 @@ class ConfigTest : KoinTest {
         assertNotNull("Valid configs cannot not be null after parsing", config)
         assertTrue(
             "No applications should be excluded by default",
-            config.`interface`.excludedApplications.isEmpty()
+            config.interfaze.excludedApplications.isEmpty()
         )
         assertTrue("Test config has exactly one peer", config.peers.size == 1)
         assertTrue(
@@ -54,10 +54,10 @@ class ConfigTest : KoinTest {
             config.peers.getOrNull(0)!!.allowedIps ==
                 setOf(InetNetwork.parse("0.0.0.0/0"), InetNetwork.parse("::0/0"))
         )
-        assertTrue("Test config has one DNS server", config.`interface`.dnsServers.size == 1)
+        assertTrue("Test config has one DNS server", config.interfaze.dnsServers.size == 1)
         assertTrue(
             "",
-            config.`interface`.dnsServers == setOf(InetAddressUtils.parse("193.138.218.74"))
+            config.interfaze.dnsServers == setOf(InetAddressUtils.parse("193.138.218.74"))
         )
     }
 

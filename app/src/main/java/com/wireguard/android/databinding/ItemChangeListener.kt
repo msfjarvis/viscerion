@@ -38,8 +38,9 @@ internal class ItemChangeListener<T>(private val container: ViewGroup, private v
     }
 
     fun setList(newList: ObservableList<T>?) {
-        if (list != null)
+        if (list != null) {
             list?.removeOnListChangedCallback(callback)
+        }
         list = newList
         if (list != null) {
             list?.let {

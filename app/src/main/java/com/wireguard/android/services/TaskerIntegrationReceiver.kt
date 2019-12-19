@@ -17,13 +17,13 @@ import org.koin.core.KoinComponent
 import timber.log.Timber
 
 class TaskerIntegrationReceiver : BroadcastReceiver(), KoinComponent {
-    val ACTION_FIRE_SETTING = "com.twofortyfouram.locale.intent.action.FIRE_SETTING"
-    val manager = getTunnelManager()
+    private val manager = getTunnelManager()
     val prefs = getPrefs()
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent == null || intent.action == null)
+        if (intent == null || intent.action == null) {
             return
+        }
 
         if (intent.action == ACTION_FIRE_SETTING) {
             intent.action = intent.getStringExtra(TunnelManager.TUNNEL_STATE_INTENT_EXTRA)
@@ -73,5 +73,9 @@ class TaskerIntegrationReceiver : BroadcastReceiver(), KoinComponent {
                 manager.setTunnelState(it, state)
             }
         }
+    }
+
+    companion object {
+        private const val ACTION_FIRE_SETTING = "com.twofortyfouram.locale.intent.action.FIRE_SETTING"
     }
 }

@@ -20,9 +20,6 @@ import com.wireguard.android.model.TunnelManager
 
 class TaskerActivity : AppCompatActivity() {
 
-    val EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB"
-    val EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE"
-
     private var binding: TaskerActivityBinding? = null
     val enableTunnel = ObservableBoolean()
 
@@ -92,5 +89,10 @@ class TaskerActivity : AppCompatActivity() {
                     InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
+    }
+
+    companion object {
+        private const val EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB"
+        private const val EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE"
     }
 }

@@ -24,15 +24,17 @@ object BackendFactory {
         var ret: Backend? = null
         if (File("/sys/module/wireguard").exists()) {
             try {
-                if (prefs.forceUserspaceBackend)
+                if (prefs.forceUserspaceBackend) {
                     throw Exception("Forcing userspace backend on user request.")
+                }
                 rootShell.start()
                 ret = WgQuickBackend(context, toolsInstaller, rootShell)
             } catch (_: Exception) {
             }
         }
-        if (ret == null)
+        if (ret == null) {
             ret = GoBackend(context, prefs)
+        }
         return ret
     }
 }

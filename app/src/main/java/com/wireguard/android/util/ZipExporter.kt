@@ -33,8 +33,9 @@ object ZipExporter : KoinComponent {
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
                 .whenComplete { _, exception ->
                     getAsyncWorker().runAsync {
-                        if (exception != null)
+                        if (exception != null) {
                             throw exception
+                        }
                         try {
                             contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
                                 ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->

@@ -75,10 +75,11 @@ class AppListDialogFragment : DialogFragment() {
                         pkgInfo.applicationInfo.loadLabel(pm).toString(),
                         pkgInfo.packageName,
                     currentlyExcludedApps.contains(pkgInfo.packageName),
-                        if (isGlobalExclusionsDialog)
+                        if (isGlobalExclusionsDialog) {
                             false
-                        else
+                        } else {
                             prefs.exclusions.contains(pkgInfo.packageName)
+                        }
                 ))
             }
             appData.also {

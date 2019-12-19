@@ -45,10 +45,19 @@ class PeerProxy : BaseObservable, Parcelable {
         @Bindable
         get() = allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS
         set(excludingPrivateIps) {
-            if (!isAbleToExcludePrivateIps || isExcludingPrivateIps == excludingPrivateIps)
+            if (!isAbleToExcludePrivateIps || isExcludingPrivateIps == excludingPrivateIps) {
                 return
-            val oldNetworks = if (excludingPrivateIps) IPV4_WILDCARD else IPV4_PUBLIC_NETWORKS
-            val newNetworks = if (excludingPrivateIps) IPV4_PUBLIC_NETWORKS else IPV4_WILDCARD
+            }
+            val oldNetworks = if (excludingPrivateIps) {
+                IPV4_WILDCARD
+            } else {
+                IPV4_PUBLIC_NETWORKS
+            }
+            val newNetworks = if (excludingPrivateIps) {
+                IPV4_PUBLIC_NETWORKS
+            } else {
+                IPV4_WILDCARD
+            }
             val input = allowedIpsSet
             val outputSize = input.size - oldNetworks.size + newNetworks.size
             val output = LinkedHashSet<String>(outputSize)
@@ -56,24 +65,28 @@ class PeerProxy : BaseObservable, Parcelable {
             for (network in input) {
                 if (oldNetworks.contains(network)) {
                     if (!replaced) {
-                        for (replacement in newNetworks)
-                            if (!output.contains(replacement))
+                        for (replacement in newNetworks) {
+                            if (!output.contains(replacement)) {
                                 output.add(replacement)
+                            }
+                        }
                         replaced = true
                     }
                 } else if (!output.contains(network)) {
                     output.add(network)
                 }
             }
-            if (excludingPrivateIps)
+            if (excludingPrivateIps) {
                 output.addAll(dnsRoutes)
-            else
+            } else {
                 output.removeAll(dnsRoutes)
+            }
             allowedIps = Attribute.join(output)
-            allowedIpsState = if (excludingPrivateIps)
+            allowedIpsState = if (excludingPrivateIps) {
                 AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS
-            else
+            } else {
                 AllowedIpsState.CONTAINS_IPV4_WILDCARD
+            }
             notifyPropertyChanged(BR.allowedIps)
             notifyPropertyChanged(BR.excludingPrivateIps)
         }
@@ -82,12 +95,12 @@ class PeerProxy : BaseObservable, Parcelable {
         isExcludingPrivateIps = !isExcludingPrivateIps
     }
 
-    private constructor(`in`: Parcel) {
-        allowedIps = `in`.readString()
-        endpoint = `in`.readString()
-        persistentKeepalive = `in`.readString()
-        preSharedKey = `in`.readString()
-        publicKey = `in`.readString()
+    private constructor(parcel: Parcel) {
+        allowedIps = parcel.readString()
+        endpoint = parcel.readString()
+        persistentKeepalive = parcel.readString()
+        preSharedKey = parcel.readString()
+        publicKey = parcel.readString()
     }
 
     constructor(other: Peer) {
@@ -107,14 +120,16 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     fun bind(owner: ConfigProxy) {
-        val `interface` = owner.`interface`
+        val interfaze = owner.interfaze
         val peers = owner.peers
-        if (interfaceDnsListener == null)
+        if (interfaceDnsListener == null) {
             interfaceDnsListener = InterfaceDnsListener(this)
-        `interface`.addOnPropertyChangedCallback(interfaceDnsListener!!)
-        setInterfaceDns(`interface`.dnsServers.get())
-        if (peerListListener == null)
+        }
+        interfaze.addOnPropertyChangedCallback(interfaceDnsListener!!)
+        setInterfaceDns(interfaze.dnsServers.get())
+        if (peerListListener == null) {
             peerListListener = PeerListListener(this)
+        }
         peers.addOnListChangedCallback(peerListListener)
         setTotalPeers(peers.size)
         this.owner = owner
@@ -204,9 +219,11 @@ class PeerProxy : BaseObservable, Parcelable {
             val input = allowedIpsSet
             val output = LinkedHashSet<String>(input.size + 1)
             // Yes, this is quadratic in the number of DNS servers, but most users have 1 or 2.
-            for (network in input)
-                if (!dnsRoutes.contains(network) || newDnsRoutes.contains(network))
+            for (network in input) {
+                if (!dnsRoutes.contains(network) || newDnsRoutes.contains(network)) {
                     output.add(network)
+                }
+            }
             // Since output is a Set, this does the Right Thing™ (it does not duplicate networks).
             output.addAll(newDnsRoutes)
             // None of the public networks are /32s, so this cannot change the AllowedIPs state.
@@ -233,20 +250,22 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private fun setTotalPeers(totalPeers: Int) {
-        if (this.totalPeers == totalPeers)
+        if (this.totalPeers == totalPeers) {
             return
+        }
         this.totalPeers = totalPeers
         calculateAllowedIpsState()
     }
 
     fun unbind() {
-        if (owner == null)
+        if (owner == null) {
             return
+        }
         owner?.let {
-            val `interface` = it.`interface`
+            val interfaze = it.interfaze
             val peers = it.peers
             interfaceDnsListener?.let { interfaceDnsListener ->
-                `interface`.removeOnPropertyChangedCallback(
+                interfaze.removeOnPropertyChangedCallback(
                         interfaceDnsListener
                 )
             }
@@ -284,8 +303,9 @@ class PeerProxy : BaseObservable, Parcelable {
                 return
             }
             // This shouldn't be possible, but try to avoid a ClassCastException anyway.
-            if (sender !is InterfaceProxy)
+            if (sender !is InterfaceProxy) {
                 return
+            }
             peerProxy.setInterfaceDns(sender.dnsServers.get())
         }
     }
@@ -338,8 +358,8 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private class PeerProxyCreator : Parcelable.Creator<PeerProxy> {
-        override fun createFromParcel(`in`: Parcel): PeerProxy {
-            return PeerProxy(`in`)
+        override fun createFromParcel(parcel: Parcel): PeerProxy {
+            return PeerProxy(parcel)
         }
 
         override fun newArray(size: Int): Array<PeerProxy?> {

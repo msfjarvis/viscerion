@@ -98,21 +98,24 @@ class SettingsActivity : AppCompatActivity() {
             for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
                 pref?.isVisible = false
 
-            if (BuildConfig.DEBUG && File("/sys/module/wireguard").exists())
+            if (BuildConfig.DEBUG && File("/sys/module/wireguard").exists()) {
                 debugOnlyPrefs.filterNotNull().forEach { it.isVisible = true }
+            }
 
             getBackendAsync().thenAccept { backend ->
                 wgQuickOnlyPrefs.filterNotNull().forEach {
-                    if (backend is WgQuickBackend)
+                    if (backend is WgQuickBackend) {
                         it.isVisible = true
-                    else
+                    } else {
                         screen.removePreference(it)
+                    }
                 }
                 wgOnlyPrefs.filterNotNull().forEach {
-                    if (backend is GoBackend)
+                    if (backend is GoBackend) {
                         it.isVisible = true
-                    else
+                    } else {
                         screen.removePreference(it)
+                    }
                 }
             }
 
@@ -138,10 +141,11 @@ class SettingsActivity : AppCompatActivity() {
                 if (prefs.allowTaskerIntegration &&
                         preference.isEnabled &&
                         prefs.taskerIntegrationSecret.isEmpty()
-                )
+                ) {
                     getString(R.string.tasker_integration_summary_empty_secret)
-                else
+                } else {
                     getString(R.string.tasker_integration_secret_summary)
+                }
             }
 
             altIconPref?.onPreferenceClickListener = ClickListener {
@@ -149,18 +153,20 @@ class SettingsActivity : AppCompatActivity() {
                 ctx.packageManager.apply {
                     setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
-                            if (checked)
+                            if (checked) {
                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                            else
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            } else {
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                            },
                             PackageManager.DONT_KILL_APP
                     )
                     setComponentEnabledSetting(
                             ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
-                            if (checked)
+                            if (checked) {
                                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                            else
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            } else {
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                            },
                             PackageManager.DONT_KILL_APP
                     )
                 }
@@ -266,9 +272,9 @@ class SettingsActivity : AppCompatActivity() {
                         val oldConfig = tunnel.getConfig()
                         if (oldConfig != null) {
                             prefs.exclusions.forEach {
-                                oldConfig.`interface`.excludedApplications.remove(it)
+                                oldConfig.interfaze.excludedApplications.remove(it)
                             }
-                            oldConfig.`interface`.excludedApplications.addAll(ArrayList(excludedApps))
+                            oldConfig.interfaze.excludedApplications.addAll(ArrayList(excludedApps))
                             tunnel.setConfig(oldConfig)
                         }
                     }
@@ -276,7 +282,7 @@ class SettingsActivity : AppCompatActivity() {
                 } else {
                     tunnels.forEach { tunnel ->
                         prefs.exclusions.forEach { exclusion ->
-                            tunnel.getConfig()?.`interface`?.excludedApplications?.remove(exclusion)
+                            tunnel.getConfig()?.interfaze?.excludedApplications?.remove(exclusion)
                         }
                     }
                     prefs.exclusions = emptySet()

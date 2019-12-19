@@ -26,8 +26,9 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
     private var resolved: InetEndpoint? = null
 
     override fun equals(other: Any?): Boolean {
-        if (other !is InetEndpoint)
+        if (other !is InetEndpoint) {
             return false
+        }
         return host == other.host && port == other.port
     }
 
@@ -39,8 +40,9 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
      * @return the resolved endpoint, or null
      */
     fun getResolved(): InetEndpoint? {
-        if (isResolved)
+        if (isResolved) {
             return this
+        }
         synchronized(lock) {
             // TODO(zx2c4): Implement a real timeout mechanism using DNS TTL
             if (Duration.between(lastResolution, Instant.now()).toMinutes() > 1) {
@@ -79,8 +81,9 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
 
         @Throws(ParseException::class)
         fun parse(endpoint: String): InetEndpoint {
-            if (FORBIDDEN_CHARACTERS.matcher(endpoint).find())
+            if (FORBIDDEN_CHARACTERS.matcher(endpoint).find()) {
                 throw ParseException(InetEndpoint::class.java, endpoint, "Forbidden characters")
+            }
             val uri: URI
             try {
                 uri = URI("wg://$endpoint")
@@ -88,8 +91,9 @@ class InetEndpoint private constructor(val host: String, private val isResolved:
                 throw IllegalArgumentException(e)
             }
 
-            if (uri.port < 0 || uri.port > 65535)
+            if (uri.port < 0 || uri.port > 65535) {
                 throw ParseException(InetEndpoint::class.java, endpoint, "Missing/invalid port number")
+            }
             return try {
                 InetAddressUtils.parse(uri.host)
                 // Parsing ths host as a numeric address worked, so we don't need to do DNS lookups.

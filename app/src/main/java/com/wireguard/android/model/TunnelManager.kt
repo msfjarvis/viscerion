@@ -59,8 +59,9 @@ class TunnelManager(
     }
 
     fun create(name: String, config: Config?): CompletionStage<Tunnel> {
-        if (Tunnel.isNameInvalid(name))
+        if (Tunnel.isNameInvalid(name)) {
             return CompletableFuture.failedFuture(IllegalArgumentException(context.getString(R.string.tunnel_error_invalid_name)))
+        }
         if (tunnels.containsKey(name)) {
             val message = context.getString(R.string.tunnel_error_already_exists, name)
             return CompletableFuture.failedFuture(IllegalArgumentException(message))
@@ -73,27 +74,32 @@ class TunnelManager(
         val originalState = tunnel.state
         val wasLastUsed = tunnel == lastUsedTunnel
         // Make sure nothing touches the tunnel.
-        if (wasLastUsed)
+        if (wasLastUsed) {
             setLastUsedTunnel(null)
+        }
         tunnels.remove(tunnel)
         return asyncWorker.runAsync {
-            if (originalState == Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP) {
                 backend.setState(tunnel, Tunnel.State.DOWN)
+            }
             try {
                 configStore.delete(tunnel.name)
             } catch (e: Exception) {
-                if (originalState == Tunnel.State.UP)
+                if (originalState == Tunnel.State.UP) {
                     backend.setState(tunnel, Tunnel.State.UP)
+                }
                 // Re-throw the exception to fail the completion.
                 throw e
             }
         }.whenComplete { _, e ->
-            if (e == null)
+            if (e == null) {
                 return@whenComplete
+            }
             // Failure, put the tunnel back.
             tunnels.add(tunnel)
-            if (wasLastUsed)
+            if (wasLastUsed) {
                 setLastUsedTunnel(tunnel)
+            }
         }
     }
 
@@ -103,8 +109,9 @@ class TunnelManager(
     }
 
     private fun setLastUsedTunnel(tunnel: Tunnel?) {
-        if (tunnel == lastUsedTunnel)
+        if (tunnel == lastUsedTunnel) {
             return
+        }
         lastUsedTunnel = tunnel
         notifyPropertyChanged(BR.lastUsedTunnel)
         prefs.lastUsedTunnel = tunnel?.name ?: ""
@@ -123,8 +130,9 @@ class TunnelManager(
         for (name in present)
             addToList(name, null, if (running.contains(name)) Tunnel.State.UP else Tunnel.State.DOWN)
         val lastUsedName = prefs.lastUsedTunnel
-        if (lastUsedName.isNotEmpty())
+        if (lastUsedName.isNotEmpty()) {
             setLastUsedTunnel(tunnels[lastUsedName])
+        }
         var toComplete: Array<CompletableFuture<Void>>?
         synchronized(delayedLoadRestoreTunnels) {
             haveLoaded = true
@@ -134,10 +142,11 @@ class TunnelManager(
         restoreState(true).whenComplete { v, t ->
             toComplete?.let {
                 it.forEach { future ->
-                    if (t == null)
+                    if (t == null) {
                         future.complete(v)
-                    else
+                    } else {
                         future.completeExceptionally(t)
+                    }
                 }
             }
         }
@@ -149,7 +158,11 @@ class TunnelManager(
             backend.enumerate()
         }.thenAccept { running ->
             tunnels.forEach { tunnel ->
-                val state = if (running?.contains(tunnel.name) == true) Tunnel.State.UP else Tunnel.State.DOWN
+                val state = if (running?.contains(tunnel.name) == true) {
+                    Tunnel.State.UP
+                } else {
+                    Tunnel.State.DOWN
+                }
                 tunnel.onStateChanged(state)
                 backend.postNotification(state, tunnel)
             }
@@ -157,8 +170,9 @@ class TunnelManager(
     }
 
     fun restoreState(force: Boolean): CompletionStage<Void> {
-        if (!force && !prefs.restoreOnBoot)
+        if (!force && !prefs.restoreOnBoot) {
             return CompletableFuture.completedFuture(null)
+        }
         synchronized(delayedLoadRestoreTunnels) {
             if (!haveLoaded) {
                 val f = CompletableFuture<Void>()
@@ -182,8 +196,11 @@ class TunnelManager(
     fun restartActiveTunnels() {
         completableTunnels.thenAccept { tunnels ->
             tunnels.forEach { tunnel ->
-                if (tunnel.state == Tunnel.State.UP)
-                    tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ -> tunnel.setState(Tunnel.State.UP) }
+                if (tunnel.state == Tunnel.State.UP) {
+                    tunnel.setState(Tunnel.State.DOWN).whenComplete { _, _ ->
+                        tunnel.setState(Tunnel.State.UP)
+                    }
+                }
             }
         }
     }
@@ -196,8 +213,9 @@ class TunnelManager(
     }
 
     internal fun setTunnelName(tunnel: Tunnel, name: String): CompletionStage<String> {
-        if (Tunnel.isNameInvalid(name))
+        if (Tunnel.isNameInvalid(name)) {
             return CompletableFuture.failedFuture(IllegalArgumentException(context.getString(R.string.tunnel_error_invalid_name)))
+        }
         if (tunnels.containsKey(name)) {
             val message = context.getString(R.string.tunnel_error_already_exists, name)
             return CompletableFuture.failedFuture(IllegalArgumentException(message))
@@ -205,25 +223,30 @@ class TunnelManager(
         val originalState = tunnel.state
         val wasLastUsed = tunnel == lastUsedTunnel
         // Make sure nothing touches the tunnel.
-        if (wasLastUsed)
+        if (wasLastUsed) {
             setLastUsedTunnel(null)
+        }
         tunnels.remove(tunnel)
         return asyncWorker.supplyAsync {
-            if (originalState == Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP) {
                 backend.setState(tunnel, Tunnel.State.DOWN)
+            }
             configStore.rename(tunnel.name, name)
             val newName = tunnel.onNameChanged(name)
-            if (originalState == Tunnel.State.UP)
+            if (originalState == Tunnel.State.UP) {
                 backend.setState(tunnel, Tunnel.State.UP)
+            }
             newName
         }.whenComplete { _, e ->
             // On failure, we don't know what state the tunnel might be in. Fix that.
-            if (e != null)
+            if (e != null) {
                 getTunnelState(tunnel)
+            }
             // Add the tunnel back to the manager, under whatever name it thinks it has.
             tunnels.add(tunnel)
-            if (wasLastUsed)
+            if (wasLastUsed) {
                 setLastUsedTunnel(tunnel)
+            }
         }
     }
 
@@ -238,20 +261,28 @@ class TunnelManager(
             }
         }.whenComplete { newState, e ->
             // Ensure onStateChanged is always called (failure or not), and with the correct state.
-            tunnel.onStateChanged(if (e == null) newState else tunnel.state)
-            if (e == null && newState == Tunnel.State.UP)
+            tunnel.onStateChanged(if (e == null) {
+                newState
+            } else {
+                tunnel.state
+            })
+            if (e == null && newState == Tunnel.State.UP) {
                 setLastUsedTunnel(tunnel)
+            }
             saveState()
         }
     }
 
     class IntentReceiver : BroadcastReceiver() {
+        private val tunnelManager = getTunnelManager()
+
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent == null || intent.action == null)
+            if (intent == null || intent.action == null) {
                 return
+            }
             when (intent.action) {
                 "com.wireguard.android.action.REFRESH_TUNNEL_STATES" -> {
-                    getTunnelManager().refreshTunnelStates()
+                    tunnelManager.refreshTunnelStates()
                     return
                 }
                 else -> Timber.tag("TunnelManager").d("Invalid intent action: ${intent.action}")

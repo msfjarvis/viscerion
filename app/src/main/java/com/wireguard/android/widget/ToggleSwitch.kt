@@ -21,8 +21,9 @@ class ToggleSwitch(context: Context, attrs: AttributeSet? = null) : SwitchCompat
     }
 
     override fun setChecked(checked: Boolean) {
-        if (checked == isChecked)
+        if (checked == isChecked) {
             return
+        }
         if (isRestoringState || listener == null) {
             super.setChecked(checked)
             return

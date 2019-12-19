@@ -77,8 +77,9 @@ object SharedLibraryLoader {
             f?.delete()
         }
 
-        if (noAbiException is RuntimeException)
+        if (noAbiException is RuntimeException) {
             throw noAbiException
+        }
         throw RuntimeException(noAbiException)
     }
 
@@ -89,8 +90,9 @@ object SharedLibraryLoader {
                 for (splitDir in splitDirs) {
                     val splits = splitDir.split("/")
                     val apkName = splits[splits.size - 1]
-                    if (apkName.contains(abi.replace("-", "_")))
+                    if (apkName.contains(abi.replace("-", "_"))) {
                         return splitDir
+                    }
                 }
             }
         }

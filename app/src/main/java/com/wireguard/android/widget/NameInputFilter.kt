@@ -35,8 +35,9 @@ class NameInputFilter : InputFilter {
             if (dIndex < Tunnel.NAME_MAX_LENGTH && isAllowed(c) && dLength + (sIndex - sStart) < Tunnel.NAME_MAX_LENGTH) {
                 ++rIndex
             } else {
-                if (replacement == null)
+                if (replacement == null) {
                     replacement = SpannableStringBuilder(source, sStart, sEnd)
+                }
                 replacement.delete(rIndex, rIndex + 1)
             }
         }
