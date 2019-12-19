@@ -413,6 +413,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                     MaterialAlertDialogBuilder(ctx)
                             .setMessage(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelCount, tunnelCount))
                             .setPositiveButton(android.R.string.ok) { _, _ ->
+                                savedTunnelsList.removeAll(tunnelsToDelete)
                                 val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
                                 CompletableFuture.allOf(*futures)
                                         .thenApply { futures.size }
