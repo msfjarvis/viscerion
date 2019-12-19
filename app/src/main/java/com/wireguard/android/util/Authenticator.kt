@@ -62,6 +62,4 @@ internal class Authenticator(
             biometricPrompt.authenticate(promptInfo)
         }
     }
-
-    fun canAuthenticate(): Boolean = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
 }

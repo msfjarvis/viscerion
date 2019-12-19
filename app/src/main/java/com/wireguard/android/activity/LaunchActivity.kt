@@ -17,23 +17,18 @@ class LaunchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (getPrefs().fingerprintAuth) {
-            val authenticator = Authenticator(this) {
+            Authenticator(this) {
                 when (it) {
                     is AuthenticationResult.Success -> {
                         startMainActivity(false)
                     }
                     is AuthenticationResult.UnrecoverableError -> {
-                        finish()
+                        startMainActivity(false)
                     }
                     else -> {
                     }
                 }
-            }
-            if (authenticator.canAuthenticate()) {
-                authenticator.authenticate()
-            } else {
-                startMainActivity(true)
-            }
+            }.authenticate()
         } else {
             startMainActivity(true)
         }
