@@ -23,13 +23,29 @@ jobs:
       with:
         go-version: '1.13.4'
 
-    - name: Clean Cache
-      run: rm -rf ~/.gradle/caches
+    - name: Generate cache key
+      run: ./checksum.sh checksum.txt
 
     - uses: actions/cache@v1
       with:
-          path: ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/build.gradle') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/dependencies.gradle') }}
+        path: ~/.gradle/caches/modules-2
+        key: ${{ runner.os }}-gradlemodules-${{ hashFiles('checksum.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-gradlemodules-
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches/jars-3
+        key: ${{ runner.os }}-gradlejars-${{ hashFiles('checksum.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-gradlejars-
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches/build-cache-1
+        key: ${{ runner.os }}-gradlebuildcache-${{ hashFiles('checksum.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-gradlebuildcache-
 
     - name: Download gradle dependencies
       run: ./gradlew dependencies
