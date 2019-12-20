@@ -5,7 +5,6 @@
  */
 package com.wireguard.android.services
 
-import android.annotation.TargetApi
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -14,6 +13,7 @@ import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import androidx.annotation.RequiresApi
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
 import com.wireguard.android.BR
@@ -33,7 +33,7 @@ import timber.log.Timber
  * forward click events to the application.
  */
 
-@TargetApi(24)
+@RequiresApi(24)
 class QuickTileService : TileService() {
 
     private val onStateChangedCallback = OnStateChangedCallback()

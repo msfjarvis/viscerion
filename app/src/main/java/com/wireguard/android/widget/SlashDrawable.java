@@ -8,7 +8,6 @@ package com.wireguard.android.widget;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -29,8 +28,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
-@TargetApi(24)
+@RequiresApi(24)
 public class SlashDrawable extends Drawable {
 
     private static final float CORNER_RADIUS =

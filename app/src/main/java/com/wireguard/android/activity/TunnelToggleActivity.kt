@@ -18,7 +18,7 @@ import com.wireguard.android.services.QuickTileService
 import com.wireguard.android.util.ErrorMessages
 import timber.log.Timber
 
-@RequiresApi(29)
+@RequiresApi(24)
 class TunnelToggleActivity : AppCompatActivity() {
 
     private val tunnelManager = getTunnelManager()
