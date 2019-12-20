@@ -94,7 +94,11 @@ dependencies {
     implementation deps.androidx.fragment_ktx
     implementation deps.androidx.material
     implementation deps.androidx.preference
-    implementation(deps.androidx.recycler_view) { force = true }
+    constraints {
+        implementation(deps.androidx.recycler_view) {
+            because 'versions above 1.0.0 have an accessibility related bug that causes crashes'
+        }
+    }
     implementation deps.androidx.slice_builders
     implementation deps.androidx.slice_builders_ktx
     implementation deps.androidx.slice_core
