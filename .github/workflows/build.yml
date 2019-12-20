@@ -47,6 +47,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradlebuildcache-
 
+    - name: Copy CI gradle.properties
+      run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
     - name: Download gradle dependencies
       run: ./gradlew dependencies
 
