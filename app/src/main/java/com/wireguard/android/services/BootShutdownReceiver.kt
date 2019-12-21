@@ -21,7 +21,6 @@ import org.koin.core.KoinComponent
 import timber.log.Timber
 
 class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
-    private val tunnelManager = getTunnelManager()
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == null) return
@@ -43,7 +42,7 @@ class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
                 WorkManager.getInstance(context).enqueue(restoreWork)
             } else if (Intent.ACTION_SHUTDOWN == action) {
                 Timber.i("Broadcast receiver saving state (shutdown)")
-                tunnelManager.saveState()
+                getTunnelManager().saveState()
             }
         }
     }
