@@ -5,7 +5,6 @@
  */
 package com.wireguard.config
 
-import android.text.TextUtils
 import java.util.regex.Pattern
 
 class Attribute private constructor(val key: String, val value: String) {
@@ -14,7 +13,17 @@ class Attribute private constructor(val key: String, val value: String) {
         private val LIST_SEPARATOR: Pattern = Pattern.compile("\\s*,\\s*")
 
         fun join(values: Iterable<*>): String {
-            return TextUtils.join(", ", values)
+            val it: Iterator<*> = values.iterator()
+            if (!it.hasNext()) {
+                return ""
+            }
+            val sb = StringBuilder()
+            sb.append(it.next())
+            while (it.hasNext()) {
+                sb.append(", ")
+                sb.append(it.next())
+            }
+            return sb.toString()
         }
 
         fun parse(line: CharSequence): Attribute? {
