@@ -8,19 +8,17 @@ package com.wireguard.config
 import android.content.Context
 import android.content.SharedPreferences
 import com.wireguard.android.util.ApplicationPreferences
-import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.KoinTest
+import org.koin.test.AutoCloseKoinTest
 import org.mockito.Mockito
 
-class ConfigTest : KoinTest {
+class ConfigTest : AutoCloseKoinTest() {
 
     @Before
     fun setupKoin() {
@@ -32,11 +30,6 @@ class ConfigTest : KoinTest {
                 single { ApplicationPreferences(sharedPrefs) }
             })
         }
-    }
-
-    @After
-    fun cleanup() {
-        stopKoin()
     }
 
     @Test
