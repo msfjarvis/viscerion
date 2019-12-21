@@ -14,7 +14,7 @@
     <!-- Theme variables -->
     <color name="color_control_normal">@color/primary_text_color</color>
     <color name="status_bar_color">@color/primary_color</color>
-    <color name="navigation_bar_color">@android:color/transparent</color>
+    <color name="navigation_bar_color">#AAFFFFFF</color>
     <color name="list_multiselect_background">#EEEEEE</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/secondary_color</color>
     <color name="white">#FFFFFF</color>

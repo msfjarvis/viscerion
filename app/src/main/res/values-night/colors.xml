@@ -13,4 +13,5 @@
     <!-- Theme variables -->
     <color name="list_multiselect_background">#1AEEEEEE</color>
     <color name="status_bar_color">#21111111</color>
+    <color name="navigation_bar_color">#AA111111</color>
 </resources>
