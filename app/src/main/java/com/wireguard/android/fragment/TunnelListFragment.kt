@@ -248,6 +248,12 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         return view
     }
 
+    private fun showSnackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+        val snackbar = Snackbar.make(binding!!.mainContainer, message, duration)
+        snackbar.anchorView = binding!!.createFab
+        snackbar.show()
+    }
+
     override fun onSelectedTunnelChanged(oldTunnel: Tunnel?, newTunnel: Tunnel?) {
         if (binding == null) {
             return
@@ -272,7 +278,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             Timber.e(throwable)
         }
         if (binding != null) {
-            Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
+            showSnackbar(message)
         }
     }
 
@@ -316,7 +322,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         }
 
         if (binding != null && message.isNotEmpty()) {
-            Snackbar.make(binding!!.mainContainer, message, Snackbar.LENGTH_LONG).show()
+            showSnackbar(message)
         }
     }
 

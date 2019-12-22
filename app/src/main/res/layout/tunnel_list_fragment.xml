@@ -76,7 +76,6 @@
             android:textColor="?attr/colorOnSecondary"
             app:backgroundTint="?attr/colorSecondary"
             app:icon="@drawable/ic_baseline_add_24px"
-            app:iconTint="?attr/colorOnSecondary"
-            app:layout_behavior="com.wireguard.android.widget.fab.FloatingActionButtonBehavior" />
+            app:iconTint="?attr/colorOnSecondary" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
