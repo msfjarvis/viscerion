@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/preference_category_debugging">
+        <SwitchPreferenceCompat
+            android:key="force_userspace_backend"
+            android:title="@string/force_userspace_backend_title"
+            android:summary="@string/force_userspace_backend_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

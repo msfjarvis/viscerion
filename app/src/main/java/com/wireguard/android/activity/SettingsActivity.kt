@@ -79,9 +79,6 @@ class SettingsActivity : AppCompatActivity() {
                     screen.findPreference<Preference>("tools_installer"),
                     screen.findPreference<CheckBoxPreference>("restore_on_boot")
             )
-            val debugOnlyPrefs = arrayOf(
-                    screen.findPreference<SwitchPreferenceCompat>("force_userspace_backend")
-            )
             val wgOnlyPrefs = arrayOf(
                     screen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
@@ -92,11 +89,11 @@ class SettingsActivity : AppCompatActivity() {
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             val zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
             val fingerprintPref = preferenceManager.findPreference<SwitchPreferenceCompat>("fingerprint_auth")
-            for (pref in wgQuickOnlyPrefs + wgOnlyPrefs + debugOnlyPrefs)
+            for (pref in wgQuickOnlyPrefs + wgOnlyPrefs)
                 pref?.isVisible = false
 
             if (BuildConfig.DEBUG && File("/sys/module/wireguard").exists()) {
-                debugOnlyPrefs.filterNotNull().forEach { it.isVisible = true }
+                addPreferencesFromResource(R.xml.debug_preferences)
             }
 
             getBackendAsync().thenAccept { backend ->
