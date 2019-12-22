@@ -9,10 +9,6 @@
             android:key="dark_theme"
             android:title="@string/pref_dark_theme_title"
             android:summary="@string/pref_dark_theme_summary" />
-        <CheckBoxPreference
-            android:key="use_alt_icon"
-            android:title="@string/pref_alt_icon_title"
-            android:summary="@string/pref_alt_icon_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_config">
         <CheckBoxPreference

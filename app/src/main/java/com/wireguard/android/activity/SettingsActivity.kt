@@ -5,9 +5,7 @@
  */
 package com.wireguard.android.activity
 
-import android.content.ComponentName
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -91,7 +89,6 @@ class SettingsActivity : AppCompatActivity() {
             val taskerPref = preferenceManager.findPreference<SwitchPreferenceCompat>("allow_tasker_integration")
             val integrationSecretPref =
                     preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
-            val altIconPref = preferenceManager.findPreference<CheckBoxPreference>("use_alt_icon")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             val zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
             val fingerprintPref = preferenceManager.findPreference<SwitchPreferenceCompat>("fingerprint_auth")
@@ -146,36 +143,6 @@ class SettingsActivity : AppCompatActivity() {
                 } else {
                     getString(R.string.tasker_integration_secret_summary)
                 }
-            }
-
-            altIconPref?.onPreferenceClickListener = ClickListener {
-                val checked = (it as CheckBoxPreference).isChecked
-                ctx.packageManager.apply {
-                    setComponentEnabledSetting(
-                            ComponentName(ctx.packageName, "${ctx.packageName}.LauncherActivity"),
-                            if (checked) {
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                            } else {
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                            },
-                            PackageManager.DONT_KILL_APP
-                    )
-                    setComponentEnabledSetting(
-                            ComponentName(ctx.packageName, "${ctx.packageName}.AltIconLauncherActivity"),
-                            if (checked) {
-                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                            } else {
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                            },
-                            PackageManager.DONT_KILL_APP
-                    )
-                }
-                Snackbar.make(
-                        requireView(),
-                        getString(R.string.pref_alt_icon_apply_message),
-                        Snackbar.LENGTH_SHORT
-                ).show()
-                true
             }
 
             darkThemePref?.apply {
