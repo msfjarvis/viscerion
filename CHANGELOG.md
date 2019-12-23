@@ -2,6 +2,10 @@
 
 ### [Unreleased]
 - Workaround background service restrictions on Android 10
+- Fix occasional crash with search/detail view
+- Update library dependencies
+- Handle case when user removes all fingerprints with biometric authentication enabled
+- Match some UI aspects to the Material Design specification
 
 ### [5.2.7] - 2019-12-13
 - Require unlocking for using Quick Settings tile.
