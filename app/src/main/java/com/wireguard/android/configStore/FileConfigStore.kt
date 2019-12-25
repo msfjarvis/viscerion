@@ -21,7 +21,7 @@ import timber.log.Timber
  * Configuration store that uses a `wg-quick`-style file for each configured tunnel.
  */
 
-class FileConfigStore(private val context: Context) : ConfigStore {
+class FileConfigStore(private val context: Context, private val filesDir: File) : ConfigStore {
 
     @Throws(IOException::class)
     override fun create(name: String, config: Config): Config {
@@ -47,14 +47,14 @@ class FileConfigStore(private val context: Context) : ConfigStore {
     }
 
     override fun enumerate(): Set<String> {
-        return context.fileList()
+        return (filesDir.list() ?: emptyArray<String>())
                 .filter { it.endsWith(CONFIGURATION_FILE_SUFFIX) }
                 .map { it.substring(0, it.length - CONFIGURATION_FILE_SUFFIX.length) }
                 .toSet()
     }
 
     private fun fileFor(name: String): File {
-        return File(context.filesDir, "$name.conf")
+        return File(filesDir, "$name.conf")
     }
 
     @Throws(IOException::class, BadConfigException::class)
