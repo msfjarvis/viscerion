@@ -80,6 +80,7 @@ class ConfigStoreTest : AutoCloseKoinTest() {
         configCopy.interfaze.excludedApplications.add("me.msfjarvis.viscerion")
         configStore.save("test-1", configCopy)
         assertTrue("updated config must have 'me.msfjarvis.viscerion' excluded", configStore.load("test-1").interfaze.excludedApplications.contains("me.msfjarvis.viscerion"))
+        emptyStore()
     }
 
     @Test
