@@ -1,3 +1,7 @@
 [submodule "native/tools/libmnl"]
 	path = native/tools/libmnl
 	url = https://github.com/justmirror/libmnl
+[submodule "wireguard-tools"]
+	path = native/tools/wireguard-tools
+	url = https://github.com/wireguard/wireguard-tools
+	branch = master
