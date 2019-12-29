@@ -9,21 +9,22 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.wireguard.android.BuildConfig
-import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.TunnelManager
-import org.koin.core.KoinComponent
+import com.wireguard.android.util.ApplicationPreferences
+import javax.inject.Inject
 import timber.log.Timber
 
-class TaskerIntegrationReceiver : BroadcastReceiver(), KoinComponent {
-    private val manager = getTunnelManager()
-    val prefs = getPrefs()
+class TaskerIntegrationReceiver : BroadcastReceiver() {
+    @Inject lateinit var manager: TunnelManager
+    @Inject lateinit var prefs: ApplicationPreferences
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
         if (intent == null || intent.action == null) {
             return
         }
+        getInjector(context).inject(this)
 
         if (intent.action == ACTION_FIRE_SETTING) {
             intent.action = intent.getStringExtra(TunnelManager.TUNNEL_STATE_INTENT_EXTRA)

@@ -69,9 +69,9 @@ class Config private constructor(builder: Builder) {
      *
      * @return the `Config` represented as one [Interface] and zero or more [Peer] sections
      */
-    fun toWgQuickString(exporting: Boolean = false): String {
+    fun toWgQuickString(): String {
         val sb = StringBuilder()
-        sb.append("[Interface]\n").append(interfaze.toWgQuickString(exporting))
+        sb.append("[Interface]\n").append(interfaze.toWgQuickString())
         for (peer in peers) {
             sb.append("\n[Peer]\n").append(peer.toWgQuickString())
         }

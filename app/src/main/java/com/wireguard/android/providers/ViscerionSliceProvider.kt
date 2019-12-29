@@ -13,11 +13,18 @@ import androidx.slice.builders.ListBuilder
 import androidx.slice.builders.SliceAction
 import androidx.slice.builders.list
 import androidx.slice.builders.row
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
+import javax.inject.Inject
 
+@Suppress("Slices")
 class ViscerionSliceProvider : SliceProvider() {
+
+    @Inject lateinit var tunnelManager: TunnelManager
+
     override fun onCreateSliceProvider(): Boolean {
+        injector.inject(this)
         return true
     }
 
@@ -29,7 +36,7 @@ class ViscerionSliceProvider : SliceProvider() {
     }
 
     private fun createLastUsedTunnelSlice(sliceUri: Uri): Slice? {
-        val lastUsedTunnel = getTunnelManager().getLastUsedTunnel()
+        val lastUsedTunnel = tunnelManager.getLastUsedTunnel()
         return if (lastUsedTunnel != null) {
             val isTunnelUp = lastUsedTunnel.state == Tunnel.State.UP
             val pendingIntent =

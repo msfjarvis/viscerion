@@ -6,15 +6,18 @@
 package com.wireguard.android.util
 
 import android.os.Handler
+import dagger.Reusable
 import java.util.concurrent.Executor
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import javax.inject.Inject
 
 /**
  * Helper class for running asynchronous tasks and ensuring they are completed on the main thread.
  */
 
-class AsyncWorker(private val executor: Executor, private val handler: Handler) {
+@Reusable
+class AsyncWorker @Inject constructor(private val executor: Executor, private val handler: Handler) {
 
     fun runAsync(run: () -> Unit): CompletionStage<Void> {
         val future = CompletableFuture<Void>()

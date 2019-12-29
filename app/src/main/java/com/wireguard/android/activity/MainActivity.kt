@@ -18,15 +18,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.injector
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
 import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
 import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.runShellCommand
 import java.io.FileOutputStream
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
@@ -38,8 +40,7 @@ import timber.log.Timber
 class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
     private var actionBar: ActionBar? = null
     private var listFragment: TunnelListFragment? = null
-    private val prefCallback = ApplicationPreferencesChangeCallback(this)
-    private val prefs = getPrefs()
+    @Inject lateinit var prefs: ApplicationPreferences
 
     override fun onDestroy() {
         prefs.unregisterCallback()
@@ -96,6 +97,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         actionBar = supportActionBar
@@ -103,7 +105,7 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
-        prefs.registerCallback(prefCallback)
+        prefs.registerCallback(ApplicationPreferencesChangeCallback(this, tunnelManager))
         // Dispatch insets on back stack changed
         findViewById<ViewGroup>(android.R.id.content).setOnApplyWindowInsetsListener { _, insets ->
             supportFragmentManager.let {

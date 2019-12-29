@@ -6,8 +6,8 @@
 package com.wireguard.android.util
 
 import android.content.res.Resources
+import com.wireguard.android.Application
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.getContext
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.InetEndpoint
@@ -17,9 +17,8 @@ import java.net.InetAddress
 import me.msfjarvis.viscerion.crypto.Key.Format
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import me.msfjarvis.viscerion.crypto.KeyFormatException.Type
-import org.koin.core.KoinComponent
 
-object ErrorMessages : KoinComponent {
+object ErrorMessages {
     private val BCE_REASON_MAP = mapOf(
             Reason.INVALID_KEY to R.string.bad_config_reason_invalid_key,
             Reason.INVALID_NUMBER to R.string.bad_config_reason_invalid_number,
@@ -51,7 +50,7 @@ object ErrorMessages : KoinComponent {
     )
 
     operator fun get(throwable: Throwable?): String {
-        val resources = getContext().resources
+        val resources = Application.INSTANCE.resources
         if (throwable == null) {
             return resources.getString(R.string.unknown_error)
         }

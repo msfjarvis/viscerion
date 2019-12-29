@@ -12,9 +12,10 @@ import android.os.Build
 import androidx.collection.ArraySet
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.Statistics
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
@@ -22,11 +23,15 @@ import com.wireguard.config.Config
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java9.util.concurrent.CompletableFuture
+import javax.inject.Inject
 import me.msfjarvis.viscerion.crypto.Key
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import timber.log.Timber
 
-class GoBackend(private val context: Context, private val prefs: ApplicationPreferences) : Backend {
+class GoBackend @Inject constructor(
+    private val context: Context,
+    private val prefs: ApplicationPreferences
+) : Backend {
 
     private var currentTunnel: Tunnel? = null
     private var currentTunnelHandle = -1
@@ -258,13 +263,14 @@ class GoBackend(private val context: Context, private val prefs: ApplicationPref
 
     class VpnService : android.net.VpnService() {
 
-        private val tunnelManager = getTunnelManager()
+        @Inject lateinit var tunnelManager: TunnelManager
 
         fun getBuilder(): Builder {
             return Builder()
         }
 
         override fun onCreate() {
+            getInjector(applicationContext).inject(this)
             vpnService.complete(this)
             super.onCreate()
         }

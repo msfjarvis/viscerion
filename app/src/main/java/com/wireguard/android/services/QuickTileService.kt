@@ -20,11 +20,12 @@ import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.activity.LaunchActivity
 import com.wireguard.android.activity.TunnelToggleActivity
-import com.wireguard.android.di.ext.getContext
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.widget.SlashDrawable
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
@@ -38,7 +39,7 @@ class QuickTileService : TileService() {
 
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
-    private val tunnelManager = getTunnelManager()
+    @Inject lateinit var tunnelManager: TunnelManager
     private var tunnel: Tunnel? = null
     private var iconOn: Icon? = null
     private var iconOff: Icon? = null
@@ -54,12 +55,13 @@ class QuickTileService : TileService() {
     }
 
     override fun onCreate() {
+        getInjector(applicationContext).inject(this)
         if (Build.VERSION.SDK_INT >= 28) {
             iconOn = Icon.createWithResource(this, R.drawable.ic_qs_tile)
             iconOff = iconOn
             return
         }
-        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_qs_tile, getContext().theme))
+        val icon = SlashDrawable(resources.getDrawable(R.drawable.ic_qs_tile, applicationContext.theme))
         /* Unfortunately we can't have animations, since icons are marshaled. */
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)

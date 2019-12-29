@@ -8,15 +8,20 @@ package com.wireguard.android.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.injector
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
+import javax.inject.Inject
 
 class LaunchActivity : AppCompatActivity() {
 
+    @Inject lateinit var prefs: ApplicationPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
-        if (getPrefs().fingerprintAuth) {
+        if (prefs.fingerprintAuth) {
             Authenticator(this) {
                 when (it) {
                     is AuthenticationResult.Success -> {

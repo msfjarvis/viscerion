@@ -5,7 +5,6 @@
  */
 package com.wireguard.config
 
-import com.wireguard.android.di.ext.getPrefs
 import com.wireguard.config.BadConfigException.Location
 import com.wireguard.config.BadConfigException.Reason
 import com.wireguard.config.BadConfigException.Section
@@ -16,7 +15,6 @@ import java.util.Locale
 import me.msfjarvis.viscerion.crypto.Key
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import me.msfjarvis.viscerion.crypto.KeyPair
-import org.koin.core.KoinComponent
 
 /**
  * Represents the configuration for a WireGuard interface (an [Interface] block). Interfaces must
@@ -26,9 +24,7 @@ import org.koin.core.KoinComponent
  *
  * Instances of this class are immutable.
  */
-class Interface private constructor(builder: Builder) : KoinComponent {
-
-    private val prefs = getPrefs()
+class Interface private constructor(builder: Builder) {
 
     /**
      * Returns the set of IP addresses assigned to the interface.
@@ -121,13 +117,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
      *
      * @return The `Interface` represented as a series of "Key = Value" lines
      */
-    fun toWgQuickString(exporting: Boolean = false): String {
+    fun toWgQuickString(): String {
         val sb = StringBuilder()
-        val localExclusions = if (exporting) {
-            excludedApplications - prefs.exclusions
-        } else {
-            excludedApplications
-        }
         if (addresses.isNotEmpty()) {
             sb.append("Address = ").append(Attribute.join(addresses)).append('\n')
         }
@@ -135,8 +126,8 @@ class Interface private constructor(builder: Builder) : KoinComponent {
             val dnsServerStrings = dnsServers.map { dnsServer -> dnsServer.hostAddress }
             sb.append("DNS = ").append(Attribute.join(dnsServerStrings)).append('\n')
         }
-        if (localExclusions.isNotEmpty()) {
-            sb.append("ExcludedApplications = ").append(Attribute.join(localExclusions)).append('\n')
+        if (excludedApplications.isNotEmpty()) {
+            sb.append("ExcludedApplications = ").append(Attribute.join(excludedApplications)).append('\n')
         }
         listenPort?.let { lp -> sb.append("ListenPort = ").append(lp).append('\n') }
         mtu?.let { m -> sb.append("MTU = ").append(m).append('\n') }
@@ -157,8 +148,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         return sb.toString()
     }
 
-    class Builder : KoinComponent {
-        private val prefs = getPrefs()
+    class Builder {
 
         // Defaults to an empty set.
         val addresses = LinkedHashSet<InetNetwork>()
@@ -211,11 +201,6 @@ class Interface private constructor(builder: Builder) : KoinComponent {
 
         fun excludeApplications(applications: Collection<String>): Builder {
             excludedApplications.addAll(applications)
-            prefs.exclusions.forEach { exclusion ->
-                if (exclusion !in excludedApplications) {
-                    excludedApplications.add(exclusion)
-                }
-            }
             return this
         }
 
@@ -244,11 +229,7 @@ class Interface private constructor(builder: Builder) : KoinComponent {
         }
 
         fun parseExcludedApplications(apps: CharSequence): Builder {
-            return excludeApplications(
-                    Attribute.split(apps)
-                            .filter { it !in prefs.exclusions }
-                            .toList()
-            )
+            return excludeApplications(Attribute.split(apps).toList())
         }
 
         @Throws(BadConfigException::class)

@@ -6,6 +6,7 @@
 package com.wireguard.android.fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -15,18 +16,26 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.config.BadConfigException
 import com.wireguard.config.Config
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 class ConfigNamingDialogFragment : DialogFragment() {
 
     private var config: Config? = null
     private var binding: ConfigNamingDialogFragmentBinding? = null
     private var imm: InputMethodManager? = null
+    @Inject lateinit var tunnelManager: TunnelManager
+
+    override fun onAttach(context: Context) {
+        injector.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +85,7 @@ class ConfigNamingDialogFragment : DialogFragment() {
         binding?.apply {
             val name = tunnelNameText.text.toString()
 
-            getTunnelManager().create(name, config).whenComplete { tunnel, throwable ->
+            tunnelManager.create(name, config).whenComplete { tunnel, throwable ->
                 if (tunnel == null) {
                     tunnelNameTextLayout.error = throwable.message
                 } else {

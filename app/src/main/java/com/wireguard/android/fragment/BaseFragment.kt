@@ -20,10 +20,12 @@ import com.wireguard.android.activity.BaseActivity.OnSelectedTunnelChangedListen
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
-import com.wireguard.android.di.ext.getBackendAsync
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
+import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.ErrorMessages
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
@@ -36,6 +38,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
     private var activity: BaseActivity? = null
     private var pendingTunnel: Tunnel? = null
     private var pendingTunnelUp: Boolean? = null
+    @Inject lateinit var backendAsync: BackendAsync
 
     protected var selectedTunnel: Tunnel?
         get() = activity?.selectedTunnel
@@ -44,6 +47,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
         }
 
     override fun onAttach(context: Context) {
+        injector.inject(this)
         super.onAttach(context)
         if (context is BaseActivity) {
             activity = context
@@ -85,7 +89,7 @@ abstract class BaseFragment : Fragment(), OnSelectedTunnelChangedListener {
             return
         }
 
-        getBackendAsync().thenAccept { backend ->
+        backendAsync.thenAccept { backend ->
             if (backend is GoBackend) {
                 val intent = GoBackend.VpnService.prepare(view.context)
                 intent?.let {

@@ -14,28 +14,32 @@ import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
+import com.wireguard.android.backend.Backend
 import com.wireguard.android.configStore.ConfigStore
-import com.wireguard.android.di.ext.getTunnelManager
-import com.wireguard.android.di.ext.injectAsyncWorker
-import com.wireguard.android.di.ext.injectBackend
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel.Statistics
 import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
 import com.wireguard.android.util.ObservableSortedKeyedList
 import com.wireguard.config.Config
+import dagger.Reusable
 import java9.util.Comparators
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
-import org.koin.core.KoinComponent
+import javax.inject.Inject
 import timber.log.Timber
 
-class TunnelManager(
+@Reusable
+class TunnelManager @Inject constructor(
+    private val asyncWorker: AsyncWorker,
+    private val backend: Backend,
     private val context: Context,
     private val configStore: ConfigStore,
     private val prefs: ApplicationPreferences
-) : BaseObservable(), KoinComponent {
+) : BaseObservable() {
 
     private val completableTunnels = CompletableFuture<ObservableSortedKeyedList<String, Tunnel>>()
     private val tunnels = ObservableSortedKeyedArrayList<String, Tunnel>(COMPARATOR)
@@ -273,13 +277,24 @@ class TunnelManager(
         }
     }
 
-    class IntentReceiver : BroadcastReceiver() {
-        private val tunnelManager = getTunnelManager()
+    internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
+        return asyncWorker.supplyAsync { backend.getState(tunnel) }
+            .thenApply(tunnel::onStateChanged)
+    }
 
-        override fun onReceive(context: Context?, intent: Intent?) {
+    fun getTunnelStatistics(tunnel: Tunnel): CompletionStage<Statistics> {
+        return asyncWorker.supplyAsync { backend.getStatistics(tunnel) }
+            .thenApply(tunnel::onStatisticsChanged)
+    }
+
+    class IntentReceiver : BroadcastReceiver() {
+        @Inject lateinit var tunnelManager: TunnelManager
+
+        override fun onReceive(context: Context, intent: Intent?) {
             if (intent == null || intent.action == null) {
                 return
             }
+            getInjector(context).inject(this)
             when (intent.action) {
                 "com.wireguard.android.action.REFRESH_TUNNEL_STATES" -> {
                     tunnelManager.refreshTunnelStates()
@@ -290,27 +305,12 @@ class TunnelManager(
         }
     }
 
-    companion object : KoinComponent {
+    companion object {
         const val NOTIFICATION_CHANNEL_ID = "wg-quick_tunnels"
         const val TUNNEL_NAME_INTENT_EXTRA = "tunnel_name"
         const val INTENT_INTEGRATION_SECRET_EXTRA = "integration_secret"
         const val TUNNEL_STATE_INTENT_EXTRA = "tunnel_state"
-        private val asyncWorker by injectAsyncWorker()
-        private val backend by injectBackend()
-
-        private val COMPARATOR = Comparators.thenComparing(
-                String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder()
-        )
+        private val COMPARATOR = Comparators.thenComparing(String.CASE_INSENSITIVE_ORDER, Comparators.naturalOrder())
         private var lastUsedTunnel: Tunnel? = null
-
-        internal fun getTunnelState(tunnel: Tunnel): CompletionStage<Tunnel.State> {
-            return asyncWorker.supplyAsync { backend.getState(tunnel) }
-                    .thenApply(tunnel::onStateChanged)
-        }
-
-        fun getTunnelStatistics(tunnel: Tunnel): CompletionStage<Statistics> {
-            return asyncWorker.supplyAsync { backend.getStatistics(tunnel) }
-                    .thenApply(tunnel::onStatisticsChanged)
-        }
     }
 }

@@ -47,12 +47,11 @@ class Tunnel internal constructor(
         }
 
     val stateAsync: CompletionStage<State>
-        get() = TunnelManager.getTunnelState(this)
+        get() = manager.getTunnelState(this)
 
-    // FIXME: Check age of statistics.
     val statisticsAsync: CompletionStage<Statistics>
         get() = if (statistics == null || statistics!!.isStale()) {
-            TunnelManager.getTunnelStatistics(this)
+            manager.getTunnelStatistics(this)
         } else {
             CompletableFuture.completedFuture(statistics)
         }
@@ -72,7 +71,7 @@ class Tunnel internal constructor(
     @Bindable
     fun getStatistics(): Statistics? {
         if (statistics == null || statistics!!.isStale()) {
-            TunnelManager.getTunnelStatistics(this).whenComplete(ExceptionLoggers.E)
+            manager.getTunnelStatistics(this).whenComplete(ExceptionLoggers.E)
         }
         return statistics
     }

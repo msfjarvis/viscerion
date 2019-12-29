@@ -6,8 +6,6 @@
 package com.wireguard.android.configStore
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.config.Config
 import com.wireguard.config.InetAddressUtils
 import com.wireguard.config.InetNetwork
@@ -18,33 +16,14 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.core.get
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
 import org.mockito.Mockito.mock
 
-class ConfigStoreTest : AutoCloseKoinTest() {
+class ConfigStoreTest {
     private val testConfig = javaClass.classLoader!!.getResourceAsStream("working.conf")
     private val tempDir = Files.createTempDirectory("viscerion").toFile()
     private val config: Config by lazy { Config.parse(testConfig) }
-    private val configStore by lazy { get<ConfigStore>() }
-
-    @Before
-    fun setupKoin() {
-        val sharedPrefs = mock(SharedPreferences::class.java)
-        val context = mock(Context::class.java)
-        startKoin {
-            androidContext(context)
-            modules(module {
-                single<ConfigStore> { FileConfigStore(androidContext(), tempDir) }
-                single { ApplicationPreferences(sharedPrefs) }
-            })
-        }
-    }
+    private val configStore = FileConfigStore(mock(Context::class.java), tempDir)
 
     @Test
     fun `config creation succeeds`() {

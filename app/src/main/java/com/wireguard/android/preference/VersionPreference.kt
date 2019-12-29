@@ -13,19 +13,24 @@ import android.util.AttributeSet
 import androidx.preference.Preference
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.getAsyncWorker
-import com.wireguard.android.di.ext.getBackendAsync
+import com.wireguard.android.di.injector
+import com.wireguard.android.util.AsyncWorker
+import com.wireguard.android.util.BackendAsync
 import java.util.Locale
-import org.koin.core.KoinComponent
+import javax.inject.Inject
 
-class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs), KoinComponent {
+class VersionPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
     private var versionSummary: String? = null
+    @Inject lateinit var backendAsync: BackendAsync
+    @Inject lateinit var asyncWorker: AsyncWorker
 
-    init {
-        getBackendAsync().thenAccept { backend ->
+    override fun onAttached() {
+        injector.inject(this)
+        super.onAttached()
+        backendAsync.thenAccept { backend ->
             versionSummary =
                     getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase(Locale.ROOT))
-            getAsyncWorker().supplyAsync {
+            asyncWorker.supplyAsync {
                 backend.getVersion()
             }.whenComplete { version, exception ->
                 versionSummary = if (exception == null) {

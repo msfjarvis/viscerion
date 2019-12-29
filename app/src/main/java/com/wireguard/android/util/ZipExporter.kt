@@ -7,7 +7,6 @@ package com.wireguard.android.util
 
 import android.content.ContentResolver
 import android.net.Uri
-import com.wireguard.android.di.ext.getAsyncWorker
 import com.wireguard.android.model.Tunnel
 import com.wireguard.config.Config
 import java.io.FileOutputStream
@@ -15,10 +14,10 @@ import java.nio.charset.StandardCharsets
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import java9.util.concurrent.CompletableFuture
-import org.koin.core.KoinComponent
 
-object ZipExporter : KoinComponent {
+object ZipExporter {
     fun exportZip(
+        asyncWorker: AsyncWorker,
         contentResolver: ContentResolver,
         fileUri: Uri,
         tunnels: List<Tunnel>,
@@ -32,7 +31,7 @@ object ZipExporter : KoinComponent {
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
                 .whenComplete { _, exception ->
-                    getAsyncWorker().runAsync {
+                    asyncWorker.runAsync {
                         if (exception != null) {
                             throw exception
                         }
@@ -41,7 +40,7 @@ object ZipExporter : KoinComponent {
                                 ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->
                                     for (i in futureConfigs.indices) {
                                         zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
-                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString(exporting = true).toByteArray(StandardCharsets.UTF_8))
+                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
                                     }
                                     zip.closeEntry()
                                 }

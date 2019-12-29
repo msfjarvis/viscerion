@@ -9,14 +9,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.CallbackRegistry
 import androidx.databinding.CallbackRegistry.NotifierCallback
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
+import javax.inject.Inject
 
 /**
  * Base class for activities that need to remember the currently-selected tunnel.
  */
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    @Inject lateinit var tunnelManager: TunnelManager
 
     private val selectionChangeRegistry = SelectionChangeRegistry()
     var selectedTunnel: Tunnel? = null
@@ -35,6 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         // Restore the saved tunnel if there is one; otherwise grab it from the arguments.
         val savedTunnelName: String? = when {
             savedInstanceState != null -> savedInstanceState.getString(KEY_SELECTED_TUNNEL)
@@ -43,7 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         savedTunnelName?.let {
-            getTunnelManager().getTunnels().thenAccept { tunnels ->
+            tunnelManager.getTunnels().thenAccept { tunnels ->
                 selectedTunnel = tunnels[it]
             }
         }

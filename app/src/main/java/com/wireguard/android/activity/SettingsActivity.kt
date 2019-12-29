@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.activity
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,18 +24,21 @@ import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.WgQuickBackend
-import com.wireguard.android.di.ext.getBackendAsync
-import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.fragment.AppListDialogFragment
+import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.AuthenticationResult
 import com.wireguard.android.util.Authenticator
+import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.ZipExporter
 import com.wireguard.android.util.humanReadablePath
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.updateAppTheme
 import java.io.File
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
@@ -68,8 +72,15 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), AppListDialogFragment.AppExclusionListener {
-        private val prefs = getPrefs()
-        private val tunnelManager = getTunnelManager()
+        @Inject lateinit var prefs: ApplicationPreferences
+        @Inject lateinit var asyncWorker: AsyncWorker
+        @Inject lateinit var backendAsync: BackendAsync
+        @Inject lateinit var tunnelManager: TunnelManager
+
+        override fun onAttach(context: Context) {
+            injector.inject(this)
+            super.onAttach(context)
+        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, key: String?) {
             addPreferencesFromResource(R.xml.preferences)
@@ -96,7 +107,7 @@ class SettingsActivity : AppCompatActivity() {
                 addPreferencesFromResource(R.xml.debug_preferences)
             }
 
-            getBackendAsync().thenAccept { backend ->
+            backendAsync.thenAccept { backend ->
                 wgQuickOnlyPrefs.filterNotNull().forEach {
                     if (backend is WgQuickBackend) {
                         it.isVisible = true
@@ -215,7 +226,7 @@ class SettingsActivity : AppCompatActivity() {
             val ctx = requireContext()
             val snackbarView = requireNotNull(requireActivity().findViewById<View>(android.R.id.content))
             tunnelManager.getTunnels().thenAccept { tunnels ->
-                ZipExporter.exportZip(ctx.contentResolver, fileUri, tunnels) { throwable ->
+                ZipExporter.exportZip(asyncWorker, ctx.contentResolver, fileUri, tunnels) { throwable ->
                     if (throwable != null) {
                         val error = ExceptionLoggers.unwrapMessage(throwable)
                         val message = ctx.getString(R.string.zip_export_error, error)

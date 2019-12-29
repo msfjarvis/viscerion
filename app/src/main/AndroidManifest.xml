@@ -121,6 +121,11 @@
         <provider
             android:authorities="${applicationId}"
             android:name=".providers.ViscerionSliceProvider"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.app.slice.category.SLICE" />
+            </intent-filter>
+        </provider>
     </application>
 </manifest>

@@ -7,6 +7,7 @@ package com.wireguard.android.fragment
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Toast
@@ -15,18 +16,27 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wireguard.android.R
 import com.wireguard.android.databinding.AppListDialogFragmentBinding
-import com.wireguard.android.di.ext.getAsyncWorker
-import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.ApplicationData
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.ObservableKeyedArrayList
 import java.util.Locale
+import javax.inject.Inject
 
 class AppListDialogFragment : DialogFragment() {
 
     private var currentlyExcludedApps: Array<String> = emptyArray()
     private var isGlobalExclusionsDialog = false
     private val appData = ObservableKeyedArrayList<String, ApplicationData>()
+    @Inject lateinit var asyncWorker: AsyncWorker
+    @Inject lateinit var prefs: ApplicationPreferences
+
+    override fun onAttach(context: Context) {
+        injector.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +73,9 @@ class AppListDialogFragment : DialogFragment() {
 
     private fun loadData() {
         val activity = requireActivity()
-        getAsyncWorker().supplyAsync<List<ApplicationData>> {
+        asyncWorker.supplyAsync<List<ApplicationData>> {
             val appData = ArrayList<ApplicationData>()
             val pm = activity.packageManager
-            val prefs = getPrefs()
             pm.getPackagesHoldingPermissions(
                     arrayOf(Manifest.permission.INTERNET), 0
             ).forEach { pkgInfo ->

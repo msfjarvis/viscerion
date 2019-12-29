@@ -6,6 +6,7 @@
 package com.wireguard.android.fragment
 
 import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
@@ -30,11 +31,12 @@ import com.wireguard.android.configStore.FileConfigStore.Companion.CONFIGURATION
 import com.wireguard.android.databinding.ObservableKeyedRecyclerViewAdapter
 import com.wireguard.android.databinding.TunnelListFragmentBinding
 import com.wireguard.android.databinding.TunnelListItemBinding
-import com.wireguard.android.di.ext.getAsyncWorker
-import com.wireguard.android.di.ext.injectPrefs
-import com.wireguard.android.di.ext.injectTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.ui.EdgeToEdge
+import com.wireguard.android.util.ApplicationPreferences
+import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
@@ -48,13 +50,15 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java9.util.concurrent.CompletableFuture
+import javax.inject.Inject
 import timber.log.Timber
 
 class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, BarcodeResultListener {
 
     private val actionModeListener = ActionModeListener()
-    private val tunnelManager by injectTunnelManager()
-    private val prefs by injectPrefs()
+    @Inject lateinit var tunnelManager: TunnelManager
+    @Inject lateinit var prefs: ApplicationPreferences
+    @Inject lateinit var asyncWorker: AsyncWorker
     private val savedTunnelsList: ArrayList<Tunnel> = arrayListOf()
     private var actionMode: ActionMode? = null
     private var binding: TunnelListFragmentBinding? = null
@@ -81,7 +85,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
 
         val futureTunnels = ArrayList<CompletableFuture<Tunnel>>()
         val throwables = ArrayList<Throwable>()
-        getAsyncWorker().supplyAsync {
+        asyncWorker.supplyAsync {
             val columns = arrayOf(OpenableColumns.DISPLAY_NAME)
             var name = ""
             contentResolver.query(uri, columns, null, null, null)?.use { cursor ->
@@ -190,6 +194,11 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        injector.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -13,25 +13,30 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.wireguard.android.backend.WgQuickBackend
-import com.wireguard.android.di.ext.getBackendAsync
-import com.wireguard.android.di.ext.getTunnelManager
-import com.wireguard.android.work.TunnelRestoreWork
+import com.wireguard.android.di.getInjector
+import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.BackendAsync
+import com.wireguard.android.work.TunnelRestoreWorker
 import java.util.concurrent.TimeUnit
-import org.koin.core.KoinComponent
+import javax.inject.Inject
 import timber.log.Timber
 
-class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
+class BootShutdownReceiver : BroadcastReceiver() {
+
+    @Inject lateinit var backendAsync: BackendAsync
+    @Inject lateinit var tunnelManager: TunnelManager
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == null) return
-        getBackendAsync().thenAccept { backend ->
+        getInjector(context).inject(this)
+        backendAsync.thenAccept { backend ->
             if (backend !is WgQuickBackend) {
                 return@thenAccept
             }
             val action = intent.action
             if (Intent.ACTION_BOOT_COMPLETED == action) {
                 Timber.i("Broadcast receiver attempting to restore state (boot)")
-                val restoreWork = OneTimeWorkRequestBuilder<TunnelRestoreWork>()
+                val restoreWork = OneTimeWorkRequestBuilder<TunnelRestoreWorker>()
                         .setBackoffCriteria(
                                 BackoffPolicy.LINEAR,
                                 OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
@@ -42,7 +47,7 @@ class BootShutdownReceiver : BroadcastReceiver(), KoinComponent {
                 WorkManager.getInstance(context).enqueue(restoreWork)
             } else if (Intent.ACTION_SHUTDOWN == action) {
                 Timber.i("Broadcast receiver saving state (shutdown)")
-                getTunnelManager().saveState()
+                tunnelManager.saveState()
             }
         }
     }

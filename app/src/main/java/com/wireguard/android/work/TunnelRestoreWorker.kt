@@ -8,22 +8,22 @@ package com.wireguard.android.work
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.wireguard.android.di.ext.injectRootShell
-import com.wireguard.android.di.ext.injectTunnelManager
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.RootShell
-import org.koin.core.KoinComponent
+import javax.inject.Inject
 import timber.log.Timber
 
-class TunnelRestoreWork(
+class TunnelRestoreWorker(
     appContext: Context,
     workerParams: WorkerParameters
-) : Worker(appContext, workerParams), KoinComponent {
-    private val tunnelManager: TunnelManager by injectTunnelManager()
-    private val rootShell: RootShell by injectRootShell()
+) : Worker(appContext, workerParams) {
+    @Inject lateinit var tunnelManager: TunnelManager
+    @Inject lateinit var rootShell: RootShell
 
     override fun doWork(): Result {
+        getInjector(applicationContext).inject(this)
         val result = ArrayList<String>()
         rootShell.run(result, "iptables -L | grep Chain")
         rootShell.run(result, "ip6tables -L | grep Chain")

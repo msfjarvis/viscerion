@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -22,15 +23,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.activity.MainActivity
 import com.wireguard.android.databinding.TunnelEditorFragmentBinding
-import com.wireguard.android.di.ext.getPrefs
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.fragment.AppListDialogFragment.AppExclusionListener
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.ui.EdgeToEdge
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.viewmodel.ConfigProxy
 import com.wireguard.config.Config
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
@@ -40,6 +43,8 @@ import timber.log.Timber
 class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     private var binding: TunnelEditorFragmentBinding? = null
     private var tunnel: Tunnel? = null
+    @Inject lateinit var prefs: ApplicationPreferences
+    @Inject lateinit var tunnelManager: TunnelManager
 
     private fun onConfigLoaded(config: Config) {
         if (binding != null) {
@@ -68,6 +73,11 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onPause() {
         super.onPause()
         onFinished(false)
+    }
+
+    override fun onAttach(context: Context) {
+        injector.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,7 +143,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 val ctx = requireContext()
                 navigationBarColor = ContextCompat.getColor(ctx, R.color.secondary_dark_color)
                 if (Build.VERSION.SDK_INT >= 27 &&
-                    (!getPrefs().useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
+                    (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
                     // Clear window flags to let navigation bar be dark
                     decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
@@ -159,7 +169,7 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 when {
                     tunnel == null -> {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
-                        getTunnelManager().create(requireNotNull(binding?.name) { "Tunnel name cannot be empty!" }, newConfig)
+                        tunnelManager.create(requireNotNull(binding?.name) { "Tunnel name cannot be empty!" }, newConfig)
                                 .whenComplete(this::onTunnelCreated)
                     }
                     tunnel?.name != binding?.name -> {

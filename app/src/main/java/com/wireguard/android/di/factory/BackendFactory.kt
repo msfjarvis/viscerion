@@ -28,7 +28,7 @@ object BackendFactory {
                     throw Exception("Forcing userspace backend on user request.")
                 }
                 rootShell.start()
-                ret = WgQuickBackend(context, toolsInstaller, rootShell)
+                ret = WgQuickBackend(context, prefs, rootShell, toolsInstaller)
             } catch (_: Exception) {
             }
         }

@@ -5,6 +5,7 @@
  */
 package com.wireguard.android.fragment
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,14 +17,16 @@ import androidx.databinding.DataBindingUtil
 import com.wireguard.android.R
 import com.wireguard.android.databinding.TunnelDetailFragmentBinding
 import com.wireguard.android.databinding.TunnelDetailPeerBinding
-import com.wireguard.android.di.ext.getPrefs
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.ui.EdgeToEdge
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.util.resolveAttribute
 import java.util.Timer
 import java.util.TimerTask
+import javax.inject.Inject
 import me.msfjarvis.viscerion.crypto.Key
 
 /**
@@ -34,11 +37,17 @@ class TunnelDetailFragment : BaseFragment() {
     private var binding: TunnelDetailFragmentBinding? = null
     private var timer: Timer? = null
     private var lastState: State? = State.TOGGLE
+    @Inject lateinit var prefs: ApplicationPreferences
 
     class StatsTimerTask(private val tdf: TunnelDetailFragment) : TimerTask() {
         override fun run() {
             tdf.updateStats()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        injector.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +76,7 @@ class TunnelDetailFragment : BaseFragment() {
             val ctx = requireContext()
             navigationBarColor = ctx.resolveAttribute(android.R.attr.navigationBarColor)
             if (Build.VERSION.SDK_INT >= 27 &&
-                (!getPrefs().useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
+                (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
                 // Restore window flags
                 decorView.systemUiVisibility =
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

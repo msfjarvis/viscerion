@@ -5,32 +5,11 @@
  */
 package com.wireguard.config
 
-import android.content.Context
-import android.content.SharedPreferences
-import com.wireguard.android.util.ApplicationPreferences
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.mockito.Mockito
 
-class ConfigTest : AutoCloseKoinTest() {
-
-    @Before
-    fun setupKoin() {
-        val sharedPrefs = Mockito.mock(SharedPreferences::class.java)
-        val context: Context = Mockito.mock(Context::class.java)
-        startKoin {
-            androidContext(context)
-            modules(module {
-                single { ApplicationPreferences(sharedPrefs) }
-            })
-        }
-    }
+class ConfigTest {
 
     @Test
     fun `test config parses correctly`() {

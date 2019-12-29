@@ -105,12 +105,13 @@ dependencies {
     implementation deps.androidx.work_ktx
 
     implementation deps.third_party.barcode
-    implementation deps.third_party.koin_android
+    implementation deps.third_party.dagger
     implementation deps.third_party.retrofuture
     implementation deps.third_party.threetenabp
     implementation deps.third_party.timber
 
+    kapt deps.third_party.dagger_compiler
+
     testImplementation deps.testing.junit
     testImplementation deps.testing.mockito_core
-    testImplementation deps.testing.koin_test
 }

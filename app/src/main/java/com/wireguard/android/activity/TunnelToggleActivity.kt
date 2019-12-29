@@ -12,18 +12,21 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.wireguard.android.R
-import com.wireguard.android.di.ext.getTunnelManager
+import com.wireguard.android.di.injector
 import com.wireguard.android.model.Tunnel
+import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.services.QuickTileService
 import com.wireguard.android.util.ErrorMessages
+import javax.inject.Inject
 import timber.log.Timber
 
 @RequiresApi(24)
 class TunnelToggleActivity : AppCompatActivity() {
 
-    private val tunnelManager = getTunnelManager()
+    @Inject lateinit var tunnelManager: TunnelManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
         val tunnel = tunnelManager.getLastUsedTunnel() ?: return
         tunnel.setState(Tunnel.State.TOGGLE).whenComplete { _, throwable ->
