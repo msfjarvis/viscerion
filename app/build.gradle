@@ -40,10 +40,6 @@ android {
         testHandleProfiling true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     if (keystorePropertiesFile.exists()) {
         final def keystoreProperties = new Properties()
         keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
