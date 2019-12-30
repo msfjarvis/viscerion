@@ -6,6 +6,7 @@
 plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'scabbard.gradle' version '0.1.0'
 }
 
 final def keystorePropertiesFile = rootProject.file 'keystore.properties'
@@ -19,13 +20,17 @@ final def gitHash = { ->
     stdout.toString().trim()
 }
 
-final def isCi() {
-    return System.env['GITHUB_WORKFLOW'] != null || System.env['DRONE'] != null
+static boolean isNotCi() {
+    return System.env['GITHUB_WORKFLOW'] == null || System.env['DRONE'] == null
+}
+
+scabbard {
+    enabled isNotCi()
 }
 
 android {
     dataBinding.enabled = true
-    if (!isCi()) {
+    if (isNotCi()) {
         applicationVariants.all { final variant ->
             variant.outputs.all {
                 outputFileName = "viscerion_${gitHash()}.apk"
@@ -64,7 +69,7 @@ android {
             applicationIdSuffix = '.debug'
             versionNameSuffix = '-debug'
             minifyEnabled = false
-            buildConfigField 'String', 'GIT_HASH', isCi() ? "\"${gitHash()}\"" : '\"\"'
+            buildConfigField 'String', 'GIT_HASH', isNotCi() ? '\"\"' : "\"${gitHash()}\""
         }
     }
     lintOptions {
