@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 ext.versions = [
-    minSdk: 21,
+    minSdk: 23,
     targetSdk: 29,
     compileSdk: 29,
     versionCode: 5270,
