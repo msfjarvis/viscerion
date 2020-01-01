@@ -43,8 +43,8 @@ ext.deps = [
 
     third_party: [
         barcode: "com.kroegerama:barcode-kaiteki:1.1.1",
-        dagger: "com.google.dagger:dagger:2.25.3",
-        dagger_compiler: "com.google.dagger:dagger-compiler:2.25.3",
+        dagger: "com.google.dagger:dagger:2.25.4",
+        dagger_compiler: "com.google.dagger:dagger-compiler:2.25.4",
         leak_canary: "com.squareup.leakcanary:leakcanary-android:2.1",
         retrofuture: "net.sourceforge.streamsupport:android-retrofuture:1.7.1",
         threetenabp: "com.jakewharton.threetenabp:threetenabp:1.2.1",
