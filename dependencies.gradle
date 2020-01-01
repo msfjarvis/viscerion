@@ -52,6 +52,6 @@ ext.deps = [
     ],
 
     testing: [
-        junit: "junit:junit:4.13-rc-2",
+        junit: "junit:junit:4.13",
     ]
 ]
