@@ -117,7 +117,7 @@ object ApplicationModule {
 
     @Reusable
     @Provides
-    fun getConfigStore(context: Context): ConfigStore = FileConfigStore(context, context.filesDir)
+    fun getConfigStore(context: Context): ConfigStore = FileConfigStore(context)
 
     @Reusable
     @Provides

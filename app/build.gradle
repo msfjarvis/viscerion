@@ -114,5 +114,4 @@ dependencies {
     kapt deps.third_party.dagger_compiler
 
     testImplementation deps.testing.junit
-    testImplementation deps.testing.mockito_core
 }
