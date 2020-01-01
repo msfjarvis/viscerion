@@ -21,7 +21,7 @@ final def gitHash = { ->
 }
 
 static boolean isNotCi() {
-    return System.env['GITHUB_WORKFLOW'] == null || System.env['DRONE'] == null
+    return System.env['GITHUB_WORKFLOW'] == null && System.env['DRONE'] == null
 }
 
 scabbard {
