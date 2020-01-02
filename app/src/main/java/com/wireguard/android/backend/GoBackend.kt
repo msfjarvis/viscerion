@@ -19,11 +19,11 @@ import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.SharedLibraryLoader
-import com.wireguard.config.Config
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java9.util.concurrent.CompletableFuture
 import javax.inject.Inject
+import me.msfjarvis.viscerion.config.Config
 import me.msfjarvis.viscerion.crypto.Key
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import timber.log.Timber

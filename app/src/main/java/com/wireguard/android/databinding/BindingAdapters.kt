@@ -21,9 +21,9 @@ import com.wireguard.android.R
 import com.wireguard.android.util.ObservableKeyedList
 import com.wireguard.android.widget.ToggleSwitch
 import com.wireguard.android.widget.ToggleSwitch.OnBeforeCheckedChangeListener
-import com.wireguard.config.Attribute
-import com.wireguard.config.InetNetwork
 import com.wireguard.util.Keyed
+import me.msfjarvis.viscerion.config.Attribute
+import me.msfjarvis.viscerion.config.InetNetwork
 
 /**
  * Static methods for use by generated code in the Android data binding library.

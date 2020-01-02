@@ -3,13 +3,13 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion.config
 
-import com.wireguard.config.BadConfigException.Location
-import com.wireguard.config.BadConfigException.Reason
-import com.wireguard.config.BadConfigException.Section
 import java.util.Collections
 import java.util.Locale
+import me.msfjarvis.viscerion.config.BadConfigException.Location
+import me.msfjarvis.viscerion.config.BadConfigException.Reason
+import me.msfjarvis.viscerion.config.BadConfigException.Section
 import me.msfjarvis.viscerion.crypto.Key
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 
@@ -195,8 +195,8 @@ class Peer private constructor(builder: Builder) {
                 return setPersistentKeepalive(Integer.parseInt(persistentKeepalive))
             } catch (e: NumberFormatException) {
                 throw BadConfigException(
-                        Section.PEER, Location.PERSISTENT_KEEPALIVE,
-                        persistentKeepalive, e
+                    Section.PEER, Location.PERSISTENT_KEEPALIVE,
+                    persistentKeepalive, e
                 )
             }
         }
@@ -266,8 +266,8 @@ class Peer private constructor(builder: Builder) {
             val builder = Builder()
             for (line in lines) {
                 val attribute = Attribute.parse(line) ?: throw BadConfigException(
-                        Section.PEER, Location.TOP_LEVEL,
-                        Reason.SYNTAX_ERROR, line
+                    Section.PEER, Location.TOP_LEVEL,
+                    Reason.SYNTAX_ERROR, line
                 )
                 when (attribute.key.toLowerCase(Locale.ENGLISH)) {
                     "allowedips" -> builder.parseAllowedIPs(attribute.value)
@@ -276,8 +276,8 @@ class Peer private constructor(builder: Builder) {
                     "presharedkey" -> builder.parsePreSharedKey(attribute.value)
                     "publickey" -> builder.parsePublicKey(attribute.value)
                     else -> throw BadConfigException(
-                            Section.PEER, Location.TOP_LEVEL,
-                            Reason.UNKNOWN_ATTRIBUTE, attribute.key
+                        Section.PEER, Location.TOP_LEVEL,
+                        Reason.UNKNOWN_ATTRIBUTE, attribute.key
                     )
                 }
             }

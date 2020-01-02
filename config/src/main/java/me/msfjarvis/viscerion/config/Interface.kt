@@ -3,15 +3,15 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion.config
 
-import com.wireguard.config.BadConfigException.Location
-import com.wireguard.config.BadConfigException.Reason
-import com.wireguard.config.BadConfigException.Section
 import java.net.InetAddress
 import java.util.Collections
 import java.util.LinkedHashSet
 import java.util.Locale
+import me.msfjarvis.viscerion.config.BadConfigException.Location
+import me.msfjarvis.viscerion.config.BadConfigException.Reason
+import me.msfjarvis.viscerion.config.BadConfigException.Section
 import me.msfjarvis.viscerion.crypto.Key
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import me.msfjarvis.viscerion.crypto.KeyPair
@@ -305,10 +305,7 @@ class Interface private constructor(builder: Builder) {
             val builder = Builder()
             for (line in lines) {
                 val attribute = Attribute.parse(line) ?: throw
-                BadConfigException(
-                        Section.INTERFACE, Location.TOP_LEVEL,
-                        Reason.SYNTAX_ERROR, line
-                )
+                BadConfigException(Section.INTERFACE, Location.TOP_LEVEL, Reason.SYNTAX_ERROR, line)
                 when (attribute.key.toLowerCase(Locale.ENGLISH)) {
                     "address" -> builder.parseAddresses(attribute.value)
                     "dns" -> builder.parseDnsServers(attribute.value)
@@ -317,8 +314,8 @@ class Interface private constructor(builder: Builder) {
                     "mtu" -> builder.parseMtu(attribute.value)
                     "privatekey" -> builder.parsePrivateKey(attribute.value)
                     else -> throw BadConfigException(
-                            Section.INTERFACE, Location.TOP_LEVEL,
-                            Reason.UNKNOWN_ATTRIBUTE, attribute.key
+                        Section.INTERFACE, Location.TOP_LEVEL,
+                        Reason.UNKNOWN_ATTRIBUTE, attribute.key
                     )
                 }
             }

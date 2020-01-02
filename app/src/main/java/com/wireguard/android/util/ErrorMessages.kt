@@ -8,12 +8,12 @@ package com.wireguard.android.util
 import android.content.res.Resources
 import com.wireguard.android.Application
 import com.wireguard.android.R
-import com.wireguard.config.BadConfigException
-import com.wireguard.config.BadConfigException.Reason
-import com.wireguard.config.InetEndpoint
-import com.wireguard.config.InetNetwork
-import com.wireguard.config.ParseException
 import java.net.InetAddress
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.BadConfigException.Reason
+import me.msfjarvis.viscerion.config.InetEndpoint
+import me.msfjarvis.viscerion.config.InetNetwork
+import me.msfjarvis.viscerion.config.ParseException
 import me.msfjarvis.viscerion.crypto.Key.Format
 import me.msfjarvis.viscerion.crypto.KeyFormatException
 import me.msfjarvis.viscerion.crypto.KeyFormatException.Type
@@ -88,12 +88,12 @@ object ErrorMessages {
         bce: BadConfigException
     ): String {
         if (bce.cause is KeyFormatException) {
-            val kfe = bce.cause
+            val kfe = bce.cause as KeyFormatException
             if (kfe.type == Type.LENGTH) {
                 return resources.getString(KFE_FORMAT_MAP[kfe.format] as Int)
             }
         } else if (bce.cause is ParseException) {
-            val pe = bce.cause
+            val pe = bce.cause as ParseException
             if (pe.message != null) {
                 return ": " + pe.message
             }
@@ -112,10 +112,10 @@ object ErrorMessages {
         bce: BadConfigException
     ): String {
         if (bce.cause is KeyFormatException) {
-            val kfe = bce.cause
+            val kfe = bce.cause as KeyFormatException
             return resources.getString(KFE_TYPE_MAP[kfe.type] as Int)
         } else if (bce.cause is ParseException) {
-            val pe = bce.cause
+            val pe = bce.cause as ParseException
             val type = resources.getString(
                     if (PE_CLASS_MAP.containsKey(pe.parsingClass)) {
                         PE_CLASS_MAP[pe.parsingClass] as Int

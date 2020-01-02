@@ -109,7 +109,7 @@ tasks {
 }
 
 task installHook(type: Copy) {
-    from 'config'
+    from 'ci'
     into rootProject.file('.git/hooks/')
     rename('pre-push-recommended.sh', 'pre-push')
     fileMode 0755

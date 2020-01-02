@@ -32,8 +32,8 @@ import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.util.isSystemDarkThemeEnabled
 import com.wireguard.android.viewmodel.ConfigProxy
-import com.wireguard.config.Config
 import javax.inject.Inject
+import me.msfjarvis.viscerion.config.Config
 import timber.log.Timber
 
 /**

@@ -7,7 +7,7 @@
         <import type="com.wireguard.android.util.ExtensionsKt" />
         <variable
             name="item"
-            type="com.wireguard.config.Peer" />
+            type="me.msfjarvis.viscerion.config.Peer" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

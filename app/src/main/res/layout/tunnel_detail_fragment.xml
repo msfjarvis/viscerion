@@ -14,7 +14,7 @@
             type="com.wireguard.android.model.Tunnel" />
         <variable
             name="config"
-            type="com.wireguard.config.Config" />
+            type="me.msfjarvis.viscerion.config.Config" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

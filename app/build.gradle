@@ -83,7 +83,7 @@ android {
 }
 
 dependencies {
-    implementation project(':crypto')
+    implementation project(':config')
     implementation project(':native')
     implementation project(':util')
 
@@ -108,7 +108,6 @@ dependencies {
     implementation deps.third_party.barcode
     implementation deps.third_party.dagger
     implementation deps.third_party.retrofuture
-    implementation deps.third_party.threetenabp
     implementation deps.third_party.timber
 
     kapt deps.third_party.dagger_compiler

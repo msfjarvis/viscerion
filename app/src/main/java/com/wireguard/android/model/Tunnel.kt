@@ -14,12 +14,12 @@ import androidx.databinding.Bindable
 import com.wireguard.android.BR
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.ExceptionLoggers
-import com.wireguard.config.Config
 import com.wireguard.util.Keyed
 import java.util.Locale
 import java.util.regex.Pattern
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
+import me.msfjarvis.viscerion.config.Config
 import me.msfjarvis.viscerion.crypto.Key
 
 /**

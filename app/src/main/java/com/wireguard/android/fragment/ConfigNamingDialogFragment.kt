@@ -18,12 +18,12 @@ import com.wireguard.android.R
 import com.wireguard.android.databinding.ConfigNamingDialogFragmentBinding
 import com.wireguard.android.di.injector
 import com.wireguard.android.model.TunnelManager
-import com.wireguard.config.BadConfigException
-import com.wireguard.config.Config
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.Config
 
 class ConfigNamingDialogFragment : DialogFragment() {
 

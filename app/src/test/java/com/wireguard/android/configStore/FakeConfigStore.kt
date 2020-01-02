@@ -5,13 +5,13 @@
  */
 package com.wireguard.android.configStore
 
-import com.wireguard.config.Config
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
+import me.msfjarvis.viscerion.config.Config
 
 class FakeConfigStore(private val filesDir: File) : ConfigStore {
 

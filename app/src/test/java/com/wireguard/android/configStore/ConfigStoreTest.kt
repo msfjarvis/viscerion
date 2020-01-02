@@ -5,11 +5,11 @@
  */
 package com.wireguard.android.configStore
 
-import com.wireguard.config.Config
-import com.wireguard.config.InetAddressUtils
-import com.wireguard.config.InetNetwork
 import java.io.IOException
 import java.nio.file.Files
+import me.msfjarvis.viscerion.config.Config
+import me.msfjarvis.viscerion.config.InetAddressUtils
+import me.msfjarvis.viscerion.config.InetNetwork
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertThrows

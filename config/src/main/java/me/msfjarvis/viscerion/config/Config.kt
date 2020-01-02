@@ -3,17 +3,17 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion.config
 
-import com.wireguard.config.BadConfigException.Location
-import com.wireguard.config.BadConfigException.Reason
-import com.wireguard.config.BadConfigException.Section
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.Collections
 import java.util.LinkedHashSet
+import me.msfjarvis.viscerion.config.BadConfigException.Location
+import me.msfjarvis.viscerion.config.BadConfigException.Reason
+import me.msfjarvis.viscerion.config.BadConfigException.Section
 
 /**
  * Represents the contents of a wg-quick configuration file, made up of one or more "Interface"
@@ -189,16 +189,16 @@ class Config private constructor(builder: Builder) {
                                 inPeerSection = true
                             }
                             else -> throw BadConfigException(
-                                    Section.CONFIG, Location.TOP_LEVEL,
-                                    Reason.UNKNOWN_SECTION, line
+                                Section.CONFIG, Location.TOP_LEVEL,
+                                Reason.UNKNOWN_SECTION, line
                             )
                         }
                     }
                     inInterfaceSection -> interfaceLines.add(line)
                     inPeerSection -> peerLines.add(line)
                     else -> throw BadConfigException(
-                            Section.CONFIG, Location.TOP_LEVEL,
-                            Reason.UNKNOWN_SECTION, line
+                        Section.CONFIG, Location.TOP_LEVEL,
+                        Reason.UNKNOWN_SECTION, line
                     )
                 }
             }

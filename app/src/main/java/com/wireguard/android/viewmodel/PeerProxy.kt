@@ -12,11 +12,11 @@ import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.ObservableList
 import com.wireguard.android.BR
-import com.wireguard.config.Attribute
-import com.wireguard.config.BadConfigException
-import com.wireguard.config.Peer
 import java.lang.ref.WeakReference
 import java.util.LinkedHashSet
+import me.msfjarvis.viscerion.config.Attribute
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.Peer
 
 class PeerProxy : BaseObservable, Parcelable {
 

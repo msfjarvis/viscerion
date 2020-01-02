@@ -11,9 +11,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
-import com.wireguard.config.Attribute
-import com.wireguard.config.BadConfigException
-import com.wireguard.config.Interface
+import me.msfjarvis.viscerion.config.Attribute
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.Interface
 import me.msfjarvis.viscerion.crypto.KeyPair
 
 class InterfaceProxy : BaseObservable, Parcelable {

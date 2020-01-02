@@ -8,9 +8,9 @@ package com.wireguard.android.viewmodel
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.databinding.ObservableArrayList
-import com.wireguard.config.BadConfigException
-import com.wireguard.config.Config
-import com.wireguard.config.Peer
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.Config
+import me.msfjarvis.viscerion.config.Peer
 
 class ConfigProxy : Parcelable {
 

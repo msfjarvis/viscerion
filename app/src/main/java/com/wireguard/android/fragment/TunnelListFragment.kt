@@ -41,7 +41,6 @@ import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.widget.MultiselectableRelativeLayout
 import com.wireguard.android.widget.fab.FloatingActionButtonRecyclerViewScrollListener
-import com.wireguard.config.Config
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
@@ -51,6 +50,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java9.util.concurrent.CompletableFuture
 import javax.inject.Inject
+import me.msfjarvis.viscerion.config.Config
 import timber.log.Timber
 
 class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, BarcodeResultListener {

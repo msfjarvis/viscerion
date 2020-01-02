@@ -21,11 +21,11 @@ import com.wireguard.android.model.TunnelManager
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.RootShell
 import com.wireguard.android.util.ToolsInstaller
-import com.wireguard.config.Config
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
+import me.msfjarvis.viscerion.config.Config
 import me.msfjarvis.viscerion.crypto.Key
 import timber.log.Timber
 

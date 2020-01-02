@@ -3,7 +3,7 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion.config
 
 import java.util.regex.Pattern
 

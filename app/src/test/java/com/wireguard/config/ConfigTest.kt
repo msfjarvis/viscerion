@@ -5,6 +5,10 @@
  */
 package com.wireguard.config
 
+import me.msfjarvis.viscerion.config.BadConfigException
+import me.msfjarvis.viscerion.config.Config
+import me.msfjarvis.viscerion.config.InetAddressUtils
+import me.msfjarvis.viscerion.config.InetNetwork
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test

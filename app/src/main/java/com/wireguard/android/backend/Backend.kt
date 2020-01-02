@@ -8,7 +8,7 @@ package com.wireguard.android.backend
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.Tunnel.Statistics
-import com.wireguard.config.Config
+import me.msfjarvis.viscerion.config.Config
 
 /**
  * Interface for implementations of the WireGuard secure network tunnel.

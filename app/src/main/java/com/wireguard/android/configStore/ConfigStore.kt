@@ -5,7 +5,7 @@
  */
 package com.wireguard.android.configStore
 
-import com.wireguard.config.Config
+import me.msfjarvis.viscerion.config.Config
 
 /**
  * Interface for persistent storage providers for WireGuard configurations.

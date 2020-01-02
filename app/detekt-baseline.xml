@@ -6,8 +6,6 @@
     <ID>ForbiddenComment:ItemChangeListener.kt$ItemChangeListener.OnListChangedCallback$// TODO: recycle views</ID>
     <ID>LongMethod:SettingsActivity.kt$SettingsActivity.SettingsFragment$onCreatePreferences</ID>
     <ID>LongMethod:TunnelListFragment.kt$TunnelListFragment$importTunnel</ID>
-    <ID>MaxLineLength:InetAddressUtils.kt$InetAddressUtils$private val WONT_TOUCH_RESOLVER: Pattern = Pattern.compile("^(((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:)(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?)|((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$")</ID>
-    <ID>MaxLineLength:Interface.kt$Interface$ override fun toString(): String</ID>
     <ID>MaxLineLength:RootShell.kt$RootShell$private val preamble: String = "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"</ID>
     <ID>MaxLineLength:SettingsActivity.kt$SettingsActivity.SettingsFragment$Snackbar.make(snackbarView, ctx.getString(R.string.zip_export_success, fileUri.humanReadablePath), Snackbar.LENGTH_LONG).show()</ID>
     <ID>MaxLineLength:ToolsInstaller.kt$ToolsInstaller$"cp '${File(localBinaryDir, name)}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "</ID>
@@ -16,15 +14,10 @@
     <ID>ReturnCount:ErrorMessages.kt$ErrorMessages$private fun getBadConfigExceptionExplanation( resources: Resources, bce: BadConfigException ): String</ID>
     <ID>ReturnCount:MainActivity.kt$MainActivity$override fun onOptionsItemSelected(item: MenuItem): Boolean</ID>
     <ID>ReturnCount:TunnelDetailFragment.kt$TunnelDetailFragment$private fun formatBytes(bytes: Long): String?</ID>
-    <ID>ThrowsCount:Config.kt$Config.Companion$ @Throws(IOException::class, BadConfigException::class) fun parse(reader: BufferedReader): Config</ID>
     <ID>ThrowsCount:GoBackend.kt$GoBackend$@Throws(Exception::class) private fun setStateInternal(tunnel: Tunnel?, config: Config?, state: Tunnel.State?)</ID>
-    <ID>ThrowsCount:InetAddressUtils.kt$InetAddressUtils$ @Throws(ParseException::class) fun parse(address: String): InetAddress</ID>
-    <ID>ThrowsCount:InetEndpoint.kt$InetEndpoint.Companion$@Throws(ParseException::class) fun parse(endpoint: String): InetEndpoint</ID>
     <ID>ThrowsCount:RootShell.kt$RootShell$@Synchronized @Throws(IOException::class, NoRootException::class) fun start()</ID>
     <ID>TooManyFunctions:AppComponent.kt$AppComponent$AppComponent</ID>
     <ID>TooManyFunctions:GoBackend.kt$GoBackend$GoBackend</ID>
-    <ID>TooManyFunctions:Interface.kt$Interface.Builder$Builder</ID>
-    <ID>TooManyFunctions:Peer.kt$Peer.Builder$Builder</ID>
     <ID>TooManyFunctions:PeerProxy.kt$PeerProxy$PeerProxy</ID>
     <ID>TooManyFunctions:TunnelEditorFragment.kt$TunnelEditorFragment$TunnelEditorFragment</ID>
     <ID>TooManyFunctions:TunnelListFragment.kt$TunnelListFragment$TunnelListFragment</ID>

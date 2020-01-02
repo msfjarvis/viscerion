@@ -47,6 +47,9 @@ jobs:
     - name: Validate codestyle with Spotless
       run: ./gradlew spotlessCheck
 
+    - name: Run static analysis
+      run: ./gradlew detekt
+
     - name: Build app
       run: ./gradlew :app:assembleDebug
 
