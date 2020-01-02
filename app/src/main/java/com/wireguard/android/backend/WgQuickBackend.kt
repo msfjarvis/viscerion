@@ -175,6 +175,11 @@ class WgQuickBackend @Inject constructor(
     ) {
         requireNotNull(config) { "Trying to set state with a null config" }
 
+        // Add globally excluded applications to the config. This approach has two benefits,
+        // first, we don't need to modify the imported configs so import -> exclude -> export
+        // returns identical configurations. Second, this is far, far less work to handle than
+        // the assorted hacks I had in place earlier throughout config. Being able to remove those
+        // made it possible to test the entire config package inside the JVM with little extra effort.
         config.interfaze.excludedApplications.addAll(prefs.exclusions)
         val tempFile = File(localTemporaryDir, tunnel.name + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(

@@ -192,14 +192,13 @@ class GoBackend @Inject constructor(
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0))
 
+            // Merge config's excluded applications with global exclusions, then blacklist/whitelist
+            // depending on the user's preference.
+            val applications = config.interfaze.excludedApplications + prefs.exclusions
             if (prefs.whitelistApps) {
-                (config.interfaze.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
-                    builder.addAllowedApplication(excludedApplication)
-                }
+                applications.forEach { builder.addAllowedApplication(it) }
             } else {
-                (config.interfaze.excludedApplications + prefs.exclusions).forEach { excludedApplication ->
-                    builder.addDisallowedApplication(excludedApplication)
-                }
+                applications.forEach { builder.addDisallowedApplication(it) }
             }
 
             config.interfaze.addresses.forEach { addr ->
