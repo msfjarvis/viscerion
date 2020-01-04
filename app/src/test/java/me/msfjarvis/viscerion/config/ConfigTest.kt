@@ -3,12 +3,8 @@
  * Copyright © 2018-2019 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.wireguard.config
+package me.msfjarvis.viscerion.config
 
-import me.msfjarvis.viscerion.config.BadConfigException
-import me.msfjarvis.viscerion.config.Config
-import me.msfjarvis.viscerion.config.InetAddressUtils
-import me.msfjarvis.viscerion.config.InetNetwork
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
