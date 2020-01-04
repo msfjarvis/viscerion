@@ -8,7 +8,7 @@ apply plugin: 'com.diffplug.gradle.spotless'
 spotless {
     groovyGradle {
         target '**/*.gradle', '*.gradle'
-        licenseHeaderFile 'spotless.license', 'import|tasks|apply|plugins|include|buildscript|ext|android'
+        licenseHeaderFile 'spotless.license', 'import|tasks|apply|plugins|include|buildscript|ext|android|configurations'
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()

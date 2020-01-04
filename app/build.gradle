@@ -113,4 +113,5 @@ dependencies {
     kapt deps.third_party.dagger_compiler
 
     testImplementation deps.testing.junit
+    testImplementation project(path: ':test-resources', configuration: 'testRes')
 }
