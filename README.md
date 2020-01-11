@@ -14,7 +14,7 @@ $ cd viscerion
 $ ./gradlew assembleDebug
 ```
 
-Note: on macOS you also need to install the GNU `coreutils` package through homebrew.
+Note: on macOS you might need to install the GNU `coreutils` package through homebrew.
 
 ## Contributing
 
