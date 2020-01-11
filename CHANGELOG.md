@@ -6,6 +6,9 @@
 - Update library dependencies
 - Handle case when user removes all fingerprints with biometric authentication enabled
 - Match some UI aspects to the Material Design specification
+- Switch completely to the new icon and remove the toggle
+- Update Polish translations
+- Rewrite global exclusions implementation
 
 ### [5.2.7] - 2019-12-13
 - Require unlocking for using Quick Settings tile.
