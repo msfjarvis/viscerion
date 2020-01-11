@@ -14,7 +14,7 @@ spotless {
     }
 
     java {
-        target 'app/src/main/java/com/wireguard/android/util/ObservableSortedKeyedArrayList.java', 'app/src/main/java/com/wireguard/android/util/ObservableKeyedArrayList.java', 'app/src/main/java/com/wireguard/android/util/KotlinCompanions.java'
+        target 'src/main/java/com/wireguard/android/util/ObservableSortedKeyedArrayList.java', 'src/main/java/com/wireguard/android/util/ObservableKeyedArrayList.java', 'src/main/java/com/wireguard/android/util/KotlinCompanions.java', 'src/test/java/**/**.java'
         trimTrailingWhitespace()
         licenseHeaderFile rootProject.file('spotless.license')
         removeUnusedImports()
