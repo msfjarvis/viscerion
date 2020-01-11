@@ -1,7 +1,13 @@
+/*
+ * Copyright © 2017-2020 WireGuard LLC.
+ * Copyright © 2018-2020 Harsh Shandilya <msfjarvis@gmail.com>. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package me.msfjarvis.viscerion.crypto;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class KeyTest {
     private static final String TEST_KEY = "Lr6H7NLgVC44JOe0t8P1X5dPm0QbF8JnBQjLdbWUiNk=";
