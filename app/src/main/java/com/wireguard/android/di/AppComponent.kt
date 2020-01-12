@@ -36,7 +36,6 @@ import com.wireguard.android.services.BootShutdownReceiver
 import com.wireguard.android.services.QuickTileService
 import com.wireguard.android.services.TaskerIntegrationReceiver
 import com.wireguard.android.util.ApplicationPreferences
-import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.BackendAsync
 import com.wireguard.android.util.RootShell
 import com.wireguard.android.util.ToolsInstaller
@@ -58,13 +57,6 @@ interface AppComponent {
         fun create(@BindsInstance applicationContext: Context): AppComponent
     }
 
-    val backend: Backend
-    val backendAsync: BackendAsync
-    val asyncWorker: AsyncWorker
-    val backendType: Class<Backend>
-    val toolsInstaller: ToolsInstaller
-    val tunnelManager: TunnelManager
-    val rootShell: RootShell
     val preferences: ApplicationPreferences
 
     // Activities
