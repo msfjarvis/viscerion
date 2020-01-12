@@ -87,8 +87,7 @@ class SettingsActivity : AppCompatActivity() {
             val screen = preferenceScreen
             val ctx = requireContext()
             val wgQuickOnlyPrefs = arrayOf(
-                    screen.findPreference<Preference>("tools_installer"),
-                    screen.findPreference<CheckBoxPreference>("restore_on_boot")
+                    screen.findPreference<Preference>("tools_installer")
             )
             val wgOnlyPrefs = arrayOf(
                     screen.findPreference<CheckBoxPreference>("whitelist_exclusions")
