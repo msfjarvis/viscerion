@@ -5,7 +5,9 @@
  */
 package com.wireguard.android.model
 
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -18,6 +20,7 @@ import com.wireguard.android.backend.Backend
 import com.wireguard.android.configStore.ConfigStore
 import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel.Statistics
+import com.wireguard.android.providers.OneTapWidget
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.AsyncWorker
 import com.wireguard.android.util.ExceptionLoggers
@@ -189,10 +192,6 @@ class TunnelManager @Inject constructor(
     }
 
     fun saveState() {
-        context.contentResolver.notifyChange(
-                Uri.parse("content://${BuildConfig.APPLICATION_ID}/vpn"),
-                null
-        )
         prefs.runningTunnels =
                 tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
     }
@@ -274,6 +273,15 @@ class TunnelManager @Inject constructor(
                 setLastUsedTunnel(tunnel)
             }
             saveState()
+            context.contentResolver.notifyChange(
+                Uri.parse("content://${BuildConfig.APPLICATION_ID}/vpn"),
+                null
+            )
+            context.sendBroadcast(Intent(context, OneTapWidget::class.java).apply {
+                val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, OneTapWidget::class.java))
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            })
         }
     }
 
