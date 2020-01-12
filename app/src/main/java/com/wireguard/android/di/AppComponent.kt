@@ -11,6 +11,7 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import androidx.preference.PreferenceManager
+import com.wireguard.android.Application
 import com.wireguard.android.activity.BaseActivity
 import com.wireguard.android.activity.LaunchActivity
 import com.wireguard.android.activity.MainActivity
@@ -57,7 +58,8 @@ interface AppComponent {
         fun create(@BindsInstance applicationContext: Context): AppComponent
     }
 
-    val preferences: ApplicationPreferences
+    // Application
+    fun inject(application: Application)
 
     // Activities
     fun inject(activity: BaseActivity)

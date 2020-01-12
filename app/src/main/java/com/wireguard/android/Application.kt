@@ -15,12 +15,17 @@ import androidx.core.content.getSystemService
 import com.wireguard.android.di.AppComponent
 import com.wireguard.android.di.DaggerAppComponent
 import com.wireguard.android.di.InjectorProvider
+import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.updateAppTheme
+import javax.inject.Inject
 import timber.log.Timber
 
 @Suppress("Unused")
 class Application : android.app.Application(), InjectorProvider {
+
+    @Inject lateinit var prefs: ApplicationPreferences
 
     override val component: AppComponent by lazy {
         DaggerAppComponent.factory().create(applicationContext)
@@ -44,6 +49,7 @@ class Application : android.app.Application(), InjectorProvider {
 
     override fun onCreate() {
         super.onCreate()
+        getInjector(this).inject(this)
         INSTANCE = this
 
         if (BuildConfig.DEBUG) {
@@ -55,7 +61,7 @@ class Application : android.app.Application(), InjectorProvider {
             )
         }
 
-        updateAppTheme(component.preferences.useDarkTheme)
+        updateAppTheme(prefs.useDarkTheme)
 
         if (Build.VERSION.SDK_INT >= 26) {
             createNotificationChannel()
