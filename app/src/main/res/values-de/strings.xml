@@ -208,4 +208,6 @@
     <string name="biometric_prompt_retry">Wiederholen</string>
     <string name="biometric_prompt_no_hardware">Keine Biometrische Hardware gefunden</string>
     <string name="search">Suche</string>
+    <string name="enable">Aktivieren</string>
+    <string name="disable">Deaktivieren</string>
 </resources>
