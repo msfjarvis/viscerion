@@ -239,6 +239,7 @@ class GoBackend @Inject constructor(
 
             currentTunnel = tunnel
 
+            service.setUnderlyingNetworks(null)
             service.protect(wgGetSocketV4(currentTunnelHandle))
             service.protect(wgGetSocketV6(currentTunnelHandle))
         } else {
