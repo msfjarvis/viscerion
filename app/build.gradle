@@ -39,7 +39,7 @@ android {
     }
     defaultConfig {
         applicationId versions.packageName
-        resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru'
+        resConfigs 'de', 'en', 'fr', 'pt-rBR', 'ru', 'zh'
         testApplicationId "${versions.packageName}.test"
         testFunctionalTest true
         testHandleProfiling true
