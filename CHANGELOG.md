@@ -2,8 +2,11 @@
 
 ### [Unreleased]
 - Allow userspace mode to persist tunnels across reboots
-- Update Chinese Simplfied translations
+- Update Chinese Simplfied and German translations
+- Add a rudimentary widget to toggle last used tunnel
+- Allow userspace backend to restore tunnels on reboot
 - Fix cancelling biometric dialog allows auth bypass
+- Upgrade library dependencies
 
 ### [5.2.8] - 2019-01-11
 - Workaround background service restrictions on Android 10
