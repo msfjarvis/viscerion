@@ -3,7 +3,6 @@
 ### [Unreleased]
 
 ### [5.2.9] - 2019-01-16
-- Allow userspace mode to persist tunnels across reboots
 - Update Chinese Simplfied and German translations
 - Add a rudimentary widget to toggle last used tunnel
 - Allow userspace backend to restore tunnels on reboot
