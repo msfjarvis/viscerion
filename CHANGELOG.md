@@ -1,6 +1,8 @@
 # Release Notes
 
 ### [Unreleased]
+
+### [5.2.9] - 2019-01-16
 - Allow userspace mode to persist tunnels across reboots
 - Update Chinese Simplfied and German translations
 - Add a rudimentary widget to toggle last used tunnel
@@ -139,7 +141,8 @@ the only ones which use the tunnel for networking.
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
 
-[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.8...HEAD
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.9...HEAD
+[5.2.9]: https://github.com/msfjarvis/viscerion/releases/5.2.9
 [5.2.8]: https://github.com/msfjarvis/viscerion/releases/5.2.8
 [5.2.7]: https://github.com/msfjarvis/viscerion/releases/5.2.7
 [5.2.6]: https://github.com/msfjarvis/viscerion/releases/5.2.6
