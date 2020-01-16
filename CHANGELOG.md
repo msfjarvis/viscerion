@@ -3,6 +3,7 @@
 ### [Unreleased]
 - Allow userspace mode to persist tunnels across reboots
 - Update Chinese Simplfied translations
+- Fix cancelling biometric dialog allows auth bypass
 
 ### [5.2.8] - 2019-01-11
 - Workaround background service restrictions on Android 10

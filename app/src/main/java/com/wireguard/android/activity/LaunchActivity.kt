@@ -31,6 +31,7 @@ class LaunchActivity : AppCompatActivity() {
                         startMainActivity(false)
                     }
                     else -> {
+                        finishAffinity()
                     }
                 }
             }.authenticate()

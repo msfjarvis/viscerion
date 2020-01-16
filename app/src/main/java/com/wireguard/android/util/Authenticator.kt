@@ -25,7 +25,11 @@ internal class Authenticator(
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
             Timber.d("Error: $errorCode: $errString")
-            callback(AuthenticationResult.UnrecoverableError(errorCode, errString))
+            if (errString.contains("cancelled")) {
+                callback(AuthenticationResult.Cancelled)
+            } else {
+                callback(AuthenticationResult.UnrecoverableError(errorCode, errString))
+            }
         }
 
         override fun onAuthenticationFailed() {
