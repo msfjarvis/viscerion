@@ -69,10 +69,10 @@ class ToolsInstallerPreference(context: Context, attrs: AttributeSet) : Preferen
                 Timber.d(throwable)
             }
             result and (ToolsInstaller.YES or ToolsInstaller.MAGISK) == ToolsInstaller.YES or ToolsInstaller.MAGISK -> setState(
-                    State.SUCCESS_MAGISK
+                State.SUCCESS_MAGISK
             )
             result and (ToolsInstaller.YES or ToolsInstaller.SYSTEM) == ToolsInstaller.YES or ToolsInstaller.SYSTEM -> setState(
-                    State.SUCCESS_SYSTEM
+                State.SUCCESS_SYSTEM
             )
             else -> setState(State.FAILURE)
         }

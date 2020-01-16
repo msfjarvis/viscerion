@@ -66,7 +66,7 @@ private class RealEdgeToEdge : EdgeToEdgeImpl {
 
     override fun setUpRoot(root: ViewGroup) {
         root.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar?) {
@@ -93,9 +93,9 @@ private class RealEdgeToEdge : EdgeToEdgeImpl {
 
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
             scrollingContent.updatePadding(
-                    left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
-                    right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                    bottom = originalPaddingBottom + fabPaddingBottom + windowInsets.systemWindowInsetBottom
+                left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
+                right = originalPaddingRight + windowInsets.systemWindowInsetRight,
+                bottom = originalPaddingBottom + fabPaddingBottom + windowInsets.systemWindowInsetBottom
             )
             scrollingContent.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 topMargin = originalMarginTop + windowInsets.systemWindowInsetTop

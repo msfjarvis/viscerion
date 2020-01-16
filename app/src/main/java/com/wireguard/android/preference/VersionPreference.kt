@@ -29,14 +29,17 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
         super.onAttached()
         backendAsync.thenAccept { backend ->
             versionSummary =
-                    getContext().getString(R.string.version_summary_checking, backend.getTypePrettyName().toLowerCase(Locale.ROOT))
+                context.getString(
+                    R.string.version_summary_checking,
+                    backend.getTypePrettyName().toLowerCase(Locale.ROOT)
+                )
             asyncWorker.supplyAsync {
                 backend.getVersion()
             }.whenComplete { version, exception ->
                 versionSummary = if (exception == null) {
-                    getContext().getString(R.string.version_summary, backend.getTypePrettyName(), version)
+                    context.getString(R.string.version_summary, backend.getTypePrettyName(), version)
                 } else {
-                    getContext().getString(
+                    context.getString(
                         R.string.version_summary_unknown,
                         backend.getTypePrettyName().toLowerCase(Locale.ROOT)
                     )
@@ -52,8 +55,8 @@ class VersionPreference(context: Context, attrs: AttributeSet) : Preference(cont
 
     override fun getTitle(): CharSequence {
         return context.getString(
-                R.string.version_title,
-                if (BuildConfig.GIT_HASH.isNotEmpty()) BuildConfig.GIT_HASH else BuildConfig.VERSION_NAME
+            R.string.version_title,
+            if (BuildConfig.GIT_HASH.isNotEmpty()) BuildConfig.GIT_HASH else BuildConfig.VERSION_NAME
         )
     }
 

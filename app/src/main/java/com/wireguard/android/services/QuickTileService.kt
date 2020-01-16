@@ -66,7 +66,7 @@ class QuickTileService : TileService() {
         icon.setAnimationEnabled(false)
         icon.setSlashed(false)
         var b = Bitmap.createBitmap(
-                icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
+            icon.intrinsicWidth, icon.intrinsicHeight, Bitmap.Config.ARGB_8888
         )
         var c = Canvas(b)
         icon.setBounds(0, 0, c.width, c.height)

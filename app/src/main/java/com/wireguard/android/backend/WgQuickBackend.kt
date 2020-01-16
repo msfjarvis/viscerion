@@ -150,17 +150,17 @@ class WgQuickBackend @Inject constructor(
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
             val builder = NotificationCompat.Builder(
-                    context,
-                    TunnelManager.NOTIFICATION_CHANNEL_ID
+                context,
+                TunnelManager.NOTIFICATION_CHANNEL_ID
             )
             builder.setContentTitle(context.getString(R.string.notification_channel_wgquick_title))
-                    .setContentText(tunnel.name)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .setShowWhen(true)
-                    .setUsesChronometer(true)
-                    .setPriority(Notification.FLAG_ONGOING_EVENT)
-                    .setSmallIcon(R.drawable.ic_qs_tile)
+                .setContentText(tunnel.name)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setShowWhen(true)
+                .setUsesChronometer(true)
+                .setPriority(Notification.FLAG_ONGOING_EVENT)
+                .setSmallIcon(R.drawable.ic_qs_tile)
             notificationManager.notify(tunnel.name.hashCode(), builder.build())
         } else if (state == State.DOWN) {
             notificationManager.cancel(tunnel.name.hashCode())
@@ -183,8 +183,8 @@ class WgQuickBackend @Inject constructor(
         config.interfaze.excludedApplications.addAll(prefs.exclusions)
         val tempFile = File(localTemporaryDir, tunnel.name + CONFIGURATION_FILE_SUFFIX)
         FileOutputStream(
-                tempFile,
-                false
+            tempFile,
+            false
         ).use { stream -> stream.write(config.toWgQuickString().toByteArray(StandardCharsets.UTF_8)) }
         var command = "wg-quick $state '${tempFile.absolutePath}'"
         if (state == State.UP) {

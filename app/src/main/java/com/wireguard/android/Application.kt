@@ -35,9 +35,9 @@ class Application : android.app.Application(), InjectorProvider {
     private fun createNotificationChannel() {
         val notificationManager = requireNotNull(getSystemService<NotificationManager>())
         val notificationChannel = NotificationChannel(
-                TunnelManager.NOTIFICATION_CHANNEL_ID,
-                getString(R.string.notification_channel_wgquick_title),
-                NotificationManager.IMPORTANCE_DEFAULT
+            TunnelManager.NOTIFICATION_CHANNEL_ID,
+            getString(R.string.notification_channel_wgquick_title),
+            NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
             description = getString(R.string.notification_channel_wgquick_desc)
             setShowBadge(false)
@@ -54,7 +54,8 @@ class Application : android.app.Application(), InjectorProvider {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
                     .build()

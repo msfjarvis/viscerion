@@ -117,8 +117,8 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
         focusedView?.let {
             val inputManager = context?.getSystemService<InputMethodManager>()
             inputManager?.hideSoftInputFromWindow(
-                    it.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS
+                it.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
         if (informActivity) {
@@ -138,12 +138,14 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
     override fun onResume() {
         super.onResume()
         if (!MainActivity.isTwoPaneLayout &&
-                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+        ) {
             requireActivity().window?.apply {
                 val ctx = requireContext()
                 navigationBarColor = ContextCompat.getColor(ctx, R.color.secondary_dark_color)
                 if (Build.VERSION.SDK_INT >= 27 &&
-                    (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
+                    (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())
+                ) {
                     // Clear window flags to let navigation bar be dark
                     decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
@@ -169,14 +171,17 @@ class TunnelEditorFragment : BaseFragment(), AppExclusionListener {
                 when {
                     tunnel == null -> {
                         Timber.d("Attempting to create new tunnel %s", binding?.name)
-                        tunnelManager.create(requireNotNull(binding?.name) { "Tunnel name cannot be empty!" }, newConfig)
-                                .whenComplete(this::onTunnelCreated)
+                        tunnelManager.create(
+                            requireNotNull(binding?.name) { "Tunnel name cannot be empty!" },
+                            newConfig
+                        )
+                            .whenComplete(this::onTunnelCreated)
                     }
                     tunnel?.name != binding?.name -> {
                         tunnel?.let {
                             Timber.d("Attempting to rename tunnel to %s", binding?.name)
                             it.setName(binding?.name ?: "")
-                                    .whenComplete { _, b -> onTunnelRenamed(it, newConfig!!, b) }
+                                .whenComplete { _, b -> onTunnelRenamed(it, newConfig!!, b) }
                         }
                     }
                     else -> {

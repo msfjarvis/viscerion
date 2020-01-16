@@ -142,10 +142,10 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                 }
             } else {
                 futureTunnels.add(
-                        tunnelManager.create(
-                                name,
-                                Config.parse(contentResolver.openInputStream(uri))
-                        ).toCompletableFuture()
+                    tunnelManager.create(
+                        name,
+                        Config.parse(contentResolver.openInputStream(uri))
+                    ).toCompletableFuture()
                 )
             }
 
@@ -251,7 +251,7 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         var view: MultiselectableRelativeLayout? = null
         if (binding != null) {
             view = binding!!.tunnelList.findViewHolderForAdapterPosition(
-                    tunnels.indexOf(tunnel)
+                tunnels.indexOf(tunnel)
             )?.itemView as? MultiselectableRelativeLayout
         }
         return view
@@ -306,15 +306,15 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
             tunnels.isEmpty() && throwables.size == 1 -> {
             }
             throwables.isEmpty() -> message = resources.getQuantityString(
-                    R.plurals.import_total_success,
-                    tunnels.size, tunnels.size
+                R.plurals.import_total_success,
+                tunnels.size, tunnels.size
             )
             throwables.isNotEmpty() -> {
                 /* Use the exception message from above. */
                 message = resources.getQuantityString(
-                        R.plurals.import_partial_success,
-                        tunnels.size + throwables.size,
-                        tunnels.size, tunnels.size + throwables.size
+                    R.plurals.import_partial_success,
+                    tunnels.size + throwables.size,
+                    tunnels.size, tunnels.size + throwables.size
                 )
             }
         }
@@ -398,34 +398,34 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         binding?.fragment = this
         tunnelManager.getTunnels().thenAccept { binding?.tunnels = it }
         binding?.rowConfigurationHandler =
-                object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
-                    override fun onConfigureRow(
-                        binding: TunnelListItemBinding,
-                        tunnel: Tunnel,
-                        position: Int
-                    ) {
-                        binding.fragment = this@TunnelListFragment
-                        binding.root.setOnClickListener {
-                            if (actionMode == null) {
-                                selectedTunnel = tunnel
-                            } else {
-                                actionModeListener.toggleItemChecked(position)
-                            }
-                        }
-                        binding.root.setOnLongClickListener {
+            object : ObservableKeyedRecyclerViewAdapter.RowConfigurationHandler<TunnelListItemBinding, Tunnel> {
+                override fun onConfigureRow(
+                    binding: TunnelListItemBinding,
+                    tunnel: Tunnel,
+                    position: Int
+                ) {
+                    binding.fragment = this@TunnelListFragment
+                    binding.root.setOnClickListener {
+                        if (actionMode == null) {
+                            selectedTunnel = tunnel
+                        } else {
                             actionModeListener.toggleItemChecked(position)
-                            true
                         }
+                    }
+                    binding.root.setOnLongClickListener {
+                        actionModeListener.toggleItemChecked(position)
+                        true
+                    }
 
-                        (binding.root as MultiselectableRelativeLayout).apply {
-                            if (actionMode != null) {
-                                setMultiSelected(actionModeListener.checkedItems.contains(position))
-                            } else {
-                                setSingleSelected(selectedTunnel == tunnel)
-                            }
+                    (binding.root as MultiselectableRelativeLayout).apply {
+                        if (actionMode != null) {
+                            setMultiSelected(actionModeListener.checkedItems.contains(position))
+                        } else {
+                            setSingleSelected(selectedTunnel == tunnel)
                         }
                     }
                 }
+            }
     }
 
     private inner class ActionModeListener : ActionMode.Callback {
@@ -445,26 +445,32 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
                     val ctx = requireContext()
                     val tunnelCount = tunnelsToDelete.size
                     MaterialAlertDialogBuilder(ctx)
-                            .setMessage(ctx.resources.getQuantityString(R.plurals.confirm_tunnel_deletion, tunnelCount, tunnelCount))
-                            .setPositiveButton(android.R.string.ok) { _, _ ->
-                                savedTunnelsList.removeAll(tunnelsToDelete)
-                                val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
-                                CompletableFuture.allOf(*futures)
-                                        .thenApply { futures.size }
-                                        .whenComplete { count, throwable ->
-                                            onTunnelDeletionFinished(count, throwable)
-                                        }
-                                binding?.createFab?.extend()
-                                mode.finish()
-                            }
-                            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                                mode.finish()
-                            }
-                            .setOnCancelListener {
-                                checkedItems.clear()
-                                mode.finish()
-                            }
-                            .show()
+                        .setMessage(
+                            ctx.resources.getQuantityString(
+                                R.plurals.confirm_tunnel_deletion,
+                                tunnelCount,
+                                tunnelCount
+                            )
+                        )
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            savedTunnelsList.removeAll(tunnelsToDelete)
+                            val futures = KotlinCompanions.streamForDeletion(tunnelsToDelete)
+                            CompletableFuture.allOf(*futures)
+                                .thenApply { futures.size }
+                                .whenComplete { count, throwable ->
+                                    onTunnelDeletionFinished(count, throwable)
+                                }
+                            binding?.createFab?.extend()
+                            mode.finish()
+                        }
+                        .setNegativeButton(android.R.string.cancel) { _, _ ->
+                            mode.finish()
+                        }
+                        .setOnCancelListener {
+                            checkedItems.clear()
+                            mode.finish()
+                        }
+                        .show()
                     return true
                 }
                 R.id.menu_action_select_all -> {

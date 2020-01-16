@@ -26,7 +26,8 @@ class RootShell @Inject constructor(val context: Context) {
     private val deviceNotRootedMessage: String by lazy { context.getString(R.string.error_root) }
     private val localBinaryDir: File = File(context.codeCacheDir, "bin")
     private val localTemporaryDir: File = File(context.cacheDir, "tmp")
-    private val preamble: String = "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
+    private val preamble: String =
+        "export CALLING_PACKAGE=${BuildConfig.APPLICATION_ID} PATH=\"$localBinaryDir:\$PATH\" TMPDIR='$localTemporaryDir'; id -u\n"
     private var process: Process? = null
     private lateinit var stderr: BufferedReader
     private lateinit var stdin: OutputStreamWriter
@@ -129,16 +130,16 @@ class RootShell @Inject constructor(val context: Context) {
 
             stdin = OutputStreamWriter(process!!.outputStream, StandardCharsets.UTF_8)
             stdout = BufferedReader(
-                    InputStreamReader(
-                            process!!.inputStream,
-                            StandardCharsets.UTF_8
-                    )
+                InputStreamReader(
+                    process!!.inputStream,
+                    StandardCharsets.UTF_8
+                )
             )
             stderr = BufferedReader(
-                    InputStreamReader(
-                            process!!.errorStream,
-                            StandardCharsets.UTF_8
-                    )
+                InputStreamReader(
+                    process!!.errorStream,
+                    StandardCharsets.UTF_8
+                )
             )
             stdin.write(preamble)
             stdin.flush()

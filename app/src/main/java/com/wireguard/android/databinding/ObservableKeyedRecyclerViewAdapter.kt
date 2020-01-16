@@ -92,7 +92,7 @@ class ObservableKeyedRecyclerViewAdapter<K, E : Keyed<out K>> internal construct
     }
 
     private class OnListChangedCallback<E : Keyed<*>> constructor(adapter: ObservableKeyedRecyclerViewAdapter<*, E>) :
-            ObservableList.OnListChangedCallback<ObservableList<E>>() {
+        ObservableList.OnListChangedCallback<ObservableList<E>>() {
 
         private val weakAdapter: WeakReference<ObservableKeyedRecyclerViewAdapter<*, E>> = WeakReference(adapter)
 

@@ -40,7 +40,7 @@ class ViscerionSliceProvider : SliceProvider() {
         return if (lastUsedTunnel != null) {
             val isTunnelUp = lastUsedTunnel.state == Tunnel.State.UP
             val pendingIntent =
-                    PendingIntent.getBroadcast(context, 0, lastUsedTunnel.createToggleIntent(), 0)
+                PendingIntent.getBroadcast(context, 0, lastUsedTunnel.createToggleIntent(), 0)
             val sliceAction = SliceAction.createToggle(pendingIntent, "", isTunnelUp)
             list(requireNotNull(context), sliceUri, ListBuilder.INFINITY) {
                 row {

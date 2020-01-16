@@ -26,10 +26,12 @@ internal class Authenticator(
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
             Timber.d("Error: $errorCode: $errString")
-            callback(when (errorCode) {
-                BiometricConstants.ERROR_USER_CANCELED -> AuthenticationResult.Cancelled
-                else -> AuthenticationResult.UnrecoverableError(errorCode, errString)
-            })
+            callback(
+                when (errorCode) {
+                    BiometricConstants.ERROR_USER_CANCELED -> AuthenticationResult.Cancelled
+                    else -> AuthenticationResult.UnrecoverableError(errorCode, errString)
+                }
+            )
         }
 
         override fun onAuthenticationFailed() {
@@ -46,22 +48,24 @@ internal class Authenticator(
     }
 
     private val biometricPrompt = BiometricPrompt(
-            fragmentActivity,
-            { runnable -> handler.post(runnable) },
-            authCallback
+        fragmentActivity,
+        { runnable -> handler.post(runnable) },
+        authCallback
     )
 
     private val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(fragmentActivity.getString(R.string.biometric_prompt_title))
-            .setDeviceCredentialAllowed(true)
-            .build()
+        .setTitle(fragmentActivity.getString(R.string.biometric_prompt_title))
+        .setDeviceCredentialAllowed(true)
+        .build()
 
     fun authenticate() {
         if (biometricManager.canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
-            callback(AuthenticationResult.UnrecoverableError(
+            callback(
+                AuthenticationResult.UnrecoverableError(
                     0,
                     fragmentActivity.getString(R.string.biometric_prompt_no_hardware)
-            ))
+                )
+            )
         } else {
             biometricPrompt.authenticate(promptInfo)
         }

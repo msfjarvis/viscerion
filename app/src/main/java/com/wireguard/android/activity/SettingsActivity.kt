@@ -87,15 +87,15 @@ class SettingsActivity : AppCompatActivity() {
             val screen = preferenceScreen
             val ctx = requireContext()
             val wgQuickOnlyPrefs = arrayOf(
-                    screen.findPreference<Preference>("tools_installer")
+                screen.findPreference<Preference>("tools_installer")
             )
             val wgOnlyPrefs = arrayOf(
-                    screen.findPreference<CheckBoxPreference>("whitelist_exclusions")
+                screen.findPreference<CheckBoxPreference>("whitelist_exclusions")
             )
             val exclusionsPref = preferenceManager.findPreference<Preference>("global_exclusions")
             val taskerPref = preferenceManager.findPreference<SwitchPreferenceCompat>("allow_tasker_integration")
             val integrationSecretPref =
-                    preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
+                preferenceManager.findPreference<EditTextPreference>("intent_integration_secret")
             val darkThemePref = preferenceManager.findPreference<CheckBoxPreference>("dark_theme")
             val zipExporterPref = preferenceManager.findPreference<Preference>("zip_exporter")
             val fingerprintPref = preferenceManager.findPreference<SwitchPreferenceCompat>("fingerprint_auth")
@@ -143,8 +143,8 @@ class SettingsActivity : AppCompatActivity() {
 
             integrationSecretPref?.summaryProvider = SummaryProvider<EditTextPreference> { preference ->
                 if (prefs.allowTaskerIntegration &&
-                        preference.isEnabled &&
-                        prefs.taskerIntegrationSecret.isEmpty()
+                    preference.isEnabled &&
+                    prefs.taskerIntegrationSecret.isEmpty()
                 ) {
                     getString(R.string.tasker_integration_summary_empty_secret)
                 } else {
@@ -182,7 +182,8 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
             fingerprintPref?.apply {
-                val isFingerprintSupported = BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+                val isFingerprintSupported =
+                    BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
                 if (!isFingerprintSupported) {
                     isEnabled = false
                     isChecked = false
@@ -232,7 +233,11 @@ class SettingsActivity : AppCompatActivity() {
                         Timber.e(message)
                         Snackbar.make(snackbarView, message, Snackbar.LENGTH_LONG).show()
                     } else {
-                        Snackbar.make(snackbarView, ctx.getString(R.string.zip_export_success, fileUri.humanReadablePath), Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(
+                            snackbarView,
+                            ctx.getString(R.string.zip_export_success, fileUri.humanReadablePath),
+                            Snackbar.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

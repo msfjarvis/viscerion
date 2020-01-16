@@ -212,9 +212,9 @@ class PeerProxy : BaseObservable, Parcelable {
 
     private fun setInterfaceDns(dnsServers: CharSequence?) {
         val newDnsRoutes: Array<String> = Attribute.split(dnsServers ?: "")
-                .filter { server -> !server.contains(":") }
-                .map { server -> "$server/32" }
-                .toTypedArray()
+            .filter { server -> !server.contains(":") }
+            .map { server -> "$server/32" }
+            .toTypedArray()
         if (allowedIpsState == AllowedIpsState.CONTAINS_IPV4_PUBLIC_NETWORKS) {
             val input = allowedIpsSet
             val output = LinkedHashSet<String>(input.size + 1)
@@ -266,7 +266,7 @@ class PeerProxy : BaseObservable, Parcelable {
             val peers = it.peers
             interfaceDnsListener?.let { interfaceDnsListener ->
                 interfaze.removeOnPropertyChangedCallback(
-                        interfaceDnsListener
+                    interfaceDnsListener
                 )
             }
             peerListListener?.let { peerListListener -> peers.removeOnListChangedCallback(peerListListener) }
@@ -293,7 +293,7 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private class InterfaceDnsListener(peerProxy: PeerProxy) :
-            Observable.OnPropertyChangedCallback() {
+        Observable.OnPropertyChangedCallback() {
         private val weakPeerProxy: WeakReference<PeerProxy> = WeakReference(peerProxy)
 
         override fun onPropertyChanged(sender: Observable, propertyId: Int) {
@@ -311,7 +311,7 @@ class PeerProxy : BaseObservable, Parcelable {
     }
 
     private class PeerListListener(peerProxy: PeerProxy) :
-            ObservableList.OnListChangedCallback<ObservableList<PeerProxy>>() {
+        ObservableList.OnListChangedCallback<ObservableList<PeerProxy>>() {
         private val weakPeerProxy: WeakReference<PeerProxy> = WeakReference(peerProxy)
 
         override fun onChanged(sender: ObservableList<PeerProxy>) {
@@ -371,14 +371,14 @@ class PeerProxy : BaseObservable, Parcelable {
         @JvmField
         val CREATOR: Parcelable.Creator<PeerProxy> = PeerProxyCreator()
         private val IPV4_PUBLIC_NETWORKS = LinkedHashSet(
-                listOf(
-                        "0.0.0.0/5", "8.0.0.0/7", "11.0.0.0/8", "12.0.0.0/6", "16.0.0.0/4", "32.0.0.0/3",
-                        "64.0.0.0/2", "128.0.0.0/3", "160.0.0.0/5", "168.0.0.0/6", "172.0.0.0/12",
-                        "172.32.0.0/11", "172.64.0.0/10", "172.128.0.0/9", "173.0.0.0/8", "174.0.0.0/7",
-                        "176.0.0.0/4", "192.0.0.0/9", "192.128.0.0/11", "192.160.0.0/13", "192.169.0.0/16",
-                        "192.170.0.0/15", "192.172.0.0/14", "192.176.0.0/12", "192.192.0.0/10",
-                        "193.0.0.0/8", "194.0.0.0/7", "196.0.0.0/6", "200.0.0.0/5", "208.0.0.0/4"
-                )
+            listOf(
+                "0.0.0.0/5", "8.0.0.0/7", "11.0.0.0/8", "12.0.0.0/6", "16.0.0.0/4", "32.0.0.0/3",
+                "64.0.0.0/2", "128.0.0.0/3", "160.0.0.0/5", "168.0.0.0/6", "172.0.0.0/12",
+                "172.32.0.0/11", "172.64.0.0/10", "172.128.0.0/9", "173.0.0.0/8", "174.0.0.0/7",
+                "176.0.0.0/4", "192.0.0.0/9", "192.128.0.0/11", "192.160.0.0/13", "192.169.0.0/16",
+                "192.170.0.0/15", "192.172.0.0/14", "192.176.0.0/12", "192.192.0.0/10",
+                "193.0.0.0/8", "194.0.0.0/7", "196.0.0.0/6", "200.0.0.0/5", "208.0.0.0/4"
+            )
         )
         private val IPV4_WILDCARD = setOf("0.0.0.0/0")
     }

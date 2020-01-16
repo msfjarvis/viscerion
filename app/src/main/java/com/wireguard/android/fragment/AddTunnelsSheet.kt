@@ -56,12 +56,12 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val ctx = requireContext()
         view.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val dialog = dialog as BottomSheetDialog? ?: return
                 val bottomSheet: FrameLayout = dialog.findViewById(materialR.id.design_bottom_sheet)
-                        ?: return
+                    ?: return
                 behavior = BottomSheetBehavior.from(bottomSheet)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.peekHeight = 0
@@ -101,16 +101,16 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
             type = "*/*"
         }
         tunnelListFragment?.startActivityForResult(
-                Intent.createChooser(intent, "Choose ZIP or conf"),
-                TunnelListFragment.REQUEST_IMPORT
+            Intent.createChooser(intent, "Choose ZIP or conf"),
+            TunnelListFragment.REQUEST_IMPORT
         )
     }
 
     private fun onRequestScanQRCode() {
         BarcodeBottomSheet.show(
-                requireNotNull(tunnelListFragment).childFragmentManager,
-                formats = listOf(BarcodeFormat.QR_CODE),
-                barcodeInverted = false
+            requireNotNull(tunnelListFragment).childFragmentManager,
+            formats = listOf(BarcodeFormat.QR_CODE),
+            barcodeInverted = false
         )
     }
 }

@@ -71,10 +71,16 @@ class TaskerActivity : AppCompatActivity() {
 
         if (enableTunnel.get()) {
             bundle.putString(TunnelManager.TUNNEL_STATE_INTENT_EXTRA, "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_UP")
-            resultIntent.putExtra(EXTRA_STRING_BLURB, getString(R.string.enable_tunnel, binding?.taskerTunnelName?.text))
+            resultIntent.putExtra(
+                EXTRA_STRING_BLURB,
+                getString(R.string.enable_tunnel, binding?.taskerTunnelName?.text)
+            )
         } else {
             bundle.putString(TunnelManager.TUNNEL_STATE_INTENT_EXTRA, "${BuildConfig.APPLICATION_ID}.SET_TUNNEL_DOWN")
-            resultIntent.putExtra(EXTRA_STRING_BLURB, getString(R.string.disable_tunnel, binding?.taskerTunnelName?.text))
+            resultIntent.putExtra(
+                EXTRA_STRING_BLURB,
+                getString(R.string.disable_tunnel, binding?.taskerTunnelName?.text)
+            )
         }
 
         resultIntent.putExtra(EXTRA_BUNDLE, bundle)
@@ -85,8 +91,8 @@ class TaskerActivity : AppCompatActivity() {
     private fun hideKeyboard() {
         currentFocus?.let {
             getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(
-                    it.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS
+                it.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
     }

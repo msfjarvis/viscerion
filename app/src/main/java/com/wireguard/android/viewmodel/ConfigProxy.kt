@@ -54,9 +54,9 @@ class ConfigProxy : Parcelable {
         for (proxy in peers)
             resolvedPeers.add(proxy.resolve())
         return Config.Builder()
-                .setInterface(interfaze.resolve())
-                .addPeers(resolvedPeers)
-                .build()
+            .setInterface(interfaze.resolve())
+            .addPeers(resolvedPeers)
+            .build()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

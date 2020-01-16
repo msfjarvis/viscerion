@@ -30,27 +30,31 @@ object ZipExporter {
             return
         }
         CompletableFuture.allOf(*futureConfigs.toTypedArray())
-                .whenComplete { _, exception ->
-                    asyncWorker.runAsync {
-                        if (exception != null) {
-                            throw exception
-                        }
-                        try {
-                            contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
-                                ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->
-                                    for (i in futureConfigs.indices) {
-                                        zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
-                                        zip.write(futureConfigs[i].getNow(null).toWgQuickString().toByteArray(StandardCharsets.UTF_8))
-                                    }
-                                    zip.closeEntry()
-                                }
-                            }
-                        } catch (e: Exception) {
-                            throw e
-                        }
-                    }.whenComplete { _, throwable ->
-                        onExportCompleteCallback(throwable)
+            .whenComplete { _, exception ->
+                asyncWorker.runAsync {
+                    if (exception != null) {
+                        throw exception
                     }
+                    try {
+                        contentResolver.openFileDescriptor(fileUri, "w")?.use { pfd ->
+                            ZipOutputStream(FileOutputStream(pfd.fileDescriptor)).use { zip ->
+                                for (i in futureConfigs.indices) {
+                                    zip.putNextEntry(ZipEntry("${tunnels[i].name}.conf"))
+                                    zip.write(
+                                        futureConfigs[i].getNow(null).toWgQuickString().toByteArray(
+                                            StandardCharsets.UTF_8
+                                        )
+                                    )
+                                }
+                                zip.closeEntry()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        throw e
+                    }
+                }.whenComplete { _, throwable ->
+                    onExportCompleteCallback(throwable)
                 }
+            }
     }
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 class FloatingActionButtonRecyclerViewScrollListener(private val fab: ExtendedFloatingActionButton) :
-        RecyclerView.OnScrollListener() {
+    RecyclerView.OnScrollListener() {
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

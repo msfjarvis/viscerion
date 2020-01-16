@@ -11,7 +11,8 @@ import javax.inject.Inject
 import kotlin.reflect.KProperty
 
 @Reusable
-class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferences) : SharedPreferences.OnSharedPreferenceChangeListener {
+class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferences) :
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     init {
         // Bad, bad migration strategy
@@ -67,9 +68,9 @@ class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferen
     }
 
     open inner class StringSetPref(key: String, defaultValue: Set<String>, onChange: () -> Unit = doNothing) :
-            PrefDelegate<Set<String>>(key, defaultValue, onChange) {
+        PrefDelegate<Set<String>>(key, defaultValue, onChange) {
         override fun onGetValue(): Set<String> = sharedPrefs.getStringSet(getKey(), defaultValue)
-                ?: defaultValue
+            ?: defaultValue
 
         override fun onSetValue(value: Set<String>) {
             edit { putStringSet(getKey(), value) }
@@ -77,9 +78,9 @@ class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferen
     }
 
     open inner class StringPref(key: String, defaultValue: String = "", onChange: () -> Unit = doNothing) :
-            PrefDelegate<String>(key, defaultValue, onChange) {
+        PrefDelegate<String>(key, defaultValue, onChange) {
         override fun onGetValue(): String = sharedPrefs.getString(getKey(), defaultValue)
-                ?: defaultValue
+            ?: defaultValue
 
         override fun onSetValue(value: String) {
             edit { putString(getKey(), value) }
@@ -87,7 +88,7 @@ class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferen
     }
 
     open inner class BooleanPref(key: String, defaultValue: Boolean = false, onChange: () -> Unit = doNothing) :
-            PrefDelegate<Boolean>(key, defaultValue, onChange) {
+        PrefDelegate<Boolean>(key, defaultValue, onChange) {
         override fun onGetValue(): Boolean = sharedPrefs.getBoolean(getKey(), defaultValue)
 
         override fun onSetValue(value: Boolean) {

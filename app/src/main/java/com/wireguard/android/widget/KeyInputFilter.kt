@@ -28,9 +28,10 @@ class KeyInputFilter : InputFilter {
             // Restrict characters to the base64 character set.
             // Ensure adding this character does not push the length over the limit.
             if ((dIndex + 1 < Key.Format.BASE64.length &&
-                            isAllowed(c) ||
-                            dIndex + 1 == Key.Format.BASE64.length && c == '=') &&
-                    dLength + (sIndex - start) < Key.Format.BASE64.length) {
+                    isAllowed(c) ||
+                    dIndex + 1 == Key.Format.BASE64.length && c == '=') &&
+                dLength + (sIndex - start) < Key.Format.BASE64.length
+            ) {
                 ++rIndex
             } else {
                 if (replacement == null) {

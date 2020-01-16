@@ -36,7 +36,7 @@ class ToolsInstaller @Inject constructor(private val context: Context, private v
         val script = StringBuilder()
         for (name in EXECUTABLES) {
             script.append(
-                    "cmp -s '${File(localBinaryDir, name).absolutePath}' '${File(INSTALL_DIR, name).absolutePath}' && "
+                "cmp -s '${File(localBinaryDir, name).absolutePath}' '${File(INSTALL_DIR, name).absolutePath}' && "
             )
         }
         script.append("exit ").append(OsConstants.EALREADY).append(';')
@@ -86,8 +86,8 @@ class ToolsInstaller @Inject constructor(private val context: Context, private v
         if (installAsMagiskModule == null) {
             installAsMagiskModule = try {
                 rootShell.run(
-                        null,
-                        "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
+                    null,
+                    "[ -d $magiskDir -a ! -f /cache/.disable_magisk ]"
                 ) == OsConstants.EXIT_SUCCESS
             } catch (_: Exception) {
                 false
@@ -107,7 +107,10 @@ class ToolsInstaller @Inject constructor(private val context: Context, private v
         for (name in EXECUTABLES) {
             val destination = File(INSTALL_DIR, name)
             script.append(
-                    "cp '${File(localBinaryDir, name)}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
+                "cp '${File(
+                    localBinaryDir,
+                    name
+                )}' '$destination'; chmod 755 '$destination'; restorecon '$destination' || true; "
             )
         }
         return try {
@@ -125,16 +128,19 @@ class ToolsInstaller @Inject constructor(private val context: Context, private v
 
         script.append("trap 'rm -rf $magiskDirectory' INT TERM EXIT; ")
         script.append(
-                "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
+            "rm -rf $magiskDirectory/; mkdir -p $magiskDirectory/$INSTALL_DIR; "
         )
         script.append(
-                "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
+            "printf 'name=Viscerion Command Line Tools\nversion=${BuildConfig.VERSION_NAME}\nversionCode=${BuildConfig.VERSION_CODE}\nauthor=msfjarvis\ndescription=Command line tools for Viscerion\nminMagisk=1800\n' > $magiskDirectory/module.prop; "
         )
         script.append("touch $magiskDirectory/auto_mount; ")
         for (name in EXECUTABLES) {
             val destination = File("$magiskDirectory/$INSTALL_DIR", name)
             script.append(
-                    "cp '${File(localBinaryDir, name)}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
+                "cp '${File(
+                    localBinaryDir,
+                    name
+                )}' '$destination'; chmod 755 '$destination'; chcon 'u:object_r:system_file:s0' '$destination' || true; "
             )
         }
         script.append("trap - INT TERM EXIT;")
@@ -184,8 +190,8 @@ class ToolsInstaller @Inject constructor(private val context: Context, private v
     private fun getMagiskDirectory(): String {
         val output = ArrayList<String>()
         rootShell.run(
-                output,
-                "su -V"
+            output,
+            "su -V"
         )
         val magiskVer = output[0].toInt()
         return when {

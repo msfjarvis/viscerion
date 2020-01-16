@@ -36,13 +36,13 @@ class BootShutdownReceiver : BroadcastReceiver() {
                 Timber.i("Broadcast receiver attempting to restore state (boot)")
                 if (backend is WgQuickBackend) {
                     val restoreWork = OneTimeWorkRequestBuilder<TunnelRestoreWorker>()
-                            .setBackoffCriteria(
-                                    BackoffPolicy.LINEAR,
-                                    OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                                    TimeUnit.MILLISECONDS
-                            )
-                            .addTag("restore_work")
-                            .build()
+                        .setBackoffCriteria(
+                            BackoffPolicy.LINEAR,
+                            OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                            TimeUnit.MILLISECONDS
+                        )
+                        .addTag("restore_work")
+                        .build()
                     WorkManager.getInstance(context).enqueue(restoreWork)
                 } else {
                     Timber.d("Restoring tunnel state")

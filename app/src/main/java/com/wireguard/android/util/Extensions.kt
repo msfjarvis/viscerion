@@ -52,12 +52,12 @@ fun String.runShellCommand(): ArrayList<String> {
 
 fun Context.restartApplication() {
     val homeIntent = Intent(Intent.ACTION_MAIN)
-            .addCategory(Intent.CATEGORY_HOME)
-            .setPackage(packageName)
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        .addCategory(Intent.CATEGORY_HOME)
+        .setPackage(packageName)
+        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     val pi = PendingIntent.getActivity(
-            this, 42, // The answer to everything
-            homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
+        this, 42, // The answer to everything
+        homeIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_ONE_SHOT
     )
     getSystemService<AlarmManager>()?.let {
         setExact(it, AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 500, pi)
@@ -89,15 +89,15 @@ val Uri.humanReadablePath: String
 
 fun updateAppTheme(dark: Boolean) {
     setDefaultNightMode(
-            if (dark) {
-                MODE_NIGHT_YES
+        if (dark) {
+            MODE_NIGHT_YES
+        } else {
+            if (Build.VERSION.SDK_INT >= 29) {
+                MODE_NIGHT_FOLLOW_SYSTEM
             } else {
-                if (Build.VERSION.SDK_INT >= 29) {
-                    MODE_NIGHT_FOLLOW_SYSTEM
-                } else {
-                    MODE_NIGHT_AUTO_BATTERY
-                }
+                MODE_NIGHT_AUTO_BATTERY
             }
+        }
     )
 }
 

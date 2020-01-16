@@ -56,16 +56,19 @@ class OneTapWidget : AppWidgetProvider() {
         appWidgetId: Int,
         lastUsedTunnel: Tunnel
     ) {
-        val pendingIntent: PendingIntent = PendingIntent.getBroadcast(context, 0, lastUsedTunnel.createToggleIntent(), 0)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(context, 0, lastUsedTunnel.createToggleIntent(), 0)
         val views = RemoteViews(context.packageName, R.layout.one_tap_widget)
         views.setTextViewText(R.id.appwidget_text, lastUsedTunnel.name)
-        views.setTextViewText(R.id.appwidget_button, context.getString(
-            if (lastUsedTunnel.state == Tunnel.State.UP) {
-                R.string.disable
-            } else {
-                R.string.enable
-            }
-        ))
+        views.setTextViewText(
+            R.id.appwidget_button, context.getString(
+                if (lastUsedTunnel.state == Tunnel.State.UP) {
+                    R.string.disable
+                } else {
+                    R.string.enable
+                }
+            )
+        )
         views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent)
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }

@@ -76,7 +76,7 @@ fun <E> setItems(
         return
     }
     var listener: ItemChangeListener<E>? =
-            ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
+        ListenerUtil.getListener<ItemChangeListener<E>>(view, R.id.item_change_listener)
     // If the layout changes, any existing listener must be replaced.
     if (listener != null && oldList != null && oldLayoutId != newLayoutId) {
         listener.setList(null)

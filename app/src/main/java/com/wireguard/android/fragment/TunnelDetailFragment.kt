@@ -76,7 +76,8 @@ class TunnelDetailFragment : BaseFragment() {
             val ctx = requireContext()
             navigationBarColor = ctx.resolveAttribute(android.R.attr.navigationBarColor)
             if (Build.VERSION.SDK_INT >= 27 &&
-                (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())) {
+                (!prefs.useDarkTheme && !ctx.isSystemDarkThemeEnabled())
+            ) {
                 // Restore window flags
                 decorView.systemUiVisibility =
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

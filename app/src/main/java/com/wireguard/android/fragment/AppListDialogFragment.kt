@@ -77,19 +77,21 @@ class AppListDialogFragment : DialogFragment() {
             val appData = ArrayList<ApplicationData>()
             val pm = activity.packageManager
             pm.getPackagesHoldingPermissions(
-                    arrayOf(Manifest.permission.INTERNET), 0
+                arrayOf(Manifest.permission.INTERNET), 0
             ).forEach { pkgInfo ->
-                appData.add(ApplicationData(
+                appData.add(
+                    ApplicationData(
                         pkgInfo.applicationInfo.loadIcon(pm),
                         pkgInfo.applicationInfo.loadLabel(pm).toString(),
                         pkgInfo.packageName,
-                    currentlyExcludedApps.contains(pkgInfo.packageName),
+                        currentlyExcludedApps.contains(pkgInfo.packageName),
                         if (isGlobalExclusionsDialog) {
                             false
                         } else {
                             prefs.exclusions.contains(pkgInfo.packageName)
                         }
-                ))
+                    )
+                )
             }
             appData.also {
                 it.sortWith(Comparator { lhs, rhs ->

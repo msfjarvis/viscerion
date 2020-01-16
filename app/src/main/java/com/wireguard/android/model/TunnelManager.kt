@@ -74,7 +74,7 @@ class TunnelManager @Inject constructor(
             return CompletableFuture.failedFuture(IllegalArgumentException(message))
         }
         return asyncWorker.supplyAsync { config?.let { configStore.create(name, it) } }
-                .thenApply { savedConfig -> addToList(name, savedConfig, Tunnel.State.DOWN) }
+            .thenApply { savedConfig -> addToList(name, savedConfig, Tunnel.State.DOWN) }
     }
 
     internal fun delete(tunnel: Tunnel): CompletionStage<Void> {
@@ -126,7 +126,7 @@ class TunnelManager @Inject constructor(
 
     internal fun getTunnelConfig(tunnel: Tunnel): CompletionStage<Config> {
         return asyncWorker.supplyAsync { configStore.load(tunnel.name) }
-                .thenApply(tunnel::onConfigChanged)
+            .thenApply(tunnel::onConfigChanged)
     }
 
     fun getTunnels(): CompletableFuture<ObservableSortedKeyedList<String, Tunnel>> {
@@ -193,7 +193,7 @@ class TunnelManager @Inject constructor(
 
     fun saveState() {
         prefs.runningTunnels =
-                tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
+            tunnels.asSequence().filter { it.state == Tunnel.State.UP }.map { it.name }.toSet()
     }
 
     fun restartActiveTunnels() {
@@ -258,17 +258,19 @@ class TunnelManager @Inject constructor(
         return tunnel.configAsync.thenCompose {
             asyncWorker.supplyAsync {
                 backend.setState(
-                        tunnel,
-                        state
+                    tunnel,
+                    state
                 )
             }
         }.whenComplete { newState, e ->
             // Ensure onStateChanged is always called (failure or not), and with the correct state.
-            tunnel.onStateChanged(if (e == null) {
-                newState
-            } else {
-                tunnel.state
-            })
+            tunnel.onStateChanged(
+                if (e == null) {
+                    newState
+                } else {
+                    tunnel.state
+                }
+            )
             if (e == null && newState == Tunnel.State.UP) {
                 setLastUsedTunnel(tunnel)
             }
@@ -278,7 +280,8 @@ class TunnelManager @Inject constructor(
                 null
             )
             context.sendBroadcast(Intent(context, OneTapWidget::class.java).apply {
-                val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, OneTapWidget::class.java))
+                val ids = AppWidgetManager.getInstance(context)
+                    .getAppWidgetIds(ComponentName(context, OneTapWidget::class.java))
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
                 action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             })
