@@ -63,14 +63,12 @@ interface AppComponent {
 
     // Activities
     fun inject(activity: BaseActivity)
-
     fun inject(activity: LaunchActivity)
     fun inject(activity: MainActivity)
     fun inject(activity: TunnelToggleActivity)
 
     // Fragments
     fun inject(fragment: BaseFragment)
-
     fun inject(fragment: AppListDialogFragment)
     fun inject(fragment: ConfigNamingDialogFragment)
     fun inject(fragment: SettingsFragment)
@@ -80,7 +78,6 @@ interface AppComponent {
 
     // Preferences
     fun inject(preference: ToolsInstallerPreference)
-
     fun inject(preference: VersionPreference)
 
     // ContentProviders
@@ -88,14 +85,12 @@ interface AppComponent {
 
     // BroadcastReceivers
     fun inject(receiver: BootShutdownReceiver)
-
     fun inject(receiver: OneTapWidget)
     fun inject(receiver: TaskerIntegrationReceiver)
     fun inject(receiver: TunnelManager.IntentReceiver)
 
     // Services
     fun inject(service: QuickTileService)
-
     fun inject(service: GoBackend.VpnService)
 
     // And some other thingies

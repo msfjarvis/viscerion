@@ -52,10 +52,16 @@ class ConfigStoreTest {
     fun `config can be updated`() {
         val configCopy = config
         configStore.create("test-1", configCopy)
-        assertFalse("test config has no excluded applications", configStore.load("test-1").interfaze.excludedApplications.contains("me.msfjarvis.viscerion"))
+        assertFalse(
+            "test config has no excluded applications",
+            configStore.load("test-1").interfaze.excludedApplications.contains("me.msfjarvis.viscerion")
+        )
         configCopy.interfaze.excludedApplications.add("me.msfjarvis.viscerion")
         configStore.save("test-1", configCopy)
-        assertTrue("updated config must have 'me.msfjarvis.viscerion' excluded", configStore.load("test-1").interfaze.excludedApplications.contains("me.msfjarvis.viscerion"))
+        assertTrue(
+            "updated config must have 'me.msfjarvis.viscerion' excluded",
+            configStore.load("test-1").interfaze.excludedApplications.contains("me.msfjarvis.viscerion")
+        )
     }
 
     @Test
@@ -75,8 +81,8 @@ class ConfigStoreTest {
         assertTrue("Test config has exactly one peer", configuration.peers.size == 1)
         assertTrue(
             "Test config's allowed IPs are 0.0.0.0/0 and ::0/0",
-            configuration.peers.getOrNull(0)?.allowedIps ==
-                    setOf(InetNetwork.parse("0.0.0.0/0"), InetNetwork.parse("::0/0"))
+            configuration.peers[0].allowedIps ==
+                setOf(InetNetwork.parse("0.0.0.0/0"), InetNetwork.parse("::0/0"))
         )
         assertTrue("Test config has one DNS server", configuration.interfaze.dnsServers.size == 1)
         assertTrue(
