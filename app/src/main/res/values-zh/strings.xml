@@ -17,7 +17,7 @@
         <item quantity="other">导入了 %d 项</item>
     </plurals>
     <plurals name="set_excluded_applications">
-        <item quantity="other">排除 %d 个应用</item>
+        <item quantity="other">%d 个例外应用</item>
     </plurals>
     <plurals name="confirm_tunnel_deletion">
         <item quantity="other">删除选中的项目？</item>
@@ -71,7 +71,7 @@
     <string name="error_up">建立隧道时出错：%s</string>
     <string name="exclude_private_ips_on">包含局域网 IP</string>
     <string name="exclude_private_ips_off">排除局域网 IP</string>
-    <string name="excluded_applications">排除的应用</string>
+    <string name="excluded_applications">例外应用</string>
     <string name="generate">生成密钥</string>
     <string name="generic_error">未知的 “%s” 错误</string>
     <string name="hint_automatic">（自动）</string>
@@ -167,13 +167,13 @@
     <string name="key_contents_error">密钥中含有错误的字符</string>
     <string name="notification_channel_wgquick_title">wg-quick 隧道已开启</string>
     <string name="notification_channel_wgquick_desc">当 wg-quick 隧道建立后，状态栏将始终显示此通知。可以禁用。</string>
-    <string name="global_exclusions_title">全局排除应用</string>
-    <string name="global_exclusions_summary">选择不通过 WireGuard 代理的应用，默认对所有隧道生效</string>
+    <string name="global_exclusions_title">全局例外应用</string>
+    <string name="global_exclusions_summary">选定的应用将不会通过隧道，默认对所有隧道生效</string>
     <string name="applist_dialog_success">保存成功</string>
     <string name="force_userspace_backend_title">强制使用用户空间后端</string>
     <string name="force_userspace_backend_summary">当设备安装了内核模块时，此项有助于调试 Go userspace 问题。启用或禁用将会使应用重启。仅供开发者使用！</string>
-    <string name="whitelist_exclusions_title">白名单应用</string>
-    <string name="whitelist_exclusions_summary">与排除应用相反，白名单中的应用将强制通过隧道代理，而其余的应用则无视当前的 VPN 连接。</string>
+    <string name="whitelist_exclusions_title">白名单模式</string>
+    <string name="whitelist_exclusions_summary">白名单模式下，例外应用将强制通过隧道，而其余的应用则无视当前的 VPN 连接。</string>
     <string name="preference_category_about">关于</string>
     <string name="preference_category_config">隧道</string>
     <string name="preference_category_debugging">调试</string>
