@@ -45,10 +45,10 @@ import timber.log.Timber
  * Interface for changing application-global persistent settings.
  */
 
-typealias ClickListener = Preference.OnPreferenceClickListener
+private typealias ClickListener = Preference.OnPreferenceClickListener
 
-typealias ChangeListener = Preference.OnPreferenceChangeListener
-typealias SummaryProvider<T> = Preference.SummaryProvider<T>
+private typealias ChangeListener = Preference.OnPreferenceChangeListener
+private typealias SummaryProvider<T> = Preference.SummaryProvider<T>
 
 class SettingsActivity : AppCompatActivity() {
 
