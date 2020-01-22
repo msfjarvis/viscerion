@@ -31,14 +31,14 @@ ext.deps = [
         biometric: "androidx.biometric:biometric:1.0.1",
         constraint_layout: "androidx.constraintlayout:constraintlayout:2.0.0-beta4",
         core_ktx: "androidx.core:core-ktx:1.2.0-rc01",
-        fragment_ktx: "androidx.fragment:fragment-ktx:1.2.0-rc05",
-        material: "com.google.android.material:material:1.2.0-alpha03",
+        fragment_ktx: "androidx.fragment:fragment-ktx:1.2.0",
+        material: "com.google.android.material:material:1.2.0-alpha04",
         preference: "androidx.preference:preference:1.1.0",
         recycler_view: "androidx.recyclerview:recyclerview:1.0.0",
         slice_builders: "androidx.slice:slice-builders:1.1.0-alpha01",
         slice_core: "androidx.slice:slice-core:1.1.0-alpha01",
         slice_builders_ktx: "androidx.slice:slice-builders-ktx:1.0.0-alpha07",
-        work_ktx: "androidx.work:work-runtime-ktx:2.3.0-rc01"
+        work_ktx: "androidx.work:work-runtime-ktx:2.3.0"
     ],
 
     third_party: [
