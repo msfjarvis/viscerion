@@ -1,6 +1,8 @@
 # Release Notes
 
 ### [Unreleased]
+- Update library dependencies
+- Add Android TV support
 
 ### [5.2.9] - 2019-01-16
 - Update Chinese Simplified and German translations
