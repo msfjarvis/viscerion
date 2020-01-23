@@ -7,7 +7,7 @@ ext.versions = [
     minSdk: 23,
     targetSdk: 29,
     compileSdk: 29,
-    versionCode: 5290,
+    versionCode: 5291,
     versionName: "5.2.9",
     buildTools: "29.0.2",
     packageName: "me.msfjarvis.viscerion"
