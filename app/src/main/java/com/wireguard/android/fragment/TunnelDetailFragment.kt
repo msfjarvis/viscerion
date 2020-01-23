@@ -39,12 +39,6 @@ class TunnelDetailFragment : BaseFragment() {
     private var lastState: State? = State.TOGGLE
     @Inject lateinit var prefs: ApplicationPreferences
 
-    class StatsTimerTask(private val tdf: TunnelDetailFragment) : TimerTask() {
-        override fun run() {
-            tdf.updateStats()
-        }
-    }
-
     override fun onAttach(context: Context) {
         injector.inject(this)
         super.onAttach(context)
@@ -71,7 +65,11 @@ class TunnelDetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         timer = Timer()
-        timer!!.scheduleAtFixedRate(StatsTimerTask(this), 0, 1000)
+        timer!!.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                updateStats()
+            }
+        }, 0, 1000)
         requireActivity().window?.apply {
             val ctx = requireContext()
             navigationBarColor = ctx.resolveAttribute(android.R.attr.navigationBarColor)
@@ -156,13 +154,15 @@ class TunnelDetailFragment : BaseFragment() {
             return
         }
 
-        val state = binding!!.tunnel!!.state
+        val tunnel = binding!!.tunnel ?: return
+
+        val state = tunnel.state
         if (state != State.UP && lastState == state) {
             return
         }
 
         lastState = state
-        binding!!.tunnel!!.statisticsAsync.whenComplete { statistics, throwable ->
+        tunnel.statisticsAsync.whenComplete { statistics, throwable ->
             if (throwable != null) {
                 for (i in 0 until binding!!.peersLayout.childCount) {
                     val peer: TunnelDetailPeerBinding =
