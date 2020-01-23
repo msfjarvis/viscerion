@@ -110,11 +110,14 @@ dependencies {
 
     implementation deps.third_party.barcode
     implementation deps.third_party.dagger
+    implementation deps.third_party.mobius.android
+    implementation deps.third_party.mobius.core
     implementation deps.third_party.retrofuture
     implementation deps.third_party.timber
 
     kapt deps.third_party.dagger_compiler
 
     testImplementation deps.testing.junit
+    testImplementation deps.third_party.mobius.test
     testImplementation project(path: ':test-resources', configuration: 'testRes')
 }
