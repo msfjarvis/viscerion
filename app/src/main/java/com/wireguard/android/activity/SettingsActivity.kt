@@ -190,18 +190,21 @@ class SettingsActivity : AppCompatActivity() {
                     summary = getString(R.string.biometric_auth_summary_error)
                 } else {
                     setOnPreferenceClickListener {
+                        isEnabled = false
                         val checked = isChecked
                         Authenticator(requireActivity()) { result ->
                             when (result) {
                                 is AuthenticationResult.Success -> {
                                     // Apply the changes
                                     prefs.fingerprintAuth = checked
+                                    isEnabled = true
                                 }
                                 else -> {
                                     // If any error occurs, revert back to the previous state. This
                                     // catch-all clause includes the cancellation case.
                                     prefs.fingerprintAuth = !checked
                                     isChecked = !checked
+                                    isEnabled = true
                                 }
                             }
                         }.authenticate()
