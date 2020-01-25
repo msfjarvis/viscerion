@@ -1,6 +1,8 @@
 # Release Notes
 
 ### [Unreleased]
+
+### [5.2.10] - 2019-01-25
 - Update library dependencies
 - Add Android TV support
 - Fix occasional crash with tunnel stats
@@ -146,7 +148,8 @@ the only ones which use the tunnel for networking.
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
 
-[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.9...HEAD
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.10...HEAD
+[5.2.10]: https://github.com/msfjarvis/viscerion/releases/5.2.10
 [5.2.9]: https://github.com/msfjarvis/viscerion/releases/5.2.9
 [5.2.8]: https://github.com/msfjarvis/viscerion/releases/5.2.8
 [5.2.7]: https://github.com/msfjarvis/viscerion/releases/5.2.7
