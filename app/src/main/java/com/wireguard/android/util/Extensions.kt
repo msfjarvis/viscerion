@@ -13,14 +13,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.SystemClock
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.AttrRes
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
@@ -92,11 +90,7 @@ fun updateAppTheme(dark: Boolean) {
         if (dark) {
             MODE_NIGHT_YES
         } else {
-            if (Build.VERSION.SDK_INT >= 29) {
-                MODE_NIGHT_FOLLOW_SYSTEM
-            } else {
-                MODE_NIGHT_AUTO_BATTERY
-            }
+            MODE_NIGHT_FOLLOW_SYSTEM
         }
     )
 }

@@ -1,6 +1,7 @@
 # Release Notes
 
 ### [Unreleased]
+- Follow system theme on all API levels
 
 ### [5.2.10] - 2019-01-25
 - Update library dependencies
