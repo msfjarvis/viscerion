@@ -5,6 +5,7 @@
 - Add Android TV support
 - Fix occasional crash with tunnel stats
 - Properly ensure we're not treated as a metered network
+- Resolve another attack vector for biometric auth
 - Update native dependencies
 
 ### [5.2.9] - 2019-01-16
