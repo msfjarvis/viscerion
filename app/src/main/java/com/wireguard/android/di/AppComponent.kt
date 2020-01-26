@@ -45,7 +45,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import java.util.concurrent.Executor
 import javax.inject.Singleton
 
@@ -99,23 +98,23 @@ interface AppComponent {
 
 @Module
 object ApplicationModule {
-    @get:Reusable
+    @get:Singleton
     @get:Provides
     val executor: Executor = AsyncTask.SERIAL_EXECUTOR
 
-    @get:Reusable
+    @get:Singleton
     @get:Provides
     val handler: Handler = Handler(Looper.getMainLooper())
 
-    @Reusable
+    @Singleton
     @Provides
     fun getSharedPrefs(context: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    @Reusable
+    @Singleton
     @Provides
     fun getConfigStore(context: Context): ConfigStore = FileConfigStore(context)
 
-    @Reusable
+    @Singleton
     @Provides
     fun getBackend(
         context: Context,
@@ -126,7 +125,7 @@ object ApplicationModule {
         return BackendFactory.getBackend(context, preferences, rootShell, toolsInstaller)
     }
 
-    @Reusable
+    @Singleton
     @Provides
     fun getBackendType(backend: Backend): Class<Backend> = backend.javaClass
 

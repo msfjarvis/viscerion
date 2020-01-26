@@ -9,18 +9,18 @@ import android.content.Context
 import android.system.OsConstants
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.util.RootShell.NoRootException
-import dagger.Reusable
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 import timber.log.Timber
 
 /**
  * Helper to install WireGuard tools to the system partition.
  */
 
-@Reusable
+@Singleton
 class ToolsInstaller @Inject constructor(private val context: Context, private val rootShell: RootShell) {
 
     private val localBinaryDir = File(context.codeCacheDir, "bin")

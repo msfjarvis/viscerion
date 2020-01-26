@@ -6,11 +6,11 @@
 package com.wireguard.android.util
 
 import android.content.SharedPreferences
-import dagger.Reusable
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.reflect.KProperty
 
-@Reusable
+@Singleton
 class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferences) :
     SharedPreferences.OnSharedPreferenceChangeListener {
 

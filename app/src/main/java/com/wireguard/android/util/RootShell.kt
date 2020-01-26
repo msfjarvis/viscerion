@@ -8,7 +8,6 @@ package com.wireguard.android.util
 import android.content.Context
 import com.wireguard.android.BuildConfig
 import com.wireguard.android.R
-import dagger.Reusable
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
@@ -18,9 +17,10 @@ import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Singleton
 import timber.log.Timber
 
-@Reusable
+@Singleton
 class RootShell @Inject constructor(val context: Context) {
 
     private val deviceNotRootedMessage: String by lazy { context.getString(R.string.error_root) }

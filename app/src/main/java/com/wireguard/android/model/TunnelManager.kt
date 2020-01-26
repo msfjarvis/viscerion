@@ -27,15 +27,15 @@ import com.wireguard.android.util.ExceptionLoggers
 import com.wireguard.android.util.KotlinCompanions
 import com.wireguard.android.util.ObservableSortedKeyedArrayList
 import com.wireguard.android.util.ObservableSortedKeyedList
-import dagger.Reusable
 import java9.util.Comparators
 import java9.util.concurrent.CompletableFuture
 import java9.util.concurrent.CompletionStage
 import javax.inject.Inject
+import javax.inject.Singleton
 import me.msfjarvis.viscerion.config.Config
 import timber.log.Timber
 
-@Reusable
+@Singleton
 class TunnelManager @Inject constructor(
     private val asyncWorker: AsyncWorker,
     private val backend: Backend,
