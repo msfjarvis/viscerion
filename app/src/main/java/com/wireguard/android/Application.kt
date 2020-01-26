@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.StrictMode
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
+import com.haroldadmin.whatthestack.WhatTheStack
 import com.wireguard.android.di.AppComponent
 import com.wireguard.android.di.DaggerAppComponent
 import com.wireguard.android.di.InjectorProvider
@@ -60,6 +61,7 @@ class Application : android.app.Application(), InjectorProvider {
                     .penaltyLog()
                     .build()
             )
+            WhatTheStack(this).init()
         }
 
         updateAppTheme(prefs.useDarkTheme)

@@ -49,6 +49,7 @@ ext.deps = [
         retrofuture: "net.sourceforge.streamsupport:android-retrofuture:1.7.1",
         threetenabp: "com.jakewharton.threetenabp:threetenabp:1.2.2",
         timber: "com.jakewharton.timber:timber:4.7.1",
+        whatthestack: "com.github.haroldadmin:WhatTheStack:0.0.1",
     ],
 
     testing: [

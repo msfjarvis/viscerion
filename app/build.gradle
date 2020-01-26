@@ -112,6 +112,7 @@ dependencies {
     implementation deps.third_party.dagger
     implementation deps.third_party.retrofuture
     implementation deps.third_party.timber
+    implementation deps.third_party.whatthestack
 
     kapt deps.third_party.dagger_compiler
 
