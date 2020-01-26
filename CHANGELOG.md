@@ -3,7 +3,7 @@
 ### [Unreleased]
 - Follow system theme on all API levels
 
-### [5.2.10] - 2019-01-25
+### [5.2.10] - 2020-01-25
 - Update library dependencies
 - Add Android TV support
 - Fix occasional crash with tunnel stats
@@ -11,14 +11,14 @@
 - Resolve another attack vector for biometric auth
 - Update native dependencies
 
-### [5.2.9] - 2019-01-16
+### [5.2.9] - 2020-01-16
 - Update Chinese Simplified and German translations
 - Add a rudimentary widget to toggle last used tunnel
 - Allow userspace backend to restore tunnels on reboot
 - Fix cancelling biometric dialog allows auth bypass
 - Upgrade library dependencies
 
-### [5.2.8] - 2019-01-11
+### [5.2.8] - 2020-01-11
 - Workaround background service restrictions on Android 10
 - Fix occasional crash with search/detail view
 - Update library dependencies
