@@ -32,7 +32,7 @@ class TunnelToggleActivity : AppCompatActivity() {
         tunnel.setState(Tunnel.State.TOGGLE).whenComplete { _, throwable ->
             TileService.requestListeningState(this, ComponentName(this, QuickTileService::class.java))
             onToggleFinished(throwable)
-            finishAffinity()
+            finish()
         }
     }
 

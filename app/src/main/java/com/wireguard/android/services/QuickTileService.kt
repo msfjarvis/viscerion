@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
@@ -20,10 +21,13 @@ import com.wireguard.android.BR
 import com.wireguard.android.R
 import com.wireguard.android.activity.LaunchActivity
 import com.wireguard.android.activity.TunnelToggleActivity
+import com.wireguard.android.backend.Backend
+import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.di.getInjector
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.model.Tunnel.State
 import com.wireguard.android.model.TunnelManager
+import com.wireguard.android.util.ErrorMessages
 import com.wireguard.android.widget.SlashDrawable
 import javax.inject.Inject
 import timber.log.Timber
@@ -40,6 +44,7 @@ class QuickTileService : TileService() {
     private val onStateChangedCallback = OnStateChangedCallback()
     private val onTunnelChangedCallback = OnTunnelChangedCallback()
     @Inject lateinit var tunnelManager: TunnelManager
+    @Inject lateinit var backend: Backend
     private var tunnel: Tunnel? = null
     private var iconOn: Icon? = null
     private var iconOff: Icon? = null
@@ -97,13 +102,14 @@ class QuickTileService : TileService() {
                 }
                 tile.updateTile()
             }
-            tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
-                if (throwable == null) {
+            if (Build.VERSION.SDK_INT >= 29 && backend is GoBackend && tunnel?.state == State.DOWN) {
+                startActivity(Intent(this, TunnelToggleActivity::class.java).apply {
+                    flags += Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            } else {
+                tunnel?.setState(State.TOGGLE)?.whenComplete { _, throwable ->
                     updateTile()
-                } else {
-                    startActivity(Intent(this, TunnelToggleActivity::class.java).apply {
-                        flags += Intent.FLAG_ACTIVITY_NEW_TASK
-                    })
+                    this.onToggleFinished(throwable)
                 }
             }
         } else {
@@ -122,6 +128,14 @@ class QuickTileService : TileService() {
     override fun onStopListening() {
         tunnel?.removeOnPropertyChangedCallback(onStateChangedCallback)
         tunnelManager.removeOnPropertyChangedCallback(onTunnelChangedCallback)
+    }
+
+    private fun onToggleFinished(throwable: Throwable?) {
+        throwable ?: return
+        val error = ErrorMessages[throwable]
+        val message = getString(R.string.toggle_error, error)
+        Timber.e(throwable)
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun updateTile() {
