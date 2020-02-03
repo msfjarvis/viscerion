@@ -17,11 +17,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Install go compiler for libwg-go
-      uses: actions/setup-go@v1
-      with:
-        go-version: '1.13.4'
-
     - name: Generate cache key
       run: ./checksum.sh checksum.txt
 
