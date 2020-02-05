@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -107,6 +108,7 @@ class AddTunnelsSheet : BottomSheetDialogFragment() {
     }
 
     private fun onRequestScanQRCode() {
+        Toast.makeText(requireContext(), getString(R.string.qr_code_hint), Toast.LENGTH_LONG).show()
         BarcodeBottomSheet.show(
             requireTargetFragment().childFragmentManager,
             formats = listOf(BarcodeFormat.QR_CODE),
