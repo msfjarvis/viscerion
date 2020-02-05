@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -24,9 +25,8 @@ import com.wireguard.android.R
 import com.wireguard.android.activity.TunnelCreatorActivity
 import com.wireguard.android.util.resolveAttribute
 
-class AddTunnelsSheet() : BottomSheetDialogFragment() {
+class AddTunnelsSheet : BottomSheetDialogFragment() {
 
-    private var tunnelListFragment: TunnelListFragment? = null
     private lateinit var behavior: BottomSheetBehavior<FrameLayout>
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -37,10 +37,6 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
-    }
-
-    constructor(fragment: TunnelListFragment) : this() {
-        tunnelListFragment = fragment
     }
 
     override fun getTheme(): Int {
@@ -91,6 +87,10 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
         behavior.removeBottomSheetCallback(bottomSheetCallback)
     }
 
+    private fun requireTargetFragment(): Fragment {
+        return requireNotNull(targetFragment) { "A target fragment should always be set" }
+    }
+
     private fun onRequestCreateConfig() {
         startActivity(Intent(activity, TunnelCreatorActivity::class.java))
     }
@@ -100,7 +100,7 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        tunnelListFragment?.startActivityForResult(
+        requireTargetFragment().startActivityForResult(
             Intent.createChooser(intent, "Choose ZIP or conf"),
             TunnelListFragment.REQUEST_IMPORT
         )
@@ -108,7 +108,7 @@ class AddTunnelsSheet() : BottomSheetDialogFragment() {
 
     private fun onRequestScanQRCode() {
         BarcodeBottomSheet.show(
-            requireNotNull(tunnelListFragment).childFragmentManager,
+            requireTargetFragment().childFragmentManager,
             formats = listOf(BarcodeFormat.QR_CODE),
             barcodeInverted = false
         )

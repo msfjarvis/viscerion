@@ -220,7 +220,8 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
         binding = TunnelListFragmentBinding.inflate(inflater, container, false)
         binding?.apply {
             createFab.setOnClickListener {
-                val bottomSheet = AddTunnelsSheet(this@TunnelListFragment)
+                val bottomSheet = AddTunnelsSheet()
+                bottomSheet.setTargetFragment(this@TunnelListFragment, REQUEST_TARGET_FRAGMENT)
                 bottomSheet.show(parentFragmentManager, "BOTTOM_SHEET")
             }
             tunnelList.addOnScrollListener(FloatingActionButtonRecyclerViewScrollListener(createFab))
@@ -552,5 +553,6 @@ class TunnelListFragment : BaseFragment(), SearchView.OnQueryTextListener, Barco
 
     companion object {
         const val REQUEST_IMPORT = 1
+        private const val REQUEST_TARGET_FRAGMENT = 2
     }
 }
