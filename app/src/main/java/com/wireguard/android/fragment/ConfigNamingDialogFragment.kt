@@ -73,6 +73,8 @@ class ConfigNamingDialogFragment : DialogFragment() {
             tunnelNameText.requestFocus()
         }
 
+        isCancelable = false
+
         return alertDialogBuilder.create()
     }
 
