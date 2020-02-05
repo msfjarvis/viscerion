@@ -2,6 +2,9 @@
 
 ### [Unreleased]
 - Follow system theme on all API levels
+- Update library dependencies
+- Update native dependencies
+- Improve user experience with QR code flow
 
 ### [5.2.10] - 2020-01-25
 - Update library dependencies
