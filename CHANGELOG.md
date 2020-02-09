@@ -1,6 +1,6 @@
 # Release Notes
 
-### [Unreleased]
+### [5.2.11] - 2020-02-09
 - Follow system theme on all API levels
 - Update library dependencies
 - Update native dependencies
@@ -152,7 +152,8 @@ the only ones which use the tunnel for networking.
 - Ensure command line tools know the correct paths to probe for config files
 - Update userspace implementation to work with Android 9's bionic restrictions
 
-[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.10...HEAD
+[Unreleased]: https://github.com/msfjarvis/viscerion/compare/5.2.11...HEAD
+[5.2.11]: https://github.com/msfjarvis/viscerion/releases/5.2.11
 [5.2.10]: https://github.com/msfjarvis/viscerion/releases/5.2.10
 [5.2.9]: https://github.com/msfjarvis/viscerion/releases/5.2.9
 [5.2.8]: https://github.com/msfjarvis/viscerion/releases/5.2.8
