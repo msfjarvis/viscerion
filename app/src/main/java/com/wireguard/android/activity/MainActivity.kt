@@ -16,12 +16,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.wireguard.android.R
 import com.wireguard.android.di.injector
 import com.wireguard.android.fragment.TunnelDetailFragment
 import com.wireguard.android.fragment.TunnelEditorFragment
-import com.wireguard.android.fragment.TunnelListFragment
 import com.wireguard.android.model.Tunnel
 import com.wireguard.android.util.ApplicationPreferences
 import com.wireguard.android.util.ApplicationPreferencesChangeCallback
@@ -39,7 +39,6 @@ import timber.log.Timber
 
 class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
     private var actionBar: ActionBar? = null
-    private var listFragment: TunnelListFragment? = null
     @Inject lateinit var prefs: ApplicationPreferences
 
     override fun onDestroy() {
@@ -102,7 +101,6 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
         setContentView(R.layout.main_activity)
         actionBar = supportActionBar
         isTwoPaneLayout = findViewById<View>(R.id.master_detail_wrapper) is LinearLayout
-        listFragment = supportFragmentManager.findFragmentByTag("LIST") as TunnelListFragment
         supportFragmentManager.addOnBackStackChangedListener(this)
         onBackStackChanged()
         prefs.registerCallback(ApplicationPreferencesChangeCallback(this, tunnelManager))
@@ -114,6 +112,16 @@ class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener 
                 }
                 insets
             }
+        }
+        if (!prefs.shownDeprecationNotice) {
+            MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.deprecation_notice_title))
+                    .setMessage(getString(R.string.deprecation_notice_message))
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        prefs.shownDeprecationNotice = true
+                    }
+                    .show()
         }
     }
 

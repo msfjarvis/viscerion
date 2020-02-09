@@ -210,4 +210,6 @@
     <string name="search">Search</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
+    <string name="deprecation_notice_title" translatable="false">Deprecation of Viscerion</string>
+    <string name="deprecation_notice_message" translatable="false">Viscerion has been a dear project of mine. I am extremely thankful to every single one of you for the success of this experiment.\n\nLike all experiments, this too must come to an end. I have been contracted by WireGuard to bring the work I have done in Viscerion to their app, which will happen over the next few months and will void the need for Viscerion to have ever existed. In lieu of this, Viscerion is being deprecated and archived.\n\nYou can continue using it for the time being, and then move to the official app once some of the features from Viscerion have appeared there.\n\nHope to see you on the other side :)</string>
 </resources>

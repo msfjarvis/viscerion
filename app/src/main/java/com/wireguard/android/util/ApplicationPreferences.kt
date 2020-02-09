@@ -44,6 +44,7 @@ class ApplicationPreferences @Inject constructor(val sharedPrefs: SharedPreferen
     val restoreOnBoot by BooleanPref("restore_on_boot", false)
     var runningTunnels by StringSetPref("enabled_configs", emptySet())
     var fingerprintAuth by BooleanPref("fingerprint_auth", false)
+    var shownDeprecationNotice by BooleanPref("deprecation_pref", false)
 
     fun registerCallback(callback: ApplicationPreferencesChangeCallback) {
         sharedPrefs.registerOnSharedPreferenceChangeListener(this)
